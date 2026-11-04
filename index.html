@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Track | Trading Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">T</span><div><strong>TRACK</strong><small>Trading analytics</small></div></div>
+    <div class="header-actions"><span id="source-status" class="status">Cargando datos…</span><button id="refresh" type="button">Actualizar</button></div>
+  </header>
+  <main class="container">
+    <div class="intro"><div><div class="eyebrow">RESUMEN DE OPERATIVA</div><h1>Dashboard de trading</h1><p>Datos consolidados de tus exportaciones CSV, sin duplicar operaciones.</p></div><div id="last-updated" class="updated"></div></div>
+    <section class="filters" aria-label="Filtros">
+      <label>Año<select id="year"><option value="all">Todos</option></select></label>
+      <label>Símbolo<select id="symbol"><option value="all">Todos</option></select></label>
+      <label>Dirección<select id="side"><option value="all">Todas</option><option value="BUY">Long</option><option value="SELL">Short</option></select></label>
+      <label>Desde<input type="date" id="date-from"></label>
+      <label>Hasta<input type="date" id="date-to"></label>
+      <button id="clear" class="secondary" type="button">Limpiar filtros</button>
+    </section>
+    <div id="error" class="error" role="alert" hidden></div>
+    <section id="stats" class="stats" aria-label="Indicadores"></section>
+    <div class="two-col">
+      <section class="panel large"><div class="panel-head"><div><h2>PnL acumulado</h2><small>Evolución por día de cierre</small></div></div><div class="chart" id="equity-chart"></div></section>
+      <section class="panel"><div class="panel-head"><div><h2>Resultados mensuales</h2><small>PnL neto por mes</small></div></div><div class="chart" id="months-chart"></div></section>
+      <section class="panel"><div class="panel-head"><div><h2>PnL diario</h2><small>Últimos 45 días de actividad (filtrados)</small></div></div><div class="chart" id="daily-chart"></div></section>
+      <section class="panel"><div class="panel-head"><div><h2>Resultados por símbolo</h2><small>Los 12 símbolos con mayor volumen de operaciones</small></div></div><div class="chart" id="symbols-chart"></div></section>
+    </div>
+    <section class="panel"><div class="panel-head"><div><h2>Operaciones</h2><small>Una fila por QuantTradeId</small></div><div class="table-tools"><input id="search" type="search" placeholder="Buscar símbolo…"><span id="table-count"></span></div></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Símbolo</th><th>Dirección</th><th>Apertura (NY)</th><th>Cierre (NY)</th><th class="number">PnL</th></tr></thead><tbody id="trade-rows"></tbody></table></div><div class="table-footer"><span id="pagination-info"></span><div><button id="prev" class="secondary" type="button">Anterior</button><button id="next" class="secondary" type="button">Siguiente</button></div></div></section>
+    <footer><span id="dataset-info"></span><span>Zona horaria de las operaciones: Nueva York</span></footer>
+  </main>
+  <script src="dashboard.js" defer></script>
+</body>
+</html>
