@@ -199,7 +199,7 @@ function renderSide(id,rows,title,kind){
   ];
   $(id).innerHTML=`<div class="side-title ${kind}">${title}</div><div class="side-grid">${items.map(([label,value,cls])=>`<div><div class="side-cell-label">${esc(label)}</div><div class="side-cell-value ${cls||''}">${esc(value)}</div></div>`).join('')}</div>`;
 }
-function timeBand(t){const hm=(t.opened||'').slice(11,16),m=Number(hm.slice(0,2))*60+Number(hm.slice(3,5));if(!Number.isFinite(m))return null;const slot=Math.floor(m/30)*30;const f=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');return `${f(slot)}–${f(slot+30)}`;}
+function timeBand(t){const hm=(t.opened||'').slice(11,16);if(!/^\d{2}:\d{2}$/.test(hm))return null;const m=Number(hm.slice(0,2))*60+Number(hm.slice(3,5));if(!Number.isFinite(m))return null;const slot=Math.floor(m/30)*30;const f=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');return `${f(slot)}–${f(slot+30)}`;}
 function renderTime(rows){
   const bands=group(rows,timeBand).filter(p=>p[0]!==null);
   $('time-chart').innerHTML=svgChart([{values:bands,color:'#25c7dd'}],{bar:true,currency:true});
