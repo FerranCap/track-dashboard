@@ -2,19 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Track | Trading Dashboard</title>
+  <title>Track | Trading Statistics</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-mark">T</span><div><strong>TRACK</strong><small>Trading analytics</small></div></div>
-    <div class="header-actions"><span id="source-status" class="status">Cargando datos…</span><button id="refresh" type="button">Actualizar</button></div>
+    <div class="header-actions"><span id="source-status" class="status">Cargando…</span><button id="refresh" type="button">Actualizar</button></div>
   </header>
   <main class="container">
-    <div class="intro"><div><div class="eyebrow">RESUMEN DE OPERATIVA</div><h1>Dashboard de trading</h1><p>Datos consolidados de tus exportaciones CSV, sin duplicar operaciones.</p></div><div id="last-updated" class="updated"></div></div>
-    <section class="filters" aria-label="Filtros">
+    <div class="intro"><div><div class="eyebrow">TRADING ANALYTICS</div><h1>Estadísticas de trading</h1><p>Operaciones únicas agrupadas por QuantTradeId · Horario de Nueva York</p></div><div id="last-updated" class="updated"></div></div>
+    <section class="filters" aria-label="Filtros globales">
       <label>Año<select id="year"><option value="all">Todos</option></select></label>
       <label>Símbolo<select id="symbol"><option value="all">Todos</option></select></label>
       <label>Dirección<select id="side"><option value="all">Todas</option><option value="BUY">Long</option><option value="SELL">Short</option></select></label>
@@ -23,15 +23,17 @@
       <button id="clear" class="secondary" type="button">Limpiar filtros</button>
     </section>
     <div id="error" class="error" role="alert" hidden></div>
-    <section id="stats" class="stats" aria-label="Indicadores"></section>
-    <div class="two-col">
-      <section class="panel large"><div class="panel-head"><div><h2>PnL acumulado</h2><small>Evolución por día de cierre</small></div></div><div class="chart" id="equity-chart"></div></section>
-      <section class="panel"><div class="panel-head"><div><h2>Resultados mensuales</h2><small>PnL neto por mes</small></div></div><div class="chart" id="months-chart"></div></section>
-      <section class="panel"><div class="panel-head"><div><h2>PnL diario</h2><small>Últimos 45 días de actividad (filtrados)</small></div></div><div class="chart" id="daily-chart"></div></section>
-      <section class="panel"><div class="panel-head"><div><h2>Resultados por símbolo</h2><small>Los 12 símbolos con mayor volumen de operaciones</small></div></div><div class="chart" id="symbols-chart"></div></section>
-    </div>
-    <section class="panel"><div class="panel-head"><div><h2>Operaciones</h2><small>Una fila por QuantTradeId</small></div><div class="table-tools"><input id="search" type="search" placeholder="Buscar símbolo…"><span id="table-count"></span></div></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Símbolo</th><th>Dirección</th><th>Apertura (NY)</th><th>Cierre (NY)</th><th class="number">PnL</th></tr></thead><tbody id="trade-rows"></tbody></table></div><div class="table-footer"><span id="pagination-info"></span><div><button id="prev" class="secondary" type="button">Anterior</button><button id="next" class="secondary" type="button">Siguiente</button></div></div></section>
-    <footer><span id="dataset-info"></span><span>Zona horaria de las operaciones: Nueva York</span></footer>
+    <section class="section"><h2>Trading Statistics <small>(Net · $ Value)</small></h2><div id="stats" class="metrics four"></div></section>
+    <section class="section"><h2>Métricas de riesgo y drawdown</h2><div id="risk-stats" class="metrics four"></div><div class="two-col equal chart-row"><div class="panel"><div class="plot-title">Equity Curve (Net)</div><div id="equity-chart" class="chart"></div></div><div class="panel"><div class="plot-title">Drawdown ($)</div><div id="drawdown-chart" class="chart"></div></div></div></section>
+    <section class="section"><h2>Long vs Short</h2><div class="two-col equal"><div id="long-stats" class="side-panel long-panel"></div><div id="short-stats" class="side-panel short-panel"></div></div><div class="two-col equal chart-row"><div class="panel"><h3>Equity Curve — Long</h3><div id="long-equity" class="chart"></div></div><div class="panel"><h3>Equity Curve — Short</h3><div id="short-equity" class="chart"></div></div><div class="panel"><h3>PnL Diario — Long</h3><div id="long-daily" class="chart"></div></div><div class="panel"><h3>PnL Diario — Short</h3><div id="short-daily" class="chart"></div></div></div><div class="panel wide-chart"><h3>Equity Curve Comparativa (Net)</h3><div id="comparison-chart" class="chart"></div><div class="legend"><span class="legend-long">Long</span><span class="legend-short">Short</span></div></div></section>
+    <section class="section"><h2>Métricas de consistencia</h2><div id="consistency-stats" class="metrics three"></div></section>
+    <section class="section"><div class="panel"><div class="panel-head"><div><h2>Mejores y peores trades</h2><small>Selecciona un intervalo para comparar operaciones</small></div><div class="best-controls"><label>Desde<input id="best-from" type="date"></label><label>Hasta<input id="best-to" type="date"></label><button id="best-search" type="button">Buscar</button></div></div><div id="best-results" class="best-results muted">Selecciona un rango de fechas y pulsa Buscar.</div></div></section>
+    <div class="two-col equal chart-row"><section class="panel"><h3>PnL por franja horaria (30m)</h3><div id="time-chart" class="chart"></div></section><section class="panel"><h3>PnL por rango de precio (entry)</h3><div id="price-chart" class="chart"></div><div id="price-caption" class="mini-caption"></div></section></div>
+    <section class="section panel"><h2>Rendimiento por día de la semana</h2><div class="weekday-layout"><div id="weekday-chart" class="chart"></div><div id="weekday-highlights" class="highlights"></div></div><div id="weekday-table" class="table-wrap"></div></section>
+    <section class="section panel"><h2>Estadísticas por rango de precio</h2><div id="price-table" class="table-wrap"></div></section>
+    <section class="section"><h2>Otros gráficos</h2><div class="two-col equal"><div class="panel"><h3>Resultados mensuales</h3><div id="months-chart" class="chart"></div></div><div class="panel"><h3>PnL por símbolo (12 más operados)</h3><div id="symbols-chart" class="chart"></div></div></div></section>
+    <section class="section panel"><div class="panel-head"><div><h2>Operaciones</h2><small>Una fila por QuantTradeId, sin duplicar ejecuciones</small></div><div class="table-tools"><input id="search" type="search" placeholder="Buscar símbolo…"><span id="table-count"></span></div></div><div class="table-wrap trade-table"><table><thead><tr><th>Fecha</th><th>Símbolo</th><th>Dirección</th><th>Apertura NY</th><th>Cierre NY</th><th>Entrada</th><th>Shares</th><th>Duración</th><th class="number">PnL</th></tr></thead><tbody id="trade-rows"></tbody></table></div><div class="table-footer"><span id="pagination-info"></span><div><button id="prev" class="secondary" type="button">Anterior</button><button id="next" class="secondary" type="button">Siguiente</button></div></div></section>
+    <footer><span id="dataset-info"></span><span>MAE / MFE: no disponibles en los CSV actuales · Los costes no se descuentan dos veces</span></footer>
   </main>
   <script src="dashboard.js" defer></script>
 </body>

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build the public dashboard dataset from Quant trade CSV exports."""
+"""Consolidate overlapping Quant CSV exports into auditable trade records."""
 import csv
 import json
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -18,8 +18,8 @@ def parse_datetime(value):
     if not value:
         return None
     try:
-        parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
-        return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+        dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
     except ValueError:
         return None
 
@@ -31,69 +31,113 @@ def numeric(value):
         return 0.0
 
 
+def stable_execution(row):
+    """Identify export-overlapping fills without merging repeated fills in one export."""
+    keys = ('Date/Time', 'Symbol', 'Side', 'Qty', 'Price', 'Commission', 'QuantTradeId')
+    return tuple((row.get(key) or '').strip() for key in keys)
+
+
 def build():
     trades = {}
+    executions = defaultdict(dict)
     sources = []
     unsupported = []
-    inconsistent = set()
+    inconsistencies = set()
     total_rows = 0
+
     for path in sorted(DATA.glob('*.csv')):
         with path.open('r', encoding='utf-8-sig', newline='') as stream:
             reader = csv.DictReader(stream)
             if not reader.fieldnames or not REQUIRED.issubset(set(reader.fieldnames)):
                 unsupported.append(path.name)
                 continue
-            rows = 0
+            counts = Counter()
+            row_count = 0
             for row in reader:
-                rows += 1
+                row_count += 1
                 trade_id = (row.get('QuantTradeId') or '').strip()
-                if not trade_id or row.get('TradeStatus', '').strip().upper() != 'CLOSED':
+                if not trade_id or (row.get('TradeStatus') or '').strip().upper() != 'CLOSED':
                     continue
-                stamp = parse_datetime(row.get('TradeClose')) or parse_datetime(row.get('TradeOpen'))
-                if not stamp:
+                closed = parse_datetime(row.get('TradeClose')) or parse_datetime(row.get('TradeOpen'))
+                opened = parse_datetime(row.get('TradeOpen')) or closed
+                if closed is None or opened is None:
                     continue
-                start = parse_datetime(row.get('TradeOpen')) or stamp
+                side = (row.get('TradeSide') or '').strip().upper()
                 record = {
                     'id': trade_id,
-                    'date': stamp.astimezone(TZ).date().isoformat(),
-                    'opened': start.astimezone(TZ).isoformat(timespec='seconds'),
-                    'closed': stamp.astimezone(TZ).isoformat(timespec='seconds'),
+                    'date': closed.astimezone(TZ).date().isoformat(),
+                    'opened': opened.astimezone(TZ).isoformat(timespec='seconds'),
+                    'closed': closed.astimezone(TZ).isoformat(timespec='seconds'),
                     'symbol': (row.get('Symbol') or '').strip().upper(),
-                    'side': (row.get('TradeSide') or '').strip().upper(),
-                    'pnl': round(numeric(row.get('TradePnL')), 4),
+                    'side': side,
+                    'pnl': round(numeric(row.get('TradePnL')), 6),
                 }
-                if trade_id in trades:
-                    old = trades[trade_id]
-                    if old['pnl'] != record['pnl'] or old['symbol'] != record['symbol']:
-                        inconsistent.add(trade_id)
-                    # Prefer the export containing the most recently closed trade record.
+                old = trades.get(trade_id)
+                if old is not None:
+                    if old['pnl'] != record['pnl'] or old['symbol'] != record['symbol'] or old['side'] != side:
+                        inconsistencies.add(trade_id)
                     if record['closed'] > old['closed']:
                         trades[trade_id] = record
                 else:
                     trades[trade_id] = record
-        total_rows += rows
-        sources.append({'file': path.name, 'rows': rows})
 
-    ordered = sorted(trades.values(), key=lambda r: (r['date'], r['closed'], r['id']))
+                fill_key = stable_execution(row)
+                counts[fill_key] += 1
+                occurrence = counts[fill_key]
+                # The occurrence index preserves truly repeated executions within each export.
+                unique_key = (fill_key, occurrence)
+                executions[trade_id][unique_key] = {
+                    'side': (row.get('Side') or '').strip().upper(),
+                    'qty': abs(numeric(row.get('Qty'))),
+                    'price': numeric(row.get('Price')),
+                    'commission': numeric(row.get('Commission')),
+                }
+            total_rows += row_count
+            sources.append({'file': path.name, 'rows': row_count})
+
+    for trade_id, record in trades.items():
+        fills = list(executions[trade_id].values())
+        entry_fills = [fill for fill in fills if fill['side'] == record['side']]
+        entry_qty = sum(fill['qty'] for fill in entry_fills)
+        record['entryPrice'] = round(
+            sum(fill['price'] * fill['qty'] for fill in entry_fills) / entry_qty, 6
+        ) if entry_qty else None
+        record['entryQty'] = round(entry_qty, 6) if entry_qty else None
+        record['fees'] = round(sum(fill['commission'] for fill in fills), 6)
+        record['executionCount'] = len(fills)
+        opening = datetime.fromisoformat(record['opened'])
+        closing = datetime.fromisoformat(record['closed'])
+        record['holdMinutes'] = round(max(0, (closing - opening).total_seconds()) / 60, 4)
+        # Historical MAE/MFE requires intratrade price movement, which these fills do not contain.
+        record['mae'] = None
+        record['mfe'] = None
+
+    ordered = sorted(trades.values(), key=lambda trade: (trade['closed'], trade['id']))
     payload = {
+        'schemaVersion': 2,
         'generatedAt': datetime.now(timezone.utc).isoformat(timespec='seconds'),
         'timezone': 'America/New_York',
         'tradeCount': len(ordered),
         'executionRows': total_rows,
+        'uniqueExecutionRows': sum(len(fills) for fills in executions.values()),
         'sourceFiles': sources,
         'unsupportedFiles': unsupported,
-        'inconsistentIds': len(inconsistent),
+        'inconsistentIds': len(inconsistencies),
+        'dataNotes': [
+            'TradePnL comes from QuantTradeId and is not adjusted for fees again.',
+            'Fees are the sum of unique fill commissions across overlapping exports.',
+            'MAE and MFE are unavailable without intratrade market prices.',
+            'Trades.csv (broker-specific format) is excluded from Quant statistics.'
+        ],
         'trades': ordered,
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
-    pnl = sum(t['pnl'] for t in ordered)
-    years = Counter(t['date'][:4] for t in ordered)
-    print(f'Built {OUT}: {len(ordered)} unique trades, {total_rows} execution rows, PnL {pnl:.2f}')
-    print(f'Years: {dict(years)}')
+    print(f"Created {OUT}: {len(ordered)} trades, PnL {sum(t['pnl'] for t in ordered):.2f}")
+    print(f"Execution rows: {total_rows}, unique fills: {payload['uniqueExecutionRows']}")
     if unsupported:
-        print('Skipped incompatible CSV formats:', ', '.join(unsupported))
-    if inconsistent:
-        print(f'Warning: {len(inconsistent)} trade IDs had conflicting PnL/symbol values across exports')
+        print('Excluded incompatible CSV formats:', ', '.join(unsupported))
+    if inconsistencies:
+        print('Conflicting trade IDs:', len(inconsistencies))
     return payload
 
 

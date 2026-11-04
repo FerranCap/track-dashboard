@@ -39,3 +39,27 @@ python -m http.server 8000
 ```
 
 Abre `http://localhost:8000` en el navegador. `file://` no funciona porque el navegador bloquea `fetch` local.
+
+## Estudios añadidos
+
+- **Trading Statistics:** PnL, best/worst trade, profit factor, volumen diario (número de operaciones), PnL medio por acción, medias de ganadoras y perdedoras, número de días, rachas, hold time y comisiones de ejecuciones únicas.
+- **Riesgo:** drawdown en la curva ordenada por hora de cierre, tamaño medio de drawdown durante los trades bajo el máximo histórico, días con drawdown, duración media de cada periodo en días operados, rachas ganadoras y perdedoras.
+- **Long / Short:** estadísticas independientes, equity por operación y PnL diario; curva comparativa alineada por días operados.
+- **Consistencia:** SQN = raíz(n) × media(PnL trade) / desviación estándar muestral; K-Ratio = pendiente de regresión de equity por trade / error estándar de la pendiente (convención explícita del dashboard); Kelly = winRate - lossRate / (avgWin / abs(avgLoss)); Prob. Random Chance = prueba binomial exacta bilateral con probabilidad de victoria 50%, excluyendo los trades scratch. Estas métricas son descriptivas, no predicciones ni recomendaciones.
+- **Segmentación:** PnL por franjas de apertura de 30 minutos NY, precio de entrada ponderado por cantidad de ejecuciones de apertura, día de la semana de cierre y análisis de extremos por rango de fechas.
+
+### Precisiones importantes
+
+1. **Scratch trades** significa PnL exactamente cero (tolerancia técnica 0.000001 USD). Es una categoría excluyente respecto a ganadoras y perdedoras.
+2. **Entry price y shares** se calculan agrupando las ejecuciones que tienen `Side` igual a `TradeSide`. Para un trade Short se usan las ejecuciones SELL; para Long, BUY.
+3. **Total Fees** es la suma algebraica del campo `Commission`. El CSV puede contener créditos negativos; se respeta su signo. **No se resta nuevamente del PnL**, porque `TradePnL` se toma literalmente como viene del CSV.
+4. **MAE/MFE** no se pueden deducir de ejecuciones sin datos de precios intratrade; se muestra **N/D**. No se inventan esas cifras.
+5. **Días en drawdown** cuenta días de operaciones cuyo cierre está por debajo del anterior máximo de equity. No cuenta los días naturales sin operaciones.
+6. **Biggest/average drawdown** se calcula sobre equity de operaciones cerradas, no sobre equity intradía de posiciones abiertas.
+7. Las estadísticas se vuelven a calcular con los filtros globales; los periodos de drawdown y la equity **reinician desde cero** para la selección filtrada.
+8. El CSV alternativo `Trades.csv` sigue excluido hasta definir una correspondencia fiable con Quant.
+
+### Cómo actualizar los estudios
+
+Sustituye `index.html`, `styles.css`, `dashboard.js`, `scripts/build_data.py` y `data/trades.json` en GitHub manteniendo las carpetas.
+Si quieres evitar subir el JSON, sustituye los primeros cuatro archivos y ejecuta manualmente el workflow **Actions → Update dashboard data → Run workflow**. La web mostrará un aviso si se publica el JavaScript nuevo antes de regenerar el JSON.
