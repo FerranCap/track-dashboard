@@ -1,6 +1,10 @@
 'use strict';
 
-const $ = id => document.getElementById(id);
+const $ = id => {
+  const element = document.getElementById(id);
+  if (!element) throw new Error(`Missing HTML element #${id}. Upload index.html and dashboard.js from the same release.`);
+  return element;
+};
 const moneyFormat = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
 const integerFormat = new Intl.NumberFormat('es-ES');
 const num = (v,d=2) => Number.isFinite(v) ? v.toFixed(d) : '—';
@@ -261,7 +265,7 @@ async function loadData(){
     const response=await fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'});
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
-    if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('Actualiza data/trades.json ejecutando el nuevo build_data.py mediante GitHub Actions');
+    if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
     dataset=next;populateFilters(dataset.trades);
     $('year').value='all';$('symbol').value='all';$('side').value='all';$('date-from').value='';$('date-to').value='';$('search').value='';
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;
@@ -269,7 +273,14 @@ async function loadData(){
     $('source-status').textContent='Datos cargados';
     if(next.unsupportedFiles.length||next.inconsistentIds){$('error').hidden=false;$('error').textContent=`Aviso: ${next.unsupportedFiles.length?`CSV de otro formato (no combinados): ${next.unsupportedFiles.join(', ')}. `:''}${next.inconsistentIds?`${next.inconsistentIds} IDs contradictorios entre exportaciones.`:''}`;}
     applyFilters();
-  }catch(err){$('source-status').textContent='Error de carga';$('error').hidden=false;$('error').textContent=`No se pudieron cargar los datos: ${err.message}. Revisa el workflow Update dashboard data en Actions.`;}
+  }catch(err){
+    console.error('Dashboard error:', err);
+    $('source-status').textContent='Error';
+    $('error').hidden=false;
+    $('error').textContent=err.message.startsWith('Missing HTML element')
+      ? `Versiones incompatibles: ${err.message}`
+      : `Error al cargar o procesar datos: ${err.message}. Comprueba los archivos publicados y GitHub Actions.`;
+  }
   finally{$('refresh').disabled=false;}
 }
 for(const id of ['year','symbol','side','date-from','date-to'])$(id).addEventListener('change',applyFilters);
