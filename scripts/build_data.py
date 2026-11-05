@@ -38,6 +38,14 @@ def stable_execution(row):
 
 
 def build():
+    country_path = DATA / 'symbol-countries.json'
+    countries = json.loads(country_path.read_text(encoding='utf-8')) if country_path.exists() else {}
+    if not isinstance(countries, dict) or any(
+        not isinstance(symbol, str) or not isinstance(country, str) or not country.strip()
+        for symbol, country in countries.items()
+    ):
+        raise ValueError('Country mappings must contain symbol keys and nonempty country names.')
+    countries = {symbol.strip().upper(): country.strip() for symbol, country in countries.items()}
     trades = {}
     executions = defaultdict(dict)
     sources = []
@@ -96,6 +104,7 @@ def build():
             sources.append({'file': path.name, 'rows': row_count})
 
     for trade_id, record in trades.items():
+        record['country'] = countries.get(record['symbol'])
         fills = list(executions[trade_id].values())
         entry_fills = [fill for fill in fills if fill['side'] == record['side']]
         entry_qty = sum(fill['qty'] for fill in entry_fills)

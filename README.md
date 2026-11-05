@@ -13,7 +13,7 @@ Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los C
 5. En GitHub Desktop, revisa los cambios, escribe `Restore complete dashboard` y pulsa **Commit to main** y **Push origin**.
 6. En GitHub.com, abre **Settings > Pages > Build and deployment**, selecciona **Source: GitHub Actions**. Este proyecto despliega mediante Actions; **no uses Deploy from a branch**.
 7. En la pestaña **Actions**, comprueba la ejecución **Build and deploy Track Dashboard**. Si es la primera vez, puedes abrirla y pulsar **Run workflow**.
-8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261104-fullfix-1** y **Datos cargados**. Si hay un error, revisa la consola con F12.
+8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-sections-1** y **Datos cargados**. Si hay un error, revisa la consola con F12.
 
 ## Actualización diaria
 
@@ -26,6 +26,17 @@ Copia los nuevos exportes CSV a `data/`, confirma los cambios con GitHub Desktop
 - El `TradePnL` se toma literalmente del CSV; las comisiones no se descuentan de nuevo.
 - MAE/MFE no son calculables sin el recorrido de precios de la posición.
 - La fecha de los trades se presenta en hora de Nueva York.
+
+## Apartados de estudio
+
+El menú lateral muestra ocho vistas: General, Operaciones, Calendario, Análisis, País, Ratios, Riesgo y consistencia y Comparativas. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
+
+- Calendario permite cambiar de mes y seleccionar una sesión para consultar sus operaciones.
+- Análisis separa horario, símbolos, precio, duración y long/short mediante pestañas.
+- Comparativas cruza los filtros globales con los de cada grupo: fechas, dirección y símbolo. Por defecto compara long frente a short; los grupos pueden solaparse.
+- Ratios distingue la relación ganancia/pérdida realizada del Risk/Reward planificado. Este último no se calcula sin stop y objetivo iniciales.
+
+País representa el país de la empresa emisora, no el mercado donde cotiza. Como los CSV actuales no lo incluyen, las operaciones aparecen como **Sin clasificar**. Para incorporar países verificados, completa `data/symbol-countries.json` con un objeto que asocie cada símbolo a su país y regenera los datos. Usa el mismo nombre para un país en todos sus símbolos; los símbolos sin correspondencia siguen sin clasificar.
 
 ## Privacidad
 
@@ -40,3 +51,5 @@ python -m http.server 8000
 ```
 
 Abre `http://localhost:8000` (no abras `index.html` mediante `file://`).
+
+En Windows, si Python no encuentra `America/New_York`, instala la base de zonas horarias con `python -m pip install tzdata`.

@@ -102,21 +102,9 @@ function streaks(rows){
 }
 function renderMetrics(rows){
   const s=statistics(rows),st=streaks(rows),dd=s.tradeStats;
-  const maxGain=s.wins.length?Math.max(...s.wins.map(t=>t.pnl)):null;
-  const maxLoss=s.losses.length?Math.min(...s.losses.map(t=>t.pnl)):null;
-  const arr=[
-    ['Total P&L',signed(s.pnl),cssSign(s.pnl)],['Largest Gain',money(maxGain),'positive'],['Largest Loss',money(maxLoss),'negative'],['Profit Factor',num(s.pf)],
-    ['Avg Daily P&L',money(mean(s.netByDate)),cssSign(mean(s.netByDate))],['Avg Daily Volume',`${num(rows.length/s.daily.length,1)} trades`],['Avg Per-Share P&L',s.entryVolumes?money(s.pnl/s.entryVolumes):'—','positive'],['Avg Trade P&L',money(s.expectancy),cssSign(s.expectancy)],
-    ['Avg Winning Trade',money(s.winAvg),'positive'],['Avg Losing Trade',money(s.lossAvg),'negative'],['Total Trades',integerFormat.format(rows.length)],['Trading Days',integerFormat.format(s.daily.length)],
-    ['Winning Trades',`${s.wins.length} (${pct(s.wins.length,rows.length)})`,'positive'],['Losing Trades',`${s.losses.length} (${pct(s.losses.length,rows.length)})`,'negative'],['Scratch Trades',`${s.scratches.length} (${pct(s.scratches.length,rows.length)})`],['Max Consec. Wins',String(st.win.max),'positive'],
-    ['Max Consec. Losses',String(st.loss.max),'negative'],['Avg Hold (winners)',`${num(s.holds('win'),1)} min`],['Avg Hold (losers)',`${num(s.holds('loss'),1)} min`],['Avg Hold (scratch)',`${num(s.holds('scratch'),1)} min`],
-    ['P&L Std Deviation',money(s.sd)],['SQN',num(s.sqn),'accent'],['Prob. Random Chance',s.winLossChance===null?'—':`${num(s.winLossChance*100,2)}%`],['Kelly %',s.kelly===null?'—':`${num(s.kelly,2)}%`,'accent'],
-    ['K-Ratio',num(s.kRatio)],['Total Fees',money(s.fees),'','Fill commissions; not deducted again'],['Avg Position MAE','N/D','','Requires intratrade market prices'],['Avg Position MFE','N/D','','Requires intratrade market prices']
-  ];
-  $('stats').innerHTML=arr.map(a=>metric(...a)).join('');
   const risk=[
     ['Biggest Drawdown',money(dd.biggest),'negative'],['Average Drawdown',money(dd.average),'negative'],['Win Rate',pct(s.wins.length,rows.length),'positive'],['Win/Loss Ratio',num(s.losses.length?s.wins.length/s.losses.length:null),'warning'],
-    ['Risk/Reward Promedio',num(s.payOff),'warning'],['Max Racha Ganadora',`${st.win.max} trades`,'positive'],['Max Racha Perdedora',`${st.loss.max} trades`,'negative'],['Rachas Ganadoras',`${st.win.runs.length} (avg ${num(mean(st.win.runs),1)})`,'positive'],
+    ['Max Racha Ganadora',`${st.win.max} trades`,'positive'],['Max Racha Perdedora',`${st.loss.max} trades`,'negative'],['Rachas Ganadoras',`${st.win.runs.length} (avg ${num(mean(st.win.runs),1)})`,'positive'],
     ['Rachas Perdedoras',`${st.loss.runs.length} (avg ${num(mean(st.loss.runs),1)})`,'negative'],['Días en Drawdown',`${dd.days} días`],['Avg Días en Drawdown',`${num(dd.avgDays,1)} días`],['Períodos Drawdown',String(dd.periods)]
   ];
   $('risk-stats').innerHTML=risk.map(a=>metric(...a)).join('');
@@ -241,12 +229,17 @@ function populateFilters(rows){
   const symbols=[...new Set(rows.map(t=>t.symbol))].sort();
   $('year').innerHTML='<option value="all">Todos</option>'+years.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
   $('symbol').innerHTML='<option value="all">Todos</option>'+symbols.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+  for(const key of ['a','b']){
+    const select=$(`compare-${key}-symbol`),previous=select.value;
+    select.innerHTML=$('symbol').innerHTML;
+    select.value=symbols.includes(previous)?previous:'all';
+  }
 }
 function applyFilters(){
   if(!dataset)return;
   const year=$('year').value,symbol=$('symbol').value,side=$('side').value,from=$('date-from').value,to=$('date-to').value;
   filtered=dataset.trades.filter(t=>(year==='all'||t.date.startsWith(year))&&(symbol==='all'||t.symbol===symbol)&&(side==='all'||t.side===side)&&(!from||t.date>=from)&&(!to||t.date<=to));
-  page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();
+  page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
   if($('best-from').value&&$('best-to').value)renderBest();
 }
 function renderTable(){
@@ -290,4 +283,5 @@ $('prev').addEventListener('click',()=>{page--;renderTable();});
 $('next').addEventListener('click',()=>{page++;renderTable();});
 $('refresh').addEventListener('click',loadData);
 $('best-search').addEventListener('click',renderBest);
+initializeWorkspace();
 loadData();

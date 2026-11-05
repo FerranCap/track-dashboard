@@ -9,6 +9,7 @@ on:
       - '.github/workflows/update-dashboard.yml'
       - 'index.html'
       - 'dashboard.js'
+      - 'workspace.js'
       - 'styles.css'
   workflow_dispatch:
 
@@ -41,7 +42,7 @@ jobs:
       - name: Assemble website
         run: |
           mkdir -p site/data
-          cp index.html dashboard.js styles.css site/
+          cp index.html dashboard.js workspace.js styles.css site/
           cp data/trades.json site/data/trades.json
           touch site/.nojekyll
       - name: Configure GitHub Pages
