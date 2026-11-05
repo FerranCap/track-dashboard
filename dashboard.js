@@ -17,6 +17,7 @@ const mean = a => a.length ? a.reduce((s,n)=>s+n,0)/a.length : 0;
 const standardDeviation = a => a.length>1 ? Math.sqrt(a.reduce((s,n)=>s+(n-mean(a))**2,0)/(a.length-1)) : 0;
 const pct = (a,b) => b ? `${num(a/b*100,1)}%` : '—';
 let dataset=null, filtered=[], page=0;
+let tradeTableSort = null;
 const pageSize=50;
 const EPSILON=0.000001;
 function classify(t){return t.pnl>EPSILON?'win':t.pnl<-EPSILON?'loss':'scratch';}
@@ -111,7 +112,7 @@ function renderMetrics(rows){
   $('consistency-stats').innerHTML=[
     ['SQN (System Quality Number)',num(s.sqn),'accent'],['K-Ratio',num(s.kRatio)],['Kelly %',s.kelly===null?'—':`${num(s.kelly)}%`,'accent'],
     ['P&L Std Deviation',money(s.sd)],['Prob. Random Chance',s.winLossChance===null?'—':`${num(s.winLossChance*100)}%`],['Profit Factor',num(s.pf)],
-    ['Avg Position MAE','N/D','','Intratrade prices not provided'],['Avg Position MFE','N/D','','Intratrade prices not provided'],['Avg Trades in Drawdown',dd.periods?num(dd.avgTrades,1):'—']
+    ['Avg Trades in Drawdown',dd.periods?num(dd.avgTrades,1):'—']
   ].map(a=>metric(...a)).join('');
 }
 const chartConfigs = new Map();
@@ -279,11 +280,23 @@ function applyFilters(){
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
   if($('best-from').value&&$('best-to').value)renderBest();
 }
+function setTradeTableSort(state) {
+  tradeTableSort = state;
+  page = 0;
+  renderTable();
+}
+function sortedTradeRows(rows) {
+  if (!tradeTableSort) return rows.slice().reverse();
+  const values = [t => t.date, t => t.symbol, t => t.side, t => t.opened.slice(11,19),
+    t => t.closed.slice(11,19), t => t.entryPrice, t => t.entryQty, t => t.holdMinutes, t => t.pnl];
+  const value = values[tradeTableSort.column];
+  return rows.slice().sort((a, b) => compareTableValues(value(a) ?? null, value(b) ?? null, tradeTableSort.direction));
+}
 function renderTable(){
   const query=$('search').value.toLowerCase().trim();
   const matches=query?filtered.filter(t=>t.symbol.toLowerCase().includes(query)):filtered;
   const maxPage=Math.max(0,Math.ceil(matches.length/pageSize)-1);page=Math.max(0,Math.min(page,maxPage));
-  const current=matches.slice().reverse().slice(page*pageSize,(page+1)*pageSize);
+  const current=sortedTradeRows(matches).slice(page*pageSize,(page+1)*pageSize);
   const columns=['Fecha','Símbolo','Dirección','Apertura NY','Cierre NY','Entrada','Shares','Duración','PnL'];
   $('trade-rows').innerHTML=current.length?current.map(t=>{
     const cells=[esc(t.date),`<strong>${esc(t.symbol)}</strong>`,`<span class="pill ${t.side==='SELL'?'short':''}">${t.side==='BUY'?'Long':'Short'}</span>`,esc(t.opened.slice(11,19)),esc(t.closed.slice(11,19)),esc(t.entryPrice===null?'—':money(t.entryPrice)),esc(t.entryQty===null?'—':num(t.entryQty,0)),`${esc(num(t.holdMinutes,1))} min`,esc(signed(t.pnl))];
@@ -334,6 +347,8 @@ $('refresh').addEventListener('click',loadData);
 $('best-search').addEventListener('click',renderBest);
 initializeHelp();
 initializeWorkspace();
+initializeConsistencyStudies();
+initializeTableSorting();
 window.addEventListener('resize', refreshCharts);
 if (typeof ResizeObserver !== 'undefined') {
   const chartObserver = new ResizeObserver(entries => {

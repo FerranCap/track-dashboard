@@ -2,17 +2,19 @@
 
 const VIEW_DETAILS = {
   general: ['General', 'Tu actividad y resultados, de un vistazo.'],
-  trades: ['Operaciones', 'Consulta y estudia tus operaciones individuales.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
+  compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.'],
   analysis: ['Análisis', 'Explora los factores que explican tus resultados.'],
-  country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
+  growth: ['Crecimiento', 'Evolución del beneficio y del tamaño de tus operaciones.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Riesgo y consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
-  compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.'],
-  data: ['Data', 'Detecta tickers nuevos y datos pendientes en la base de emisores.']
+  country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
+  data: ['Tickers', 'Detecta tickers nuevos y datos pendientes en la base de emisores.'],
+  trades: ['Operaciones', 'Consulta y estudia tus operaciones individuales.']
 };
 let selectedCalendarDay = '';
 let issuerAudit = null;
+let includeSoftCountryData = false;
 
 function activateView() {
   const key = location.hash.slice(1);
@@ -39,10 +41,14 @@ function groupedStatistics(rows, key) {
   return [...groups].sort((a, b) => sum(b[1]) - sum(a[1]));
 }
 
-function breakdownTable(groups) {
-  return tableMarkup(['Grupo', 'Operaciones', 'Win rate', 'PnL', 'PnL medio', 'Profit factor'], groups.map(([name, rows]) => {
+function breakdownTable(groups, showProvisional = false) {
+  const headers = ['Grupo', 'Operaciones', 'Win rate', 'PnL', 'PnL medio', 'Profit factor'];
+  if (showProvisional) headers.push('Provisionales');
+  return tableMarkup(headers, groups.map(([name, rows]) => {
     const s = statistics(rows);
-    return [name, rows.length, pct(s.wins.length, rows.length), signed(s.pnl), rows.length ? money(s.expectancy) : '—', ratioValue(s.pf)];
+    const values = [name, rows.length, pct(s.wins.length, rows.length), signed(s.pnl), rows.length ? money(s.expectancy) : '—', ratioValue(s.pf)];
+    if (showProvisional) values.push(rows.filter(isProvisionalCountry).length);
+    return values;
   }));
 }
 
@@ -76,28 +82,91 @@ function renderWorkspace(rows) {
     return metric(['Duración media · Ganadoras', 'Duración media · Perdedoras', 'Duración media · A cero'][index], available.length ? `${num(s.holds(kind), 1)} min` : '—');
   }).join('');
   renderCountries(rows);
+  renderAnalysisCountries(rows);
   renderRatios(rows);
   renderCalendar(rows);
   renderComparisons();
+  renderConsistencyStudies(rows);
+  renderGrowth(rows);
+}
+
+function growthPeriods(rows) {
+  const quantities = new Map();
+  for (const trade of rows) {
+    const month = trade.date.slice(0, 7);
+    if (!quantities.has(month)) quantities.set(month, []);
+    if (Number.isFinite(trade.entryQty) && trade.entryQty > 0) quantities.get(month).push(trade.entryQty);
+  }
+  let cumulative = 0;
+  return periodConsistency(rows, 'month').map(period => {
+    cumulative += period.pnl;
+    const values = quantities.get(period.period);
+    return { ...period, cumulative, quantityCount: values.length,
+      meanQuantity: values.length ? mean(values) : null, medianQuantity: sampleQuantile(values, 0.5) };
+  });
+}
+
+function renderGrowth(rows) {
+  const periods = growthPeriods(rows), latest = periods.at(-1);
+  const quantities = rows.map(trade => trade.entryQty).filter(value => Number.isFinite(value) && value > 0);
+  $('growth-stats').innerHTML = [
+    ['Beneficio acumulado', rows.length ? signed(sum(rows)) : '—', 'Suma del PnL de las operaciones cerradas filtradas, partiendo de cero. Las comisiones del CSV no se descuentan de nuevo; no es saldo de cuenta ni rentabilidad porcentual.'],
+    ['Beneficio · último mes observado', latest ? signed(latest.pnl) : '—', `PnL del último mes con operaciones dentro de los filtros${latest ? ` (${latest.period})` : ''}. Puede ser un mes parcial; no se anualiza ni se proyecta.`],
+    ['Tamaño medio · acciones', quantities.length ? num(mean(quantities), 1) : '—', 'Suma de acciones de entrada conocidas y positivas ÷ operaciones con cantidad válida. No sustituye al capital invertido ni al riesgo monetario.'],
+    ['Tamaño mediano · acciones', quantities.length ? num(sampleQuantile(quantities, 0.5), 1) : '—', 'Percentil 50 de las cantidades de entrada conocidas y positivas. Divide la muestra ordenada en dos mitades y reduce la influencia de operaciones excepcionalmente grandes.']
+  ].map(args => consistencyMetric(...args)).join('');
+  renderChart('growth-cumulative-chart', [{ values: periods.map(period => [period.period, period.cumulative]), color: '#5c9bff' }], { currency: true, explanation: 'Suma acumulada del PnL de los meses observados, desde $0 al comienzo de los filtros. No incluye saldo inicial, depósitos ni retiradas y no representa una rentabilidad sobre capital.' });
+  renderChart('growth-monthly-chart', [{ values: periods.map(period => [period.period, period.pnl]) }], { bar: true, currency: true, explanation: 'Suma del PnL de las operaciones cerradas en cada mes según Nueva York. Los meses sin operaciones se omiten; el primer y último mes pueden ser parciales.' });
+  const known = periods.filter(period => period.meanQuantity !== null);
+  renderChart('growth-size-chart', [
+    { values: known.map(period => [period.period, period.meanQuantity, 'Media de acciones de entrada válidas.']), color: '#5c9bff' },
+    { values: known.map(period => [period.period, period.medianQuantity, 'Mediana de acciones de entrada válidas.']), color: '#29d17e' }
+  ], { unit: ' acc.', explanation: 'Acciones de entrada de los trades cerrados en cada mes. La media y la mediana excluyen cantidades ausentes o no positivas. Se omiten meses sin cantidades válidas. El número de acciones no mide capital ni riesgo monetario.' });
+  $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio', 'Tamaño medio · acciones', 'Tamaño mediano · acciones', 'Variación del tamaño · %', 'Cantidad disponible'], periods.map((period, index) => {
+    const previous = periods[index - 1];
+    const sizeChange = previous?.meanQuantity > 0 && period.meanQuantity !== null ? (period.meanQuantity / previous.meanQuantity - 1) * 100 : null;
+    return [period.period, period.count, signed(period.pnl), signed(period.cumulative), previous ? signed(period.pnl - previous.pnl) : '—', money(period.average), period.meanQuantity === null ? '—' : num(period.meanQuantity, 1), period.medianQuantity === null ? '—' : num(period.medianQuantity, 1), sizeChange === null ? '—' : `${sizeChange > 0 ? '+' : ''}${num(sizeChange, 1)}%`, `${period.quantityCount} / ${period.count}`];
+  })) : '<p class="muted">Sin operaciones para estos filtros.</p>';
+}
+
+function tradeCountry(trade, dimension) {
+    const profile = dataset?.tickerProfiles?.[trade.symbol];
+    if (dimension === 'incorporation') return profile?.incorporation_country || '';
+    if (dimension === 'jurisdiction') return profile?.incorporation_country ? `${profile.incorporation_country} · ${profile.incorporation_jurisdiction}` : '';
+    return trade.country || (includeSoftCountryData ? profile?.operating_country?.trim() : '') || '';
+}
+
+function isProvisionalCountry(trade) {
+  return !trade.country && Boolean(dataset?.tickerProfiles?.[trade.symbol]?.operating_country?.trim());
+}
+
+function countryDataDescription(rows) {
+  return includeSoftCountryData
+    ? `Soft data activo: se incluyen países de operación provisionales de la base (${rows.filter(isProvisionalCountry).length} operaciones). Pueden ser inferencias sin confirmar; no se sustituye el país por la sede ni por la constitución.`
+    : 'Solo se usa el país de operación confirmado mediante una declaración explícita o una revisión documentada.';
+}
+
+function renderAnalysisCountries(rows) {
+  const dimension = $('analysis-country-dimension').value;
+  const groups = groupedStatistics(rows, trade => tradeCountry(trade, dimension) || 'Sin clasificar');
+  $('analysis-country-table').innerHTML = groups.length ? breakdownTable(groups, includeSoftCountryData && dimension === 'operations') : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  $('analysis-country-note').textContent = dimension === 'incorporation' || dimension === 'jurisdiction'
+    ? 'La constitución identifica la legislación societaria de la entidad cotizada; puede diferir de su país de actividad. Se aplican los filtros generales.'
+    : `${countryDataDescription(rows)} Los tickers sin atribución permanecen en Sin clasificar. Se aplican los filtros generales.`;
 }
 
 function renderCountries(rows) {
   const dimension = $('country-dimension').value;
-  const countryOf = trade => {
-    const profile = dataset?.tickerProfiles?.[trade.symbol];
-    if (dimension === 'incorporation') return profile?.incorporation_country || '';
-    if (dimension === 'jurisdiction') return profile?.incorporation_country ? `${profile.incorporation_country} · ${profile.incorporation_jurisdiction}` : '';
-    return trade.country || '';
-  };
+  const countryOf = trade => tradeCountry(trade, dimension);
   const known = rows.filter(t => countryOf(t));
   $('country-stats').innerHTML = [
     ['Países identificados', new Set(known.map(countryOf)).size],
     ['Cobertura', pct(known.length, rows.length)], ['Sin clasificar', rows.length - known.length]
   ].map(item => metric(...item)).join('');
-  $('country-note').textContent = `${dimension === 'incorporation' || dimension === 'jurisdiction' ? 'Se usa la constitución legal, que puede diferir del país de operación.' : 'Se usa únicamente el país de operación sustentado por una declaración explícita o una revisión documentada.'} Los datos proceden de la base de emisores enlazada abajo; las operaciones sin clasificar permanecen en el total.`;
+  $('country-note').textContent = `${dimension === 'incorporation' || dimension === 'jurisdiction' ? 'Se usa la constitución legal, que puede diferir del país de operación. Soft data solo afecta a la agrupación por operación.' : countryDataDescription(rows)} Los datos proceden de la base de emisores enlazada abajo; las operaciones sin clasificar permanecen en el total.`;
   const groups = groupedStatistics(rows, t => countryOf(t) || 'Sin clasificar');
-  $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país', explanation: `${HELP_PNL} Se agrupa por ${dimension === 'incorporation' ? 'país de constitución' : dimension === 'jurisdiction' ? 'jurisdicción de constitución' : 'país de operación confirmado'}. No implica que una empresa esté sujeta exclusivamente a las leyes de ese lugar.` });
+  $('country-table').innerHTML = groups.length ? breakdownTable(groups, includeSoftCountryData && dimension === 'operations') : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país', explanation: `${HELP_PNL} Se agrupa por ${dimension === 'incorporation' ? 'país de constitución' : dimension === 'jurisdiction' ? 'jurisdicción de constitución' : `país de operación. ${countryDataDescription(rows)}`}. No implica que una empresa esté sujeta exclusivamente a las leyes de ese lugar.` });
   renderIssuerProfiles(rows);
 }
 
@@ -225,16 +294,19 @@ function ratioStudyGroups(rows, key) {
   const minimum = Math.max(1, Math.ceil(Number($('ratio-min-trades').value) || 1));
   return groupedStatistics(rows, key).filter(([, trades]) => trades.length >= minimum).map(([name, trades]) => {
     const stats = statistics(trades);
-    return { name, count: trades.length, stats, rr: stats.wins.length && stats.losses.length ? stats.payOff : null };
+    return { name, count: trades.length, provisional: trades.filter(isProvisionalCountry).length, stats, rr: stats.wins.length && stats.losses.length ? stats.payOff : null };
   });
 }
 
 function renderRatioStudy(prefix, groups) {
   const headers = ['Grupo', 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor', 'Esperanza', 'Muestra'];
-  $(`${prefix}-table`).innerHTML = groups.length ? tableMarkup(headers, groups.map(({ name, count, stats: s, rr }) => [
+  const showProvisional = prefix === 'ratio-country' && includeSoftCountryData;
+  if (showProvisional) headers.push('Provisionales');
+  $(`${prefix}-table`).innerHTML = groups.length ? tableMarkup(headers, groups.map(({ name, count, provisional, stats: s, rr }) => [
     name, count, s.wins.length, s.losses.length, s.scratches.length, pct(s.wins.length, count),
     s.wins.length ? money(s.winAvg) : '—', s.losses.length ? money(s.lossAvg) : '—',
-    rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más'
+    rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más',
+    ...(showProvisional ? [provisional] : [])
   ])) : '<p class="muted">Sin grupos con el mínimo de operaciones seleccionado.</p>';
   renderChart(`${prefix}-winrate`, [{ values: groups.map(g => [g.name, 100 * g.stats.wins.length / g.count, `${g.stats.wins.length} ganadoras ÷ ${g.count} operaciones × 100. Incluye ${g.stats.scratches.length} a cero.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }], { bar: true, unit: '%', max: 100, title: 'Win rate por grupo' });
   renderChart(`${prefix}-rr`, [{ values: groups.filter(g => g.rr !== null).map(g => [g.name, g.rr, `Cálculo: ${money(g.stats.winAvg)} de ganancia media ÷ ${money(Math.abs(g.stats.lossAvg))} de pérdida media absoluta. ${g.stats.wins.length} ganadoras y ${g.stats.losses.length} perdedoras; ${g.stats.scratches.length} a cero excluidas del RR.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#a68afb' }], { bar: true, unit: 'x', title: 'Relación ganancia media / pérdida media por grupo', empty: 'RR no disponible: cada grupo necesita operaciones ganadoras y perdedoras.' });
@@ -245,9 +317,9 @@ function renderRatioStudies(rows) {
   const interval = [5, 30, 60].includes(selected) ? selected : 5;
   const groups = ratioStudyGroups(rows, trade => timeBand(trade, interval) || 'Sin horario').sort((a, b) => a.name.localeCompare(b.name));
   renderRatioStudy('ratio-time', groups);
-  const countries = ratioStudyGroups(rows, trade => trade.country?.trim() || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
-  const known = rows.filter(trade => trade.country?.trim()).length;
-  $('ratio-country-note').textContent = `País de operación confirmado · ${known} de ${rows.length} operaciones clasificadas. Las operaciones sin país confirmado se muestran por separado; las inferencias por sede o instalaciones no se usan en este cálculo. Se aplica el mismo mínimo de operaciones que al estudio horario.`;
+  const countries = ratioStudyGroups(rows, trade => tradeCountry(trade, 'operations') || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
+  const known = rows.filter(trade => tradeCountry(trade, 'operations')).length;
+  $('ratio-country-note').textContent = `${countryDataDescription(rows)} ${known} de ${rows.length} operaciones clasificadas. Los tickers sin atribución permanecen en Sin clasificar. Se aplica el mismo mínimo de operaciones que al estudio horario.`;
   renderRatioStudy('ratio-country', countries);
 }
 
@@ -323,6 +395,17 @@ function initializeWorkspace() {
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
   $('country-dimension').addEventListener('change', () => renderCountries(filtered));
+  $('analysis-country-dimension').addEventListener('change', () => renderAnalysisCountries(filtered));
+  for (const id of ['country-soft-data', 'analysis-country-soft-data', 'ratio-country-soft-data']) {
+    $(id).addEventListener('change', event => {
+      includeSoftCountryData = event.target.checked;
+      for (const control of ['country-soft-data', 'analysis-country-soft-data', 'ratio-country-soft-data']) $(control).checked = includeSoftCountryData;
+      renderCountries(filtered);
+      renderAnalysisCountries(filtered);
+      renderRatioStudies(filtered);
+      renderConsistencyConcentration(filtered);
+    });
+  }
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(filtered));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));

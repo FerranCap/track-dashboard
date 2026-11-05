@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-data-audit-6">
+  <link rel="stylesheet" href="styles.css?v=20261105-growth-13">
 </head>
 <body>
 <aside class="sidebar">
@@ -28,12 +28,6 @@
 </svg>
 <span>General</span>
 </a>
-<a href="#trades" data-view="trades">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M4 6h16M4 12h16M4 18h16"/>
-</svg>
-<span>Operaciones</span>
-</a>
 <a href="#calendar" data-view="calendar">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <rect x="3" y="5" width="18" height="16" rx="2"/>
@@ -41,19 +35,21 @@
 </svg>
 <span>Calendario</span>
 </a>
+<a href="#compare" data-view="compare">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M3 7h18l-4-4m4 14H3l4 4M21 7l-4 4M3 17l4-4"/>
+</svg>
+<span>Comparativas</span>
+</a>
 <a href="#analysis" data-view="analysis">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M3 3v18h18M7 16l4-6 4 3 6-8"/>
 </svg>
 <span>Análisis</span>
 </a>
-<a href="#country" data-view="country">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<circle cx="12" cy="12" r="9"/>
-<ellipse cx="12" cy="12" rx="4" ry="9"/>
-<path d="M3 12h18"/>
-</svg>
-<span>País</span>
+<a href="#growth" data-view="growth">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M6 16l5-5 4 3 6-9m-6 0h6v6"/></svg>
+<span>Crecimiento</span>
 </a>
 <a href="#ratios" data-view="ratios">
 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -69,15 +65,23 @@
 </svg>
 <span>Riesgo y consistencia</span>
 </a>
-<a href="#compare" data-view="compare">
+<a href="#country" data-view="country">
 <svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M3 7h18l-4-4m4 14H3l4 4M21 7l-4 4M3 17l4-4"/>
+<circle cx="12" cy="12" r="9"/>
+<ellipse cx="12" cy="12" rx="4" ry="9"/>
+<path d="M3 12h18"/>
 </svg>
-<span>Comparativas</span>
+<span>País</span>
 </a>
 <a href="#data" data-view="data">
 <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></svg>
-<span>Data</span>
+<span>Tickers</span>
+</a>
+<a href="#trades" data-view="trades">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M4 6h16M4 12h16M4 18h16"/>
+</svg>
+<span>Operaciones</span>
 </a>
 </nav>
 <div class="sidebar-note">Tu operativa, en perspectiva.<small>Horario de Nueva York · USD</small>
@@ -169,7 +173,7 @@
 </div>
 </div>
 <div class="table-wrap trade-table">
-<table>
+<table id="trades-table" data-sort-source="trades">
 <thead>
 <tr>
 <th>Fecha</th>
@@ -231,6 +235,7 @@
 <div class="analysis-tabs" role="group" aria-label="Tipo de análisis">
 <button type="button" data-analysis="time" aria-pressed="false">Horario</button>
 <button type="button" data-analysis="symbols" aria-pressed="false">Símbolos</button>
+<button type="button" data-analysis="country" aria-pressed="false">País</button>
 <button type="button" data-analysis="price" aria-pressed="false">Precio</button>
 <button type="button" data-analysis="duration" aria-pressed="false">Duración</button>
 <button type="button" data-analysis="side" aria-pressed="false">Long/Short</button>
@@ -262,6 +267,15 @@
 <h2>Todos los símbolos</h2>
 <div id="symbols-table" class="table-wrap">
 </div>
+</section>
+</div>
+<div data-analysis-panel="country" hidden>
+<section class="section panel">
+<h2>Resultados por país</h2>
+<label class="country-dimension">Agrupar resultados por<select id="analysis-country-dimension"><option value="operations">País de operación</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
+<label class="soft-data-control"><input id="analysis-country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
+<p id="analysis-country-note" class="mini-caption"></p>
+<div id="analysis-country-table" class="table-wrap"></div>
 </section>
 </div>
 <div data-analysis-panel="price" hidden>
@@ -330,9 +344,10 @@
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Cobertura por país</h2>
-<div class="audit-actions"><button id="country-check-pending" type="button" disabled>Comprobar tickers pendientes</button><a href="#data">Ver pendientes en Data</a></div>
+<div class="audit-actions"><button id="country-check-pending" type="button" disabled>Comprobar tickers pendientes</button><a href="#data">Ver pendientes en Tickers</a></div>
 <p>Constitución legal, operación principal y estructura del emisor se investigan por separado.</p>
-<label class="country-dimension">Agrupar resultados por<select id="country-dimension"><option value="operations">País de operación confirmado</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
+<label class="country-dimension">Agrupar resultados por<select id="country-dimension"><option value="operations">País de operación</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
+<label class="soft-data-control"><input id="country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
 <div id="country-stats" class="metrics three">
 </div>
 <p id="country-note" class="mini-caption">
@@ -365,6 +380,32 @@
 <div id="data-pending-table" class="table-wrap issuer-table"></div>
 </section>
 </div>
+<div id="view-growth" class="view" aria-labelledby="page-title" hidden>
+<section class="section panel">
+<h2>Evolución del beneficio y del tamaño</h2>
+<p>Se estudian las operaciones cerradas que cumplen los filtros generales. El beneficio acumulado empieza en $0; sin saldo inicial ni movimientos de cuenta no se calcula rentabilidad porcentual. El tamaño se expresa en acciones de entrada y no equivale al riesgo monetario.</p>
+<div id="growth-stats" class="metrics four"></div>
+</section>
+<section class="section panel">
+<h2>Beneficio acumulado por mes</h2>
+<div id="growth-cumulative-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Beneficio de cada mes</h2>
+<div id="growth-monthly-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Evolución del tamaño de entrada</h2>
+<p>Media y mediana de acciones de entrada de las operaciones cerradas en cada mes. Se excluyen cantidades ausentes o no positivas. El precio de los tickers puede variar: más acciones no implica necesariamente más capital ni más riesgo.</p>
+<div id="growth-size-chart" class="chart"></div>
+<div class="legend"><span class="accent">Media</span><span class="positive">Mediana</span></div>
+</section>
+<section class="section panel">
+<h2>Detalle del crecimiento mensual</h2>
+<p>Las variaciones comparan con el mes anterior que tenga operaciones dentro de los filtros. Los meses sin operaciones se omiten y los extremos del intervalo pueden ser parciales. La variación de tamaño queda sin calcular cuando falta una media válida en alguno de los dos meses.</p>
+<div id="growth-monthly-table" class="table-wrap"></div>
+</section>
+</div>
 <div id="view-ratios" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Acierto y relación beneficio / pérdida</h2>
@@ -386,6 +427,7 @@
 </section>
 <section class="section panel">
 <h2>Win rate y RR por país</h2>
+<label class="soft-data-control"><input id="ratio-country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
 <p id="ratio-country-note" class="mini-caption"></p>
 <div class="two-col chart-row"><div><h3>Win rate por país (%)</h3><div id="ratio-country-winrate" class="chart"></div></div><div><h3>RR realizado por país</h3><div id="ratio-country-rr" class="chart"></div></div></div>
 <div id="ratio-country-table" class="table-wrap"></div>
@@ -401,15 +443,62 @@
 <h2>Métricas de riesgo y drawdown</h2>
 <div id="risk-stats" class="metrics four">
 </div>
+</section>
 <section class="section panel">
 <h2>Drawdown ($)</h2>
 <div id="drawdown-chart" class="chart">
 </div>
 </section>
-</section>    <section class="section">
+<section class="section">
 <h2>Métricas de consistencia</h2>
 <div id="consistency-stats" class="metrics three">
 </div>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>Consistencia móvil</h2><label class="study-control">Ventana del gráfico<select id="consistency-window"><option value="25">25 operaciones</option><option value="50" selected>50 operaciones</option><option value="100">100 operaciones</option></select></label></div>
+<p>Resultados de las últimas 25, 50 y 100 operaciones, por orden de cierre. Las ventanas incompletas no se calculan; las ventanas consecutivas se solapan.</p>
+<div id="rolling-consistency-table" class="table-wrap"></div>
+<div class="two-col chart-row"><div><h3>Beneficio medio móvil · USD</h3><div id="rolling-expectancy-chart" class="chart"></div></div><div><h3>Win rate móvil · %</h3><div id="rolling-winrate-chart" class="chart"></div></div></div>
+</section>
+<section class="section panel">
+<h2>Semanas y meses positivos</h2>
+<p>Solo períodos con operaciones. Las semanas empiezan en lunes, según la fecha de cierre en Nueva York. El primer y último período pueden estar incompletos; las rachas omiten períodos sin actividad.</p>
+<div id="period-consistency-stats" class="metrics four"></div>
+</section>
+<section class="section panel">
+<h2>Dependencia de las mejores ganancias</h2>
+<p>Se excluyen las mejores operaciones ganadoras y se recalculan los resultados. La concentración divide sus ganancias entre la suma de todos los trades positivos, evitando porcentajes engañosos sobre un PnL neto cercano a cero.</p>
+<div id="winner-dependence-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<h2>Tiempo de recuperación</h2>
+<p>Desde el último máximo hasta volver a alcanzarlo. El episodio todavía abierto se muestra aparte y no entra en las medias de recuperaciones completadas. El historial filtrado empieza con una curva en $0.</p>
+<div id="recovery-stats" class="metrics three"></div>
+<div id="recovery-table" class="table-wrap study-scroll"></div>
+</section>
+<section class="section panel">
+<h2>Estabilidad del beneficio medio</h2>
+<p>Compara PnL medio por operación, acierto y profit factor entre meses. Se muestran todas las muestras, incluidas las pequeñas; un mes positivo no garantiza estabilidad futura.</p>
+<div id="monthly-expectancy-chart" class="chart"></div>
+<div id="monthly-consistency-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de operación</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
+<p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se comparte el modo Soft data de País, Análisis y Ratios; lo desconocido conserva su propio grupo.</p>
+<div id="consistency-concentration-table" class="table-wrap study-scroll"></div>
+</section>
+<section class="section panel">
+<h2>Comportamiento después de perder</h2>
+<p>Se clasifica cada apertura según el último trade ya cerrado en ese instante, dentro de los filtros. Compara shares de entrada, resultado y espera hasta abrir. Los shares no equivalen al riesgo monetario; una espera menor es solo un indicio de mayor frecuencia. Se incluyen las pausas nocturnas. Estas asociaciones no prueban una causa.</p>
+<div id="post-loss-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>Escenarios por remuestreo</h2><label class="study-control">Horizonte<select id="consistency-horizon"><option value="25">25 operaciones</option><option value="50">50 operaciones</option><option value="100" selected>100 operaciones</option><option value="250">250 operaciones</option></select></label></div>
+<p>Escenarios condicionados al historial seleccionado, sin garantía de repetición futura. Se usan los PnL históricos en dólares, sin capital inicial, interés compuesto ni cambios de tamaño.</p>
+<p id="consistency-scenario-note" class="mini-caption"></p>
+<div id="consistency-scenario-chart" class="chart"></div>
+<div class="legend"><span class="negative">P5</span><span class="accent">Mediana · P50</span><span class="positive">P95</span></div>
+<div id="consistency-scenario-table" class="table-wrap"></div>
 </section>
 </div>
 <div id="view-compare" class="view" aria-labelledby="page-title" hidden>
@@ -472,16 +561,18 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-data-audit-6</span>
-<span>MAE / MFE: no disponibles en los CSV actuales · Los costes no se descuentan dos veces</span>
+<span>Versión: 20261105-growth-13</span>
+<span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="help.js?v=20261105-data-audit-6" defer></script>
-<script src="workspace.js?v=20261105-data-audit-6" defer>
+<script src="consistency.js?v=20261105-growth-13" defer></script>
+<script src="table-sort.js?v=20261105-growth-13" defer></script>
+<script src="help.js?v=20261105-growth-13" defer></script>
+<script src="workspace.js?v=20261105-growth-13" defer>
 </script>
-<script src="dashboard.js?v=20261105-data-audit-6" defer>
+<script src="dashboard.js?v=20261105-growth-13" defer>
 </script>
 </body>
 </html>

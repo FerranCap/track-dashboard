@@ -31,11 +31,12 @@ Copia los nuevos exportes CSV a `data/`, confirma los cambios con GitHub Desktop
 
 Las tarjetas, gráficos, tablas y filtros incluyen ayudas al pasar el ratón o enfocarlos con el teclado. En móvil, toca el elemento para consultar la explicación; vuelve a tocarlo o toca fuera para cerrarla. Escape cierra la ayuda. Las barras de Ratios incluyen los valores concretos usados en el cálculo; «x» indica veces, «%» porcentaje y «pp» puntos porcentuales.
 
-El menú lateral muestra nueve vistas: General, Operaciones, Calendario, Análisis, País, Ratios, Riesgo y consistencia, Comparativas y Data. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
+El menú lateral muestra diez vistas: General, Calendario, Comparativas, Análisis, Crecimiento, Ratios, Riesgo y consistencia, País, Tickers y Operaciones. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
 
-En País, **Comprobar tickers pendientes** recarga los últimos datos publicados y abre **Data**. La comprobación también se actualiza al cargar la web. Data contrasta todos los símbolos del historial con la base de emisores, sin aplicar los filtros globales: distingue tickers sin ficha, constitución incompleta, operación sin confirmar y estructura pendiente. Incluye búsqueda, tipo de pendiente, número de operaciones y primera/última fecha. Los países inferidos siguen pendientes y no se asignan automáticamente. Los nuevos CSV deben haberse publicado mediante GitHub Actions para que aparezcan en el historial de la web.
+En País, **Comprobar tickers pendientes** recarga los últimos datos publicados y abre **Tickers**. La comprobación también se actualiza al cargar la web. Tickers contrasta todos los símbolos del historial con la base de emisores, sin aplicar los filtros globales: distingue tickers sin ficha, constitución incompleta, operación sin confirmar y estructura pendiente. Incluye búsqueda, tipo de pendiente, número de operaciones y primera/última fecha. Los países inferidos siguen pendientes y no se asignan automáticamente. Los nuevos CSV deben haberse publicado mediante GitHub Actions para que aparezcan en el historial de la web.
 
 - Calendario permite cambiar de mes y seleccionar una sesión para consultar sus operaciones.
+- Crecimiento muestra beneficio acumulado y mensual, tamaño medio y mediano en acciones y variaciones frente al mes anterior observado. Los datos se agrupan por mes de cierre y respetan los filtros; las cantidades ausentes no se convierten en cero. No se calcula rentabilidad porcentual sin saldo inicial, ni se equiparan acciones con riesgo monetario.
 - Análisis separa horario, símbolos, precio, duración y long/short mediante pestañas.
 - Comparativas cruza los filtros globales con los de cada grupo: fechas, dirección y símbolo. Por defecto compara long frente a short; los grupos pueden solaparse.
 - Ratios distingue la relación ganancia/pérdida realizada del Risk/Reward planificado. Este último no se calcula sin stop y objetivo iniciales.
@@ -44,6 +45,21 @@ En País, **Comprobar tickers pendientes** recarga los últimos datos publicados
 País consulta la [base de emisores](data/reference/ticker-profiles.csv), con una fila por ticker, país y jurisdicción de constitución, país de operación, tipo de valor, VIE y fuentes oficiales. La vista permite separar país de operación confirmado, país de constitución y jurisdicción societaria, buscar emisores y descargar el CSV. Los datos pendientes permanecen sin clasificar; una sede no se convierte automáticamente en país de operación. La base es una instantánea de investigación, no una reconstrucción de todas las reorganizaciones históricas.
 
 La [metodología y los campos](data/reference/README.md) explican los estados de verificación y cómo actualizar las fuentes. GitHub Actions reutiliza la base local; no investiga ni modifica países automáticamente en cada publicación. `data/symbol-countries.json` queda como compatibilidad para símbolos sin ficha en la base; nunca sustituye un estado pendiente de una ficha existente.
+
+## Consistency study calculations
+
+The Risk and Consistency view includes eight studies, all scoped to the active filters:
+
+- Rolling win rate, profit factor and mean PnL use complete windows of 25, 50 and 100 trades sorted by closing timestamp. Overlapping windows are not independent samples.
+- Positive weeks and months use New York closing dates and only periods containing trades. Weeks start on Monday. Boundary periods may be incomplete; inactive periods are omitted from negative-period streaks.
+- Winner dependence removes the best 1, 5 or 10 winning trades and recalculates PnL and profit factor. Concentration uses total positive trade PnL as its denominator.
+- Recovery episodes start at the last equity high, with an initial reference of zero. Completed episodes include the recovery trade. Calendar days and trade counts are reported separately; the open episode is excluded from completed-recovery averages.
+- Monthly mean PnL compares each month's PnL divided by its trade count, alongside monthly win rate and profit factor.
+- Group concentration supports symbols, operating countries, five-minute entry bands and closing weekdays. Weight is positive group PnL divided by the sum of positive group PnLs. Country grouping respects the shared Soft data mode.
+- Post-loss behavior uses the most recent trade already closed at entry time. Overlapping positions do not reveal future results. Share averages exclude missing quantities; waiting times include overnight gaps and use the median. This is an association study, not a causal or monetary-risk model.
+- Resampling draws historical sessions with replacement for 500 paths of 25, 50, 100 or 250 trades, preserving within-session order and trimming the final block. It starts from zero using recorded dollar PnL, without compounding or position resizing. A deterministic seed makes results repeatable. Pointwise P5/P50/P95 lines are not individual paths or confidence intervals. The method ignores dependence between sessions and cannot represent losses absent from the source history. The basic resampling-with-replacement principle is described in the [SciPy bootstrap documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html); this dashboard uses its own session-based scenario calculation, not SciPy confidence intervals.
+
+`node scripts/test_consistency.js` checks calculation fixtures. The Python test suite also runs this check when Node is available.
 
 ## Privacidad
 
