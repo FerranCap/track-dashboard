@@ -13,7 +13,7 @@ Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los C
 5. En GitHub Desktop, revisa los cambios, escribe `Restore complete dashboard` y pulsa **Commit to main** y **Push origin**.
 6. En GitHub.com, abre **Settings > Pages > Build and deployment**, selecciona **Source: GitHub Actions**. Este proyecto despliega mediante Actions; **no uses Deploy from a branch**.
 7. En la pestaña **Actions**, comprueba la ejecución **Build and deploy Track Dashboard**. Si es la primera vez, puedes abrirla y pulsar **Run workflow**.
-8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-ratios-2** y **Datos cargados**. Si hay un error, revisa la consola con F12.
+8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-help-3** y **Datos cargados**. Si hay un error, revisa la consola con F12.
 
 ## Actualización diaria
 
@@ -28,6 +28,8 @@ Copia los nuevos exportes CSV a `data/`, confirma los cambios con GitHub Desktop
 - La fecha de los trades se presenta en hora de Nueva York.
 
 ## Apartados de estudio
+
+Las tarjetas, gráficos, tablas y filtros incluyen ayudas al pasar el ratón o enfocarlos con el teclado. En móvil, toca el elemento para consultar la explicación; vuelve a tocarlo o toca fuera para cerrarla. Escape cierra la ayuda. Las barras de Ratios incluyen los valores concretos usados en el cálculo; «x» indica veces, «%» porcentaje y «pp» puntos porcentuales.
 
 El menú lateral muestra ocho vistas: General, Operaciones, Calendario, Análisis, País, Ratios, Riesgo y consistencia y Comparativas. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
 

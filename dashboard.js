@@ -23,7 +23,7 @@ function classify(t){return t.pnl>EPSILON?'win':t.pnl<-EPSILON?'loss':'scratch';
 function group(rows,fn){const m=new Map();for(const t of rows){const k=fn(t);m.set(k,(m.get(k)||0)+t.pnl);}return [...m].sort((a,b)=>String(a[0]).localeCompare(String(b[0])));}
 function dates(rows){return [...new Set(rows.map(t=>t.date))].sort();}
 function metric(label,value,kind='',detail=''){
-  return `<div class="metric"><div class="metric-label">${esc(label)}</div><div class="metric-value ${kind}">${esc(value)}</div>${detail?`<div class="metric-detail">${esc(detail)}</div>`:''}</div>`;
+  return `<div class="metric" tabindex="0" ${helpAttributes(helpText(label))}><div class="metric-label">${esc(label)}<span class="help-mark" aria-hidden="true">ⓘ</span></div><div class="metric-value ${kind}">${esc(value)}</div>${detail?`<div class="metric-detail">${esc(detail)}</div>`:''}</div>`;
 }
 function statistics(rows){
   const wins=rows.filter(t=>classify(t)==='win'),losses=rows.filter(t=>classify(t)==='loss'),scratches=rows.filter(t=>classify(t)==='scratch');
@@ -118,7 +118,10 @@ const chartConfigs = new Map();
 function renderChart(id, series, opts = {}) {
   const element = $(id);
   chartConfigs.set(id, { series, opts });
-  element.innerHTML = svgChart(series, { ...opts, width: element.clientWidth || 800, height: element.clientHeight || 265 });
+  const explanation = chartHelp(id, opts);
+  element.setAttribute('data-help', explanation);
+  element.setAttribute('tabindex', '0');
+  element.innerHTML = svgChart(series, { ...opts, explanation, width: element.clientWidth || 800, height: element.clientHeight || 265 });
 }
 function refreshCharts() {
   for (const [id, { series, opts }] of chartConfigs) {
@@ -143,6 +146,10 @@ function svgChart(series,opts={}){
   const Y=v=>t+(high-v)/(high-low)*plotH;
   const pad=v=>Number(v.toFixed(2)).toLocaleString('en-US');
   const valueLabel=v=>opts.currency?moneyFormat.format(v):`${pad(v)}${opts.unit||''}`;
+  const pointHelp = point => {
+    const meaning = opts.unit === 'x' ? ` Por cada $1 de pérdida media, la ganancia media fue de ${money(point[1])}.` : '';
+    return `${point[0]}: ${valueLabel(point[1])}.${meaning}${point[2] ? ` ${point[2]}` : ''}\n\n${opts.explanation || chartHelp('', opts)}`;
+  };
   let shapes='';
   for(let i=0;i<=4;i++){
     const v=low+(high-low)*i/4,y=Y(v);
@@ -153,7 +160,7 @@ function svgChart(series,opts={}){
     const arr=s.values;if(!arr.length)continue;
     if(opts.bar){
       const step=plotW/count,width=Math.max(.75,Math.min(45,step*.73));
-      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}"><title>${esc(p[0])}: ${esc(valueLabel(v))}</title></rect>`;}).join('');
+      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}" ${helpAttributes(pointHelp(p))}></rect>`;}).join('');
     }else{
       const segments=[];
       for(let i=0;i<arr.length;i++){
@@ -163,7 +170,7 @@ function svgChart(series,opts={}){
       shapes+=`<path d="${segments.join(' ')}" stroke="${s.color||'#29d17e'}" stroke-width="1.3" vector-effect="non-scaling-stroke" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
       if(arr.length===1)shapes+=`<circle cx="${X(0)}" cy="${Y(arr[0][1])}" r="4" fill="${s.color||'#29d17e'}"/>`;
       const every=Math.max(1,Math.floor(arr.length/70));
-      for(let i=0;i<arr.length;i+=every){shapes+=`<circle cx="${X(i)}" cy="${Y(arr[i][1])}" r="7" fill="transparent"><title>${esc(arr[i][0])}: ${esc(valueLabel(arr[i][1]))}</title></circle>`;}
+      for(let i=0;i<arr.length;i+=every){shapes+=`<circle cx="${X(i)}" cy="${Y(arr[i][1])}" r="7" fill="transparent" ${helpAttributes(pointHelp(arr[i]))}></circle>`;}
     }
   }
   const labels=series.find(s=>s.values.length===count).values;
@@ -173,7 +180,7 @@ function svgChart(series,opts={}){
     const index=ticks===1?0:Math.round(j*(labels.length-1)/(ticks-1));
     const full=opts.labels?.[index]||labels[index][0],shown=chartLabel(full);
     const anchor=ticks===1?'middle':j===0?'start':j===ticks-1?'end':'middle';
-    shapes+=`<text x="${X(index)}" y="${H-12}" fill="#97aec8" font-size="11" text-anchor="${anchor}"><title>${esc(full)}</title>${esc(shown)}</text>`;
+    shapes+=`<text x="${X(index)}" y="${H-12}" fill="#97aec8" font-size="11" text-anchor="${anchor}" ${helpAttributes(`${full}. ${opts.explanation || chartHelp('',opts)}`)}>${esc(shown)}</text>`;
   }
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(opts.title||'Trading chart')}">${shapes}</svg>`;
 }
@@ -207,7 +214,7 @@ function renderSide(id,rows,title,kind){
     ['Avg Loss',money(s.lossAvg),'negative'],['Profit Factor',num(s.pf)],['Trading Days',String(daily.length)],
     ['Best Day',money(sorted.length?Math.max(...sorted):null),'positive'],['Worst Day',money(sorted.length?Math.min(...sorted):null),'negative']
   ];
-  $(id).innerHTML=`<div class="side-title ${kind}">${title}</div><div class="side-grid">${items.map(([label,value,cls])=>`<div><div class="side-cell-label">${esc(label)}</div><div class="side-cell-value ${cls||''}">${esc(value)}</div></div>`).join('')}</div>`;
+  $(id).innerHTML=`<div class="side-title ${kind}">${title}</div><div class="side-grid">${items.map(([label,value,cls])=>`<div tabindex="0" ${helpAttributes(helpText(label))}><div class="side-cell-label">${esc(label)}<span class="help-mark" aria-hidden="true">ⓘ</span></div><div class="side-cell-value ${cls||''}">${esc(value)}</div></div>`).join('')}</div>`;
 }
 function timeBand(t){const hm=(t.opened||'').slice(11,16);if(!/^\d{2}:\d{2}$/.test(hm))return null;const m=Number(hm.slice(0,2))*60+Number(hm.slice(3,5));if(!Number.isFinite(m))return null;const slot=Math.floor(m/30)*30;const f=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');return `${f(slot)}–${f(slot+30)}`;}
 function renderTime(rows){
@@ -225,7 +232,7 @@ function renderPrice(rows){
   $('price-caption').textContent=best&&worst?`Mejor: ${best.name} (${money(sum(best.rows))}) · Peor: ${worst.name} (${money(sum(worst.rows))})`:'Sin precios de entrada disponibles';
   $('price-table').innerHTML=tableMarkup(['Rango','Trades','Win Rate','PnL Total','PnL Medio'],bands.map(b=>[b.name,b.rows.length,pct(b.rows.filter(t=>classify(t)==='win').length,b.rows.length),signed(sum(b.rows)),b.rows.length?money(sum(b.rows)/b.rows.length):'—']));
 }
-function tableMarkup(headers,rows){return `<table><thead><tr>${headers.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((v,i)=>`<td class="${i>=3&&String(v).startsWith('-')?'negative':i>=3&&String(v).startsWith('+')?'positive':''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
+function tableMarkup(headers,rows){return `<table><thead><tr>${headers.map(x=>`<th tabindex="0" ${helpAttributes(helpText(x))}>${esc(x)}<span class="help-mark" aria-hidden="true">ⓘ</span></th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((v,i)=>`<td ${helpAttributes(`${headers[i]}: ${v}. ${helpText(headers[0]==='Métrica'?row[0]:headers[i])}`)} class="${i>=3&&String(v).startsWith('-')?'negative':i>=3&&String(v).startsWith('+')?'positive':''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
 function renderWeekdays(rows){
   const names=['Lunes','Martes','Miércoles','Jueves','Viernes'];
   const groups=names.map((name,i)=>({name,rows:rows.filter(t=>{const [y,m,d]=t.date.split('-').map(Number);return (new Date(Date.UTC(y,m-1,d)).getUTCDay()+6)%7===i;})}));
@@ -243,7 +250,7 @@ function renderBest(){
   const rows=filtered.filter(t=>t.date>=from&&t.date<=to);
   if(!rows.length){$('best-results').textContent='No hay operaciones en ese rango.';return;}
   const ordered=[...rows].sort((a,b)=>b.pnl-a.pnl);
-  const content=(t,title)=>`<div class="best-card"><h4>${esc(title)}</h4><div class="big ${cssSign(t.pnl)}">${esc(signed(t.pnl))}</div><small>${esc(t.date)} · ${esc(t.symbol)} · ${t.side==='BUY'?'Long':'Short'} · Entrada: ${esc(t.entryPrice===null?'N/D':money(t.entryPrice))}</small></div>`;
+  const content=(t,title)=>`<div class="best-card" tabindex="0" ${helpAttributes(`Se ordenan las operaciones del intervalo por su PnL: se muestra el mayor o el menor resultado individual. ${HELP_PNL}`)}><h4>${esc(title)}<span class="help-mark" aria-hidden="true">ⓘ</span></h4><div class="big ${cssSign(t.pnl)}">${esc(signed(t.pnl))}</div><small>${esc(t.date)} · ${esc(t.symbol)} · ${t.side==='BUY'?'Long':'Short'} · Entrada: ${esc(t.entryPrice===null?'N/D':money(t.entryPrice))}</small></div>`;
   $('best-results').innerHTML=`<div class="best-columns">${content(ordered[0],'Mejor trade')}${content(ordered[ordered.length-1],'Peor trade')}</div>`;
 }
 function populateFilters(rows){
@@ -269,7 +276,11 @@ function renderTable(){
   const matches=query?filtered.filter(t=>t.symbol.toLowerCase().includes(query)):filtered;
   const maxPage=Math.max(0,Math.ceil(matches.length/pageSize)-1);page=Math.max(0,Math.min(page,maxPage));
   const current=matches.slice().reverse().slice(page*pageSize,(page+1)*pageSize);
-  $('trade-rows').innerHTML=current.length?current.map(t=>`<tr><td>${esc(t.date)}</td><td><strong>${esc(t.symbol)}</strong></td><td><span class="pill ${t.side==='SELL'?'short':''}">${t.side==='BUY'?'Long':'Short'}</span></td><td>${esc(t.opened.slice(11,19))}</td><td>${esc(t.closed.slice(11,19))}</td><td>${esc(t.entryPrice===null?'—':money(t.entryPrice))}</td><td>${esc(t.entryQty===null?'—':num(t.entryQty,0))}</td><td>${esc(num(t.holdMinutes,1))} min</td><td class="number ${cssSign(t.pnl)}">${esc(signed(t.pnl))}</td></tr>`).join(''):'<tr><td colspan="9">Sin operaciones</td></tr>';
+  const columns=['Fecha','Símbolo','Dirección','Apertura NY','Cierre NY','Entrada','Shares','Duración','PnL'];
+  $('trade-rows').innerHTML=current.length?current.map(t=>{
+    const cells=[esc(t.date),`<strong>${esc(t.symbol)}</strong>`,`<span class="pill ${t.side==='SELL'?'short':''}">${t.side==='BUY'?'Long':'Short'}</span>`,esc(t.opened.slice(11,19)),esc(t.closed.slice(11,19)),esc(t.entryPrice===null?'—':money(t.entryPrice)),esc(t.entryQty===null?'—':num(t.entryQty,0)),`${esc(num(t.holdMinutes,1))} min`,esc(signed(t.pnl))];
+    return `<tr>${cells.map((content,index)=>`<td ${helpAttributes(helpText(columns[index]))} class="${index===8?`number ${cssSign(t.pnl)}`:''}">${content}</td>`).join('')}</tr>`;
+  }).join(''):'<tr><td colspan="9">Sin operaciones</td></tr>';
   $('table-count').textContent=`${integerFormat.format(matches.length)} operaciones`;
   $('pagination-info').textContent=matches.length?`${page*pageSize+1}–${Math.min((page+1)*pageSize,matches.length)} de ${matches.length}`:'0 operaciones';
   $('prev').disabled=page===0;$('next').disabled=page>=maxPage;
@@ -305,6 +316,7 @@ $('prev').addEventListener('click',()=>{page--;renderTable();});
 $('next').addEventListener('click',()=>{page++;renderTable();});
 $('refresh').addEventListener('click',loadData);
 $('best-search').addEventListener('click',renderBest);
+initializeHelp();
 initializeWorkspace();
 window.addEventListener('resize', refreshCharts);
 if (typeof ResizeObserver !== 'undefined') {

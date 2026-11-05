@@ -136,8 +136,8 @@ function renderRatioStudy(prefix, groups) {
     s.wins.length ? money(s.winAvg) : '—', s.losses.length ? money(s.lossAvg) : '—',
     rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más'
   ])) : '<p class="muted">Sin grupos con el mínimo de operaciones seleccionado.</p>';
-  renderChart(`${prefix}-winrate`, [{ values: groups.map(g => [g.name, 100 * g.stats.wins.length / g.count]), color: '#5c9bff' }], { bar: true, unit: '%', max: 100, title: 'Win rate por grupo' });
-  renderChart(`${prefix}-rr`, [{ values: groups.filter(g => g.rr !== null).map(g => [g.name, g.rr]), color: '#a68afb' }], { bar: true, unit: 'x', title: 'Relación ganancia media / pérdida media por grupo', empty: 'RR no disponible: cada grupo necesita operaciones ganadoras y perdedoras.' });
+  renderChart(`${prefix}-winrate`, [{ values: groups.map(g => [g.name, 100 * g.stats.wins.length / g.count, `${g.stats.wins.length} ganadoras ÷ ${g.count} operaciones × 100. Incluye ${g.stats.scratches.length} a cero.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }], { bar: true, unit: '%', max: 100, title: 'Win rate por grupo' });
+  renderChart(`${prefix}-rr`, [{ values: groups.filter(g => g.rr !== null).map(g => [g.name, g.rr, `Cálculo: ${money(g.stats.winAvg)} de ganancia media ÷ ${money(Math.abs(g.stats.lossAvg))} de pérdida media absoluta. ${g.stats.wins.length} ganadoras y ${g.stats.losses.length} perdedoras; ${g.stats.scratches.length} a cero excluidas del RR.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#a68afb' }], { bar: true, unit: 'x', title: 'Relación ganancia media / pérdida media por grupo', empty: 'RR no disponible: cada grupo necesita operaciones ganadoras y perdedoras.' });
 }
 
 function renderRatioStudies(rows) {
@@ -173,7 +173,7 @@ function renderCalendar(rows) {
     const date = `${month}-${String(day).padStart(2, '0')}`;
     const trades = monthRows.filter(t => t.date === date);
     const pnl = daily.get(date);
-    html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}" data-day="${date}" aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} aria-label="${date}, ${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : '<small>—</small>'}</button>`;
+    html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}" data-day="${date}" ${helpAttributes(`${date}: ${trades.length} operaciones. Se suma el PnL de las operaciones cerradas este día en Nueva York. Selecciona el día para consultar sus operaciones. ${HELP_PNL}`)} aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} aria-label="${date}, ${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : '<small>—</small>'}</button>`;
   }
   $('calendar-grid').innerHTML = html;
   const selected = rows.filter(t => t.date === selectedCalendarDay && t.date.startsWith(month));
