@@ -14,6 +14,8 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/tickers identificados/, 'Tickers distintos del historial que tienen país de constitución identificado. La ausencia de jurisdicción detallada, país de operación, sede, ADR o VIE no cambia esta clasificación.'],
+    [/tickers sin identificar/, 'Tickers distintos del historial sin país de constitución identificado. Este es el único dato que determina Sin identificar y Sin clasificar en los estudios por país.'],
     [/variacion pnl absoluto medio/, 'Media de |PnL| del mes actual menos la media de |PnL| del anterior mes observado, en USD. No utiliza precio ni shares. Puede aumentar tanto por mayores ganancias como por mayores pérdidas.'],
     [/pnl absoluto medio/, 'Media aritmética de |PnL|, tomando primero el valor absoluto de cada trade. +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Incluye los trades a cero y los costes ya incluidos en PnL. No se divide por precio ni por shares.'],
     [/pnl absoluto mediano/, 'Mediana de |PnL| de cada trade en dólares. Se aplica primero el valor absoluto por operación y luego se calcula el percentil 50. No utiliza precio ni shares.'],
@@ -43,7 +45,6 @@ function helpText(label) {
     [/^p5$|^p95$|mediana.*p50/, 'Percentiles 5, 50 y 95 de los escenarios. La mediana divide la muestra en dos mitades. En el gráfico son percentiles separados en cada paso; no son trayectorias individuales ni intervalos de confianza.'],
     [/racha perdedora maxima/, 'Máxima cantidad de trades negativos consecutivos en cada escenario; un trade a cero interrumpe la racha. Los percentiles de esta cantidad pueden interpolarse y tener decimales.'],
     [/^escenario$/, 'Comparación histórica al excluir las mejores operaciones ganadoras, sin alterar el registro original.'],
-    [/provisionales/, 'Número de operaciones del grupo cuyo país de operación procede de una atribución provisional de la base. Solo se incluyen al activar Soft data. Forman parte del total de operaciones y de sus métricas, pero siguen pendientes de confirmación en Tickers.'],
     [/tickers del historial/, 'Número de símbolos distintos en todo el historial publicado. Esta comprobación no aplica los filtros de análisis.'],
     [/tickers sin ficha/, 'Tickers del historial que no tienen una fila en la base de emisores. Se incluyen como nuevos pendientes, aunque tengan varias operaciones.'],
     [/constitucion incompleta/, 'Tickers sin país o sin jurisdicción de constitución en su ficha, incluidos los que aún no tienen ficha. Se comprueba todo el historial.'],
@@ -93,8 +94,8 @@ function helpText(label) {
     [/entrada|entry/, 'Precio de entrada = suma de (precio × cantidad) de las ejecuciones de entrada ÷ suma de sus cantidades. Es un precio medio ponderado, en USD.'],
     [/dias operados|trading days/, 'Número de fechas de cierre distintas con al menos una operación. Las fechas se expresan en la zona horaria de Nueva York.'],
     [/cobertura/, 'Cobertura = operaciones con país identificado ÷ total de operaciones × 100. Los símbolos sin país siguen incluidos como «Sin clasificar».'],
-    [/paises identificados/, 'Número de grupos distintos con país disponible para la dimensión seleccionada: operación confirmada, constitución o jurisdicción. No se deduce a partir de la bolsa.'],
-    [/sin clasificar/, 'Operaciones para las que no hay país de la empresa emisora verificado. No se presupone ningún país a partir del símbolo.'],
+    [/paises identificados/, 'Número de países de constitución distintos entre las operaciones filtradas. Solo se usa el país registrado en la ficha del emisor; no se deduce de la bolsa, sede ni país de operación.'],
+    [/sin clasificar/, 'Operaciones de tickers sin país de constitución identificado. La ausencia de país de operación, jurisdicción detallada o VIE no las deja sin clasificar.'],
     [/simbolos/, 'Número de símbolos distintos entre las operaciones seleccionadas.'],
     [/ganadoras|winning trades/, 'Número de operaciones con PnL mayor que $0,000001. Si aparece un porcentaje, se divide este número por el total de operaciones.'],
     [/perdedoras|losing trades/, 'Número de operaciones con PnL menor que −$0,000001. Si aparece un porcentaje, se divide este número por el total de operaciones.'],
@@ -104,10 +105,10 @@ function helpText(label) {
     [/operaciones|trades/, 'Número de operaciones cerradas únicas, una por QuantTradeId. Varias ejecuciones de una misma operación no cuentan como operaciones distintas.'],
     [/apertura|cierre|fecha/, 'Fecha u hora del evento indicado, convertida a America/New_York y con el cambio de horario estacional correspondiente. El día de una operación es el de su cierre.'],
     [/direccion/, 'Long corresponde a TradeSide BUY y Short a TradeSide SELL. Cada grupo conserva las operaciones de esa dirección.'],
-    [/pais/, 'El país de constitución y el país de operación son campos distintos. Se consulta la base de emisores y se agrupa según la dimensión seleccionada; las inferencias no se incluyen como operación confirmada. Una empresa puede estar sujeta a normas de varias jurisdicciones.'],
+    [/pais/, 'Los estudios por país se agrupan exclusivamente por país de constitución de la entidad cotizada. Operación, sede, jurisdicción detallada, tipo de valor y VIE se conservan como información adicional en Tickers y no afectan a la identificación ni a los resultados por país.'],
     [/grupo|rango|dia|simbolo/, 'Criterio que agrupa las operaciones de esta fila. Las demás columnas se calculan únicamente con las operaciones del grupo y los filtros seleccionados.']
   ];
-  const scope = /^(tickers del historial|tickers sin ficha|constitucion incompleta|operacion sin confirmar|datos pendientes|ticker)$/.test(key) ? ' Se comprueba todo el historial publicado, sin filtros de análisis.' : HELP_SCOPE;
+  const scope = /^(tickers del historial|tickers identificados|tickers sin identificar|tickers sin ficha|constitucion incompleta|operacion sin confirmar|datos pendientes|ticker)$/.test(key) ? ' Se comprueba todo el historial publicado, sin filtros de análisis.' : HELP_SCOPE;
   return (rules.find(([pattern]) => pattern.test(key))?.[1] || 'Dato del conjunto de operaciones seleccionado. «—» o «N/D» indican que faltan datos o que el cálculo no está definido.') + scope;
 }
 
@@ -193,19 +194,14 @@ function initializeHelp() {
     'ratio-time-interval': 'Agrupa por hora de entrada en Nueva York, en franjas de 5 minutos por defecto; también puedes elegir 30 o 60 minutos. El inicio está incluido y el final excluido: 09:30–09:35 incluye 09:30, pero no 09:35.',
     'ratio-min-trades': 'Muestra únicamente los grupos con al menos este número de operaciones. Se aplica al estudio por horario y al estudio por país.',
     'calendar-month': 'Selecciona el mes de las fechas de cierre. Cada día muestra la suma del PnL y el número de operaciones cerradas ese día.',
-    'country-dimension': 'Separa país de operación, país de constitución y jurisdicción societaria. La sede no sustituye al país de operación. Soft data permite incluir atribuciones provisionales de operación, sin convertirlas en confirmadas.',
-    'issuer-search': 'Busca un ticker o nombre del emisor dentro de las operaciones que cumplen los filtros globales.',
-    'analysis-country-dimension': 'Agrupa por país de operación, país de constitución o jurisdicción societaria. Soft data solo afecta al país de operación.',
-    'country-soft-data': 'Incluye el país de operación provisional ya registrado en la base, aunque no esté confirmado. No usa la sede ni el domicilio legal como sustituto. El modo se comparte con Análisis y Ratios; los datos originales y los pendientes de Tickers no cambian.',
-    'analysis-country-soft-data': 'Comparte el modo Soft data con País y Ratios. Incluye atribuciones provisionales existentes, identificadas en la columna Provisionales. Los tickers sin país atribuido siguen sin clasificar.',
-    'ratio-country-soft-data': 'Recalcula win rate, RR y el resto de ratios incluyendo atribuciones provisionales existentes. El modo se comparte con País y Análisis. No convierte esas atribuciones en datos confirmados.',
+    'issuer-search': 'Busca un ticker o nombre de emisor en todo el historial publicado. Las fichas de Tickers no se limitan por los filtros de análisis.',
     'consistency-window': 'Selecciona 25, 50 o 100 operaciones para los gráficos móviles de PnL medio y win rate. La tabla conserva las tres ventanas. Cada punto usa cierres consecutivos y requiere la ventana completa.',
-    'consistency-concentration': 'Agrupa por ticker, país de operación, franja de entrada de 5 minutos en Nueva York o día de cierre. El peso se calcula sobre la suma de beneficios positivos de los grupos; las pérdidas no se usan como denominador.',
+    'consistency-concentration': 'Agrupa por ticker, país de constitución, franja de entrada de 5 minutos en Nueva York o día de cierre. El peso se calcula sobre la suma de beneficios positivos de los grupos; las pérdidas no se usan como denominador.',
     'consistency-horizon': 'Número de operaciones de cada uno de los 500 escenarios. Se sortean sesiones históricas con reemplazo, conservando el orden de sus trades y recortando el último bloque. La misma selección produce resultados repetibles. No es una previsión ni una rentabilidad sobre capital.',
     'country-check-pending': 'Recarga los últimos datos publicados, compara todos sus tickers con la base de emisores y abre la lista de pendientes en Tickers. Conserva los filtros de análisis.',
     'data-check-pending': 'Actualiza los datos publicados y repite la comprobación de todos los tickers del historial. No investiga ni asigna países automáticamente.',
     'data-pending-search': 'Busca un ticker o nombre de empresa en los pendientes de todo el historial, sin aplicar los filtros globales de análisis.',
-    'data-pending-kind': 'Filtra los pendientes: sin ficha, constitución, país de operación o estructura. Las inferencias de país siguen pendientes de confirmación.',
+    'data-pending-kind': 'Muestra tickers sin país de constitución o solo aquellos sin ficha. Otros campos incompletos se conservan en la base de emisores y no cuentan como tickers sin identificar.',
     'best-from': 'Inicio inclusivo del rango de fechas de cierre para buscar la mejor y peor operación; respeta los filtros globales.',
     'best-to': 'Final inclusivo del rango de fechas de cierre para buscar la mejor y peor operación; respeta los filtros globales.',
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'

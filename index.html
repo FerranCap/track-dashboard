@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-growth-pnl-14">
+  <link rel="stylesheet" href="styles.css?v=20261105-incorporation-only-16">
 </head>
 <body>
 <aside class="sidebar">
@@ -272,8 +272,6 @@
 <div data-analysis-panel="country" hidden>
 <section class="section panel">
 <h2>Resultados por país</h2>
-<label class="country-dimension">Agrupar resultados por<select id="analysis-country-dimension"><option value="operations">País de operación</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
-<label class="soft-data-control"><input id="analysis-country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
 <p id="analysis-country-note" class="mini-caption"></p>
 <div id="analysis-country-table" class="table-wrap"></div>
 </section>
@@ -345,9 +343,7 @@
 <section class="section panel">
 <h2>Cobertura por país</h2>
 <div class="audit-actions"><button id="country-check-pending" type="button" disabled>Comprobar tickers pendientes</button><a href="#data">Ver pendientes en Tickers</a></div>
-<p>Constitución legal, operación principal y estructura del emisor se investigan por separado.</p>
-<label class="country-dimension">Agrupar resultados por<select id="country-dimension"><option value="operations">País de operación</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
-<label class="soft-data-control"><input id="country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
+<p>Los resultados se agrupan exclusivamente por país de constitución. El resto de información del emisor se conserva en Tickers.</p>
 <div id="country-stats" class="metrics three">
 </div>
 <p id="country-note" class="mini-caption">
@@ -360,24 +356,25 @@
 <div id="country-table" class="table-wrap">
 </div>
 </section>
-<section class="section panel">
-<div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
-<p>Los campos pendientes se conservan como desconocidos. Las inferencias por instalaciones se muestran identificadas y no se incluyen en los resultados por país de operación confirmado. La clasificación es una instantánea de investigación; no reconstruye todos los cambios históricos de cada empresa.</p>
-<label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
-<div id="issuer-table" class="table-wrap issuer-table"></div>
-</section>
+
 </div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <div class="panel-head"><div><h2>Calidad de la base de datos</h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
-<p>Se contrasta el historial publicado con la base de emisores. Un ticker nuevo se señala como sin ficha; los datos aún no confirmados siguen pendientes y no se completan por suposición.</p>
+<p>Se contrasta el historial publicado con la base de emisores. Solo se cuentan como sin identificar los tickers que no tienen país de constitución. Los demás campos son informativos y no afectan a los resultados por país.</p>
 <div id="data-audit-stats" class="metrics four"></div>
 <p id="data-audit-status" role="status" class="mini-caption">Esperando a que se carguen los datos.</p>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>Tickers con datos pendientes</h2><span id="data-pending-count" class="mini-caption"></span></div>
-<div class="data-audit-filters"><label>Buscar ticker o empresa<input id="data-pending-search" type="search" placeholder="Símbolo o empresa"></label><label>Tipo de pendiente<select id="data-pending-kind"><option value="country">País sin confirmar</option><option value="new">Ticker sin ficha</option><option value="incorporation">Constitución incompleta</option><option value="operations">Operación sin confirmar</option><option value="structure">Estructura pendiente</option><option value="all">Todos los pendientes</option></select></label></div>
+<div class="panel-head"><h2>Tickers sin país de constitución</h2><span id="data-pending-count" class="mini-caption"></span></div>
+<div class="data-audit-filters"><label>Buscar ticker o empresa<input id="data-pending-search" type="search" placeholder="Símbolo o empresa"></label><label>Tipo de pendiente<select id="data-pending-kind"><option value="country">País de constitución sin identificar</option><option value="new">Ticker sin ficha</option></select></label></div>
 <div id="data-pending-table" class="table-wrap issuer-table"></div>
+</section>
+<section class="section panel">
+<div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
+<p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede, tipo de valor y VIE se conservan como información adicional; pueden estar incompletos sin dejar el ticker sin identificar.</p>
+<label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
+<div id="issuer-table" class="table-wrap issuer-table"></div>
 </section>
 </div>
 <div id="view-growth" class="view" aria-labelledby="page-title" hidden>
@@ -432,7 +429,6 @@
 </section>
 <section class="section panel">
 <h2>Win rate y RR por país</h2>
-<label class="soft-data-control"><input id="ratio-country-soft-data" type="checkbox"><span>Soft data<small>Incluir países de operación provisionales</small></span></label>
 <p id="ratio-country-note" class="mini-caption"></p>
 <div class="two-col chart-row"><div><h3>Win rate por país (%)</h3><div id="ratio-country-winrate" class="chart"></div></div><div><h3>RR realizado por país</h3><div id="ratio-country-rr" class="chart"></div></div></div>
 <div id="ratio-country-table" class="table-wrap"></div>
@@ -489,7 +485,7 @@
 </section>
 <section class="section panel">
 <div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de operación</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
-<p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se comparte el modo Soft data de País, Análisis y Ratios; lo desconocido conserva su propio grupo.</p>
+<p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar.</p>
 <div id="consistency-concentration-table" class="table-wrap study-scroll"></div>
 </section>
 <section class="section panel">
@@ -566,18 +562,18 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-growth-pnl-14</span>
+<span>Versión: 20261105-incorporation-only-16</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="consistency.js?v=20261105-growth-pnl-14" defer></script>
-<script src="table-sort.js?v=20261105-growth-pnl-14" defer></script>
-<script src="help.js?v=20261105-growth-pnl-14" defer></script>
-<script src="workspace.js?v=20261105-growth-pnl-14" defer>
+<script src="consistency.js?v=20261105-incorporation-only-16" defer></script>
+<script src="table-sort.js?v=20261105-incorporation-only-16" defer></script>
+<script src="help.js?v=20261105-incorporation-only-16" defer></script>
+<script src="workspace.js?v=20261105-incorporation-only-16" defer>
 </script>
-<script src="dashboard.js?v=20261105-growth-pnl-14" defer>
+<script src="dashboard.js?v=20261105-incorporation-only-16" defer>
 </script>
 </body>
 </html>

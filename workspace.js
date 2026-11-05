@@ -14,7 +14,6 @@ const VIEW_DETAILS = {
 };
 let selectedCalendarDay = '';
 let issuerAudit = null;
-let includeSoftCountryData = false;
 
 function activateView() {
   const key = location.hash.slice(1);
@@ -41,13 +40,11 @@ function groupedStatistics(rows, key) {
   return [...groups].sort((a, b) => sum(b[1]) - sum(a[1]));
 }
 
-function breakdownTable(groups, showProvisional = false) {
+function breakdownTable(groups) {
   const headers = ['Grupo', 'Operaciones', 'Win rate', 'PnL', 'PnL medio', 'Profit factor'];
-  if (showProvisional) headers.push('Provisionales');
   return tableMarkup(headers, groups.map(([name, rows]) => {
     const s = statistics(rows);
     const values = [name, rows.length, pct(s.wins.length, rows.length), signed(s.pnl), rows.length ? money(s.expectancy) : '—', ratioValue(s.pf)];
-    if (showProvisional) values.push(rows.filter(isProvisionalCountry).length);
     return values;
   }));
 }
@@ -132,54 +129,41 @@ function renderGrowth(rows) {
   })) : '<p class="muted">Sin operaciones para estos filtros.</p>';
 }
 
-function tradeCountry(trade, dimension) {
-    const profile = dataset?.tickerProfiles?.[trade.symbol];
-    if (dimension === 'incorporation') return profile?.incorporation_country || '';
-    if (dimension === 'jurisdiction') return profile?.incorporation_country ? `${profile.incorporation_country} · ${profile.incorporation_jurisdiction}` : '';
-    return trade.country || (includeSoftCountryData ? profile?.operating_country?.trim() : '') || '';
+function incorporationCountry(profile) {
+  const value = typeof profile?.incorporation_country === 'string' ? profile.incorporation_country.trim() : '';
+  return ['unknown', 'unverified', 'n/a', 'n/d', 'sin confirmar', 'sin clasificar', '—', '-'].includes(value.toLowerCase()) ? '' : value;
 }
 
-function isProvisionalCountry(trade) {
-  return !trade.country && Boolean(dataset?.tickerProfiles?.[trade.symbol]?.operating_country?.trim());
-}
-
-function countryDataDescription(rows) {
-  return includeSoftCountryData
-    ? `Soft data activo: se incluyen países de operación provisionales de la base (${rows.filter(isProvisionalCountry).length} operaciones). Pueden ser inferencias sin confirmar; no se sustituye el país por la sede ni por la constitución.`
-    : 'Solo se usa el país de operación confirmado mediante una declaración explícita o una revisión documentada.';
+function tradeCountry(trade) {
+  return incorporationCountry(dataset?.tickerProfiles?.[trade.symbol]);
 }
 
 function renderAnalysisCountries(rows) {
-  const dimension = $('analysis-country-dimension').value;
-  const groups = groupedStatistics(rows, trade => tradeCountry(trade, dimension) || 'Sin clasificar');
-  $('analysis-country-table').innerHTML = groups.length ? breakdownTable(groups, includeSoftCountryData && dimension === 'operations') : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  $('analysis-country-note').textContent = dimension === 'incorporation' || dimension === 'jurisdiction'
-    ? 'La constitución identifica la legislación societaria de la entidad cotizada; puede diferir de su país de actividad. Se aplican los filtros generales.'
-    : `${countryDataDescription(rows)} Los tickers sin atribución permanecen en Sin clasificar. Se aplican los filtros generales.`;
+  const groups = groupedStatistics(rows, trade => tradeCountry(trade) || 'Sin clasificar');
+  $('analysis-country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  $('analysis-country-note').textContent = 'Se agrupa exclusivamente por país de constitución. Solo quedan sin clasificar los tickers sin ese país identificado; operación, sede, ADR y VIE no afectan a esta clasificación. Se aplican los filtros generales.';
 }
 
 function renderCountries(rows) {
-  const dimension = $('country-dimension').value;
-  const countryOf = trade => tradeCountry(trade, dimension);
+  const countryOf = tradeCountry;
   const known = rows.filter(t => countryOf(t));
   $('country-stats').innerHTML = [
     ['Países identificados', new Set(known.map(countryOf)).size],
     ['Cobertura', pct(known.length, rows.length)], ['Sin clasificar', rows.length - known.length]
   ].map(item => metric(...item)).join('');
-  $('country-note').textContent = `${dimension === 'incorporation' || dimension === 'jurisdiction' ? 'Se usa la constitución legal, que puede diferir del país de operación. Soft data solo afecta a la agrupación por operación.' : countryDataDescription(rows)} Los datos proceden de la base de emisores enlazada abajo; las operaciones sin clasificar permanecen en el total.`;
+  $('country-note').textContent = 'País de constitución de la entidad cotizada, según la base de emisores. Solo la ausencia de este país genera Sin clasificar. Los datos adicionales se conservan en Tickers y no modifican los resultados por país.';
   const groups = groupedStatistics(rows, t => countryOf(t) || 'Sin clasificar');
-  $('country-table').innerHTML = groups.length ? breakdownTable(groups, includeSoftCountryData && dimension === 'operations') : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país', explanation: `${HELP_PNL} Se agrupa por ${dimension === 'incorporation' ? 'país de constitución' : dimension === 'jurisdiction' ? 'jurisdicción de constitución' : `país de operación. ${countryDataDescription(rows)}`}. No implica que una empresa esté sujeta exclusivamente a las leyes de ese lugar.` });
-  renderIssuerProfiles(rows);
+  $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país de constitución', explanation: `${HELP_PNL} Se agrupa exclusivamente por país de constitución. La operación principal, sede, ADR y VIE son informativos y no afectan a esta agrupación. Solo la ausencia del país de constitución genera Sin clasificar.` });
 }
 
 function renderIssuerProfiles(rows) {
   const symbols = new Set(rows.map(trade => trade.symbol));
   const query = $('issuer-search').value.toLowerCase().trim();
   const profiles = Object.values(dataset?.tickerProfiles || {}).filter(profile => symbols.has(profile.symbol) && (!query || `${profile.symbol} ${profile.issuer_name}`.toLowerCase().includes(query))).sort((a, b) => a.symbol.localeCompare(b.symbol));
-  const known = profiles.filter(profile => profile.operating_country && ['explicit_filing', 'reviewed'].includes(profile.operations_status)).length;
+  const known = profiles.filter(profile => incorporationCountry(profile)).length;
   const checked = [...new Set(profiles.map(profile => profile.checked_on).filter(Boolean))].sort().at(-1);
-  $('issuer-count').textContent = `${profiles.length} emisores · ${known} con país de operación confirmado${checked ? ` · Consulta de fuentes: ${checked}` : ''}`;
+  $('issuer-count').textContent = `${profiles.length} emisores · ${known} con país de constitución identificado${checked ? ` · Consulta de fuentes: ${checked}` : ''}`;
   const status = { explicit_filing: 'Declaración en documento', reviewed: 'Revisión documentada', facilities_inference: 'Inferido por instalaciones', unverified: 'Pendiente' };
   const security = { direct_equity: 'Acciones directas', ADS: 'ADS / ADR', unknown: 'Sin confirmar' };
   const vie = { yes_explicit: 'Sí, documentada', no_explicit: 'No, declaración explícita', unknown: 'Sin confirmar' };
@@ -202,18 +186,19 @@ function auditIssuerData(source) {
   return [...symbols.values()].sort((a, b) => a.symbol.localeCompare(b.symbol)).map(entry => {
     const profile = source.tickerProfiles?.[entry.symbol];
     const missingProfile = !profile;
-    const incorporation = !assigned(profile?.incorporation_country) || !assigned(profile?.incorporation_jurisdiction);
+    const country = !incorporationCountry(profile);
+    const incorporation = country || !assigned(profile?.incorporation_jurisdiction);
     const operations = !assigned(profile?.operating_country) || !['explicit_filing', 'reviewed'].includes(profile?.operations_status);
     const security = !['direct_equity', 'ADS'].includes(profile?.security_type);
     const vie = !['yes_explicit', 'no_explicit'].includes(profile?.vie_status);
     const fields = [
       ...(missingProfile ? ['Ficha de emisor'] : []),
-      ...(incorporation ? ['País / jurisdicción de constitución'] : []),
+      ...(country ? ['País de constitución'] : !assigned(profile?.incorporation_jurisdiction) ? ['Jurisdicción de constitución (informativo)'] : []),
       ...(operations ? [profile?.operations_status === 'facilities_inference' ? 'País de operación (solo inferido)' : 'País de operación confirmado'] : []),
       ...(security ? ['Tipo de valor: acciones o ADS/ADR'] : []),
       ...(vie ? ['Confirmación de VIE'] : [])
     ];
-    return { ...entry, profile, missingProfile, incorporation, operations, security, vie, fields };
+    return { ...entry, profile, missingProfile, country, incorporation, operations, security, vie, fields };
   });
 }
 
@@ -222,29 +207,30 @@ function renderDataAudit() {
   issuerAudit = auditIssuerData(dataset);
   $('data-audit-stats').innerHTML = [
     ['Tickers del historial', issuerAudit.length],
+    ['Tickers identificados', issuerAudit.filter(entry => !entry.country).length],
+    ['Tickers sin identificar', issuerAudit.filter(entry => entry.country).length],
     ['Tickers sin ficha', issuerAudit.filter(entry => entry.missingProfile).length],
-    ['Constitución incompleta', issuerAudit.filter(entry => entry.incorporation).length],
-    ['Operación sin confirmar', issuerAudit.filter(entry => entry.operations).length]
   ].map(item => metric(...item)).join('');
   const checked = new Date().toLocaleString('es-ES', { timeZone: 'America/New_York' });
   const generated = new Date(dataset.generatedAt).toLocaleString('es-ES', { timeZone: 'America/New_York' });
-  $('data-audit-status').textContent = `Comprobado: ${checked} (Nueva York). Datos publicados: ${generated}. Las inferencias y los campos desconocidos siguen pendientes. La comprobación detecta faltantes; su investigación y confirmación se realizan en la base de emisores.`;
+  $('data-audit-status').textContent = `Comprobado: ${checked} (Nueva York). Datos publicados: ${generated}. Un ticker está identificado si tiene país de constitución. La jurisdicción detallada, operación, sede, tipo de valor y VIE se conservan como información adicional y no afectan a esa identificación.`;
   $('country-check-pending').disabled = false;
   $('data-check-pending').disabled = false;
   renderPendingIssuers();
+  renderIssuerProfiles(dataset.trades);
 }
 
 function renderPendingIssuers() {
   if (!issuerAudit) return;
   const query = $('data-pending-search').value.trim().toLowerCase();
   const kind = $('data-pending-kind').value;
-  const pending = issuerAudit.filter(entry => entry.fields.length);
+  const pending = issuerAudit.filter(entry => entry.country);
   const matches = pending.filter(entry => {
-    const typeMatch = kind === 'new' ? entry.missingProfile : kind === 'incorporation' ? entry.incorporation : kind === 'operations' ? entry.operations : kind === 'structure' ? entry.security || entry.vie : kind === 'all' ? true : entry.missingProfile || entry.incorporation || entry.operations;
+    const typeMatch = kind === 'new' ? entry.missingProfile : entry.country;
     return typeMatch && (!query || `${entry.symbol} ${entry.profile?.issuer_name || ''}`.toLowerCase().includes(query));
   }).sort((a, b) => Number(b.missingProfile) - Number(a.missingProfile) || a.symbol.localeCompare(b.symbol));
-  $('data-pending-count').textContent = `${matches.length} mostrados · ${pending.length} tickers con algún dato pendiente · ${issuerAudit.length} en el historial`;
-  $('data-pending-table').innerHTML = matches.length ? `<table><thead><tr><th>Ticker</th><th>Emisor</th><th>Estado</th><th>Datos pendientes</th><th>Operaciones</th><th>Primera operación</th><th>Última operación</th></tr></thead><tbody>${matches.map(entry => `<tr><td><strong>${esc(entry.symbol)}</strong></td><td class="issuer-name">${esc(entry.profile?.issuer_name || 'Sin ficha en la base')}</td><td class="warning">${entry.missingProfile ? 'Ticker nuevo / sin ficha' : 'Ficha por completar'}</td><td class="pending-fields">${entry.fields.map(field => `<span>${esc(field)}</span>`).join('')}</td><td>${entry.count}</td><td>${esc(entry.first)}</td><td>${esc(entry.last)}</td></tr>`).join('')}</tbody></table>` : `<p class="muted">${pending.length ? 'No hay tickers pendientes que coincidan con esta búsqueda y tipo de pendiente.' : 'Todos los tickers del historial tienen los campos de la base completos.'}</p>`;
+  $('data-pending-count').textContent = `${matches.length} mostrados · ${pending.length} sin país de constitución · ${issuerAudit.length} en el historial`;
+  $('data-pending-table').innerHTML = matches.length ? `<table><thead><tr><th>Ticker</th><th>Emisor</th><th>País de constitución</th><th>Estado</th><th>Datos pendientes</th><th>Operaciones</th><th>Primera operación</th><th>Última operación</th></tr></thead><tbody>${matches.map(entry => `<tr><td><strong>${esc(entry.symbol)}</strong></td><td class="issuer-name">${esc(entry.profile?.issuer_name || 'Sin ficha en la base')}</td><td>${esc(entry.profile?.incorporation_country || 'Sin confirmar')}<small>${esc(entry.profile?.incorporation_jurisdiction || '')}</small></td><td class="warning">${entry.missingProfile ? 'Ticker nuevo / sin ficha' : 'País de constitución sin identificar'}</td><td class="pending-fields"><span>País de constitución</span></td><td>${entry.count}</td><td>${esc(entry.first)}</td><td>${esc(entry.last)}</td></tr>`).join('')}</tbody></table>` : `<p class="muted">${pending.length ? 'No hay tickers pendientes que coincidan con esta búsqueda y tipo de pendiente.' : 'Todos los tickers del historial tienen su país de constitución identificado.'}</p>`;
 }
 
 async function checkPendingIssuers() {
@@ -297,19 +283,16 @@ function ratioStudyGroups(rows, key) {
   const minimum = Math.max(1, Math.ceil(Number($('ratio-min-trades').value) || 1));
   return groupedStatistics(rows, key).filter(([, trades]) => trades.length >= minimum).map(([name, trades]) => {
     const stats = statistics(trades);
-    return { name, count: trades.length, provisional: trades.filter(isProvisionalCountry).length, stats, rr: stats.wins.length && stats.losses.length ? stats.payOff : null };
+    return { name, count: trades.length, stats, rr: stats.wins.length && stats.losses.length ? stats.payOff : null };
   });
 }
 
 function renderRatioStudy(prefix, groups) {
   const headers = ['Grupo', 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor', 'Esperanza', 'Muestra'];
-  const showProvisional = prefix === 'ratio-country' && includeSoftCountryData;
-  if (showProvisional) headers.push('Provisionales');
-  $(`${prefix}-table`).innerHTML = groups.length ? tableMarkup(headers, groups.map(({ name, count, provisional, stats: s, rr }) => [
+  $(`${prefix}-table`).innerHTML = groups.length ? tableMarkup(headers, groups.map(({ name, count, stats: s, rr }) => [
     name, count, s.wins.length, s.losses.length, s.scratches.length, pct(s.wins.length, count),
     s.wins.length ? money(s.winAvg) : '—', s.losses.length ? money(s.lossAvg) : '—',
-    rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más',
-    ...(showProvisional ? [provisional] : [])
+    rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más'
   ])) : '<p class="muted">Sin grupos con el mínimo de operaciones seleccionado.</p>';
   renderChart(`${prefix}-winrate`, [{ values: groups.map(g => [g.name, 100 * g.stats.wins.length / g.count, `${g.stats.wins.length} ganadoras ÷ ${g.count} operaciones × 100. Incluye ${g.stats.scratches.length} a cero.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }], { bar: true, unit: '%', max: 100, title: 'Win rate por grupo' });
   renderChart(`${prefix}-rr`, [{ values: groups.filter(g => g.rr !== null).map(g => [g.name, g.rr, `Cálculo: ${money(g.stats.winAvg)} de ganancia media ÷ ${money(Math.abs(g.stats.lossAvg))} de pérdida media absoluta. ${g.stats.wins.length} ganadoras y ${g.stats.losses.length} perdedoras; ${g.stats.scratches.length} a cero excluidas del RR.${g.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#a68afb' }], { bar: true, unit: 'x', title: 'Relación ganancia media / pérdida media por grupo', empty: 'RR no disponible: cada grupo necesita operaciones ganadoras y perdedoras.' });
@@ -320,9 +303,9 @@ function renderRatioStudies(rows) {
   const interval = [5, 30, 60].includes(selected) ? selected : 5;
   const groups = ratioStudyGroups(rows, trade => timeBand(trade, interval) || 'Sin horario').sort((a, b) => a.name.localeCompare(b.name));
   renderRatioStudy('ratio-time', groups);
-  const countries = ratioStudyGroups(rows, trade => tradeCountry(trade, 'operations') || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
-  const known = rows.filter(trade => tradeCountry(trade, 'operations')).length;
-  $('ratio-country-note').textContent = `${countryDataDescription(rows)} ${known} de ${rows.length} operaciones clasificadas. Los tickers sin atribución permanecen en Sin clasificar. Se aplica el mismo mínimo de operaciones que al estudio horario.`;
+  const countries = ratioStudyGroups(rows, trade => tradeCountry(trade) || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
+  const known = rows.filter(tradeCountry).length;
+  $('ratio-country-note').textContent = `País de constitución · ${known} de ${rows.length} operaciones clasificadas. Solo los tickers sin país de constitución identificado quedan Sin clasificar. Se aplica el mismo mínimo de operaciones que al estudio horario.`;
   renderRatioStudy('ratio-country', countries);
 }
 
@@ -397,19 +380,7 @@ function initializeWorkspace() {
   $('data-check-pending').addEventListener('click', checkPendingIssuers);
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
-  $('country-dimension').addEventListener('change', () => renderCountries(filtered));
-  $('analysis-country-dimension').addEventListener('change', () => renderAnalysisCountries(filtered));
-  for (const id of ['country-soft-data', 'analysis-country-soft-data', 'ratio-country-soft-data']) {
-    $(id).addEventListener('change', event => {
-      includeSoftCountryData = event.target.checked;
-      for (const control of ['country-soft-data', 'analysis-country-soft-data', 'ratio-country-soft-data']) $(control).checked = includeSoftCountryData;
-      renderCountries(filtered);
-      renderAnalysisCountries(filtered);
-      renderRatioStudies(filtered);
-      renderConsistencyConcentration(filtered);
-    });
-  }
-  $('issuer-search').addEventListener('input', () => renderIssuerProfiles(filtered));
+  $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; renderCalendar(filtered); });

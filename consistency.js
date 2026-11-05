@@ -177,7 +177,7 @@ function renderConsistencyStudies(rows) {
 function renderConsistencyConcentration(rows) {
   const keys = {
     symbol: ['Ticker', trade => trade.symbol],
-    country: ['País de operación', trade => tradeCountry(trade, 'operations') || 'Sin clasificar'],
+    country: ['País de constitución', trade => tradeCountry(trade) || 'Sin clasificar'],
     time: ['Horario de entrada · 5 min', trade => timeBand(trade, 5) || 'Sin horario'],
     weekday: ['Día de cierre', trade => ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][new Date(`${trade.date}T00:00:00Z`).getUTCDay()]]
   };

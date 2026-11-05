@@ -8,6 +8,7 @@ if (typeof require !== 'undefined') {
     const EPSILON = 0.000001;
     const sum = rows => rows.reduce((total, trade) => total + trade.pnl, 0);
     const mean = values => values.length ? values.reduce((total, value) => total + value, 0) / values.length : 0;
+    let dataset = null;
     function classify(trade) { return trade.pnl > EPSILON ? 'win' : trade.pnl < -EPSILON ? 'loss' : 'scratch'; }
   `);
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'consistency.js'), 'utf8'));
@@ -74,4 +75,14 @@ checkConsistency(growthPnlResult[0].meanAbsolutePnl === 16 / 3 && growthPnlResul
 checkConsistency(growthPnlResult[0].average === 4 / 3, 'Signed mean stays separate from mean magnitude');
 checkConsistency(JSON.stringify(growthPeriods(growthPnlFixture.map(({ date, pnl }) => ({ date, pnl })))) === JSON.stringify(growthPnlResult), 'Growth does not depend on share quantity or price');
 checkConsistency(growthPeriods([]).length === 0, 'Empty growth history stays empty');
+const savedCountryDataset = dataset;
+const legalProfile = { incorporation_country: 'Canada', incorporation_jurisdiction: '', operating_country: '', vie_status: 'unknown' };
+dataset = { tickerProfiles: { LEGAL: legalProfile, OPSONLY: { operating_country: 'United States' } } };
+checkConsistency(tradeCountry({ symbol: 'LEGAL', country: 'China' }) === 'Canada', 'Country studies use incorporation despite conflicting operating country');
+checkConsistency(tradeCountry({ symbol: 'OPSONLY', country: 'United States' }) === '', 'Operating country cannot replace missing incorporation');
+const legalAudit = auditIssuerData({ trades: [{ symbol: 'LEGAL', date: '2026-11-05' }, { symbol: 'OPSONLY', date: '2026-11-05' }, { symbol: 'NEW', date: '2026-11-05' }], tickerProfiles: dataset.tickerProfiles });
+checkConsistency(!legalAudit.find(row => row.symbol === 'LEGAL').country, 'Missing jurisdiction and VIE do not make a known country unidentified');
+checkConsistency(legalAudit.filter(row => row.country).length === 2, 'Only missing incorporation countries count as unidentified');
+checkConsistency(incorporationCountry({ incorporation_country: 'unknown' }) === '' && incorporationCountry({ incorporation_country: 123 }) === '', 'Placeholder or invalid countries remain unidentified');
+dataset = savedCountryDataset;
 console.log('Consistency calculations passed: rolling windows, periods, recovery, causal ordering, percentiles, session resampling and immutability.');
