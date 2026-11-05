@@ -194,6 +194,7 @@ function initializeHelp() {
     'ratio-time-interval': 'Agrupa por hora de entrada en Nueva York, en franjas de 5 minutos por defecto; también puedes elegir 30 o 60 minutos. El inicio está incluido y el final excluido: 09:30–09:35 incluye 09:30, pero no 09:35.',
     'ratio-min-trades': 'Muestra únicamente los grupos con al menos este número de operaciones. Se aplica al estudio por horario y al estudio por país.',
     'calendar-month': 'Selecciona el mes de las fechas de cierre. Cada día muestra la suma del PnL y el número de operaciones cerradas ese día.',
+    'growth-trade-window': 'Muestra las últimas 50, 100 o 250 operaciones, o todas las que cumplen los filtros generales. Cada barra usa |PnL final| de un único trade; no agrega ni promedia. La selección solo cambia este gráfico y se puede desplazar horizontalmente.',
     'calendar-overview-prev': 'Muestra el bloque anterior de seis meses en el panel lateral. Conserva el día seleccionado; pulsa un día con operaciones para abrir su resumen.',
     'calendar-overview-next': 'Muestra el bloque siguiente de seis meses en el panel lateral. Los colores y totales usan los filtros generales y las fechas de cierre en Nueva York.',
     'issuer-search': 'Busca un ticker o nombre de emisor en todo el historial publicado. Las fichas de Tickers no se limitan por los filtros de análisis.',

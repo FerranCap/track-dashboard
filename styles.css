@@ -15,6 +15,9 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .metric-label{line-height:1.45;margin-bottom:10px}
 .metric-value{line-height:1.25}
 .study-control{display:grid;gap:7px;color:#a6b9ce;font-size:12px;min-width:175px}
+.growth-trade-plot{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;margin-top:14px;padding-bottom:8px}
+.growth-trade-plot:focus-visible{outline:2px solid #8abbff;outline-offset:3px}
+.growth-trade-plot .chart{height:310px}
 .study-scroll{max-height:480px}
 .study-scroll th{position:sticky;top:0;background:#192333;z-index:1}
 .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:18px;align-items:start}

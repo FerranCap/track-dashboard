@@ -104,6 +104,25 @@ function growthPeriods(rows) {
   });
 }
 
+function growthTradePoints(rows, limit) {
+  const ordered = chronologicalTrades(rows).filter(trade => Number.isFinite(trade.pnl));
+  const count = [50, 100, 250].includes(Number(limit)) ? Number(limit) : ordered.length;
+  const offset = Math.max(0, ordered.length - count);
+  return ordered.slice(offset).map((trade, index) => ({ trade, number: offset + index + 1, absolute: Math.abs(trade.pnl) }));
+}
+
+function renderGrowthTradeChart(rows) {
+  const points = growthTradePoints(rows, $('growth-trade-window').value);
+  const count = rows.filter(trade => Number.isFinite(trade.pnl)).length;
+  const explanation = 'Cada barra representa un trade individual en orden de cierre y su altura es |PnL final registrado| en USD. No se promedia ni se agrupa por meses. Un trade de −$25 se muestra con altura $25; su resultado con signo aparece en la ayuda. No representa máximos, mínimos ni recorrido intratrade.';
+  $('growth-trade-count').textContent = points.length ? `Trades ${points[0].number}–${points.at(-1).number} de ${count} con los filtros actuales. Una barra por operación; desplaza horizontalmente para recorrerlas.` : 'Sin operaciones para estos filtros.';
+  $('growth-absolute-pnl-chart').style.minWidth = points.length ? `${Math.max(300, points.length * 9 + 100)}px` : '0';
+  renderChart('growth-absolute-pnl-chart', [{ values: points.map(({ trade, number, absolute }) => [
+    `Trade #${number} · ${trade.symbol} · ${trade.closed}`, absolute,
+    `PnL original: ${signed(trade.pnl)}. Valor absoluto: ${money(absolute)}. Cierre: ${trade.closed}. Identificador: ${trade.id}.`
+  ]), color: '#5c9bff' }], { currency: true, bar: true, labels: points.map(point => `#${point.number}`), title: 'Valor absoluto del PnL de cada trade', explanation });
+}
+
 function renderGrowth(rows) {
   const periods = growthPeriods(rows);
   const pnls = rows.map(trade => trade.pnl).filter(Number.isFinite);
@@ -116,11 +135,7 @@ function renderGrowth(rows) {
   ].map(args => consistencyMetric(...args)).join('');
   renderChart('growth-cumulative-chart', [{ values: periods.map(period => [period.period, period.cumulative]), color: '#5c9bff' }], { currency: true, explanation: 'Suma acumulada del PnL de los meses observados, desde $0 al comienzo de los filtros. No incluye saldo inicial, depósitos ni retiradas y no representa una rentabilidad sobre capital.' });
   renderChart('growth-monthly-chart', [{ values: periods.map(period => [period.period, period.pnl]) }], { bar: true, currency: true, explanation: 'Suma del PnL de las operaciones cerradas en cada mes según Nueva York. Los meses sin operaciones se omiten; el primer y último mes pueden ser parciales.' });
-  const absoluteExplanation = 'Se calcula |PnL| para cada trade y después su media o mediana mensual en USD. Todos los trades pesan igual, incluidos los trades a cero. Las pérdidas cuentan por su magnitud positiva. No intervienen el precio de la acción ni las shares. No es recorrido intratrade y una magnitud mayor no implica mejor resultado.';
-  renderChart('growth-absolute-pnl-chart', [
-    { values: periods.map(period => [period.period, period.meanAbsolutePnl, `Media de |PnL| de ${period.count} trades.`]), color: '#5c9bff' },
-    { values: periods.map(period => [period.period, period.medianAbsolutePnl, `Mediana de |PnL| de ${period.count} trades.`]), color: '#29d17e' }
-  ], { currency: true, explanation: absoluteExplanation });
+  renderGrowthTradeChart(rows);
   renderChart('growth-average-pnl-chart', [{ values: periods.map(period => [period.period, period.average]), color: '#5c9bff' }], { currency: true, bar: true, explanation: 'PnL total del mes ÷ número de trades cerrados del mes. Se conserva el signo: ganancias y pérdidas pueden cancelarse. No utiliza precio de entrada ni cantidad de shares.' });
   $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio por trade', 'PnL absoluto medio por trade', 'PnL absoluto mediano por trade', 'Variación PnL absoluto medio · USD'], periods.map((period, index) => {
     const previous = periods[index - 1];
@@ -382,6 +397,7 @@ function initializeWorkspace() {
   $('data-check-pending').addEventListener('click', checkPendingIssuers);
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
+  $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));

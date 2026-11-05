@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-calendar-ticker-stats-19">
+  <link rel="stylesheet" href="styles.css?v=20261105-growth-individual-20">
 </head>
 <body>
 <aside class="sidebar">
@@ -407,10 +407,10 @@
 <div id="growth-monthly-chart" class="chart"></div>
 </section>
 <section class="section panel">
-<h2>Movimiento absoluto del PnL por trade · USD</h2>
-<p>Se toma |PnL| de cada operación y después se calcula la media y mediana de cada mes. Por ejemplo, +$10 y −$6 tienen un PnL absoluto medio de $8. Ganancias y pérdidas aportan magnitudes positivas: un aumento también puede proceder de pérdidas mayores.</p>
-<div id="growth-absolute-pnl-chart" class="chart"></div>
-<div class="legend"><span class="accent">Media</span><span class="positive">Mediana</span></div>
+<div class="panel-head"><h2>Valor absoluto del PnL de cada trade · USD</h2><label class="study-control">Operaciones visibles<select id="growth-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<p>Cada barra es una operación individual: +$10 se muestra como $10 y −$6 como $6. Ordenadas por cierre, sin promedios mensuales. Al pasar el ratón verás el ticker, fecha, PnL original y valor absoluto. Se usa el resultado final registrado de cada trade.</p>
+<p id="growth-trade-count" class="mini-caption" role="status"></p>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto por trade, con desplazamiento horizontal"><div id="growth-absolute-pnl-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
 <h2>PnL medio por trade · con signo</h2>
@@ -577,19 +577,19 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-calendar-ticker-stats-19</span>
+<span>Versión: 20261105-growth-individual-20</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261105-calendar-ticker-stats-19" defer></script>
-<script src="consistency.js?v=20261105-calendar-ticker-stats-19" defer></script>
-<script src="table-sort.js?v=20261105-calendar-ticker-stats-19" defer></script>
-<script src="help.js?v=20261105-calendar-ticker-stats-19" defer></script>
-<script src="workspace.js?v=20261105-calendar-ticker-stats-19" defer>
+<script src="calendar.js?v=20261105-growth-individual-20" defer></script>
+<script src="consistency.js?v=20261105-growth-individual-20" defer></script>
+<script src="table-sort.js?v=20261105-growth-individual-20" defer></script>
+<script src="help.js?v=20261105-growth-individual-20" defer></script>
+<script src="workspace.js?v=20261105-growth-individual-20" defer>
 </script>
-<script src="dashboard.js?v=20261105-calendar-ticker-stats-19" defer>
+<script src="dashboard.js?v=20261105-growth-individual-20" defer>
 </script>
 </body>
 </html>

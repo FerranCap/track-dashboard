@@ -76,6 +76,14 @@ checkConsistency(growthPnlResult[0].meanAbsolutePnl === 16 / 3 && growthPnlResul
 checkConsistency(growthPnlResult[0].average === 4 / 3, 'Signed mean stays separate from mean magnitude');
 checkConsistency(JSON.stringify(growthPeriods(growthPnlFixture.map(({ date, pnl }) => ({ date, pnl })))) === JSON.stringify(growthPnlResult), 'Growth does not depend on share quantity or price');
 checkConsistency(growthPeriods([]).length === 0, 'Empty growth history stays empty');
+const individualPnlFixture = [10, -6, 0].map((pnl, index) => ({ ...consistencyFixture(pnl, index), symbol: 'TEST', id: String(index) }));
+const individualPnlPoints = growthTradePoints(individualPnlFixture.slice().reverse(), 'all');
+checkConsistency(individualPnlPoints.map(point => point.absolute).join(',') === '10,6,0', 'Individual PnL chart keeps absolute values and zero trades instead of monthly averages');
+checkConsistency(individualPnlPoints[1].trade.pnl === -6 && individualPnlPoints[1].number === 2, 'Original signed PnL and chronological ordinal remain available');
+const longPnlFixture = Array.from({ length: 60 }, (_, index) => ({ pnl: index, closed: new Date(Date.UTC(2026, 10, 5, 9, index)).toISOString() }));
+const lastFifty = growthTradePoints(longPnlFixture, '50');
+checkConsistency(lastFifty.length === 50 && lastFifty[0].number === 11 && lastFifty.at(-1).absolute === 59, 'Chart window uses the last trades without losing global filtered order');
+checkConsistency(growthTradePoints([], 'all').length === 0, 'Empty individual PnL chart stays empty');
 const savedCountryDataset = dataset;
 const legalProfile = { incorporation_country: 'Canada', incorporation_jurisdiction: '', operating_country: '', vie_status: 'unknown' };
 dataset = { tickerProfiles: { LEGAL: legalProfile, OPSONLY: { operating_country: 'United States' } } };
