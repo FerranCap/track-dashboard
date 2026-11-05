@@ -347,6 +347,7 @@ $('refresh').addEventListener('click',loadData);
 $('best-search').addEventListener('click',renderBest);
 initializeHelp();
 initializeWorkspace();
+initializeCalendarOverview();
 initializeConsistencyStudies();
 initializeTableSorting();
 window.addEventListener('resize', refreshCharts);

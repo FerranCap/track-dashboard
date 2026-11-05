@@ -13,6 +13,7 @@ on:
       - 'help.js'
       - 'table-sort.js'
       - 'consistency.js'
+      - 'calendar.js'
       - 'styles.css'
   workflow_dispatch:
 
@@ -23,7 +24,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -46,7 +47,7 @@ jobs:
       - name: Assemble website
         run: |
           mkdir -p site/data/reference
-          cp index.html dashboard.js workspace.js help.js table-sort.js consistency.js styles.css site/
+          cp index.html dashboard.js workspace.js help.js table-sort.js consistency.js calendar.js styles.css site/
           cp data/trades.json site/data/trades.json
           cp data/reference/ticker-profiles.csv data/reference/research-summary.json site/data/reference/
           touch site/.nojekyll

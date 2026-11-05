@@ -328,9 +328,11 @@ function renderCalendar(rows) {
     html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}" data-day="${date}" ${helpAttributes(`${date}: ${trades.length} operaciones. Se suma el PnL de las operaciones cerradas este día en Nueva York. Selecciona el día para consultar sus operaciones. ${HELP_PNL}`)} aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} aria-label="${date}, ${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : '<small>—</small>'}</button>`;
   }
   $('calendar-grid').innerHTML = html;
+  renderCalendarOverview(rows, month);
   const selected = rows.filter(t => t.date === selectedCalendarDay && t.date.startsWith(month));
   $('calendar-selection').textContent = selected.length ? `${selectedCalendarDay} · ${selected.length} operaciones · ${signed(sum(selected))}` : 'Selecciona un día operado para ver sus operaciones.';
   $('calendar-trades').innerHTML = selected.length ? tableMarkup(['Símbolo', 'Dirección', 'Apertura NY', 'Cierre NY', 'PnL'], selected.map(t => [t.symbol, t.side === 'BUY' ? 'Long' : 'Short', t.opened.slice(11, 19), t.closed.slice(11, 19), signed(t.pnl)])) : '';
+  renderCalendarDay(selected);
   const weeks = groupedStatistics(monthRows, trade => {
     const date = new Date(`${trade.date}T12:00:00Z`);
     date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 6) % 7);
@@ -383,13 +385,13 @@ function initializeWorkspace() {
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
-  $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; renderCalendar(filtered); });
+  $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; calendarOverviewEndMonth = ''; renderCalendar(filtered); });
   for (const [id, step] of [['month-prev', -1], ['month-next', 1]]) $(id).addEventListener('click', () => {
     const value = $('calendar-month').value;
     if (!value) return;
     const [year, month] = value.split('-').map(Number);
     $('calendar-month').value = new Date(Date.UTC(year, month - 1 + step, 1)).toISOString().slice(0, 7);
-    selectedCalendarDay = ''; renderCalendar(filtered);
+    selectedCalendarDay = ''; calendarOverviewEndMonth = ''; renderCalendar(filtered);
   });
   $('calendar-grid').addEventListener('click', event => {
     const button = event.target.closest('[data-day]');

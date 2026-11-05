@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-incorporation-only-16">
+  <link rel="stylesheet" href="styles.css?v=20261105-calendar-detail-17">
 </head>
 <body>
 <aside class="sidebar">
@@ -202,7 +202,8 @@
 </section>
 </div>
 <div id="view-calendar" class="view" aria-labelledby="page-title" hidden>
-<section class="section panel">
+<div class="calendar-layout section">
+<section class="panel calendar-main">
 <h2>Calendario de resultados</h2>
 <div class="calendar-controls">
 <button id="month-prev" type="button" aria-label="Mes anterior">&larr;</button>
@@ -214,10 +215,24 @@
 </div>
 <div id="calendar-grid" class="calendar-grid">
 </div>
+<div id="calendar-day-preview" class="calendar-day-preview" hidden>
+<h3 id="calendar-preview-title"></h3>
+<p id="calendar-preview-totals"></p>
+<div id="calendar-symbol-cards" class="calendar-symbol-cards"></div>
+</div>
 </section>
+<aside class="panel calendar-overview" aria-label="Vista de seis meses">
+<div class="calendar-overview-nav"><button id="calendar-overview-prev" type="button" aria-label="Ver seis meses anteriores">&larr;</button><span id="calendar-overview-range"></span><button id="calendar-overview-next" type="button" aria-label="Ver seis meses siguientes">&rarr;</button></div>
+<div id="calendar-mini-months" class="calendar-mini-months"></div>
+</aside>
+</div>
 <section class="section panel">
-<h2>Sesión seleccionada</h2>
+<div class="panel-head"><h2>Resumen del día</h2><strong id="calendar-day-pnl"></strong></div>
 <p id="calendar-selection">Selecciona un día operado para ver sus operaciones.</p>
+<div id="calendar-day-detail" class="calendar-day-detail" hidden>
+<div><h3>Curva de PnL · cierres de trades</h3><div id="calendar-day-chart" class="chart"></div></div>
+<div id="calendar-day-metrics" class="calendar-day-metrics"></div>
+</div>
 <div id="calendar-trades" class="table-wrap">
 </div>
 </section>
@@ -562,18 +577,19 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-incorporation-only-16</span>
+<span>Versión: 20261105-calendar-detail-17</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="consistency.js?v=20261105-incorporation-only-16" defer></script>
-<script src="table-sort.js?v=20261105-incorporation-only-16" defer></script>
-<script src="help.js?v=20261105-incorporation-only-16" defer></script>
-<script src="workspace.js?v=20261105-incorporation-only-16" defer>
+<script src="calendar.js?v=20261105-calendar-detail-17" defer></script>
+<script src="consistency.js?v=20261105-calendar-detail-17" defer></script>
+<script src="table-sort.js?v=20261105-calendar-detail-17" defer></script>
+<script src="help.js?v=20261105-calendar-detail-17" defer></script>
+<script src="workspace.js?v=20261105-calendar-detail-17" defer>
 </script>
-<script src="dashboard.js?v=20261105-incorporation-only-16" defer>
+<script src="dashboard.js?v=20261105-calendar-detail-17" defer>
 </script>
 </body>
 </html>

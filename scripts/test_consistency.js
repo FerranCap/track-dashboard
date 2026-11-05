@@ -13,6 +13,7 @@ if (typeof require !== 'undefined') {
   `);
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'consistency.js'), 'utf8'));
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'workspace.js'), 'utf8'));
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'calendar.js'), 'utf8'));
 }
 
 function checkConsistency(condition, message) {
@@ -85,4 +86,9 @@ checkConsistency(!legalAudit.find(row => row.symbol === 'LEGAL').country, 'Missi
 checkConsistency(legalAudit.filter(row => row.country).length === 2, 'Only missing incorporation countries count as unidentified');
 checkConsistency(incorporationCountry({ incorporation_country: 'unknown' }) === '' && incorporationCountry({ incorporation_country: 123 }) === '', 'Placeholder or invalid countries remain unidentified');
 dataset = savedCountryDataset;
+checkConsistency(shiftCalendarMonth('2026-01', -1) === '2025-12' && shiftCalendarMonth('2026-12', 1) === '2027-01', 'Calendar navigation crosses year boundaries');
+const leapCells = miniCalendarCells('2024-02');
+checkConsistency(leapCells.length === 42 && leapCells.filter(cell => !cell.outside).length === 29, 'Mini calendars preserve leap days in a fixed six-week grid');
+checkConsistency(leapCells[0].date === '2024-01-29' && leapCells[3].date === '2024-02-01', 'Mini calendars start weeks on Monday');
+checkConsistency(miniCalendarCells('2026-11').filter(cell => !cell.outside).length === 30, 'Mini calendar marks adjacent-month padding separately');
 console.log('Consistency calculations passed: rolling windows, periods, recovery, causal ordering, percentiles, session resampling and immutability.');
