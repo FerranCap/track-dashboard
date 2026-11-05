@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-sections-1">
+  <link rel="stylesheet" href="styles.css?v=20261105-ratios-2">
 </head>
 <body>
 <aside class="sidebar">
@@ -353,6 +353,19 @@
 </div>
 </section>
 <section class="section panel">
+<div class="panel-head"><div><h2>Win rate y RR por horario</h2><small>Horario de entrada en Nueva York · RR realizado = ganancia media / pérdida media absoluta</small></div>
+<div class="ratio-controls"><label>Franja<select id="ratio-time-interval"><option value="30">30 minutos</option><option value="60">1 hora</option></select></label><label>Mínimo de operaciones<input id="ratio-min-trades" type="number" min="1" step="1" value="1"></label></div></div>
+<p class="mini-caption">El win rate incluye operaciones a cero. El RR necesita al menos una ganadora y una perdedora; las muestras de menos de 20 operaciones se señalan como reducidas.</p>
+<div class="two-col chart-row"><div><h3>Win rate por horario (%)</h3><div id="ratio-time-winrate" class="chart"></div></div><div><h3>RR realizado por horario</h3><div id="ratio-time-rr" class="chart"></div></div></div>
+<div id="ratio-time-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<h2>Win rate y RR por país</h2>
+<p id="ratio-country-note" class="mini-caption"></p>
+<div class="two-col chart-row"><div><h3>Win rate por país (%)</h3><div id="ratio-country-winrate" class="chart"></div></div><div><h3>RR realizado por país</h3><div id="ratio-country-rr" class="chart"></div></div></div>
+<div id="ratio-country-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
 <h2>Equilibrio entre acierto y beneficio / pérdida</h2>
 <p>Porcentaje de acierto necesario para cubrir las pérdidas con cada relación realizada, excluyendo operaciones a cero.</p>
 <div id="breakeven-table" class="table-wrap">
@@ -434,14 +447,14 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-sections-1</span>
+<span>Versión: 20261105-ratios-2</span>
 <span>MAE / MFE: no disponibles en los CSV actuales · Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
-<script src="workspace.js?v=20261105-sections-1" defer>
+<script src="workspace.js?v=20261105-ratios-2" defer>
 </script>
-<script src="dashboard.js?v=20261105-sections-1" defer>
+<script src="dashboard.js?v=20261105-ratios-2" defer>
 </script>
 </body>
 </html>

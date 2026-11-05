@@ -114,46 +114,68 @@ function renderMetrics(rows){
     ['Avg Position MAE','N/D','','Intratrade prices not provided'],['Avg Position MFE','N/D','','Intratrade prices not provided'],['Avg Trades in Drawdown',dd.periods?num(dd.avgTrades,1):'—']
   ].map(a=>metric(...a)).join('');
 }
+const chartConfigs = new Map();
+function renderChart(id, series, opts = {}) {
+  const element = $(id);
+  chartConfigs.set(id, { series, opts });
+  element.innerHTML = svgChart(series, { ...opts, width: element.clientWidth || 800, height: element.clientHeight || 265 });
+}
+function refreshCharts() {
+  for (const [id, { series, opts }] of chartConfigs) {
+    if ($(id).clientWidth > 0) renderChart(id, series, opts);
+  }
+}
+function chartLabel(value) {
+  const label = String(value);
+  if (/^\d{4}-\d{2}-\d{2}/.test(label)) return `${label.slice(8,10)}/${label.slice(5,7)}/${label.slice(2,4)}`;
+  return label.length > 19 ? `${label.slice(0,18)}…` : label;
+}
 function svgChart(series,opts={}){
-  if(!series.length || !series.some(s=>s.values.length))return '<span>Sin operaciones para estos filtros</span>';
-  const W=800,H=265,l=65,r=18,t=15,b=43,plotW=W-l-r,plotH=H-t-b;
+  series = series.map(s => ({ ...s, values: s.values.filter(p => Number.isFinite(p[1])) }));
+  if(!series.length || !series.some(s=>s.values.length))return `<span>${esc(opts.empty || 'Sin operaciones para estos filtros')}</span>`;
+  const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=78,r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
   const all=series.flatMap(s=>s.values.map(p=>p[1]));
   let low=Math.min(0,...all),high=Math.max(0,...all);
+  if(Number.isFinite(opts.max))high=Math.max(high,opts.max);
   if(high===low){high+=1;low-=1;}
   const count=Math.max(...series.map(s=>s.values.length));
-  const X=i=>l+(count===1?.5:i/(count-1))*plotW;
+  const X=i=>opts.bar?l+(i+.5)*plotW/count:l+(count===1?.5:i/(count-1))*plotW;
   const Y=v=>t+(high-v)/(high-low)*plotH;
   const pad=v=>Number(v.toFixed(2)).toLocaleString('en-US');
+  const valueLabel=v=>opts.currency?moneyFormat.format(v):`${pad(v)}${opts.unit||''}`;
   let shapes='';
   for(let i=0;i<=4;i++){
     const v=low+(high-low)*i/4,y=Y(v);
-    shapes+=`<line x1="${l}" y1="${y}" x2="${W-r}" y2="${y}" stroke="#304058" stroke-dasharray="3 5" opacity=".6"/><text x="${l-8}" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="end">${opts.currency?'$':''}${pad(v)}</text>`;
+    shapes+=`<line x1="${l}" y1="${y}" x2="${W-r}" y2="${y}" stroke="#304058" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="3 5" opacity=".6"/><text x="${l-8}" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="end">${esc(valueLabel(v))}</text>`;
   }
-  shapes+=`<line x1="${l}" x2="${W-r}" y1="${Y(0)}" y2="${Y(0)}" stroke="#688099" stroke-dasharray="4 4"/>`;
+  shapes+=`<line x1="${l}" x2="${W-r}" y1="${Y(0)}" y2="${Y(0)}" stroke="#688099" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 4"/>`;
   for(const s of series){
     const arr=s.values;if(!arr.length)continue;
     if(opts.bar){
       const step=plotW/count,width=Math.max(.75,Math.min(45,step*.73));
-      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}"><title>${esc(p[0])}: ${esc(money(v))}</title></rect>`;}).join('');
+      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}"><title>${esc(p[0])}: ${esc(valueLabel(v))}</title></rect>`;}).join('');
     }else{
       const segments=[];
       for(let i=0;i<arr.length;i++){
         const v=arr[i][1];
         segments.push(`${i?'L':'M'}${X(i).toFixed(2)},${Y(v).toFixed(2)}`);
       }
-      shapes+=`<path d="${segments.join(' ')}" stroke="${s.color||'#29d17e'}" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
+      shapes+=`<path d="${segments.join(' ')}" stroke="${s.color||'#29d17e'}" stroke-width="1.3" vector-effect="non-scaling-stroke" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
       if(arr.length===1)shapes+=`<circle cx="${X(0)}" cy="${Y(arr[0][1])}" r="4" fill="${s.color||'#29d17e'}"/>`;
       const every=Math.max(1,Math.floor(arr.length/70));
-      for(let i=0;i<arr.length;i+=every){shapes+=`<circle cx="${X(i)}" cy="${Y(arr[i][1])}" r="7" fill="transparent"><title>${esc(arr[i][0])}: ${esc(money(arr[i][1]))}</title></circle>`;}
+      for(let i=0;i<arr.length;i+=every){shapes+=`<circle cx="${X(i)}" cy="${Y(arr[i][1])}" r="7" fill="transparent"><title>${esc(arr[i][0])}: ${esc(valueLabel(arr[i][1]))}</title></circle>`;}
     }
   }
-  const labels=series[0].values, ticks=Math.min(7,labels.length);
+  const labels=series.find(s=>s.values.length===count).values;
+  const labelWidth=Math.max(65,...labels.map((p,i)=>chartLabel(opts.labels?.[i]||p[0]).length*6.5+18));
+  const ticks=Math.min(8,labels.length,Math.max(1,Math.floor(plotW/(labelWidth*1.5))+1));
   for(let j=0;j<ticks;j++){
     const index=ticks===1?0:Math.round(j*(labels.length-1)/(ticks-1));
-    const shown=opts.labels?.[index]||labels[index][0];
-    shapes+=`<text x="${X(index)}" y="${H-12}" fill="#97aec8" font-size="10" text-anchor="middle">${esc(shown)}</text>`;
+    const full=opts.labels?.[index]||labels[index][0],shown=chartLabel(full);
+    const anchor=ticks===1?'middle':j===0?'start':j===ticks-1?'end':'middle';
+    shapes+=`<text x="${X(index)}" y="${H-12}" fill="#97aec8" font-size="11" text-anchor="${anchor}"><title>${esc(full)}</title>${esc(shown)}</text>`;
   }
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(opts.title||'Trading chart')}">${shapes}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(opts.title||'Trading chart')}">${shapes}</svg>`;
 }
 function equity(rows){let p=0;return rows.map(t=>[t.date,+(p+=t.pnl).toFixed(4)]);}
 function alignedEquity(rows,axis){
@@ -163,17 +185,17 @@ function alignedEquity(rows,axis){
 function renderCharts(rows){
   const long=rows.filter(t=>t.side==='BUY'),short=rows.filter(t=>t.side==='SELL');
   const dd=drawdownStats(rows);
-  $('equity-chart').innerHTML=svgChart([{values:equity(rows),color:'#20d075'}],{currency:true});
-  $('drawdown-chart').innerHTML=svgChart([{values:dd.points,color:'#f4485b'}],{currency:true});
-  $('long-equity').innerHTML=svgChart([{values:equity(long),color:'#24d578'}],{currency:true});
-  $('short-equity').innerHTML=svgChart([{values:equity(short),color:'#24d578'}],{currency:true});
-  $('long-daily').innerHTML=svgChart([{values:group(long,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
-  $('short-daily').innerHTML=svgChart([{values:group(short,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
+  renderChart('equity-chart',[{values:equity(rows),color:'#20d075'}],{currency:true});
+  renderChart('drawdown-chart',[{values:dd.points,color:'#f4485b'}],{currency:true});
+  renderChart('long-equity',[{values:equity(long),color:'#24d578'}],{currency:true});
+  renderChart('short-equity',[{values:equity(short),color:'#24d578'}],{currency:true});
+  renderChart('long-daily',[{values:group(long,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
+  renderChart('short-daily',[{values:group(short,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
   const axis=dates(rows);
-  $('comparison-chart').innerHTML=svgChart([{values:alignedEquity(long,axis),color:'#20d07a'},{values:alignedEquity(short,axis),color:'#ff4e62'}],{currency:true});
-  $('months-chart').innerHTML=svgChart([{values:group(rows,t=>t.date.slice(0,7)),color:'#5c9bff'}],{bar:true,currency:true});
+  renderChart('comparison-chart',[{values:alignedEquity(long,axis),color:'#20d07a'},{values:alignedEquity(short,axis),color:'#ff4e62'}],{currency:true});
+  renderChart('months-chart',[{values:group(rows,t=>t.date.slice(0,7)),color:'#5c9bff'}],{bar:true,currency:true});
   const popular=[...rows.reduce((m,t)=>m.set(t.symbol,(m.get(t.symbol)||0)+1),new Map())].sort((a,b)=>b[1]-a[1]).slice(0,12).map(x=>x[0]);
-  $('symbols-chart').innerHTML=svgChart([{values:group(rows.filter(t=>popular.includes(t.symbol)),t=>t.symbol),color:'#37cfe9'}],{bar:true,currency:true});
+  renderChart('symbols-chart',[{values:group(rows.filter(t=>popular.includes(t.symbol)),t=>t.symbol),color:'#37cfe9'}],{bar:true,currency:true});
   renderSide('long-stats',long,'Long','long');renderSide('short-stats',short,'Short','short');
   renderTime(rows);renderPrice(rows);renderWeekdays(rows);
 }
@@ -190,13 +212,13 @@ function renderSide(id,rows,title,kind){
 function timeBand(t){const hm=(t.opened||'').slice(11,16);if(!/^\d{2}:\d{2}$/.test(hm))return null;const m=Number(hm.slice(0,2))*60+Number(hm.slice(3,5));if(!Number.isFinite(m))return null;const slot=Math.floor(m/30)*30;const f=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');return `${f(slot)}–${f(slot+30)}`;}
 function renderTime(rows){
   const bands=group(rows,timeBand).filter(p=>p[0]!==null);
-  $('time-chart').innerHTML=svgChart([{values:bands,color:'#25c7dd'}],{bar:true,currency:true});
+  renderChart('time-chart',[{values:bands,color:'#25c7dd'}],{bar:true,currency:true});
 }
 const PRICE_BANDS=[['$0–2',0,2],['$2–5',2,5],['$5–10',5,10],['$10–20',10,20],['$20+',20,Infinity]];
 function priceGroups(rows){return PRICE_BANDS.map(([name,min,max])=>({name,rows:rows.filter(t=>Number.isFinite(t.entryPrice)&&t.entryPrice>=min&&t.entryPrice<max)}));}
 function renderPrice(rows){
   const bands=priceGroups(rows);const values=bands.map(x=>[x.name,sum(x.rows)]);
-  $('price-chart').innerHTML=svgChart([{values,color:'#a68afb'}],{bar:true,currency:true});
+  renderChart('price-chart',[{values,color:'#a68afb'}],{bar:true,currency:true});
   const populated=bands.filter(x=>x.rows.length);
   const best=populated.length?[...populated].sort((a,b)=>sum(b.rows)-sum(a.rows))[0]:null;
   const worst=populated.length?[...populated].sort((a,b)=>sum(a.rows)-sum(b.rows))[0]:null;
@@ -207,7 +229,7 @@ function tableMarkup(headers,rows){return `<table><thead><tr>${headers.map(x=>`<
 function renderWeekdays(rows){
   const names=['Lunes','Martes','Miércoles','Jueves','Viernes'];
   const groups=names.map((name,i)=>({name,rows:rows.filter(t=>{const [y,m,d]=t.date.split('-').map(Number);return (new Date(Date.UTC(y,m-1,d)).getUTCDay()+6)%7===i;})}));
-  $('weekday-chart').innerHTML=svgChart([{values:groups.map(x=>[x.name,sum(x.rows)]),color:'#25c56c'}],{bar:true,currency:true});
+  renderChart('weekday-chart',[{values:groups.map(x=>[x.name,sum(x.rows)]),color:'#25c56c'}],{bar:true,currency:true});
   const present=groups.filter(x=>x.rows.length);
   const best=present.length?[...present].sort((a,b)=>sum(b.rows)-sum(a.rows))[0]:null;
   const worst=present.length?[...present].sort((a,b)=>sum(a.rows)-sum(b.rows))[0]:null;
@@ -284,4 +306,14 @@ $('next').addEventListener('click',()=>{page++;renderTable();});
 $('refresh').addEventListener('click',loadData);
 $('best-search').addEventListener('click',renderBest);
 initializeWorkspace();
+window.addEventListener('resize', refreshCharts);
+if (typeof ResizeObserver !== 'undefined') {
+  const chartObserver = new ResizeObserver(entries => {
+    for (const { target } of entries) {
+      const config = chartConfigs.get(target.id);
+      if (config && target.clientWidth > 0) renderChart(target.id, config.series, config.opts);
+    }
+  });
+  document.querySelectorAll('.chart').forEach(element => chartObserver.observe(element));
+}
 loadData();

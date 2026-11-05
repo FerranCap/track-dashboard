@@ -23,6 +23,7 @@ function activateView() {
   $('page-title').textContent = VIEW_DETAILS[active][0];
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
+  refreshCharts();
 }
 
 function groupedStatistics(rows, key) {
@@ -60,7 +61,7 @@ function renderWorkspace(rows) {
     ['Mejor operación', s.wins.length ? money(Math.max(...s.wins.map(t => t.pnl))) : '—', 'positive'],
     ['Peor operación', s.losses.length ? money(Math.min(...s.losses.map(t => t.pnl))) : '—', 'negative']
   ].map(item => metric(...item)).join('');
-  $('recent-chart').innerHTML = svgChart([{ values: s.daily.slice(-10) }], { bar: true, currency: true, title: 'Últimas diez sesiones' });
+  renderChart('recent-chart',[{ values: s.daily.slice(-10) }], { bar: true, currency: true, title: 'Últimas diez sesiones' });
   $('symbols-table').innerHTML = breakdownTable(groupedStatistics(rows, t => t.symbol));
   const durationBands = [['Menos de 1 min', 0, 1], ['1–5 min', 1, 5], ['5–15 min', 5, 15], ['15–60 min', 15, 60], ['60 min o más', 60, Infinity]];
   const durationGroups = durationBands.map(([name, min, max]) => [name, rows.filter(t => Number.isFinite(t.holdMinutes) && t.holdMinutes >= min && t.holdMinutes < max)]);
@@ -88,7 +89,7 @@ function renderCountries(rows) {
     : 'Los CSV actuales no incluyen el país de la empresa. Las operaciones se mantienen sin clasificar hasta disponer de esa información.';
   const groups = groupedStatistics(rows, t => t.country || 'Sin clasificar');
   $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  $('country-chart').innerHTML = svgChart([{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país' });
+  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país' });
 }
 
 function renderRatios(rows) {
@@ -117,6 +118,43 @@ function renderRatios(rows) {
     const threshold = 1 / (1 + ratio);
     return [`${ratio} : 1`, `${num(threshold * 100, 1)}%`, pct(s.wins.length, decisive), observed === null ? '—' : `${num((observed - threshold) * 100, 1)} pp`];
   }));
+  renderRatioStudies(rows);
+}
+
+function ratioStudyGroups(rows, key) {
+  const minimum = Math.max(1, Math.ceil(Number($('ratio-min-trades').value) || 1));
+  return groupedStatistics(rows, key).filter(([, trades]) => trades.length >= minimum).map(([name, trades]) => {
+    const stats = statistics(trades);
+    return { name, count: trades.length, stats, rr: stats.wins.length && stats.losses.length ? stats.payOff : null };
+  });
+}
+
+function renderRatioStudy(prefix, groups) {
+  const headers = ['Grupo', 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor', 'Esperanza', 'Muestra'];
+  $(`${prefix}-table`).innerHTML = groups.length ? tableMarkup(headers, groups.map(({ name, count, stats: s, rr }) => [
+    name, count, s.wins.length, s.losses.length, s.scratches.length, pct(s.wins.length, count),
+    s.wins.length ? money(s.winAvg) : '—', s.losses.length ? money(s.lossAvg) : '—',
+    rr === null ? '—' : `${num(rr)} : 1`, ratioValue(s.pf), money(s.expectancy), count < 20 ? 'Reducida (<20)' : '20 o más'
+  ])) : '<p class="muted">Sin grupos con el mínimo de operaciones seleccionado.</p>';
+  renderChart(`${prefix}-winrate`, [{ values: groups.map(g => [g.name, 100 * g.stats.wins.length / g.count]), color: '#5c9bff' }], { bar: true, unit: '%', max: 100, title: 'Win rate por grupo' });
+  renderChart(`${prefix}-rr`, [{ values: groups.filter(g => g.rr !== null).map(g => [g.name, g.rr]), color: '#a68afb' }], { bar: true, unit: 'x', title: 'Relación ganancia media / pérdida media por grupo', empty: 'RR no disponible: cada grupo necesita operaciones ganadoras y perdedoras.' });
+}
+
+function renderRatioStudies(rows) {
+  const interval = Number($('ratio-time-interval').value) === 60 ? 60 : 30;
+  const groups = ratioStudyGroups(rows, trade => {
+    const time = (trade.opened || '').slice(11, 16);
+    if (!/^\d{2}:\d{2}$/.test(time)) return 'Sin horario';
+    const minutes = Number(time.slice(0, 2)) * 60 + Number(time.slice(3));
+    const start = Math.floor(minutes / interval) * interval;
+    const format = value => `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
+    return `${format(start)}–${format(start + interval)}`;
+  }).sort((a, b) => a.name.localeCompare(b.name));
+  renderRatioStudy('ratio-time', groups);
+  const countries = ratioStudyGroups(rows, trade => trade.country?.trim() || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
+  const known = rows.filter(trade => trade.country?.trim()).length;
+  $('ratio-country-note').textContent = `País de la empresa emisora · ${known} de ${rows.length} operaciones clasificadas. ${known ? 'Las operaciones sin país se muestran por separado.' : 'Los CSV actuales no incluyen país; los resultados figuran sin clasificar.'} Se aplica el mismo mínimo de operaciones que al estudio horario.`;
+  renderRatioStudy('ratio-country', countries);
 }
 
 function renderCalendar(rows) {
@@ -171,7 +209,7 @@ function renderComparisons() {
   ];
   $('compare-table').innerHTML = tableMarkup(['Métrica', 'Grupo A', 'Grupo B'], measures.map(([label, fn]) => [label, fn(summaries[0], a), fn(summaries[1], b)]));
   const axis = dates([...a, ...b]);
-  $('compare-chart').innerHTML = svgChart([{ values: alignedEquity(a, axis), color: '#20d07a' }, { values: alignedEquity(b, axis), color: '#ff4e62' }], { currency: true, title: 'Comparación de capital por fecha' });
+  renderChart('compare-chart',[{ values: alignedEquity(a, axis), color: '#20d07a' }, { values: alignedEquity(b, axis), color: '#ff4e62' }], { currency: true, title: 'Comparación de capital por fecha' });
 }
 
 function initializeWorkspace() {
@@ -183,8 +221,10 @@ function initializeWorkspace() {
   const selectAnalysis = key => {
     document.querySelectorAll('[data-analysis-panel]').forEach(panel => { panel.hidden = panel.dataset.analysisPanel !== key; });
     document.querySelectorAll('[data-analysis]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.analysis === key)));
+    refreshCharts();
   };
   selectAnalysis('time');
+  for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; renderCalendar(filtered); });
   for (const [id, step] of [['month-prev', -1], ['month-next', 1]]) $(id).addEventListener('click', () => {

@@ -13,7 +13,7 @@ Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los C
 5. En GitHub Desktop, revisa los cambios, escribe `Restore complete dashboard` y pulsa **Commit to main** y **Push origin**.
 6. En GitHub.com, abre **Settings > Pages > Build and deployment**, selecciona **Source: GitHub Actions**. Este proyecto despliega mediante Actions; **no uses Deploy from a branch**.
 7. En la pestaña **Actions**, comprueba la ejecución **Build and deploy Track Dashboard**. Si es la primera vez, puedes abrirla y pulsar **Run workflow**.
-8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-sections-1** y **Datos cargados**. Si hay un error, revisa la consola con F12.
+8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-ratios-2** y **Datos cargados**. Si hay un error, revisa la consola con F12.
 
 ## Actualización diaria
 
@@ -35,6 +35,7 @@ El menú lateral muestra ocho vistas: General, Operaciones, Calendario, Análisi
 - Análisis separa horario, símbolos, precio, duración y long/short mediante pestañas.
 - Comparativas cruza los filtros globales con los de cada grupo: fechas, dirección y símbolo. Por defecto compara long frente a short; los grupos pueden solaparse.
 - Ratios distingue la relación ganancia/pérdida realizada del Risk/Reward planificado. Este último no se calcula sin stop y objetivo iniciales.
+- Ratios incluye estudios de win rate y RR realizado por horario de entrada (30 o 60 minutos, Nueva York) y por país, con mínimo de operaciones configurable. Las tablas muestran el tamaño de muestra, operaciones a cero, medias, profit factor y esperanza. El RR queda sin valor cuando falta una operación ganadora o perdedora; el win rate incluye las operaciones a cero.
 
 País representa el país de la empresa emisora, no el mercado donde cotiza. Como los CSV actuales no lo incluyen, las operaciones aparecen como **Sin clasificar**. Para incorporar países verificados, completa `data/symbol-countries.json` con un objeto que asocie cada símbolo a su país y regenera los datos. Usa el mismo nombre para un país en todos sus símbolos; los símbolos sin correspondencia siguen sin clasificar.
 
