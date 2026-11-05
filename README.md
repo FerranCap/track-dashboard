@@ -1,5 +1,7 @@
 # Track Dashboard
 
+[Abrir la web de Track Dashboard](https://FerranCap.github.io/track-dashboard/)
+
 Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los CSV de `data/` en cada publicación.
 
 ## Instalación con GitHub Desktop
