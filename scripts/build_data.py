@@ -151,7 +151,7 @@ def build():
             'TradePnL comes from QuantTradeId and is not adjusted for fees again.',
             'Fees are the sum of unique fill commissions across overlapping exports.',
             'MAE and MFE are unavailable without intratrade market prices.',
-            'Trades.csv (broker-specific format) is excluded from Quant statistics.'
+            'Raw broker exports require explicit normalization before import. Normalized broker rows retain their PnLBasis and execution-level source amounts in the CSV.'
         ],
         'trades': ordered,
     }

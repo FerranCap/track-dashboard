@@ -21,6 +21,14 @@ Copia los nuevos exportes CSV a `data/`, confirma los cambios con GitHub Desktop
 
 ## Formatos y precisión
 
+Para actualizar desde el chat, adjunta el CSV diario y escribe **«Actualiza los trades»**. El procedimiento está definido en [AGENTS.md](AGENTS.md): detectar el formato, convertirlo si hace falta, aplicar el criterio de comisiones acordado, comprobar duplicados, regenerar los datos y validar el resultado. Un archivo enviado solo para comparar formatos no se importa.
+
+Si aparecen tickers nuevos, se investigan y se completa su ficha con fuentes oficiales. Al terminar se informa de cada ticker, los valores añadidos y los campos que sigan sin confirmar, para que puedas revisar y corregir la clasificación. Los campos inciertos no se inventan y siguen pendientes en Tickers.
+
+El `Trades.csv` del broker del 2026-11-05 se ha convertido a `data/quant-trades-broker-2026-11-05.csv`: 129 ejecuciones agrupadas en 8 ciclos de posición cerrados, con horarios de Nueva York. `TradePnL` suma el `P / L` reportado y el `ECNFee` firmado; `Commission` contiene el coste ECN con signo de gasto. Solo se incluyen los costes disponibles en ese archivo, sin inventar otras comisiones. Los campos `ReportedExecutionPnL`, `ECNFee` y `PnLBasis` permiten auditar la conversión. No se copia la cuenta del broker. El Excel de marzo no se ha añadido.
+
+`scripts/import_broker_trades.py` permite repetir la conversión con fecha y criterio de PnL explícitos; rechaza posiciones incompletas, reversiones sin desglosar y solapamientos con operaciones Quant existentes.
+
 - Solo se procesan CSV Quant con `QuantTradeId` y el resto de campos requeridos. CSV de broker con otras columnas quedan excluidos.
 - Los trades se agrupan por `QuantTradeId` y las ejecuciones repetidas entre exportes se deduplican según los campos disponibles. Cuando haya ejecuciones perfectamente idénticas no diferenciables, se conserva su multiplicidad dentro de cada exportación.
 - El `TradePnL` se toma literalmente del CSV; las comisiones no se descuentan de nuevo.

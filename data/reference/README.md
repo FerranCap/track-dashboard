@@ -1,6 +1,6 @@
 # Issuer research database
 
-`ticker-profiles.csv` is the canonical database for the 499 distinct symbols in the supplied trade history. Research snapshot: **2026-11-05**. Each row links to SEC issuer metadata and the annual report or registration statement used in the extraction. No account details or trade executions are sent to the SEC.
+`ticker-profiles.csv` is the canonical database for the 500 distinct symbols in the supplied trade history. Research snapshot: **2026-11-05**. Each row links to SEC issuer metadata and the annual report or registration statement used in the extraction. No account details or trade executions are sent to the SEC.
 
 The database separates three questions:
 

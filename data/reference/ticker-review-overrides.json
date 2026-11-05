@@ -1170,5 +1170,25 @@
     "vie_status": "no_explicit",
     "vie_basis": "The report expressly states that the company has no VIEs at December 31, 2025 and 2024.",
     "checked_on": "2026-11-05"
+  },
+  "PLCE": {
+    "issuer_name": "The Children's Place, Inc.",
+    "incorporation_country": "United States",
+    "incorporation_jurisdiction": "Delaware",
+    "incorporation_status": "filing_cover",
+    "headquarters_country": "United States",
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The annual report segment note identifies the US segment as the dominant retail business and the manager of core corporate and procurement functions. Canadian stores, international franchisees and overseas sourcing are disclosed separately; the US classification does not imply exclusive US legal exposure.",
+    "security_type": "direct_equity",
+    "structure_status": "reviewed",
+    "security_basis": "The filing cover identifies PLCE common stock on Nasdaq, rather than depositary shares.",
+    "vie_status": "unknown",
+    "vie_basis": "No conclusive issuer-specific statement establishing VIE presence or absence was found in the reviewed annual report. An absent mention is not proof of no VIE.",
+    "source_filing_url": "https://www.sec.gov/Archives/edgar/data/1041859/000162828026024672/plce-20260131.htm",
+    "source_filing_date": "2026-04-10",
+    "checked_on": "2026-11-05",
+    "notes": "Manually reviewed SEC annual-report cover and segment disclosure after the submissions API returned HTTP 403. Primary-source incorporation and security identification are separate from the reviewed principal operating-country classification.",
+    "historical_note": "Research snapshot checked on 2026-11-05, using the annual report for the year ended 2026-01-31; not a point-in-time legal opinion for every trade."
   }
 }
