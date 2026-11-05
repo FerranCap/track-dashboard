@@ -42,9 +42,10 @@ jobs:
         run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Assemble website
         run: |
-          mkdir -p site/data
+          mkdir -p site/data/reference
           cp index.html dashboard.js workspace.js help.js styles.css site/
           cp data/trades.json site/data/trades.json
+          cp data/reference/ticker-profiles.csv data/reference/research-summary.json site/data/reference/
           touch site/.nojekyll
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

@@ -118,7 +118,7 @@ const chartConfigs = new Map();
 function renderChart(id, series, opts = {}) {
   const element = $(id);
   chartConfigs.set(id, { series, opts });
-  const explanation = chartHelp(id, opts);
+  const explanation = opts.explanation || chartHelp(id, opts);
   element.setAttribute('data-help', explanation);
   element.setAttribute('tabindex', '0');
   element.innerHTML = svgChart(series, { ...opts, explanation, width: element.clientWidth || 800, height: element.clientHeight || 265 });
@@ -216,9 +216,17 @@ function renderSide(id,rows,title,kind){
   ];
   $(id).innerHTML=`<div class="side-title ${kind}">${title}</div><div class="side-grid">${items.map(([label,value,cls])=>`<div tabindex="0" ${helpAttributes(helpText(label))}><div class="side-cell-label">${esc(label)}<span class="help-mark" aria-hidden="true">ⓘ</span></div><div class="side-cell-value ${cls||''}">${esc(value)}</div></div>`).join('')}</div>`;
 }
-function timeBand(t){const hm=(t.opened||'').slice(11,16);if(!/^\d{2}:\d{2}$/.test(hm))return null;const m=Number(hm.slice(0,2))*60+Number(hm.slice(3,5));if(!Number.isFinite(m))return null;const slot=Math.floor(m/30)*30;const f=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');return `${f(slot)}–${f(slot+30)}`;}
+function timeBand(trade, interval = 5) {
+  const time = (trade.opened || '').slice(11, 16);
+  if (!/^\d{2}:\d{2}$/.test(time)) return null;
+  const hour = Number(time.slice(0, 2)), minute = Number(time.slice(3));
+  if (hour > 23 || minute > 59) return null;
+  const start = Math.floor((hour * 60 + minute) / interval) * interval;
+  const format = value => `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
+  return `${format(start)}–${format(start + interval)}`;
+}
 function renderTime(rows){
-  const bands=group(rows,timeBand).filter(p=>p[0]!==null);
+  const bands=group(rows,trade=>timeBand(trade)).filter(p=>p[0]!==null);
   renderChart('time-chart',[{values:bands,color:'#25c7dd'}],{bar:true,currency:true});
 }
 const PRICE_BANDS=[['$0–2',0,2],['$2–5',2,5],['$5–10',5,10],['$10–20',10,20],['$20+',20,Infinity]];
@@ -285,7 +293,8 @@ function renderTable(){
   $('pagination-info').textContent=matches.length?`${page*pageSize+1}–${Math.min((page+1)*pageSize,matches.length)} de ${matches.length}`:'0 operaciones';
   $('prev').disabled=page===0;$('next').disabled=page>=maxPage;
 }
-async function loadData(){
+async function loadData(options = {}){
+  const previous = options.preserveFilters ? Object.fromEntries(['year','symbol','side','date-from','date-to','search'].map(id=>[id,$(id).value])) : null;
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
     const response=await fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'});
@@ -294,11 +303,17 @@ async function loadData(){
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
     dataset=next;populateFilters(dataset.trades);
     $('year').value='all';$('symbol').value='all';$('side').value='all';$('date-from').value='';$('date-to').value='';$('search').value='';
+    if(previous)for(const [id,value] of Object.entries(previous)){
+      const element=$(id);
+      element.value=element.tagName==='SELECT'&&!Array.from(element.options).some(option=>option.value===value)?'all':value;
+    }
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;
     $('dataset-info').textContent=`${next.tradeCount} trades · ${next.uniqueExecutionRows} ejecuciones únicas · ${next.sourceFiles.length} CSV Quant compatibles`;
     $('source-status').textContent='Datos cargados';
     if(next.unsupportedFiles.length||next.inconsistentIds){$('error').hidden=false;$('error').textContent=`Aviso: ${next.unsupportedFiles.length?`CSV de otro formato (no combinados): ${next.unsupportedFiles.join(', ')}. `:''}${next.inconsistentIds?`${next.inconsistentIds} IDs contradictorios entre exportaciones.`:''}`;}
     applyFilters();
+    renderDataAudit();
+    return true;
   }catch(err){
     console.error('Dashboard error:', err);
     $('source-status').textContent='Error';
@@ -306,6 +321,7 @@ async function loadData(){
     $('error').textContent=err.message.startsWith('Missing HTML element')
       ? `Versiones incompatibles: ${err.message}`
       : `Error al cargar o procesar datos: ${err.message}. Comprueba los archivos publicados y GitHub Actions.`;
+    return false;
   }
   finally{$('refresh').disabled=false;}
 }

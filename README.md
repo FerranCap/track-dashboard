@@ -13,7 +13,7 @@ Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los C
 5. En GitHub Desktop, revisa los cambios, escribe `Restore complete dashboard` y pulsa **Commit to main** y **Push origin**.
 6. En GitHub.com, abre **Settings > Pages > Build and deployment**, selecciona **Source: GitHub Actions**. Este proyecto despliega mediante Actions; **no uses Deploy from a branch**.
 7. En la pestaña **Actions**, comprueba la ejecución **Build and deploy Track Dashboard**. Si es la primera vez, puedes abrirla y pulsar **Run workflow**.
-8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-help-3** y **Datos cargados**. Si hay un error, revisa la consola con F12.
+8. Abre `https://FerranCap.github.io/track-dashboard/` y comprueba que muestra **Versión: 20261105-data-audit-6** y **Datos cargados**. Si hay un error, revisa la consola con F12.
 
 ## Actualización diaria
 
@@ -31,15 +31,19 @@ Copia los nuevos exportes CSV a `data/`, confirma los cambios con GitHub Desktop
 
 Las tarjetas, gráficos, tablas y filtros incluyen ayudas al pasar el ratón o enfocarlos con el teclado. En móvil, toca el elemento para consultar la explicación; vuelve a tocarlo o toca fuera para cerrarla. Escape cierra la ayuda. Las barras de Ratios incluyen los valores concretos usados en el cálculo; «x» indica veces, «%» porcentaje y «pp» puntos porcentuales.
 
-El menú lateral muestra ocho vistas: General, Operaciones, Calendario, Análisis, País, Ratios, Riesgo y consistencia y Comparativas. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
+El menú lateral muestra nueve vistas: General, Operaciones, Calendario, Análisis, País, Ratios, Riesgo y consistencia, Comparativas y Data. Los filtros globales se mantienen al cambiar de apartado. Cada vista tiene un enlace directo, por ejemplo `#ratios`.
+
+En País, **Comprobar tickers pendientes** recarga los últimos datos publicados y abre **Data**. La comprobación también se actualiza al cargar la web. Data contrasta todos los símbolos del historial con la base de emisores, sin aplicar los filtros globales: distingue tickers sin ficha, constitución incompleta, operación sin confirmar y estructura pendiente. Incluye búsqueda, tipo de pendiente, número de operaciones y primera/última fecha. Los países inferidos siguen pendientes y no se asignan automáticamente. Los nuevos CSV deben haberse publicado mediante GitHub Actions para que aparezcan en el historial de la web.
 
 - Calendario permite cambiar de mes y seleccionar una sesión para consultar sus operaciones.
 - Análisis separa horario, símbolos, precio, duración y long/short mediante pestañas.
 - Comparativas cruza los filtros globales con los de cada grupo: fechas, dirección y símbolo. Por defecto compara long frente a short; los grupos pueden solaparse.
 - Ratios distingue la relación ganancia/pérdida realizada del Risk/Reward planificado. Este último no se calcula sin stop y objetivo iniciales.
-- Ratios incluye estudios de win rate y RR realizado por horario de entrada (30 o 60 minutos, Nueva York) y por país, con mínimo de operaciones configurable. Las tablas muestran el tamaño de muestra, operaciones a cero, medias, profit factor y esperanza. El RR queda sin valor cuando falta una operación ganadora o perdedora; el win rate incluye las operaciones a cero.
+- Ratios incluye estudios de win rate y RR realizado por horario de entrada (5 minutos por defecto; también 30 o 60 minutos, Nueva York) y por país, con mínimo de operaciones configurable. Las tablas muestran el tamaño de muestra, operaciones a cero, medias, profit factor y esperanza. El RR queda sin valor cuando falta una operación ganadora o perdedora; el win rate incluye las operaciones a cero.
 
-País representa el país de la empresa emisora, no el mercado donde cotiza. Como los CSV actuales no lo incluyen, las operaciones aparecen como **Sin clasificar**. Para incorporar países verificados, completa `data/symbol-countries.json` con un objeto que asocie cada símbolo a su país y regenera los datos. Usa el mismo nombre para un país en todos sus símbolos; los símbolos sin correspondencia siguen sin clasificar.
+País consulta la [base de emisores](data/reference/ticker-profiles.csv), con una fila por ticker, país y jurisdicción de constitución, país de operación, tipo de valor, VIE y fuentes oficiales. La vista permite separar país de operación confirmado, país de constitución y jurisdicción societaria, buscar emisores y descargar el CSV. Los datos pendientes permanecen sin clasificar; una sede no se convierte automáticamente en país de operación. La base es una instantánea de investigación, no una reconstrucción de todas las reorganizaciones históricas.
+
+La [metodología y los campos](data/reference/README.md) explican los estados de verificación y cómo actualizar las fuentes. GitHub Actions reutiliza la base local; no investiga ni modifica países automáticamente en cada publicación. `data/symbol-countries.json` queda como compatibilidad para símbolos sin ficha en la base; nunca sustituye un estado pendiente de una ficha existente.
 
 ## Privacidad
 

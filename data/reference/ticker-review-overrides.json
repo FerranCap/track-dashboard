@@ -1,0 +1,47 @@
+{
+  "HPAI": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "The filing expressly locates the operating subsidiary in Singapore, while disclosing dependence on PRC-based customers and no PRC operating entity. Chinese customer/regulatory exposure is not erased by this operating-base classification."
+  },
+  "TNMG": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The annual report explicitly describes primary businesses and legal exposure in both Japan and Taiwan. A single principal country has not been established; neither is silently chosen."
+  },
+  "AGMH": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report describes operations in Hong Kong SAR and Canada after disposal of PRC subsidiaries. A single principal operating country requires further review."
+  },
+  "BTCM": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report describes subsidiaries and mining operations across several countries, including the United States and Ethiopia; Hong Kong entities alone do not establish a principal operating country."
+  },
+  "ACON": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The revenue-concentration sentence identifies both United Kingdom and United States customers; it does not establish one principal operating country."
+  },
+  "HKD": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report describes primary operations across Europe, the United States and Asia. The disclosed office country is not treated as a unique operating country."
+  },
+  "ZOOZ": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "The annual report explicitly locates the headquarters and research-and-development facilities in Israel and explains Israeli operating and regulatory exposure. This does not imply exclusive exposure to Israeli law."
+  },
+  "IHT": {
+    "security_type": "direct_equity",
+    "structure_status": "cover_table",
+    "security_basis": "The annual-report cover identifies the listed holding as shares of beneficial interest reported on NYSE American. This is direct beneficial ownership in a trust, not an American depositary share."
+  },
+  "SSKN": {
+    "security_type": "direct_equity",
+    "structure_status": "cover_table",
+    "security_basis": "The annual report explicitly describes the issuer common stock and its delisting. Current registration status is separate from the historical listed security type."
+  }
+}

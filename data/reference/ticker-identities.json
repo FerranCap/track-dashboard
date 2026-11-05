@@ -1,0 +1,409 @@
+{
+  "ABVE": {
+    "cik_str": 1979484,
+    "title": "Above Food Ingredients Inc.",
+    "ticker": "ABVE"
+  },
+  "ADTX": {
+    "cik_str": 1726711,
+    "title": "ADTX",
+    "ticker": "ADTX",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "AGAE": {
+    "cik_str": 1708341,
+    "title": "Allied Gaming & Entertainment Inc.",
+    "ticker": "AGAE"
+  },
+  "AIHS": {
+    "cik_str": 1711012,
+    "title": "AIHS",
+    "ticker": "AIHS",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "AIXC": {
+    "cik_str": 1460702,
+    "title": "AIxCrypto Holdings, Inc.",
+    "ticker": "AIXC"
+  },
+  "ALBT": {
+    "cik_str": 1630212,
+    "title": "Avalon GloboCare Corp.",
+    "ticker": "ALBT"
+  },
+  "APM": {
+    "cik_str": 1734005,
+    "title": "APM",
+    "ticker": "APM",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "ATNF": {
+    "cik_str": 1690080,
+    "title": "ATNF",
+    "ticker": "ATNF",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "LAZR": {
+    "cik_str": 1758057,
+    "title": "LAZR",
+    "ticker": "LAZR",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "IRBT": {
+    "cik_str": 1159167,
+    "title": "IRBT",
+    "ticker": "IRBT",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "EVTV": {
+    "cik_str": 1563568,
+    "title": "EVTV",
+    "ticker": "EVTV",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "SNBR": {
+    "cik_str": 827187,
+    "title": "SNBR",
+    "ticker": "SNBR",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "GWH": {
+    "cik_str": 1819438,
+    "title": "GWH",
+    "ticker": "GWH",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "CASI": {
+    "cik_str": 895051,
+    "title": "CASI",
+    "ticker": "CASI",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "CMBM": {
+    "cik_str": 1738177,
+    "title": "CMBM",
+    "ticker": "CMBM",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "BTAI": {
+    "cik_str": 1720893,
+    "title": "BTAI",
+    "ticker": "BTAI",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "FAT": {
+    "cik_str": 1705012,
+    "title": "FAT",
+    "ticker": "FAT",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "LPTX": {
+    "cik_str": 1509745,
+    "title": "LPTX",
+    "ticker": "LPTX",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "IOBT": {
+    "cik_str": 1865494,
+    "title": "IOBT",
+    "ticker": "IOBT",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "MEIP": {
+    "cik_str": 1262104,
+    "title": "MEIP",
+    "ticker": "MEIP",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "SBEV": {
+    "cik_str": 1553788,
+    "title": "SBEV",
+    "ticker": "SBEV",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "GLTO": {
+    "cik_str": 1800315,
+    "title": "GLTO",
+    "ticker": "GLTO",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "MIGI": {
+    "cik_str": 1218683,
+    "title": "MIGI",
+    "ticker": "MIGI",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "LITM": {
+    "cik_str": 1769697,
+    "title": "LITM",
+    "ticker": "LITM",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "CYCN": {
+    "cik_str": 1755237,
+    "title": "CYCN",
+    "ticker": "CYCN",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "VERB": {
+    "cik_str": 1566610,
+    "title": "VERB",
+    "ticker": "VERB",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "VERO": {
+    "cik_str": 1409269,
+    "title": "VERO",
+    "ticker": "VERO",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "SOPA": {
+    "cik_str": 1817511,
+    "title": "SOPA",
+    "ticker": "SOPA",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "SSKN": {
+    "cik_str": 1051514,
+    "title": "SSKN",
+    "ticker": "SSKN",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "UGRO": {
+    "cik_str": 1706524,
+    "title": "UGRO",
+    "ticker": "UGRO",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "NUKK": {
+    "cik_str": 1592782,
+    "title": "NUKK",
+    "ticker": "NUKK",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "CHEK": {
+    "cik_str": 1610590,
+    "title": "CHEK",
+    "ticker": "CHEK",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "EKSO": {
+    "cik_str": 1549084,
+    "title": "EKSO",
+    "ticker": "EKSO",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "BTCM": {
+    "cik_str": 1517496,
+    "title": "BTCM",
+    "ticker": "BTCM",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "POAI": {
+    "cik_str": 1446159,
+    "title": "POAI",
+    "ticker": "POAI",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "SGBX": {
+    "cik_str": 1023994,
+    "title": "SGBX",
+    "ticker": "SGBX",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "TIVC": {
+    "cik_str": 1787740,
+    "title": "TIVC",
+    "ticker": "TIVC",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "LMFA": {
+    "cik_str": 1640384,
+    "title": "LMFA",
+    "ticker": "LMFA",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "VYNE": {
+    "cik_str": 1566044,
+    "title": "VYNE",
+    "ticker": "VYNE",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "NAOV": {
+    "cik_str": 1326706,
+    "title": "NAOV",
+    "ticker": "NAOV",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "OTRK": {
+    "cik_str": 1136174,
+    "title": "OTRK",
+    "ticker": "OTRK",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "QLGN": {
+    "cik_str": 1460702,
+    "title": "QLGN",
+    "ticker": "QLGN",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "VRME": {
+    "cik_str": 1104038,
+    "title": "VRME",
+    "ticker": "VRME",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "RELI": {
+    "cik_str": 1812727,
+    "title": "RELI",
+    "ticker": "RELI",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "HOTH": {
+    "cik_str": 1711786,
+    "title": "HOTH",
+    "ticker": "HOTH",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "UUU": {
+    "cik_str": 102109,
+    "title": "UUU",
+    "ticker": "UUU",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "LRHC": {
+    "cik_str": 1879403,
+    "title": "LRHC",
+    "ticker": "LRHC",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "JFBR": {
+    "cik_str": 1885408,
+    "title": "JFBR",
+    "ticker": "JFBR",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "BTOG": {
+    "cik_str": 1735556,
+    "title": "BTOG",
+    "ticker": "BTOG",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "TIRX": {
+    "cik_str": 1782941,
+    "title": "TIRX",
+    "ticker": "TIRX",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "STSS": {
+    "cik_str": 1737995,
+    "title": "STSS",
+    "ticker": "STSS",
+    "source_url": "https://www.sec.gov/include/ticker.txt"
+  },
+  "BSLK": {
+    "cik_str": 1841125,
+    "title": "Bolt Projects Holdings, Inc.",
+    "ticker": "BSLK"
+  },
+  "CJET": {
+    "cik_str": 1957413,
+    "title": "Chijet Motor Company Inc.",
+    "ticker": "CJET"
+  },
+  "DEVS": {
+    "cik_str": 1854480,
+    "ticker": "DEVS",
+    "title": "DevvStream Corp."
+  },
+  "FTEL": {
+    "cik_str": 1928581,
+    "ticker": "FTEL",
+    "title": "Fitell Corporation"
+  },
+  "GV": {
+    "cik_str": 1892274,
+    "ticker": "GV",
+    "title": "Visionary Holdings Inc."
+  },
+  "HWH": {
+    "cik_str": 1897245,
+    "ticker": "HWH",
+    "title": "HWH International Inc."
+  },
+  "IMG": {
+    "cik_str": 1527613,
+    "ticker": "IMG",
+    "title": "CIMG Inc."
+  },
+  "MIMI": {
+    "cik_str": 1998560,
+    "ticker": "MIMI",
+    "title": "Mint Incorporation Limited"
+  },
+  "OCTO": {
+    "cik_str": 1892492,
+    "ticker": "OCTO",
+    "title": "Eightco Holdings Inc."
+  },
+  "ORIS": {
+    "cik_str": 1964664,
+    "ticker": "ORIS",
+    "title": "Oriental Rise Holdings Limited"
+  },
+  "RITR": {
+    "cik_str": 1951229,
+    "ticker": "RITR",
+    "title": "Reitar Logtech Holdings Limited"
+  },
+  "SBLX": {
+    "cik_str": 1086745,
+    "ticker": "SBLX",
+    "title": "StableX Technologies Inc."
+  },
+  "SELX": {
+    "cik_str": 1990950,
+    "ticker": "SELX",
+    "title": "Semilux International Ltd."
+  },
+  "SGD": {
+    "cik_str": 1959023,
+    "ticker": "SGD",
+    "title": "Safe and Green Development Corporation"
+  },
+  "SGN": {
+    "cik_str": 1898474,
+    "ticker": "SGN",
+    "title": "Signing Day Sports, Inc."
+  },
+  "STEC": {
+    "cik_str": 1785680,
+    "ticker": "STEC",
+    "title": "Santech Holdings Limited"
+  },
+  "THAR": {
+    "cik_str": 1861657,
+    "ticker": "THAR",
+    "title": "Tharimmune, Inc."
+  },
+  "UOKA": {
+    "cik_str": 1741534,
+    "ticker": "UOKA",
+    "title": "MDJM Ltd"
+  },
+  "VTAK": {
+    "cik_str": 1716621,
+    "ticker": "VTAK",
+    "title": "Catheter Precision, Inc."
+  },
+  "WGRX": {
+    "cik_str": 2030763,
+    "ticker": "WGRX",
+    "title": "Wellgistics Health, Inc."
+  },
+  "WTO": {
+    "cik_str": 1789299,
+    "ticker": "WTO",
+    "title": "UTime Ltd"
+  }
+}

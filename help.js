@@ -14,6 +14,17 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/tickers del historial/, 'Número de símbolos distintos en todo el historial publicado. Esta comprobación no aplica los filtros de análisis.'],
+    [/tickers sin ficha/, 'Tickers del historial que no tienen una fila en la base de emisores. Se incluyen como nuevos pendientes, aunque tengan varias operaciones.'],
+    [/constitucion incompleta/, 'Tickers sin país o sin jurisdicción de constitución en su ficha, incluidos los que aún no tienen ficha. Se comprueba todo el historial.'],
+    [/operacion sin confirmar/, 'Tickers sin país de operación documentado. Un país solo inferido por instalaciones continúa pendiente; se exige una declaración en el documento o una revisión documentada.'],
+    [/datos pendientes/, 'Campos aún ausentes o sin confirmar en la ficha del emisor. Detectarlos no los completa automáticamente ni convierte una inferencia en un dato confirmado.'],
+    [/^ticker$/, 'Símbolo único que aparece en el historial de operaciones publicado. La lista de Data cuenta cada ticker una vez.'],
+    [/constitucion|jurisdiccion/, 'País y jurisdicción societaria de la entidad cotizada, según la ficha SEC o la portada del documento. Se conserva separada del país de operación. La empresa también puede estar sometida a normativa de otros países.'],
+    [/\bvie\b/, 'Una VIE es una entidad de interés variable consolidada o vinculada mediante acuerdos específicos. «Sí» o «No» requieren una declaración identificada en el documento; «Sin confirmar» no significa ausencia. Una VIE contable no implica por sí misma exposición a China.'],
+    [/valor cotizado|\badr\b|\bads\b/, 'Distingue acciones ordinarias/directas de American Depositary Shares o Receipts. La condición ADS/ADR y la existencia de una VIE son atributos independientes.'],
+    [/emisor/, 'Entidad legal identificada por el CIK de la SEC. Se muestra el nombre del registro al investigar; puede diferir del nombre usado cuando operaste el ticker.'],
+    [/fuentes/, 'Enlaces a la ficha oficial del emisor y al documento de la SEC utilizado, con fecha de publicación y fecha de consulta. Una instantánea actual no reconstruye automáticamente cambios históricos.'],
     [/risk\/reward planificado/, 'Risk/Reward planificado = distancia entre entrada y objetivo ÷ distancia entre entrada y stop inicial. No está disponible porque los CSV actuales no incluyen el stop ni el objetivo iniciales.'],
     [/acierto sin|tu acierto sin/, 'Acierto sin operaciones a cero = ganadoras ÷ (ganadoras + perdedoras) × 100. Las operaciones a cero se excluyen de este denominador.'],
     [/acierto de equilibrio/, 'Acierto de equilibrio = 1 ÷ (1 + relación ganancia media/pérdida media) × 100. Es el acierto necesario para igualar ganancias y pérdidas con esa relación, excluyendo operaciones a cero.'],
@@ -52,7 +63,7 @@ function helpText(label) {
     [/entrada|entry/, 'Precio de entrada = suma de (precio × cantidad) de las ejecuciones de entrada ÷ suma de sus cantidades. Es un precio medio ponderado, en USD.'],
     [/dias operados|trading days/, 'Número de fechas de cierre distintas con al menos una operación. Las fechas se expresan en la zona horaria de Nueva York.'],
     [/cobertura/, 'Cobertura = operaciones con país identificado ÷ total de operaciones × 100. Los símbolos sin país siguen incluidos como «Sin clasificar».'],
-    [/paises identificados/, 'Número de países distintos de la empresa emisora entre las operaciones con país disponible. No se deduce el país a partir de la bolsa donde cotiza.'],
+    [/paises identificados/, 'Número de grupos distintos con país disponible para la dimensión seleccionada: operación confirmada, constitución o jurisdicción. No se deduce a partir de la bolsa.'],
     [/sin clasificar/, 'Operaciones para las que no hay país de la empresa emisora verificado. No se presupone ningún país a partir del símbolo.'],
     [/simbolos/, 'Número de símbolos distintos entre las operaciones seleccionadas.'],
     [/ganadoras|winning trades/, 'Número de operaciones con PnL mayor que $0,000001. Si aparece un porcentaje, se divide este número por el total de operaciones.'],
@@ -63,10 +74,11 @@ function helpText(label) {
     [/operaciones|trades/, 'Número de operaciones cerradas únicas, una por QuantTradeId. Varias ejecuciones de una misma operación no cuentan como operaciones distintas.'],
     [/apertura|cierre|fecha/, 'Fecha u hora del evento indicado, convertida a America/New_York y con el cambio de horario estacional correspondiente. El día de una operación es el de su cierre.'],
     [/direccion/, 'Long corresponde a TradeSide BUY y Short a TradeSide SELL. Cada grupo conserva las operaciones de esa dirección.'],
-    [/pais/, 'País verificado de la empresa emisora, independiente del mercado donde cotiza. Las operaciones sin correspondencia se muestran como «Sin clasificar».'],
+    [/pais/, 'El país de constitución y el país de operación son campos distintos. Se consulta la base de emisores y se agrupa según la dimensión seleccionada; las inferencias no se incluyen como operación confirmada. Una empresa puede estar sujeta a normas de varias jurisdicciones.'],
     [/grupo|rango|dia|simbolo/, 'Criterio que agrupa las operaciones de esta fila. Las demás columnas se calculan únicamente con las operaciones del grupo y los filtros seleccionados.']
   ];
-  return (rules.find(([pattern]) => pattern.test(key))?.[1] || 'Dato del conjunto de operaciones seleccionado. «—» o «N/D» indican que faltan datos o que el cálculo no está definido.') + HELP_SCOPE;
+  const scope = /^(tickers del historial|tickers sin ficha|constitucion incompleta|operacion sin confirmar|datos pendientes|ticker)$/.test(key) ? ' Se comprueba todo el historial publicado, sin filtros de análisis.' : HELP_SCOPE;
+  return (rules.find(([pattern]) => pattern.test(key))?.[1] || 'Dato del conjunto de operaciones seleccionado. «—» o «N/D» indican que faltan datos o que el cálculo no está definido.') + scope;
 }
 
 function helpAttributes(text) {
@@ -78,7 +90,7 @@ function chartHelp(id, opts) {
   if (opts.unit === '%') return HELP_WINRATE + ' Cada barra corresponde al grupo del eje horizontal.' + HELP_SCOPE;
   if (id.includes('drawdown')) return HELP_DRAWDOWN + HELP_SCOPE;
   if (id.includes('equity') || id.includes('comparison') || id === 'compare-chart') return HELP_EQUITY + ' Cada serie usa sus operaciones; las comparativas alinean el PnL acumulado por fecha.' + HELP_SCOPE;
-  const group = id.includes('time') ? 'la franja de 30 minutos de la hora de entrada en Nueva York' : id.includes('price') ? 'el rango del precio medio ponderado de entrada' : id.includes('weekday') ? 'el día de la semana de cierre en Nueva York' : id.includes('month') ? 'el mes de cierre en Nueva York' : id.includes('symbol') ? 'el símbolo (se muestran los 12 más operados)' : id.includes('country') ? 'el país de la empresa emisora; lo desconocido queda sin clasificar' : 'la fecha de cierre en Nueva York';
+  const group = id.includes('time') ? 'la franja de 5 minutos de la hora de entrada en Nueva York' : id.includes('price') ? 'el rango del precio medio ponderado de entrada' : id.includes('weekday') ? 'el día de la semana de cierre en Nueva York' : id.includes('month') ? 'el mes de cierre en Nueva York' : id.includes('symbol') ? 'el símbolo (se muestran los 12 más operados)' : id.includes('country') ? 'el país de la empresa emisora; lo desconocido queda sin clasificar' : 'la fecha de cierre en Nueva York';
   return `${HELP_PNL} Cada barra suma las operaciones agrupadas por ${group}.` + HELP_SCOPE;
 }
 
@@ -148,9 +160,15 @@ function initializeHelp() {
   const controls = {
     year: 'Filtra por el año de la fecha de cierre en Nueva York.', symbol: 'Filtra por símbolo.', side: 'Filtra por dirección: Long (BUY) o Short (SELL).',
     'date-from': 'Incluye operaciones cerradas desde esta fecha en Nueva York, inclusive.', 'date-to': 'Incluye operaciones cerradas hasta esta fecha en Nueva York, inclusive.',
-    'ratio-time-interval': 'Agrupa por hora de entrada en Nueva York, en franjas de 30 o 60 minutos. El inicio está incluido y el final excluido: 09:30–10:00 incluye 09:30, pero no 10:00.',
+    'ratio-time-interval': 'Agrupa por hora de entrada en Nueva York, en franjas de 5 minutos por defecto; también puedes elegir 30 o 60 minutos. El inicio está incluido y el final excluido: 09:30–09:35 incluye 09:30, pero no 09:35.',
     'ratio-min-trades': 'Muestra únicamente los grupos con al menos este número de operaciones. Se aplica al estudio por horario y al estudio por país.',
     'calendar-month': 'Selecciona el mes de las fechas de cierre. Cada día muestra la suma del PnL y el número de operaciones cerradas ese día.',
+    'country-dimension': 'Separa país de operación confirmado, país de constitución y jurisdicción societaria. La sede no sustituye al país de operación; las inferencias se muestran en la base de datos, pero no como países de operación confirmados.',
+    'issuer-search': 'Busca un ticker o nombre del emisor dentro de las operaciones que cumplen los filtros globales.',
+    'country-check-pending': 'Recarga los últimos datos publicados, compara todos sus tickers con la base de emisores y abre la lista de pendientes en Data. Conserva los filtros de análisis.',
+    'data-check-pending': 'Actualiza los datos publicados y repite la comprobación de todos los tickers del historial. No investiga ni asigna países automáticamente.',
+    'data-pending-search': 'Busca un ticker o nombre de empresa en los pendientes de todo el historial, sin aplicar los filtros globales de análisis.',
+    'data-pending-kind': 'Filtra los pendientes: sin ficha, constitución, país de operación o estructura. Las inferencias de país siguen pendientes de confirmación.',
     'best-from': 'Inicio inclusivo del rango de fechas de cierre para buscar la mejor y peor operación; respeta los filtros globales.',
     'best-to': 'Final inclusivo del rango de fechas de cierre para buscar la mejor y peor operación; respeta los filtros globales.',
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'

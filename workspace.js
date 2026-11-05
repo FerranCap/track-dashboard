@@ -8,9 +8,11 @@ const VIEW_DETAILS = {
   country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Riesgo y consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
-  compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.']
+  compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.'],
+  data: ['Data', 'Detecta tickers nuevos y datos pendientes en la base de emisores.']
 };
 let selectedCalendarDay = '';
+let issuerAudit = null;
 
 function activateView() {
   const key = location.hash.slice(1);
@@ -23,6 +25,7 @@ function activateView() {
   $('page-title').textContent = VIEW_DETAILS[active][0];
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
+  $('global-filters').hidden = active === 'data';
   refreshCharts();
 }
 
@@ -79,17 +82,114 @@ function renderWorkspace(rows) {
 }
 
 function renderCountries(rows) {
-  const known = rows.filter(t => typeof t.country === 'string' && t.country.trim());
+  const dimension = $('country-dimension').value;
+  const countryOf = trade => {
+    const profile = dataset?.tickerProfiles?.[trade.symbol];
+    if (dimension === 'incorporation') return profile?.incorporation_country || '';
+    if (dimension === 'jurisdiction') return profile?.incorporation_country ? `${profile.incorporation_country} · ${profile.incorporation_jurisdiction}` : '';
+    return trade.country || '';
+  };
+  const known = rows.filter(t => countryOf(t));
   $('country-stats').innerHTML = [
-    ['Países identificados', new Set(known.map(t => t.country)).size],
+    ['Países identificados', new Set(known.map(countryOf)).size],
     ['Cobertura', pct(known.length, rows.length)], ['Sin clasificar', rows.length - known.length]
   ].map(item => metric(...item)).join('');
-  $('country-note').textContent = known.length
-    ? 'Los resultados sin clasificar se muestran por separado y se incluyen en el total.'
-    : 'Los CSV actuales no incluyen el país de la empresa. Las operaciones se mantienen sin clasificar hasta disponer de esa información.';
-  const groups = groupedStatistics(rows, t => t.country || 'Sin clasificar');
+  $('country-note').textContent = `${dimension === 'incorporation' || dimension === 'jurisdiction' ? 'Se usa la constitución legal, que puede diferir del país de operación.' : 'Se usa únicamente el país de operación sustentado por una declaración explícita o una revisión documentada.'} Los datos proceden de la base de emisores enlazada abajo; las operaciones sin clasificar permanecen en el total.`;
+  const groups = groupedStatistics(rows, t => countryOf(t) || 'Sin clasificar');
   $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país' });
+  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país', explanation: `${HELP_PNL} Se agrupa por ${dimension === 'incorporation' ? 'país de constitución' : dimension === 'jurisdiction' ? 'jurisdicción de constitución' : 'país de operación confirmado'}. No implica que una empresa esté sujeta exclusivamente a las leyes de ese lugar.` });
+  renderIssuerProfiles(rows);
+}
+
+function renderIssuerProfiles(rows) {
+  const symbols = new Set(rows.map(trade => trade.symbol));
+  const query = $('issuer-search').value.toLowerCase().trim();
+  const profiles = Object.values(dataset?.tickerProfiles || {}).filter(profile => symbols.has(profile.symbol) && (!query || `${profile.symbol} ${profile.issuer_name}`.toLowerCase().includes(query))).sort((a, b) => a.symbol.localeCompare(b.symbol));
+  const known = profiles.filter(profile => profile.operating_country && ['explicit_filing', 'reviewed'].includes(profile.operations_status)).length;
+  const checked = [...new Set(profiles.map(profile => profile.checked_on).filter(Boolean))].sort().at(-1);
+  $('issuer-count').textContent = `${profiles.length} emisores · ${known} con país de operación confirmado${checked ? ` · Consulta de fuentes: ${checked}` : ''}`;
+  const status = { explicit_filing: 'Declaración en documento', reviewed: 'Revisión documentada', facilities_inference: 'Inferido por instalaciones', unverified: 'Pendiente' };
+  const security = { direct_equity: 'Acciones directas', ADS: 'ADS / ADR', unknown: 'Sin confirmar' };
+  const vie = { yes_explicit: 'Sí, documentada', no_explicit: 'No, declaración explícita', unknown: 'Sin confirmar' };
+  const sourceLink = (url, label) => /^https:\/\/(?:www\.|data\.)sec\.gov\//.test(url || '') ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>` : '';
+  $('issuer-table').innerHTML = profiles.length ? `<table><thead><tr>${['Ticker', 'Emisor', 'Constitución', 'País de operación', 'Valor cotizado', 'VIE', 'Fuentes'].map(label => `<th tabindex="0" ${helpAttributes(helpText(label))}>${esc(label)}<span class="help-mark" aria-hidden="true">&#9432;</span></th>`).join('')}</tr></thead><tbody>${profiles.map(profile => `<tr><td><strong>${esc(profile.symbol)}</strong></td><td class="issuer-name">${esc(profile.issuer_name)}<small>CIK ${esc(profile.cik || 'Pendiente')}</small></td><td>${esc(profile.incorporation_country || 'Sin confirmar')}<small>${esc(profile.incorporation_jurisdiction)}</small></td><td>${esc(profile.operating_country || 'Sin confirmar')}<small class="${profile.operations_status === 'facilities_inference' ? 'warning' : 'muted'}">${esc(status[profile.operations_status] || 'Pendiente')}</small><details><summary>Detalle</summary><p>Sede declarada: ${esc(profile.headquarters_country || 'Sin confirmar')}. ${esc(profile.operations_basis || 'No se ha establecido un país principal de operación.')} ${esc(profile.historical_note)}</p></details></td><td ${helpAttributes(profile.security_basis || 'Tipo de valor pendiente de confirmar.')}>${esc(security[profile.security_type] || 'Sin confirmar')}</td><td ${helpAttributes(profile.vie_basis || 'No se deduce la ausencia de VIE por falta de información.')}>${esc(vie[profile.vie_status] || 'Sin confirmar')}</td><td>${sourceLink(profile.source_profile_url, 'Ficha SEC')}<br>${sourceLink(profile.source_filing_url, `Documento ${profile.source_filing_date || ''}`)}<small>Consulta ${esc(profile.checked_on)}</small></td></tr>`).join('')}</tbody></table>` : '<p class="muted">No hay emisores para estos filtros.</p>';
+}
+
+function auditIssuerData(source) {
+  const symbols = new Map();
+  const assigned = value => typeof value === 'string' && value.trim() && !['unknown', 'unverified', 'n/a', 'n/d', 'sin confirmar', 'sin clasificar', '—', '-'].includes(value.trim().toLowerCase());
+  for (const trade of source.trades) {
+    const symbol = String(trade.symbol || '').trim().toUpperCase();
+    if (!symbol) continue;
+    if (!symbols.has(symbol)) symbols.set(symbol, { symbol, count: 0, first: trade.date, last: trade.date });
+    const entry = symbols.get(symbol);
+    entry.count++;
+    if (trade.date < entry.first) entry.first = trade.date;
+    if (trade.date > entry.last) entry.last = trade.date;
+  }
+  return [...symbols.values()].sort((a, b) => a.symbol.localeCompare(b.symbol)).map(entry => {
+    const profile = source.tickerProfiles?.[entry.symbol];
+    const missingProfile = !profile;
+    const incorporation = !assigned(profile?.incorporation_country) || !assigned(profile?.incorporation_jurisdiction);
+    const operations = !assigned(profile?.operating_country) || !['explicit_filing', 'reviewed'].includes(profile?.operations_status);
+    const security = !['direct_equity', 'ADS'].includes(profile?.security_type);
+    const vie = !['yes_explicit', 'no_explicit'].includes(profile?.vie_status);
+    const fields = [
+      ...(missingProfile ? ['Ficha de emisor'] : []),
+      ...(incorporation ? ['País / jurisdicción de constitución'] : []),
+      ...(operations ? [profile?.operations_status === 'facilities_inference' ? 'País de operación (solo inferido)' : 'País de operación confirmado'] : []),
+      ...(security ? ['Tipo de valor: acciones o ADS/ADR'] : []),
+      ...(vie ? ['Confirmación de VIE'] : [])
+    ];
+    return { ...entry, profile, missingProfile, incorporation, operations, security, vie, fields };
+  });
+}
+
+function renderDataAudit() {
+  if (!dataset) return;
+  issuerAudit = auditIssuerData(dataset);
+  $('data-audit-stats').innerHTML = [
+    ['Tickers del historial', issuerAudit.length],
+    ['Tickers sin ficha', issuerAudit.filter(entry => entry.missingProfile).length],
+    ['Constitución incompleta', issuerAudit.filter(entry => entry.incorporation).length],
+    ['Operación sin confirmar', issuerAudit.filter(entry => entry.operations).length]
+  ].map(item => metric(...item)).join('');
+  const checked = new Date().toLocaleString('es-ES', { timeZone: 'America/New_York' });
+  const generated = new Date(dataset.generatedAt).toLocaleString('es-ES', { timeZone: 'America/New_York' });
+  $('data-audit-status').textContent = `Comprobado: ${checked} (Nueva York). Datos publicados: ${generated}. Las inferencias y los campos desconocidos siguen pendientes. La comprobación detecta faltantes; su investigación y confirmación se realizan en la base de emisores.`;
+  $('country-check-pending').disabled = false;
+  $('data-check-pending').disabled = false;
+  renderPendingIssuers();
+}
+
+function renderPendingIssuers() {
+  if (!issuerAudit) return;
+  const query = $('data-pending-search').value.trim().toLowerCase();
+  const kind = $('data-pending-kind').value;
+  const pending = issuerAudit.filter(entry => entry.fields.length);
+  const matches = pending.filter(entry => {
+    const typeMatch = kind === 'new' ? entry.missingProfile : kind === 'incorporation' ? entry.incorporation : kind === 'operations' ? entry.operations : kind === 'structure' ? entry.security || entry.vie : kind === 'all' ? true : entry.missingProfile || entry.incorporation || entry.operations;
+    return typeMatch && (!query || `${entry.symbol} ${entry.profile?.issuer_name || ''}`.toLowerCase().includes(query));
+  }).sort((a, b) => Number(b.missingProfile) - Number(a.missingProfile) || a.symbol.localeCompare(b.symbol));
+  $('data-pending-count').textContent = `${matches.length} mostrados · ${pending.length} tickers con algún dato pendiente · ${issuerAudit.length} en el historial`;
+  $('data-pending-table').innerHTML = matches.length ? `<table><thead><tr><th>Ticker</th><th>Emisor</th><th>Estado</th><th>Datos pendientes</th><th>Operaciones</th><th>Primera operación</th><th>Última operación</th></tr></thead><tbody>${matches.map(entry => `<tr><td><strong>${esc(entry.symbol)}</strong></td><td class="issuer-name">${esc(entry.profile?.issuer_name || 'Sin ficha en la base')}</td><td class="warning">${entry.missingProfile ? 'Ticker nuevo / sin ficha' : 'Ficha por completar'}</td><td class="pending-fields">${entry.fields.map(field => `<span>${esc(field)}</span>`).join('')}</td><td>${entry.count}</td><td>${esc(entry.first)}</td><td>${esc(entry.last)}</td></tr>`).join('')}</tbody></table>` : `<p class="muted">${pending.length ? 'No hay tickers pendientes que coincidan con esta búsqueda y tipo de pendiente.' : 'Todos los tickers del historial tienen los campos de la base completos.'}</p>`;
+}
+
+async function checkPendingIssuers() {
+  $('country-check-pending').disabled = true;
+  $('data-check-pending').disabled = true;
+  $('data-audit-status').textContent = 'Cargando los últimos datos publicados y comprobando los tickers…';
+  try {
+    if (await loadData({ preserveFilters: true })) {
+      location.hash = '#data';
+      activateView();
+    } else {
+      $('data-audit-status').textContent = 'No se ha podido actualizar la comprobación. La lista anterior se conserva; revisa el error de carga e inténtalo de nuevo.';
+    }
+  } finally {
+    $('country-check-pending').disabled = !dataset;
+    $('data-check-pending').disabled = !dataset;
+  }
 }
 
 function renderRatios(rows) {
@@ -141,19 +241,13 @@ function renderRatioStudy(prefix, groups) {
 }
 
 function renderRatioStudies(rows) {
-  const interval = Number($('ratio-time-interval').value) === 60 ? 60 : 30;
-  const groups = ratioStudyGroups(rows, trade => {
-    const time = (trade.opened || '').slice(11, 16);
-    if (!/^\d{2}:\d{2}$/.test(time)) return 'Sin horario';
-    const minutes = Number(time.slice(0, 2)) * 60 + Number(time.slice(3));
-    const start = Math.floor(minutes / interval) * interval;
-    const format = value => `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
-    return `${format(start)}–${format(start + interval)}`;
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  const selected = Number($('ratio-time-interval').value);
+  const interval = [5, 30, 60].includes(selected) ? selected : 5;
+  const groups = ratioStudyGroups(rows, trade => timeBand(trade, interval) || 'Sin horario').sort((a, b) => a.name.localeCompare(b.name));
   renderRatioStudy('ratio-time', groups);
   const countries = ratioStudyGroups(rows, trade => trade.country?.trim() || 'Sin clasificar').sort((a, b) => a.name.localeCompare(b.name));
   const known = rows.filter(trade => trade.country?.trim()).length;
-  $('ratio-country-note').textContent = `País de la empresa emisora · ${known} de ${rows.length} operaciones clasificadas. ${known ? 'Las operaciones sin país se muestran por separado.' : 'Los CSV actuales no incluyen país; los resultados figuran sin clasificar.'} Se aplica el mismo mínimo de operaciones que al estudio horario.`;
+  $('ratio-country-note').textContent = `País de operación confirmado · ${known} de ${rows.length} operaciones clasificadas. Las operaciones sin país confirmado se muestran por separado; las inferencias por sede o instalaciones no se usan en este cálculo. Se aplica el mismo mínimo de operaciones que al estudio horario.`;
   renderRatioStudy('ratio-country', countries);
 }
 
@@ -224,6 +318,12 @@ function initializeWorkspace() {
     refreshCharts();
   };
   selectAnalysis('time');
+  $('country-check-pending').addEventListener('click', checkPendingIssuers);
+  $('data-check-pending').addEventListener('click', checkPendingIssuers);
+  $('data-pending-search').addEventListener('input', renderPendingIssuers);
+  $('data-pending-kind').addEventListener('change', renderPendingIssuers);
+  $('country-dimension').addEventListener('change', () => renderCountries(filtered));
+  $('issuer-search').addEventListener('input', () => renderIssuerProfiles(filtered));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; renderCalendar(filtered); });

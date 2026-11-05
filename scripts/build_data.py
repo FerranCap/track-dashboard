@@ -38,6 +38,15 @@ def stable_execution(row):
 
 
 def build():
+    profile_path = DATA / 'reference' / 'ticker-profiles.csv'
+    profiles = {}
+    if profile_path.exists():
+        with profile_path.open(encoding='utf-8-sig', newline='') as stream:
+            for profile in csv.DictReader(stream):
+                symbol = profile.get('symbol', '').strip().upper()
+                if not symbol or symbol in profiles:
+                    raise ValueError('Issuer profiles must contain unique, nonempty symbols.')
+                profiles[symbol] = profile
     country_path = DATA / 'symbol-countries.json'
     countries = json.loads(country_path.read_text(encoding='utf-8')) if country_path.exists() else {}
     if not isinstance(countries, dict) or any(
@@ -104,7 +113,12 @@ def build():
             sources.append({'file': path.name, 'rows': row_count})
 
     for trade_id, record in trades.items():
-        record['country'] = countries.get(record['symbol'])
+        profile = profiles.get(record['symbol'])
+        record['country'] = (
+            profile['operating_country'] or None
+            if profile and profile.get('operations_status') in ('explicit_filing', 'reviewed')
+            else countries.get(record['symbol']) if not profile else None
+        )
         fills = list(executions[trade_id].values())
         entry_fills = [fill for fill in fills if fill['side'] == record['side']]
         entry_qty = sum(fill['qty'] for fill in entry_fills)
@@ -132,6 +146,7 @@ def build():
         'sourceFiles': sources,
         'unsupportedFiles': unsupported,
         'inconsistentIds': len(inconsistencies),
+        'tickerProfiles': profiles,
         'dataNotes': [
             'TradePnL comes from QuantTradeId and is not adjusted for fees again.',
             'Fees are the sum of unique fill commissions across overlapping exports.',

@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-help-3">
+  <link rel="stylesheet" href="styles.css?v=20261105-data-audit-6">
 </head>
 <body>
 <aside class="sidebar">
@@ -75,6 +75,10 @@
 </svg>
 <span>Comparativas</span>
 </a>
+<a href="#data" data-view="data">
+<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></svg>
+<span>Data</span>
+</a>
 </nav>
 <div class="sidebar-note">Tu operativa, en perspectiva.<small>Horario de Nueva York · USD</small>
 </div>
@@ -95,7 +99,7 @@
 </div>
 <div id="last-updated" class="updated">
 </div>
-</div>    <section class="filters" aria-label="Filtros globales">
+</div>    <section id="global-filters" class="filters" aria-label="Filtros globales">
       <label>Año<select id="year">
 <option value="all">Todos</option>
 </select>
@@ -233,7 +237,7 @@
 </div>
 <div data-analysis-panel="time">
 <section class="section panel">
-<h2>PnL por franja horaria (30m)</h2>
+<h2>PnL por franja horaria (5m)</h2>
 <div id="time-chart" class="chart">
 </div>
 </section>    <section class="section panel">
@@ -326,7 +330,9 @@
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Cobertura por país</h2>
-<p>País de la empresa emisora, independientemente del mercado donde cotiza.</p>
+<div class="audit-actions"><button id="country-check-pending" type="button" disabled>Comprobar tickers pendientes</button><a href="#data">Ver pendientes en Data</a></div>
+<p>Constitución legal, operación principal y estructura del emisor se investigan por separado.</p>
+<label class="country-dimension">Agrupar resultados por<select id="country-dimension"><option value="operations">País de operación confirmado</option><option value="incorporation">País de constitución</option><option value="jurisdiction">Jurisdicción de constitución</option></select></label>
 <div id="country-stats" class="metrics three">
 </div>
 <p id="country-note" class="mini-caption">
@@ -338,6 +344,25 @@
 </div>
 <div id="country-table" class="table-wrap">
 </div>
+</section>
+<section class="section panel">
+<div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
+<p>Los campos pendientes se conservan como desconocidos. Las inferencias por instalaciones se muestran identificadas y no se incluyen en los resultados por país de operación confirmado. La clasificación es una instantánea de investigación; no reconstruye todos los cambios históricos de cada empresa.</p>
+<label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
+<div id="issuer-table" class="table-wrap issuer-table"></div>
+</section>
+</div>
+<div id="view-data" class="view" aria-labelledby="page-title" hidden>
+<section class="section panel">
+<div class="panel-head"><div><h2>Calidad de la base de datos</h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
+<p>Se contrasta el historial publicado con la base de emisores. Un ticker nuevo se señala como sin ficha; los datos aún no confirmados siguen pendientes y no se completan por suposición.</p>
+<div id="data-audit-stats" class="metrics four"></div>
+<p id="data-audit-status" role="status" class="mini-caption">Esperando a que se carguen los datos.</p>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>Tickers con datos pendientes</h2><span id="data-pending-count" class="mini-caption"></span></div>
+<div class="data-audit-filters"><label>Buscar ticker o empresa<input id="data-pending-search" type="search" placeholder="Símbolo o empresa"></label><label>Tipo de pendiente<select id="data-pending-kind"><option value="country">País sin confirmar</option><option value="new">Ticker sin ficha</option><option value="incorporation">Constitución incompleta</option><option value="operations">Operación sin confirmar</option><option value="structure">Estructura pendiente</option><option value="all">Todos los pendientes</option></select></label></div>
+<div id="data-pending-table" class="table-wrap issuer-table"></div>
 </section>
 </div>
 <div id="view-ratios" class="view" aria-labelledby="page-title" hidden>
@@ -354,7 +379,7 @@
 </section>
 <section class="section panel">
 <div class="panel-head"><div><h2>Win rate y RR por horario</h2><small>Horario de entrada en Nueva York · RR realizado = ganancia media / pérdida media absoluta</small></div>
-<div class="ratio-controls"><label>Franja<select id="ratio-time-interval"><option value="30">30 minutos</option><option value="60">1 hora</option></select></label><label>Mínimo de operaciones<input id="ratio-min-trades" type="number" min="1" step="1" value="1"></label></div></div>
+<div class="ratio-controls"><label>Franja<select id="ratio-time-interval"><option value="5" selected>5 minutos</option><option value="30">30 minutos</option><option value="60">1 hora</option></select></label><label>Mínimo de operaciones<input id="ratio-min-trades" type="number" min="1" step="1" value="1"></label></div></div>
 <p class="mini-caption">El win rate incluye operaciones a cero. El RR necesita al menos una ganadora y una perdedora; las muestras de menos de 20 operaciones se señalan como reducidas.</p>
 <div class="two-col chart-row"><div><h3>Win rate por horario (%)</h3><div id="ratio-time-winrate" class="chart"></div></div><div><h3>RR realizado por horario</h3><div id="ratio-time-rr" class="chart"></div></div></div>
 <div id="ratio-time-table" class="table-wrap"></div>
@@ -447,16 +472,16 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-help-3</span>
+<span>Versión: 20261105-data-audit-6</span>
 <span>MAE / MFE: no disponibles en los CSV actuales · Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="help.js?v=20261105-help-3" defer></script>
-<script src="workspace.js?v=20261105-help-3" defer>
+<script src="help.js?v=20261105-data-audit-6" defer></script>
+<script src="workspace.js?v=20261105-data-audit-6" defer>
 </script>
-<script src="dashboard.js?v=20261105-help-3" defer>
+<script src="dashboard.js?v=20261105-data-audit-6" defer>
 </script>
 </body>
 </html>
