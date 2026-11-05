@@ -15,9 +15,10 @@
     "operations_basis": "The report describes operations in Hong Kong SAR and Canada after disposal of PRC subsidiaries. A single principal operating country requires further review."
   },
   "BTCM": {
-    "operating_country": "",
-    "operations_status": "unverified",
-    "operations_basis": "The report describes subsidiaries and mining operations across several countries, including the United States and Ethiopia; Hong Kong entities alone do not establish a principal operating country."
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that the business is primarily conducted in the United States. Current issuer SOLAI; historical ticker BTCM.",
+    "checked_on": "2026-11-05"
   },
   "ACON": {
     "operating_country": "",
@@ -32,16 +33,1142 @@
   "ZOOZ": {
     "operating_country": "Israel",
     "operations_status": "reviewed",
-    "operations_basis": "The annual report explicitly locates the headquarters and research-and-development facilities in Israel and explains Israeli operating and regulatory exposure. This does not imply exclusive exposure to Israeli law."
+    "operations_basis": "The annual report explicitly locates the headquarters and research-and-development facilities in Israel and explains Israeli operating and regulatory exposure. This does not imply exclusive exposure to Israeli law.",
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that ZOOZ has no holdings in VIEs.",
+    "checked_on": "2026-11-05"
   },
   "IHT": {
     "security_type": "direct_equity",
     "structure_status": "cover_table",
-    "security_basis": "The annual-report cover identifies the listed holding as shares of beneficial interest reported on NYSE American. This is direct beneficial ownership in a trust, not an American depositary share."
+    "security_basis": "The annual-report cover identifies the listed holding as shares of beneficial interest reported on NYSE American. This is direct beneficial ownership in a trust, not an American depositary share.",
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The operating hotel properties are explicitly located in Tucson, Arizona and Albuquerque, New Mexico; administrative functions are in Phoenix. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "Albuquerque Suite Hospitality LLC is explicitly consolidated as a VIE with the partnership as primary beneficiary. US real estate/accounting structure."
   },
   "SSKN": {
     "security_type": "direct_equity",
     "structure_status": "cover_table",
-    "security_basis": "The annual report explicitly describes the issuer common stock and its delisting. Current registration status is separate from the historical listed security type."
+    "security_basis": "The annual report explicitly describes the issuer common stock and its delisting. Current registration status is separate from the historical listed security type.",
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The Carlsbad, California facility houses manufacturing and development of the excimer laser business; executive/marketing offices are in Pennsylvania.",
+    "checked_on": "2026-11-05"
+  },
+  "ADTX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The properties disclosure identifies the operating office and laboratory sites in Mountain View, California and Richmond, Virginia. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "AGAE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company describes its active flagship esports arena and production/broadcast facility in Las Vegas, alongside New York administration. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that the company has no interest in entities referred to as VIEs."
+  },
+  "AGPU": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The annual report identifies Pittsburgh office and laboratory facilities as the company operating premises. This is the disclosed reporting-period base, not a reconstruction of later business changes. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "AIM": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. Executive and finance work is based in Florida; the report locates human resources and manufacturing activities in New Jersey. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "AMZE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report locates corporate offices in California and Kentucky and the operating warehouse facilities in American Canyon, California. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "APVO": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Seattle property combines the corporate office and laboratories used for the operating business. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ARTV": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The disclosed San Diego campus houses the principal office, process-development laboratories and clinical manufacturing facilities. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ASTC": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The lease note expressly describes moving operations to a new Austin facility; Item 2 locates the research-equipment and operating premises in Texas. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ATRA": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The active Thousand Oaks site contains corporate offices, laboratory and warehouse functions. The filing separately describes the assigned manufacturing lease. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "AXIL": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report describes California executive offices and Utah operating office/warehouse facilities serving the business. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BRLT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The disclosed network consists of 42 US showrooms and a US operations center, with executive offices in California and Colorado. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BRTX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The principal executive office and active laboratory are co-located in Melville, New York. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BTBD": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The restaurant operating properties and the administrative base described in Item 2 are in US states, including North Dakota and Minnesota. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CELU": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report identifies the New Jersey office, laboratory and manufacturing site as the principal place of business. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CLNN": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The US operating footprint combines Utah clinical/business functions with manufacturing and research facilities in Maryland. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CODX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Utah headquarters includes laboratory, manufacturing and storage functions. This identifies the parent operating base, not exclusive worldwide exposure. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CUE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Boston principal site combines executive, research-and-development and laboratory activities. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CVU": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The New York facility houses manufacturing and the engineering/design support offices and laboratories. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CYN": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company expressly identifies its California headquarters as its main operational facility for vehicle engineering, software engineering and business units. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "EDBL": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report describes active greenhouse production sites in Michigan and New Jersey. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "EFOI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Ohio site combines principal executive and manufacturing functions and is described as supporting current operations. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "EKSO": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report identifies the California office and operating colocation capacity in Minnesota, Utah and Colorado. The classification concerns this disclosed operating base. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "EQ": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company reports its executive facilities and active laboratories in California. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it did not and does not have holdings in VIEs."
+  },
+  "ERNA": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The current operating premises comprise office and laboratory space in Massachusetts, with the separate Manhattan lease termination disclosed. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "EVTV": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report describes the operating transition between manufacturing facilities in Arkansas and Houston, Texas. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "FAT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The principal administrative, sales, customer-support and R&D functions are identified in California, alongside US production facilities. Overseas franchise exposure is not excluded. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "FLYE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report identifies New York executive facilities and the warehouse where all company vehicles are assembled. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "FLYX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report expressly centers flight operations and maintenance at the Kinston, North Carolina headquarters, alongside Raleigh support functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "The report identifies aircraft single-asset entities as VIEs and the company as primary beneficiary; their assets, debt and expenses are consolidated. US aircraft leasing/accounting structure."
+  },
+  "GCTK": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The principal leased property is an office and research laboratory in Front Royal, Virginia. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "HCWB": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report describes the active Miramar premises and the planned Florida research/manufacturing campus, including clinical and quality functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "INTS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The properties section expressly states that all company operations are maintained at the Shelton, Connecticut site. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ISPC": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Massachusetts principal facility combines operating office and laboratory functions, with federal/state specimen-handling obligations described. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "IVF": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The US footprint includes the Florida executive base and active fertility-clinic facilities in Wisconsin. This does not classify every international partner clinic. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "The consolidation policy explicitly includes the company subsidiaries and VIEs where it is the primary beneficiary."
+  },
+  "IVVD": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The hybrid operating model names the Connecticut principal office and Massachusetts laboratory, alongside remote staff. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "LIDR": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Pleasanton, California site contains engineering, R&D, operations, customer-support and administrative functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MOVE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The principal Virginia premises combine office and laboratory functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MSAI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Texas office and Beaumont facility house engineering, manufacturing, R&D and most inventory. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MSS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The filing identifies the operating supermarket estate and executive/store site in California; the operating properties listed are US locations. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "NUWE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Minnesota headquarters/manufacturing facility is expressly stated to house substantially all functional areas. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "NXTC": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Maryland corporate facility combines office, laboratory, manufacturing and warehouse functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "NXXT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The disclosed operating footprint comprises Florida office sites, truck facilities and supplier parking serving the fuel business. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "OPTX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Rochester, New York headquarters is an operating manufacturing site; the landlord is separately identified as a consolidated variable-interest entity. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "The Item 2 manufacturing-facility lease identifies ELR Associates, LLC as a fully consolidated variable-interest entity of the issuer. This is an accounting/property VIE and is not evidence of a Chinese contractual operating structure."
+  },
+  "PDSB": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company identifies its research facilities at the Princeton, New Jersey BioLabs site as the premises supporting current needs. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PEPG": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The principal Boston facility combines office and laboratory functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PMI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company expressly identifies Tucson, Arizona as its primary operating location, covering manufacturing, R&D and quality/regulatory functions. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "POAI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The reporting-period office and laboratory facilities are located in Pittsburgh, Pennsylvania. Later changes in business model require separate historical review. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "POLA": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The California principal site combines manufacturing and R&D, with additional nearby production and storage properties. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PROK": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The active North Carolina sites support office, manufacturing and research activities; additional laboratory and warehouse locations are in the same state. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "RANI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The disclosed California facilities combine R&D, production, manufacturing and laboratory functions at the San Jose and Fremont sites. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "RNAZ": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report places most R&D activity with Michigan State University and business operations in Massachusetts, with additional Florida office space. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SABS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Sioux Falls, South Dakota facilities house clinical manufacturing and the research-and-development campus. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SCKT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Fremont, California leased facility expressly houses office and manufacturing operations. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SER": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report identifies Huntsville, Alabama office/laboratory facilities as the principal place of business. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SGBX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The company identifies operating construction, technology warehouse and oil/gas sites in Texas and Oklahoma. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SHPH": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Gaithersburg, Maryland premises combine corporate functions and active laboratory space. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SINT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report locates its operating corporate and manufacturing facilities in Salt Lake City, Utah. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SNGX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Princeton headquarters is expressly identified as the site from which both business segments operate. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SNTI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The active South San Francisco headquarters includes research-and-development premises; separately subleased areas are distinguished. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SRTS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report locates corporate functions in Florida and the main manufacturing function at its contractor facility in Tennessee. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "STSS": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The properties section identifies only a small month-to-month New York office. This is insufficient to classify the principal operating country; do not confuse STSS with the separate STAI issuer.",
+    "checked_on": "2026-11-05"
+  },
+  "TRUG": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The operating footprint combines headquarters and warehouse facilities in Utah. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "UUU": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Maryland office and warehouse are the disclosed operating leased premises. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VEEE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Florida property expressly houses the company office and production facilities. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VERB": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report identifies Nevada corporate functions and owned/operated video-production studios in California. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VIVK": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The operating terminals, gathering pipeline, truck stations and related property estate are described in Louisiana, Texas, New Mexico and North Dakota. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VSEE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The operating company describes Florida executive functions and physical iDoc operations in Houston, Texas. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VTAK": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. VIVO manufacturing, inventory and order fulfillment take place in South Carolina; additional administrative locations are in New Jersey and Utah. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VWAV": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report explicitly distinguishes its Delaware registered address from its operational headquarters in West Hollywood, California. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "XAGE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Pittsburgh premises house corporate, R&D and manufacturing functions, identifying the operating base beyond an office address. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "security_type": "direct_equity",
+    "structure_status": "reviewed",
+    "security_basis": "The registered-security cover identifies XAGE common stock; warrants XAGEW are a separate class. Source: https://www.sec.gov/Archives/edgar/data/1842939/000095017025095608/R1.htm"
+  },
+  "XELB": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The filing identifies an active New York corporate and operations facility, distinguished from a former subleased site. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "XOS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The disclosed Los Angeles site handles design and engineering; Tennessee facilities handle manufacturing and assembly. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "XPON": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Oregon headquarters houses engineering, sales and operations plus the primary product warehouse. Other US property sites are separately disclosed. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "XXII": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The North Carolina tobacco facilities comprise the operating factory, headquarters and inventory-storage site. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "YCBD": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The Charlotte, North Carolina property combines executive and warehouse operations. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ZEO": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report, primarily Item 2 and operating disclosures. The report locates operating offices and warehouses in Florida, Texas and Arkansas, with additional US sales and executive sites. This is a principal operating-base classification, not exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ANNA": {
+    "operating_country": "Italy",
+    "operations_status": "reviewed",
+    "operations_basis": "Item 2 distinguishes US management offices from the conventional gas production sites at Longanesi, Gradizza and Trava and renewable gas developments in Italy. Italy is assigned as the operational production base; Delaware incorporation and US management remain separate.",
+    "checked_on": "2026-11-05"
+  },
+  "BURU": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report describes Denver corporate functions and a newly acquired Italian operating subsidiary and facilities. A unique principal operating country is not established.",
+    "checked_on": "2026-11-05"
+  },
+  "OSRH": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report identifies both US and Korean offices. The US sponsor/administrative address is not sufficient to determine the main operating business country.",
+    "checked_on": "2026-11-05"
+  },
+  "MSGM": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report identifies active gaming/esports offices in both Florida and Silverstone, England; a single main operating base is not established.",
+    "checked_on": "2026-11-05"
+  },
+  "RDAC": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The properties are sponsor-provided offices in China for an acquisition vehicle. This does not establish the operating country of a subsequently acquired business.",
+    "checked_on": "2026-11-05"
+  },
+  "SNOA": {
+    "operating_country": "",
+    "operations_status": "unverified",
+    "operations_basis": "The report separates Colorado corporate functions from manufacturing and warehouse premises in Zapopan, Mexico. A single principal operating country is not established from this split.",
+    "checked_on": "2026-11-05"
+  },
+  "AERT": {
+    "operating_country": "India",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The properties section identifies the corporate operating office in Mumbai and 13 delivery centers across Indian cities versus three in Guadalajara, Mexico. Singapore is separately identified as headquarters and the US location as sales/marketing. India is the main delivery base, with material Mexican operations retained in this note. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "headquarters_country": "Singapore"
+  },
+  "AIRS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. Corporate functions and the operating treatment-center network are principally US based; the facilities list identifies the extensive US locations separately from the Canadian center and closure of the London site. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "Managed US professional associations are VIEs controlled and consolidated by the company. US healthcare/accounting structure, not a China VIE conclusion."
+  },
+  "AQMS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The Nevada operating footprint includes the Innovation Center used for battery-recycling technology and corporate functions in Reno; the classification concerns the disclosed operating technology base. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ARAY": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report identifies approximately 247,000 square feet in Wisconsin plus 59,000 in California for manufacturing, development and support, out of approximately 405,000 worldwide. This supports the US as principal functional base while preserving overseas manufacturing/sales exposure. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ASNS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report describes the operating move between California facilities and use of a Colorado partner to house inventory, testing laboratory and customer-success support. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ATPC": {
+    "operating_country": "Malaysia",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report describes products and demand principally in Malaysia and seven operating properties in Kuala Lumpur and Ipoh for warehouses, service centers and sales branches. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "Consolidated financial statements explicitly include Agape S.E.A. Sdn. Bhd. as a VIE in Malaysia."
+  },
+  "AZTR": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The active office and laboratory premises are identified in Branford and Groton, Connecticut. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BATL": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The business disclosure identifies the operating oil-and-gas property estate in the Permian/Delaware Basin in west Texas and southeastern New Mexico, separate from the Houston corporate office. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BMGL": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The operating medical clinics are listed at Singapore addresses alongside the Singapore executive base; these are treatment facilities, not merely a registered office. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BRLS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The annual report identifies the operating food-production facility and distribution center at Saluda, South Carolina. The Canadian principal office remains a distinct headquarters attribute. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "BTCT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The filing expressly locates the principal mining operations in Arkansas and identifies the Quench Data operating facility at Manila, Arkansas. It separately identifies Singapore executive offices. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "headquarters_country": "Singapore"
+  },
+  "CAPS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The operating distribution/fabrication hubs are located in New Jersey, Illinois and Massachusetts, with the New Jersey site also serving as headquarters. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CDT": {
+    "operating_country": "United Kingdom",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The business narrative states that most platform-development work takes place in Cambridge laboratories; the laboratory premises are in Cambridge Science Park, UK. US incorporation and virtual corporate administration are separate. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CLDI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The San Diego campus contains substantial laboratory space as well as corporate facilities supporting the therapeutic business. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "COCP": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The filing explicitly distinguishes the operating facilities in Washington and Florida from a separate Australian administrative facility. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ELBM": {
+    "operating_country": "Canada",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The operating-project disclosure locates the refinery development and related processing infrastructure near Temiskaming Shores, Ontario; this is the principal disclosed refinery base rather than a mailing-office inference. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ENLV": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The Ness Ziona headquarters includes laboratories and cGMP clean rooms used to manufacture clinical batches, with additional Israeli laboratory premises. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "FEED": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report identifies the office/manufacturing site in Nesher and corporate functions in Tel Aviv, with the Texas office separately disclosed. Israel is the functional manufacturing base, not a statement of exclusive market exposure. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "GWH": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The Wilsonville, Oregon site combines corporate, engineering and automated battery-production lines in a substantial operating manufacturing campus. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "IBG": {
+    "operating_country": "Australia",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report identifies the operating distillery and beverage-manufacturing facility at Arndell Park, New South Wales, and explicitly describes the relocation of operations there. US subsidiary activities remain separate. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "IBIO": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The disclosed biopharmaceutical R&D facility in San Diego houses laboratories and offices used for the operating development program. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "ICG": {
+    "operating_country": "China",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The annual report identifies owned research-and-development and operating office properties in Shanghai, beyond the registered holding-company jurisdiction. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "IMTE": {
+    "operating_country": "Australia",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report explicitly identifies Adelaide as the principal and main operating office, distinguished from the registered address in Melbourne. This classifies the disclosed operating-management base, not all group exposure. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "IOBT": {
+    "operating_country": "Denmark",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The active main office and laboratory premises are identified in Copenhagen, including additional operational space at the same Danish campus. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "LASE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The filing describes the laser-system business facilities at Lake Mary and Winter Park, Florida, including acquired production operations. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "LVWR": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The principal operating-property list places motorcycle development and retail operations in Wisconsin and California and STACYC corporate/R&D functions in Texas. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MDXH": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report states that diagnostic test processing and R&D occur at the Irvine, California laboratory and identifies an additional laboratory in Plano, Texas. Belgian incorporation is retained separately. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MIGI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report identifies the principal place of business and operating data-center site at Midland, Pennsylvania, with the associated land lease. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MNTS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The primary San Jose operating facility is expressly used by the single reporting segment, not merely as a statutory mailing address. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MOBX": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The principal-property schedule identifies US design, manufacturing and sales facilities, including sites in California and Massachusetts. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MTEK": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The annual report explicitly states that main business activities are conducted at the headquarters site in Rehovot, Israel. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MTNB": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The disclosed operating laboratory is in Bridgewater, New Jersey, with a separate administrative office in the same state. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "MWG": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The property schedule identifies the Singapore operating subsidiary and Singapore premises used to fabricate, repair and service heavy equipment. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "NAOV": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The current issuer report identifies manufacturing and operating office facilities in Nesher and Tel Aviv, with a separate Texas office. Historical Nanovibronix identity/business changes require date-specific review. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PFSA": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The material operating property comprises office and laboratory facilities in Berkeley, California. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PLRZ": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report expressly states that main business activities are conducted in Israel and identifies Raanana offices and a Rehovot R&D laboratory. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "PRSO": {
+    "operating_country": "Canada",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The facilities disclosure locates the active administrative, sales, support and R&D premises in Markham and Toronto, Ontario; this is distinct from the US legal entity registration. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "RADX": {
+    "operating_country": "Australia",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The filing locates the company operating offices, laboratories and laboratory equipment in Carlton, Victoria, Australia. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "RELI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The operating property schedule places the insurance agencies and group functions in US states, including Montana, Michigan and New Jersey. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SMX": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report expressly identifies the main business activities at the Israeli subsidiary headquarters, with adjacent Israeli R&D premises; Irish incorporation remains separate. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "SQFT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The property disclosure expressly identifies the operating investment portfolio primarily in the western United States. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "The consolidated balance sheet explicitly discloses assets of consolidated VIEs. US real estate/accounting structure."
+  },
+  "SUNE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The operating property schedule identifies the office/warehouse footprint in Hawaii and New York used by the solar business. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "TRIB": {
+    "operating_country": "Ireland",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report locates headquarters, manufacturing, R&D and sales facilities together in Bray, Ireland. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "UGRO": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The principal place of business combines active Colorado office and warehouse space supporting the disclosed operating business. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VIVS": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report describes active laboratory and office facilities at Sorrento Valley Road, San Diego, California. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VNCE": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The principal corporate/design footprint is in New York and Los Angeles, with the company-store network principally US based. A separate Paris showroom is disclosed and does not remove French exposure. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VNRX": {
+    "operating_country": "Belgium",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The principal operating-property schedule places the major R&D and manufacturing facilities in Namur, Belgium. Smaller California R&D, UK sales and US administrative premises are disclosed separately. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "VRAX": {
+    "operating_country": "United Kingdom",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The Glasgow laboratory houses research operations and prospective production capacity. The smaller Shanghai office is separately disclosed; the operating research base is the UK. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05",
+    "security_type": "direct_equity",
+    "structure_status": "reviewed",
+    "security_basis": "The annual report cover identifies VRAX ordinary shares with par value $0.025 on Nasdaq Capital Market, rather than depositary shares."
+  },
+  "WBUY": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "Second-pass review of the cited annual report operating and properties disclosures. The report identifies the Singapore operating executive/warehouse premises in Tampines, while Cayman registration is kept separate. This is not a claim of exclusive legal exposure.",
+    "checked_on": "2026-11-05"
+  },
+  "CMND": {
+    "headquarters_country": "Israel",
+    "operations_basis": "The filing distinguishes the Canadian registered office from the principal executive offices in Tel Aviv, Israel. A principal operating-country classification remains pending further activity evidence."
+  },
+  "DEVS": {
+    "headquarters_country": "Canada",
+    "operations_basis": "The filing distinguishes the actual Calgary headquarters from its Sacramento mailing address. A single principal operating country of the underlying projects remains unconfirmed."
+  },
+  "STAI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The properties disclosure identifies the active ScanTech office, workshop, manufacturing and warehouse facility in Buford, Georgia.",
+    "checked_on": "2026-11-05"
+  },
+  "ALLR": {
+    "operating_country": "Denmark",
+    "operations_status": "reviewed",
+    "operations_basis": "The annual report identifies principal operations in Horsholm, Denmark; the US executive address is a virtual office.",
+    "checked_on": "2026-11-05"
+  },
+  "AMCI": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The Foreign Operations section states that the business is mainly located in the United States; overseas sales and Chinese sourcing/services are also disclosed.",
+    "checked_on": "2026-11-05"
+  },
+  "CMCT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The operating real estate portfolio comprises multifamily and office properties in US markets.",
+    "checked_on": "2026-11-05"
+  },
+  "CYPH": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The foreign currency risk disclosure states that all employees and the majority of major operations are currently in the United States; contract manufacturing abroad is disclosed.",
+    "checked_on": "2026-11-05"
+  },
+  "EEIQ": {
+    "operating_country": "China",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that substantially all current revenue is derived in China through Davis University; historical partner arrangements are disclosed separately.",
+    "checked_on": "2026-11-05"
+  },
+  "ELPW": {
+    "operating_country": "China",
+    "operations_status": "reviewed",
+    "operations_basis": "The permissions disclosure states that business is conducted primarily through PRC subsidiaries in China.",
+    "checked_on": "2026-11-05"
+  },
+  "FMFC": {
+    "operating_country": "Cambodia",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that operations are conducted in Cambodia through the operating subsidiary and substantially all assets are located there.",
+    "checked_on": "2026-11-05"
+  },
+  "HIND": {
+    "operating_country": "India",
+    "operations_status": "reviewed",
+    "operations_basis": "The report explicitly locates substantially all business and operations in India; Properties identifies New Delhi laboratories versus small US office spaces.",
+    "checked_on": "2026-11-05"
+  },
+  "JZXN": {
+    "operating_country": "China",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that substantially all business operations are conducted in China and most directors and senior management are based there.",
+    "checked_on": "2026-11-05"
+  },
+  "LABT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The foreign currency risk disclosure states that the company currently operates primarily in the United States.",
+    "checked_on": "2026-11-05"
+  },
+  "MRNO": {
+    "operating_country": "Mexico",
+    "operations_status": "reviewed",
+    "operations_basis": "The report identifies the operating hotel and development property portfolio in Mexico, including Mexico City, Cancun and Ensenada.",
+    "checked_on": "2026-11-05"
+  },
+  "MSGY": {
+    "operating_country": "Hong Kong",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that all current operations are conducted in Hong Kong; Hong Kong is retained separately from mainland China.",
+    "checked_on": "2026-11-05"
+  },
+  "OTRK": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The report explicitly locates all principal operations, decision-making functions and long-lived assets in the United States; customers are also US-based.",
+    "checked_on": "2026-11-05",
+    "vie_status": "yes_explicit",
+    "vie_basis": "The basis of presentation explicitly includes Ontrak subsidiaries and its VIEs. Accounting consolidation, not a China VIE conclusion."
+  },
+  "SBFM": {
+    "operating_country": "Canada",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that revenue is generated primarily from Canadian generic pharmaceutical sales through Nora Pharma; its operating warehouse is in Quebec.",
+    "checked_on": "2026-11-05"
+  },
+  "SMXT": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The business overview states that business is primarily conducted in the United States; the properties section also discloses a smaller Shanghai office.",
+    "checked_on": "2026-11-05"
+  },
+  "SNBR": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The properties schedule lists 600 US retail stores and domestic assembly/distribution facilities; New Mexico is a US state.",
+    "checked_on": "2026-11-05"
+  },
+  "SOBR": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The segment disclosure states that substantially all consolidated revenue and cash flows are generated in the United States.",
+    "checked_on": "2026-11-05"
+  },
+  "SPHL": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "The report identifies its sole operating subsidiary as incorporated and located in Singapore.",
+    "checked_on": "2026-11-05"
+  },
+  "SSM": {
+    "operating_country": "Germany",
+    "operations_status": "reviewed",
+    "operations_basis": "The operating workshop, electronics laboratory and warehouse are in Munich; the smaller Florida office lease was terminated in December 2025.",
+    "checked_on": "2026-11-05"
+  },
+  "SST": {
+    "operating_country": "United States",
+    "operations_status": "reviewed",
+    "operations_basis": "The report explicitly states that the company currently operates primarily in the United States.",
+    "checked_on": "2026-11-05"
+  },
+  "SYNX": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "Executive offices and research/development facilities are in Israel, where most key employees, officers and directors reside.",
+    "checked_on": "2026-11-05"
+  },
+  "TDIC": {
+    "operating_country": "Hong Kong",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that all operations are conducted in Hong Kong and most assets are located there.",
+    "checked_on": "2026-11-05"
+  },
+  "UOKA": {
+    "operating_country": "United Kingdom",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that operations are conducted in the UK through UK subsidiaries.",
+    "checked_on": "2026-11-05"
+  },
+  "WLDS": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "The report identifies the principal research/development team at Yokneam Illit, Israel, while separately disclosing the US subsidiary office.",
+    "checked_on": "2026-11-05"
+  },
+  "BENF": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "Customer ExAlt Trusts are explicitly identified as consolidated VIEs, not directly owned by equity holders.",
+    "checked_on": "2026-11-05"
+  },
+  "BIAF": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The consolidation note explicitly includes Village Oaks as a VIE.",
+    "checked_on": "2026-11-05"
+  },
+  "CDTG": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The report explicitly identifies the China VIE and subsidiaries consolidated without equity ownership in the VIE.",
+    "checked_on": "2026-11-05"
+  },
+  "CYCU": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The report identifies fully consolidated VIE SLG Innovation, Inc. This is an accounting consolidation classification, not evidence of a Chinese VIE.",
+    "checked_on": "2026-11-05"
+  },
+  "JAGX": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "JAGX Holdings is explicitly consolidated as a VIE. US financing/accounting structure.",
+    "checked_on": "2026-11-05"
+  },
+  "NVVE": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "Deep Impact is explicitly identified as a consolidated VIE with the company as primary beneficiary and WISE minority interest.",
+    "checked_on": "2026-11-05"
+  },
+  "SIDU": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "Aurea Alas Limited in the Isle of Man is explicitly consolidated as a VIE with the company as primary beneficiary.",
+    "checked_on": "2026-11-05"
+  },
+  "WSHP": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The WeShop Community Trust is explicitly consolidated as a VIE with the company as primary beneficiary.",
+    "checked_on": "2026-11-05"
+  },
+  "XAIR": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "Beyond Cancer and NeuroNOS are explicitly VIEs consolidated with the company as primary beneficiary.",
+    "checked_on": "2026-11-05"
+  },
+  "BTOG": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report states that the company no longer operates under a VIE structure following its March 2022 disposal; historical VIEs are not treated as current.",
+    "checked_on": "2026-11-05"
+  },
+  "BYND": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that the company has no holdings in VIEs.",
+    "checked_on": "2026-11-05"
+  },
+  "LCFY": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it has no holdings in VIEs.",
+    "checked_on": "2026-11-05"
+  },
+  "LGCL": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it does not currently use and has not previously used a VIE structure.",
+    "checked_on": "2026-11-05"
+  },
+  "MTC": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that the company does not maintain a VIE structure.",
+    "checked_on": "2026-11-05"
+  },
+  "SUGP": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that its current corporate structure contains no VIE.",
+    "checked_on": "2026-11-05"
+  },
+  "ZBAO": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it has never used a VIE structure and controls operating subsidiaries through equity.",
+    "checked_on": "2026-11-05"
+  },
+  "ZTG": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it does not use a VIE structure.",
+    "checked_on": "2026-11-05"
+  },
+  "ZYBT": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that it does not currently use a VIE structure.",
+    "checked_on": "2026-11-05"
+  },
+  "CYAB": {
+    "security_type": "direct_equity",
+    "structure_status": "reviewed",
+    "security_basis": "The September 2026 S-1/A identifies CYAB common stock, rather than depositary shares. Source: https://www.sec.gov/Archives/edgar/data/2032341/000121390026096300/ea0304131-s1a1_cyabra.htm",
+    "checked_on": "2026-11-05"
+  },
+  "CIGL": {
+    "operating_country": "Singapore",
+    "operations_status": "reviewed",
+    "operations_basis": "The security services business is based in Singapore; the report discloses less than one percent of group revenue from Australia.",
+    "checked_on": "2026-11-05"
+  },
+  "SLXN": {
+    "operating_country": "Israel",
+    "operations_status": "reviewed",
+    "operations_basis": "The report states that business is primarily conducted through the Israeli operating company Silexion Therapeutics Ltd.",
+    "checked_on": "2026-11-05"
+  },
+  "FTFT": {
+    "operating_country": "China",
+    "operations_status": "reviewed",
+    "operations_basis": "The report identifies the current main business as supply-chain financing services and trading in China; other international businesses are separately disclosed.",
+    "checked_on": "2026-11-05"
+  },
+  "TOP": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "Winrich Trust Limited is explicitly treated as a VIE and consolidated under a vote-in-concert arrangement.",
+    "checked_on": "2026-11-05"
+  },
+  "DFNS": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The balance sheet explicitly reports assets of consolidated VIEs. Accounting consolidation is not evidence of a Chinese contractual operating structure.",
+    "checked_on": "2026-11-05"
+  },
+  "BSLK": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The manufacturing supplier is explicitly classified as an unconsolidated VIE; the company states that it is not the primary beneficiary. VIE existence does not mean consolidation or a Chinese contractual structure.",
+    "checked_on": "2026-11-05"
+  },
+  "VERO": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report explicitly states that the company has no interests in entities referred to as VIEs.",
+    "checked_on": "2026-11-05"
+  },
+  "UPC": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report states that subsidiaries are directly owned and it does not currently use a VIE structure.",
+    "checked_on": "2026-11-05"
+  },
+  "GPUS": {
+    "vie_status": "yes_explicit",
+    "vie_basis": "The report explicitly identifies an ROI investment consolidated as a VIE. Accounting consolidation is not a China VIE classification.",
+    "checked_on": "2026-11-05"
+  },
+  "SDOT": {
+    "vie_status": "no_explicit",
+    "vie_basis": "The report expressly states that the company has no VIEs at December 31, 2025 and 2024.",
+    "checked_on": "2026-11-05"
   }
 }

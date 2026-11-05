@@ -1,13 +1,22 @@
 """Guard against country and VIE false positives in source extraction."""
 import unittest
 
-from classify_tickers import incorporation_from_cover, operating_evidence, security_evidence, vie_evidence
+from classify_tickers import functional_facility_evidence, incorporation_from_cover, operating_evidence, security_evidence, vie_evidence
 
 
 class ResearchExtractionTests(unittest.TestCase):
     def test_explicit_operating_concentration(self):
         country, _ = operating_evidence('We conduct substantially all of our operations in China.')
         self.assertEqual(country, 'China')
+
+    def test_new_mexico_is_not_a_foreign_operating_country(self):
+        country, _ = operating_evidence('We conduct substantially all of our operations in the United States, including New Mexico.')
+        self.assertEqual(country, 'United States')
+
+    def test_properties_table_separators_are_supported(self):
+        text = ('Item 2. | Properties Our research and manufacturing facilities are located in Texas, United States. '
+                'We lease the entire building for our laboratories and distribution activities. Item 3. | Legal Proceedings')
+        self.assertEqual(functional_facility_evidence(text, 'United States')[0], 'United States')
 
     def test_two_countries_do_not_become_one(self):
         country, _ = operating_evidence('Substantially all of our revenues are generated from customers in the United Kingdom and the United States.')

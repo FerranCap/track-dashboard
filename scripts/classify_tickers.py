@@ -23,7 +23,7 @@ COUNTRIES = {
     'Bermuda': r'Bermuda', 'Cayman Islands': r'(?:the Cayman Islands|Cayman Islands)',
     'British Virgin Islands': r'(?:the British Virgin Islands|British Virgin Islands)',
     'Marshall Islands': r'(?:the Marshall Islands|Marshall Islands)', 'Luxembourg': r'Luxembourg',
-    'Mexico': r'Mexico', 'Spain': r'Spain', 'Italy': r'Italy', 'Austria': r'Austria',
+    'Mexico': r'(?<!New )Mexico', 'Spain': r'Spain', 'Italy': r'Italy', 'Austria': r'Austria',
     'New Zealand': r'New Zealand', 'Norway': r'Norway', 'Finland': r'Finland',
     'South Africa': r'South Africa', 'Philippines': r'(?:the Philippines|Philippines)', 'Egypt': r'Egypt'
 }
@@ -80,9 +80,9 @@ def operating_evidence(text):
 
 def functional_facility_evidence(text, headquarters):
     sections = []
-    for match in re.finditer(r'ITEM\s+2\s*[.:-]?\s*(?:PROPERTIES|DESCRIPTION OF PROPERTY)', text, re.I):
+    for match in re.finditer(r'ITEM\s+2[.|:\-\s]*(?:PROPERTIES|DESCRIPTION OF PROPERTY)', text, re.I):
         section = text[match.end():match.end()+7000]
-        stop = re.search(r'ITEM\s+3\s*[.:-]?\s*LEGAL', section, re.I)
+        stop = re.search(r'ITEM\s+3[.|:\-\s]*LEGAL', section, re.I)
         if not stop or stop.start() < 60:
             continue
         sections.append(section[:stop.start()])

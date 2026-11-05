@@ -35,12 +35,14 @@ Raw SEC responses and working excerpts are cached in `.cache/ticker-research/`, 
 | `identity_status`, `identity_source_url` | Exact current ticker match or historical ticker lookup, with its source. |
 | `incorporation_status` | `sec_metadata`, `filing_cover` or `unverified`. |
 | `operations_status` | `explicit_filing`, `reviewed`, `facilities_inference` or `unverified`. |
-| `structure_status` | `cover_table` or `unverified`. It concerns the listed security, not proof of VIE absence. |
+| `structure_status` | `cover_table`, `reviewed` or `unverified`. It concerns the listed security, not proof of VIE absence. |
 | `review_status` | `complete` means the extraction has values for the requested fields, including an inference if labeled; `partial` means some requested field remains unresolved. This is not a legal certification or a claim of exhaustive manual review. |
 | `source_profile_url`, `source_filing_url`, `source_filing_date` | Primary SEC sources and the filing's publication date. |
 | `checked_on`, `historical_note`, `notes` | Research snapshot date, historical limitations and additional notes. |
 
 Only operating countries with `operations_status` equal to `explicit_filing` or `reviewed` populate trade-level `country`. Facility inferences are visible in the issuer table but excluded from confirmed operating-country statistics. Incorporation-based grouping uses its separate field. Existing PnL and trade accounting are unchanged.
+
+The second review pass uses operating disclosures and functional properties to resolve supported classifications, with persistent reasoning in `ticker-review-overrides.json`. Multiple-country businesses, virtual executive addresses and international shipping routes are not forced into one operating country. VIE reviews distinguish current arrangements from terminated structures, accounting consolidation from Chinese contractual operating structures, and unconsolidated interests from consolidated subsidiaries. A generic accounting policy or a statement about off-balance-sheet arrangements alone does not establish VIE absence.
 
 ## Updating the snapshot
 
