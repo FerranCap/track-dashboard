@@ -5,7 +5,7 @@ const VIEW_DETAILS = {
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
   compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.'],
   analysis: ['Análisis', 'Explora los factores que explican tus resultados.'],
-  growth: ['Crecimiento', 'Evolución del beneficio y del tamaño de tus operaciones.'],
+  growth: ['Crecimiento', 'Evolución del beneficio y del movimiento del PnL por operación.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Riesgo y consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
   country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
@@ -91,41 +91,44 @@ function renderWorkspace(rows) {
 }
 
 function growthPeriods(rows) {
-  const quantities = new Map();
+  const valuesByMonth = new Map();
   for (const trade of rows) {
     const month = trade.date.slice(0, 7);
-    if (!quantities.has(month)) quantities.set(month, []);
-    if (Number.isFinite(trade.entryQty) && trade.entryQty > 0) quantities.get(month).push(trade.entryQty);
+    if (!valuesByMonth.has(month)) valuesByMonth.set(month, []);
+    if (Number.isFinite(trade.pnl)) valuesByMonth.get(month).push(Math.abs(trade.pnl));
   }
   let cumulative = 0;
   return periodConsistency(rows, 'month').map(period => {
     cumulative += period.pnl;
-    const values = quantities.get(period.period);
-    return { ...period, cumulative, quantityCount: values.length,
-      meanQuantity: values.length ? mean(values) : null, medianQuantity: sampleQuantile(values, 0.5) };
+    const values = valuesByMonth.get(period.period);
+    return { ...period, cumulative,
+      meanAbsolutePnl: values.length ? mean(values) : null,
+      medianAbsolutePnl: sampleQuantile(values, 0.5) };
   });
 }
 
 function renderGrowth(rows) {
-  const periods = growthPeriods(rows), latest = periods.at(-1);
-  const quantities = rows.map(trade => trade.entryQty).filter(value => Number.isFinite(value) && value > 0);
+  const periods = growthPeriods(rows);
+  const pnls = rows.map(trade => trade.pnl).filter(Number.isFinite);
+  const absolutePnls = pnls.map(Math.abs);
   $('growth-stats').innerHTML = [
     ['Beneficio acumulado', rows.length ? signed(sum(rows)) : '—', 'Suma del PnL de las operaciones cerradas filtradas, partiendo de cero. Las comisiones del CSV no se descuentan de nuevo; no es saldo de cuenta ni rentabilidad porcentual.'],
-    ['Beneficio · último mes observado', latest ? signed(latest.pnl) : '—', `PnL del último mes con operaciones dentro de los filtros${latest ? ` (${latest.period})` : ''}. Puede ser un mes parcial; no se anualiza ni se proyecta.`],
-    ['Tamaño medio · acciones', quantities.length ? num(mean(quantities), 1) : '—', 'Suma de acciones de entrada conocidas y positivas ÷ operaciones con cantidad válida. No sustituye al capital invertido ni al riesgo monetario.'],
-    ['Tamaño mediano · acciones', quantities.length ? num(sampleQuantile(quantities, 0.5), 1) : '—', 'Percentil 50 de las cantidades de entrada conocidas y positivas. Divide la muestra ordenada en dos mitades y reduce la influencia de operaciones excepcionalmente grandes.']
+    ['PnL medio por trade', pnls.length ? signed(mean(pnls)) : '—', 'Suma del PnL de los trades ÷ número de trades. Se mantiene el signo y se incluyen los trades a cero. Cada operación pesa igual. Se expresa en USD y no se divide por precio ni por shares.'],
+    ['PnL absoluto medio por trade', absolutePnls.length ? money(mean(absolutePnls)) : '—', 'Media de |PnL|, tomando primero el valor absoluto de cada trade. Ejemplo: +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Ganancias y pérdidas no se cancelan. Una magnitud mayor también puede proceder de pérdidas mayores.'],
+    ['PnL absoluto mediano por trade', absolutePnls.length ? money(sampleQuantile(absolutePnls, 0.5)) : '—', 'Mediana de los valores |PnL| de cada trade, en dólares. Reduce la influencia de operaciones excepcionalmente grandes. No utiliza precio de la acción ni cantidad de shares.']
   ].map(args => consistencyMetric(...args)).join('');
   renderChart('growth-cumulative-chart', [{ values: periods.map(period => [period.period, period.cumulative]), color: '#5c9bff' }], { currency: true, explanation: 'Suma acumulada del PnL de los meses observados, desde $0 al comienzo de los filtros. No incluye saldo inicial, depósitos ni retiradas y no representa una rentabilidad sobre capital.' });
   renderChart('growth-monthly-chart', [{ values: periods.map(period => [period.period, period.pnl]) }], { bar: true, currency: true, explanation: 'Suma del PnL de las operaciones cerradas en cada mes según Nueva York. Los meses sin operaciones se omiten; el primer y último mes pueden ser parciales.' });
-  const known = periods.filter(period => period.meanQuantity !== null);
-  renderChart('growth-size-chart', [
-    { values: known.map(period => [period.period, period.meanQuantity, 'Media de acciones de entrada válidas.']), color: '#5c9bff' },
-    { values: known.map(period => [period.period, period.medianQuantity, 'Mediana de acciones de entrada válidas.']), color: '#29d17e' }
-  ], { unit: ' acc.', explanation: 'Acciones de entrada de los trades cerrados en cada mes. La media y la mediana excluyen cantidades ausentes o no positivas. Se omiten meses sin cantidades válidas. El número de acciones no mide capital ni riesgo monetario.' });
-  $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio', 'Tamaño medio · acciones', 'Tamaño mediano · acciones', 'Variación del tamaño · %', 'Cantidad disponible'], periods.map((period, index) => {
+  const absoluteExplanation = 'Se calcula |PnL| para cada trade y después su media o mediana mensual en USD. Todos los trades pesan igual, incluidos los trades a cero. Las pérdidas cuentan por su magnitud positiva. No intervienen el precio de la acción ni las shares. No es recorrido intratrade y una magnitud mayor no implica mejor resultado.';
+  renderChart('growth-absolute-pnl-chart', [
+    { values: periods.map(period => [period.period, period.meanAbsolutePnl, `Media de |PnL| de ${period.count} trades.`]), color: '#5c9bff' },
+    { values: periods.map(period => [period.period, period.medianAbsolutePnl, `Mediana de |PnL| de ${period.count} trades.`]), color: '#29d17e' }
+  ], { currency: true, explanation: absoluteExplanation });
+  renderChart('growth-average-pnl-chart', [{ values: periods.map(period => [period.period, period.average]), color: '#5c9bff' }], { currency: true, bar: true, explanation: 'PnL total del mes ÷ número de trades cerrados del mes. Se conserva el signo: ganancias y pérdidas pueden cancelarse. No utiliza precio de entrada ni cantidad de shares.' });
+  $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio por trade', 'PnL absoluto medio por trade', 'PnL absoluto mediano por trade', 'Variación PnL absoluto medio · USD'], periods.map((period, index) => {
     const previous = periods[index - 1];
-    const sizeChange = previous?.meanQuantity > 0 && period.meanQuantity !== null ? (period.meanQuantity / previous.meanQuantity - 1) * 100 : null;
-    return [period.period, period.count, signed(period.pnl), signed(period.cumulative), previous ? signed(period.pnl - previous.pnl) : '—', money(period.average), period.meanQuantity === null ? '—' : num(period.meanQuantity, 1), period.medianQuantity === null ? '—' : num(period.medianQuantity, 1), sizeChange === null ? '—' : `${sizeChange > 0 ? '+' : ''}${num(sizeChange, 1)}%`, `${period.quantityCount} / ${period.count}`];
+    const movementChange = previous && previous.meanAbsolutePnl !== null && period.meanAbsolutePnl !== null ? period.meanAbsolutePnl - previous.meanAbsolutePnl : null;
+    return [period.period, period.count, signed(period.pnl), signed(period.cumulative), previous ? signed(period.pnl - previous.pnl) : '—', signed(period.average), money(period.meanAbsolutePnl), money(period.medianAbsolutePnl), movementChange === null ? '—' : signed(movementChange)];
   })) : '<p class="muted">Sin operaciones para estos filtros.</p>';
 }
 

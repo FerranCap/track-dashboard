@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-growth-13">
+  <link rel="stylesheet" href="styles.css?v=20261105-growth-pnl-14">
 </head>
 <body>
 <aside class="sidebar">
@@ -382,8 +382,8 @@
 </div>
 <div id="view-growth" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
-<h2>Evolución del beneficio y del tamaño</h2>
-<p>Se estudian las operaciones cerradas que cumplen los filtros generales. El beneficio acumulado empieza en $0; sin saldo inicial ni movimientos de cuenta no se calcula rentabilidad porcentual. El tamaño se expresa en acciones de entrada y no equivale al riesgo monetario.</p>
+<h2>Evolución del PnL por trade</h2>
+<p>Estudio del beneficio acumulado y de la magnitud del PnL de cada operación, en dólares. Se usa directamente el PnL registrado, con sus costes ya incluidos. Cada trade pesa igual; no se utiliza el precio de la acción ni la cantidad de shares.</p>
 <div id="growth-stats" class="metrics four"></div>
 </section>
 <section class="section panel">
@@ -395,14 +395,19 @@
 <div id="growth-monthly-chart" class="chart"></div>
 </section>
 <section class="section panel">
-<h2>Evolución del tamaño de entrada</h2>
-<p>Media y mediana de acciones de entrada de las operaciones cerradas en cada mes. Se excluyen cantidades ausentes o no positivas. El precio de los tickers puede variar: más acciones no implica necesariamente más capital ni más riesgo.</p>
-<div id="growth-size-chart" class="chart"></div>
+<h2>Movimiento absoluto del PnL por trade · USD</h2>
+<p>Se toma |PnL| de cada operación y después se calcula la media y mediana de cada mes. Por ejemplo, +$10 y −$6 tienen un PnL absoluto medio de $8. Ganancias y pérdidas aportan magnitudes positivas: un aumento también puede proceder de pérdidas mayores.</p>
+<div id="growth-absolute-pnl-chart" class="chart"></div>
 <div class="legend"><span class="accent">Media</span><span class="positive">Mediana</span></div>
 </section>
 <section class="section panel">
+<h2>PnL medio por trade · con signo</h2>
+<p>PnL total del mes dividido entre el número de operaciones. Se mantiene el signo para comprobar si una mayor magnitud va acompañada de mejores resultados. En el ejemplo de +$10 y −$6, el PnL medio es +$2.</p>
+<div id="growth-average-pnl-chart" class="chart"></div>
+</section>
+<section class="section panel">
 <h2>Detalle del crecimiento mensual</h2>
-<p>Las variaciones comparan con el mes anterior que tenga operaciones dentro de los filtros. Los meses sin operaciones se omiten y los extremos del intervalo pueden ser parciales. La variación de tamaño queda sin calcular cuando falta una media válida en alguno de los dos meses.</p>
+<p>Las variaciones comparan con el mes anterior observado dentro de los filtros y se expresan en dólares. Los meses sin operaciones se omiten y los extremos pueden ser parciales. La media absoluta toma el valor absoluto antes de promediar; no es el valor absoluto del PnL medio.</p>
 <div id="growth-monthly-table" class="table-wrap"></div>
 </section>
 </div>
@@ -561,18 +566,18 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-growth-13</span>
+<span>Versión: 20261105-growth-pnl-14</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="consistency.js?v=20261105-growth-13" defer></script>
-<script src="table-sort.js?v=20261105-growth-13" defer></script>
-<script src="help.js?v=20261105-growth-13" defer></script>
-<script src="workspace.js?v=20261105-growth-13" defer>
+<script src="consistency.js?v=20261105-growth-pnl-14" defer></script>
+<script src="table-sort.js?v=20261105-growth-pnl-14" defer></script>
+<script src="help.js?v=20261105-growth-pnl-14" defer></script>
+<script src="workspace.js?v=20261105-growth-pnl-14" defer>
 </script>
-<script src="dashboard.js?v=20261105-growth-13" defer>
+<script src="dashboard.js?v=20261105-growth-pnl-14" defer>
 </script>
 </body>
 </html>

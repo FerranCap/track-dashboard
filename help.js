@@ -14,6 +14,10 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/variacion pnl absoluto medio/, 'Media de |PnL| del mes actual menos la media de |PnL| del anterior mes observado, en USD. No utiliza precio ni shares. Puede aumentar tanto por mayores ganancias como por mayores pérdidas.'],
+    [/pnl absoluto medio/, 'Media aritmética de |PnL|, tomando primero el valor absoluto de cada trade. +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Incluye los trades a cero y los costes ya incluidos en PnL. No se divide por precio ni por shares.'],
+    [/pnl absoluto mediano/, 'Mediana de |PnL| de cada trade en dólares. Se aplica primero el valor absoluto por operación y luego se calcula el percentil 50. No utiliza precio ni shares.'],
+    [/pnl medio por trade/, 'Suma del PnL de los trades ÷ número de operaciones, manteniendo el signo. +$10 y −$6 dan +$2 de media. Incluye los trades a cero y no utiliza precio ni shares.'],
     [/variacion del beneficio/, 'PnL del mes actual menos PnL del anterior mes observado dentro de los filtros, en USD. No es variación del saldo ni rentabilidad porcentual; el primer mes no tiene comparación.'],
     [/variacion del tamano/, '(Media de acciones de entrada del mes actual ÷ media del anterior mes observado − 1) × 100. Solo se calcula con medias válidas en ambos meses. Más acciones no implica necesariamente más riesgo ni más capital.'],
     [/tamano medio/, 'Media aritmética de las cantidades de entrada conocidas y positivas de las operaciones cerradas en el período. Se expresa en acciones; excluye cantidades ausentes y no mide riesgo monetario.'],

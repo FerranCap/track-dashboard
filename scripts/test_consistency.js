@@ -7,9 +7,11 @@ if (typeof require !== 'undefined') {
   vm.runInThisContext(`
     const EPSILON = 0.000001;
     const sum = rows => rows.reduce((total, trade) => total + trade.pnl, 0);
+    const mean = values => values.length ? values.reduce((total, value) => total + value, 0) / values.length : 0;
     function classify(trade) { return trade.pnl > EPSILON ? 'win' : trade.pnl < -EPSILON ? 'loss' : 'scratch'; }
   `);
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'consistency.js'), 'utf8'));
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'workspace.js'), 'utf8'));
 }
 
 function checkConsistency(condition, message) {
@@ -60,4 +62,16 @@ const block = resampleConsistency([consistencyFixture(10, 0), consistencyFixture
 checkConsistency(block.finals.every(value => value === 15) && block.drawdowns.every(value => value === 5), 'Session blocks preserve internal order and truncate at the horizon');
 checkConsistency(JSON.stringify(resampleConsistency(recoveryFixture, 25, 20)) === JSON.stringify(resampleConsistency(recoveryFixture, 25, 20)), 'Fixed history produces repeatable simulations');
 checkConsistency(resampleConsistency([], 25) === null && JSON.stringify(recoveryFixture) === snapshot, 'Empty simulation stays empty and source data is immutable');
+const growthPnlFixture = [
+  { date: '2026-01-02', pnl: 10, entryQty: 1, entryPrice: 1000 },
+  { date: '2026-01-03', pnl: -6, entryQty: null, entryPrice: null },
+  { date: '2026-01-04', pnl: 0, entryQty: 10000, entryPrice: 0.1 },
+  { date: '2026-02-02', pnl: 20 }
+];
+const growthPnlResult = growthPeriods(growthPnlFixture);
+checkConsistency(growthPnlResult[0].pnl === 4 && growthPnlResult[1].cumulative === 24, 'Growth reconciles monthly and accumulated PnL');
+checkConsistency(growthPnlResult[0].meanAbsolutePnl === 16 / 3 && growthPnlResult[0].medianAbsolutePnl === 6, 'Absolute PnL is computed per trade before aggregation, including zero trades');
+checkConsistency(growthPnlResult[0].average === 4 / 3, 'Signed mean stays separate from mean magnitude');
+checkConsistency(JSON.stringify(growthPeriods(growthPnlFixture.map(({ date, pnl }) => ({ date, pnl })))) === JSON.stringify(growthPnlResult), 'Growth does not depend on share quantity or price');
+checkConsistency(growthPeriods([]).length === 0, 'Empty growth history stays empty');
 console.log('Consistency calculations passed: rolling windows, periods, recovery, causal ordering, percentiles, session resampling and immutability.');
