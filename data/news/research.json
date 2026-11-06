@@ -7,7 +7,7 @@
       "windowHours": 48,
       "checkedOn": "2026-11-06",
       "coverage": "partial",
-      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Only publications without a confirmed hour or timezone may use their verified date in either of the two preceding calendar days. Same-day date-only articles remain uncertain. Syndications are merged; publications on the same topic share an eventId.",
+      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Only publications without a confirmed hour or timezone may use their verified date in either of the two preceding calendar days. Same-day date-only articles are now counted with pre-entry order explicitly unconfirmed under the revised user instruction. Syndications are merged; publications on the same topic share an eventId.",
       "tradeEntries": {
         "cmrz3qek64f57okc2v8sww3st": "2026-07-24T10:27:29-04:00",
         "cms6b3gfd0rf58bs65n86gs2v": "2026-07-29T08:21:49-04:00",
@@ -132,9 +132,21 @@
           "url": "https://www.sec.gov/Archives/edgar/data/2058584/000149315226049713/form6-k.htm",
           "access": "page",
           "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        },
+        {
+          "url": "https://www.investing.com/news/stock-market-news/why-is-darkiris-stock-surging-66-today-93CH-4997941",
+          "access": "page",
+          "note": "Counted by verified publication date under the user-approved same-day date fallback; clock and timezone are not used. Pre-entry order remains explicitly unconfirmed."
         }
       ],
-      "unresolvedCandidates": [
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "Counted by verified publication date under the user-approved same-day date fallback; clock and timezone are not used. Pre-entry order remains explicitly unconfirmed."
+      ],
+      "resolvedCandidates": [
         {
           "id": "dki-20261104-report-zone-unconfirmed",
           "url": "https://www.investing.com/news/stock-market-news/why-is-darkiris-stock-surging-66-today-93CH-4997941",
@@ -143,14 +155,11 @@
           "reason": "The article is dated on the entry day and displays 04:34 AM without an independently established timezone. Same-day date fallback cannot confirm eligibility. Its causal interpretation is not adopted.",
           "candidateTradeIds": [
             "cmw2bm12u06qskgnoiyuzos6j"
-          ]
+          ],
+          "resolution": "Counted by verified publication date under the user-approved same-day date fallback; clock and timezone are not used. Pre-entry order remains explicitly unconfirmed.",
+          "resolvedOn": "2026-11-06",
+          "articleId": "dki-20261104-charter-report-date"
         }
-      ],
-      "limitations": [
-        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
-        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
-        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
-        "The November 3 charter filing qualifies. A separately published November 4 Investing.com report displays 04:34 AM without an established timezone; it remains an unresolved same-day candidate."
       ]
     },
     {
@@ -479,9 +488,21 @@
           "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=ECA2026-779",
           "access": "page",
           "note": "Verified October 29 publication versus November 2 reverse-split effective date; publication is outside the reviewed window."
+        },
+        {
+          "url": "https://www.financialist.com/news/ipo/vci-global-ltd-files-amendment-for-share-offering-000121390026115124",
+          "access": "page",
+          "note": "Direct publisher page confirms VCI Global identity and November 3 publication at 06:06 AM EST. Count the publication while prominently describing conflicting filing details, the earlier indexed-title mismatch and the inaccessible original filing. Do not endorse the reported amounts."
         }
       ],
-      "unresolvedCandidates": [
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "Direct publisher page confirms VCI Global identity and November 3 publication at 06:06 AM EST. Count the publication while prominently describing conflicting filing details, the earlier indexed-title mismatch and the inaccessible original filing. Do not endorse the reported amounts."
+      ],
+      "resolvedCandidates": [
         {
           "id": "vcig-20261103-f1a-unverified",
           "url": "https://www.financialist.com/news/ipo/vci-global-ltd-files-amendment-for-share-offering-000121390026115124",
@@ -489,14 +510,11 @@
           "reason": "An indexed page gives 06:06 AM EST for reporting on accession 0001213900-26-115124, but the indexed page title names another issuer and the body alternates November 2 and 3. The original SEC filing was not accessible in this review. Do not count or infer the share amounts until identity, filing contents and publication time are verified.",
           "candidateTradeIds": [
             "cmw0z1nok0szeqy915hin5q2q"
-          ]
+          ],
+          "resolution": "Direct publisher page confirms VCI Global identity and November 3 publication at 06:06 AM EST. Count the publication while prominently describing conflicting filing details, the earlier indexed-title mismatch and the inaccessible original filing. Do not endorse the reported amounts.",
+          "resolvedOn": "2026-11-06",
+          "articleId": "vcig-20261103-registration-report"
         }
-      ],
-      "limitations": [
-        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
-        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
-        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
-        "The October 29 reverse-split notice is outside the November 3 entry window despite a November 2 effective date. A November 3 F-1/A candidate needs direct filing and publication verification; it remains pending rather than becoming no-news."
       ]
     },
     {
@@ -530,5 +548,12 @@
         "The visible October 27 share-consolidation release is outside the November 3 entry window. No qualifying publication was established in the consulted sources; this is not proof that none existed."
       ]
     }
-  ]
+  ],
+  "matchingPolicy": {
+    "updatedOn": "2026-11-06",
+    "unknownHourOrTimezone": "Use verified publication date on the New York entry day or either of its two preceding dates; hide the unconfirmed clock in the dashboard and preserve it only in audit metadata.",
+    "sameDayDateMatch": "Count as publication_date; disclose that publication before entry is not established.",
+    "conflictingContents": "Count an identified, dated issuer publication and disclose discrepancies in summary and sourceWarnings; publication verification is not verification of its financial claims.",
+    "remainingCandidates": "Reserve for unidentified issuer, unestablished publication existence or unverified publication date."
+  }
 }

@@ -377,6 +377,60 @@
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
       "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "dki-20261104-charter-report-date",
+      "eventId": "dki-20261026-charter-registration",
+      "symbol": "DKI",
+      "headline": "Why is DarkIris stock surging 66% today?",
+      "publishedAt": null,
+      "publicationDate": "2026-11-04",
+      "reportedLocalTime": "04:34 AM",
+      "timePrecision": "day",
+      "publisher": "Investing.com",
+      "author": "Garrett Cook",
+      "kind": "issuer_reporting",
+      "category": "corporate_governance",
+      "summary": "Investing.com discusses the November 3 charter filing and the share-price move. Its publication date is established, but the displayed clock has no confirmed timezone and is not used for matching. The report is counted by date, including the same entry day, without establishing that it was available before the trade or accepting its causal explanation.",
+      "url": "https://www.investing.com/news/stock-market-news/why-is-darkiris-stock-surging-66-today-93CH-4997941",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2058584/000149315226049713/form6-k.htm"
+      ],
+      "timestampEvidence": "The publisher displays November 4, 2026 and an unzoned 04:34 AM clock. The clock is retained only for audit. Under the user-approved date rule, the verified day qualifies; no timestamp or pre-entry order is invented.",
+      "verificationStatus": "verified_date",
+      "sourceWarnings": [
+        "Sin zona horaria confirmada: se cuenta por fecha, sin mostrar una hora de publicación. La coincidencia del mismo día no demuestra que precediera a la entrada."
+      ],
+      "issuerName": "DarkIris Inc.",
+      "issuerCik": "2058584",
+      "checkedOn": "2026-11-06",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "vcig-20261103-registration-report",
+      "eventId": "vcig-20261103-registration-report",
+      "symbol": "VCIG",
+      "headline": "VCI Global Ltd files amendment for share offering",
+      "publishedAt": "2026-11-03T06:06:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Financialist",
+      "author": "James Park",
+      "kind": "issuer_reporting",
+      "category": "capital_structure",
+      "summary": "Financialist reports on a VCI Global registration amendment and possible resale shares. The report names VCI Global and VCIG, but its filing-date narrative differs from its publication header, an earlier indexed title named another issuer, and the original SEC filing was inaccessible. Publication is counted; the reported share amounts, funding implications and underlying filing details are not verified facts.",
+      "url": "https://www.financialist.com/news/ipo/vci-global-ltd-files-amendment-for-share-offering-000121390026115124",
+      "sourceUrls": [
+        "https://www.financialist.com/news/ipo/vci-global-ltd-files-amendment-for-share-offering-000121390026115124"
+      ],
+      "timestampEvidence": "The directly opened publisher page names VCI Global in its headline, body and VCIG ticker, and labels publication November 3, 2026 at 06:06 AM EST. Its statement that an underlying filing was submitted November 2 is not substituted for the publication timestamp.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "La publicación está identificada y fechada, pero contiene discrepancias: menciona una presentación del 2 de noviembre, frente a referencias del 3, y un título indexado anterior nombraba a otro emisor. El cuerpo identifica a VCI Global (VCIG). No se han verificado las cifras de acciones ni los efectos de financiación en el documento original. Se cuenta la noticia, sin dar por confirmados esos datos."
+      ],
+      "issuerName": "VCI Global Ltd",
+      "issuerCik": "1930510",
+      "checkedOn": "2026-11-06",
+      "contentAsOfEntryVerified": false
     }
   ]
 }

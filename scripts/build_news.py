@@ -71,13 +71,11 @@ def build_context(dataset, articles, reviews, symbols, hours=48, date_fallback_d
                 continue
             if start is None:
                 days_before = (entry_day - publication_day).days
-                if 1 <= days_before <= date_fallback_days:
+                if date_fallback_days > 0 and 0 <= days_before <= date_fallback_days:
                     matched.append({'articleId': article['id'], 'eventId': article['eventId'],
                                     'matchingBasis': 'publication_date', 'daysBeforeEntry': days_before,
+                                    'publicationBeforeEntryUnconfirmed': days_before == 0,
                                     'ageSecondsMin': None, 'ageSecondsMax': None})
-                    included.add(article['id'])
-                elif days_before == 0:
-                    uncertain.append(article['id'])
                     included.add(article['id'])
             elif start >= lower and start < entry and end <= entry:
                 matched.append({'articleId': article['id'], 'eventId': article['eventId'],
@@ -103,7 +101,7 @@ def build_context(dataset, articles, reviews, symbols, hours=48, date_fallback_d
                         'unresolvedCandidateIds': [candidate['id'] for candidate in pending]})
     accounting = json.dumps(dataset['trades'], sort_keys=True).encode()
     return {'schemaVersion': 1, 'windowHours': hours, 'windowRule': 'entry_minus_hours_inclusive_to_entry_exclusive',
-            'dateFallbackDays': date_fallback_days, 'dateFallbackRule': 'previous_calendar_days_only_when_time_unknown',
+            'dateFallbackDays': date_fallback_days, 'dateFallbackRule': 'same_or_previous_calendar_days_only_when_time_unknown',
             'timezone': 'America/New_York', 'scopedSymbols': sorted(symbols),
             'tradeAccountingSha256': hashlib.sha256(accounting).hexdigest(),
             'articles': [article for article, _, _, _ in parsed if article['id'] in included],

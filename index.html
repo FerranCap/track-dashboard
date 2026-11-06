@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-news-coverage-50">
+  <link rel="stylesheet" href="styles.css?v=20261106-news-policy-51">
 </head>
 <body>
 <aside class="sidebar">
@@ -379,7 +379,7 @@
 <div id="data-pending-table" class="table-wrap issuer-table"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><div><h2 class="data-audit-heading">Cobertura de noticias <span id="data-news-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % revisados</span></h2><small>Revisión de las 48 horas anteriores a cada entrada de todo el historial.</small></div><button id="data-news-refresh" type="button" disabled>Actualizar comprobación</button></div>
+<div class="panel-head"><div><h2 class="data-audit-heading">Cobertura de noticias <span id="data-news-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % revisados</span></h2><small>Contexto de cada entrada: 48 h exactas o coincidencia por fecha si no hay hora confirmada.</small></div><button id="data-news-refresh" type="button" disabled>Actualizar comprobación</button></div>
 <div id="data-news-stats" class="metrics four"></div>
 <div class="news-audit-progress"><label id="data-news-progress-label" for="data-news-progress">Esperando los datos de noticias.</label><progress id="data-news-progress" max="100" value="0"></progress></div>
 <p id="data-news-status" role="status" class="mini-caption">Esperando a que se carguen las noticias.</p>
@@ -392,7 +392,7 @@
 </section>
 <section class="section panel">
 <div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
-<p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias usa las 48 horas exactas antes de cada entrada; solo si falta hora o zona horaria admite las fechas de los dos días anteriores. «Sin revisar» indica que aún no se ha investigado.</p>
+<p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias usa las 48 horas exactas antes de cada entrada; si falta hora o zona confirmada, cuenta por fecha el mismo día o los dos anteriores. Una coincidencia del mismo día no confirma que la publicación precediera a la entrada. Las discrepancias se describen en cada noticia. Sin revisar indica que aún no se ha investigado.</p>
 <label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
 <div id="issuer-table" class="table-wrap issuer-table"></div>
 </section>
@@ -561,10 +561,10 @@
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
 <script src="studies.js?v=20261106-price-country-studies-46" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-news-coverage-50" defer></script>
-<script src="filters.js?v=20261106-news-filter-49" defer></script>
-<script src="news.js?v=20261106-news-coverage-50" defer></script>
-<script src="workspace.js?v=20261106-news-coverage-50" defer>
+<script src="help.js?v=20261106-news-policy-51" defer></script>
+<script src="filters.js?v=20261106-news-policy-51" defer></script>
+<script src="news.js?v=20261106-news-policy-51" defer></script>
+<script src="workspace.js?v=20261106-news-policy-51" defer>
 </script>
 <script src="dashboard.js?v=20261106-consistency-views-47" defer>
 </script>

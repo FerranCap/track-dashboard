@@ -84,7 +84,7 @@ class TradeFilterPanel {
         <div class="filter-range"><div class="news-range-heading"><span>Antigüedad máxima</span><output for="${prefix}-news" data-news-value>Sin filtro</output></div>
           <input id="${prefix}-news" class="news-filter-slider" type="range" min="0" max="100" step="1" value="0" data-field="news" aria-valuetext="Sin filtro" style="--news-fill:0%">
           <div class="news-range-endpoints"><span>Sin filtro</span><span>48 h</span></div>
-          <small>Solo operaciones con noticia en la ventana elegida. Sin hora: día anterior = 24 h; dos días antes = 48 h, según Nueva York. Cobertura parcial: sin revisar no significa sin noticias.</small>
+          <small>Solo operaciones con noticia en la ventana elegida. Sin hora: mismo día en cualquier valor positivo; día anterior = 24 h; dos días antes = 48 h, según Nueva York. Una coincidencia del mismo día no confirma que precediera a la entrada. Cobertura parcial.</small>
         </div></div>
       <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Sin selección: todos los países. Puedes activar varios.</small></div></div>
       <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;

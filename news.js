@@ -18,13 +18,13 @@ function newsDateFallbackMatches(article, opened, fallbackDays) {
   const parsed = Date.parse(`${date}T00:00:00Z`);
   if (!Number.isFinite(parsed) || new Date(parsed).toISOString().slice(0, 10) !== date) return false;
   const days = (Date.parse(`${newsCalendarDay(opened)}T00:00:00Z`) - parsed) / 86400000;
-  return days >= 1 && days <= fallbackDays;
+  return days >= 0 && days <= fallbackDays;
 }
 
 function newsPublicationLabel(article) {
   if (article.timePrecision === 'day') {
     const date = article.publicationDate.split('-').reverse().join('/');
-    return `${date} · Incluida por fecha · ${article.reportedLocalTime ? `${article.reportedLocalTime}, zona horaria sin confirmar` : 'Hora no disponible'}`;
+    return `${date} · Incluida por fecha · Hora no confirmada`;
   }
   return `${newsDateFormat.format(new Date(article.publishedAt))} NY`;
 }
@@ -180,11 +180,14 @@ function issuerNewsCell(profile) {
   const pendingTrades = record.totalTrades - record.reviewedTrades.size;
   const count = articles.length;
   if (!count && !record.reviewedTrades.size) return '<td class="issuer-news" data-sort-value="N/A"><span class="muted">Sin revisar</span></td>';
-  const kind = { issuer_release: 'Comunicado del emisor', issuer_reporting: 'Información periodística' };
+  const kind = { issuer_release: 'Comunicado del emisor', issuer_reporting: 'Información periodística', issuer_filing: 'Documento del emisor' };
   const items = articles.map(article => {
     const sources = [...new Set(article.sourceUrls || [])].map(url => newsSourceLink(url, newsSourceName(url))).join(' · ');
     const entries = [...article.linkedTrades.values()].sort((a, b) => Date.parse(a.opened) - Date.parse(b.opened));
-    return `<li><div class="news-headline">${newsSourceLink(article.url, article.headline)}</div><small><time datetime="${esc(article.publishedAt || article.publicationDate)}">${esc(newsPublicationLabel(article))}</time> · ${esc(article.publisher)} · ${esc(kind[article.kind] || article.kind)}</small><p>${esc(article.summary || '')}</p><div class="news-linked-trades">Antes de ${entries.length} ${entries.length === 1 ? 'operación' : 'operaciones'}:<ul>${entries.map(trade => `<li>${esc(newsDateFormat.format(new Date(trade.opened)))} NY · ${trade.side === 'BUY' ? 'Long' : 'Short'}</li>`).join('')}</ul></div>${sources ? `<div class="news-sources">Contrastar: ${sources}</div>` : ''}</li>`;
+    const warnings = [...(article.sourceWarnings || [])];
+    if (article.timePrecision === 'day' && entries.some(trade => newsCalendarDay(trade.opened) === article.publicationDate)) warnings.push('Coincidencia del mismo día por fecha: no se ha confirmado que la publicación fuera anterior a esa entrada.');
+    const warningMarkup = warnings.length ? `<div class="news-source-warnings warning"><strong>Limitaciones de la fuente</strong>${warnings.map(warning => `<p>${esc(warning)}</p>`).join('')}</div>` : '';
+    return `<li><div class="news-headline">${newsSourceLink(article.url, article.headline)}</div><small><time datetime="${esc(article.publishedAt || article.publicationDate)}">${esc(newsPublicationLabel(article))}</time> · ${esc(article.publisher)} · ${esc(kind[article.kind] || article.kind)}</small><p>${esc(article.summary || '')}</p>${warningMarkup}<div class="news-linked-trades">Vinculada a ${entries.length} ${entries.length === 1 ? 'operación' : 'operaciones'}:<ul>${entries.map(trade => `<li>${esc(newsDateFormat.format(new Date(trade.opened)))} NY · ${trade.side === 'BUY' ? 'Long' : 'Short'}</li>`).join('')}</ul></div>${sources ? `<div class="news-sources">Contrastar: ${sources}</div>` : ''}</li>`;
   }).join('');
   const pending = [...record.pending.values()];
   const pendingMarkup = pending.length ? `<details class="news-pending"><summary>${pending.length} ${pending.length === 1 ? 'publicación pendiente' : 'publicaciones pendientes'} de verificar</summary><ul>${pending.map(candidate => `<li>${newsSourceLink(candidate.url, candidate.reportedDate || 'Fuente pendiente')}<p>${esc(candidate.reason)}</p></li>`).join('')}</ul></details>` : '';

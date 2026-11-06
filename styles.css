@@ -200,6 +200,8 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .issuer-table .news-pending{margin:14px 0;max-width:none}
 .news-pending ul{padding-left:16px;line-height:1.6}
 .news-detail-content>small{margin-top:12px}
+.news-source-warnings{margin:10px 0;padding:10px 12px;border:1px solid #715735;border-radius:8px;background:#30281e;font-size:11px;line-height:1.6}
+.news-source-warnings p{color:inherit!important}
 .table-disclosure{margin-top:14px}
 .table-disclosure>summary{width:fit-content;padding:9px 13px;border:1px solid #365480;border-radius:8px;background:#1c2a3d;color:#bfd1e9;font-size:12px;font-weight:650;cursor:pointer}
 .table-disclosure>summary:hover{background:#284168;color:#ecf4ff}

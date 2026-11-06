@@ -183,8 +183,10 @@ checkConsistency(issuerMarkup.includes('Incluida por fecha') && !issuerMarkup.in
 const labtNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.LABT)", calendarContext);
 checkConsistency(labtNewsMarkup.includes('1 noticia') && labtNewsMarkup.includes('7 de 8 operaciones revisadas'), 'LABT release is counted once across seven reviewed entries and an older entry stays pending');
 checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.PLCE)", calendarContext).includes('2 noticias'), 'PLCE distinguishes the leadership filing and separately published bankruptcy report');
-checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.DKI)", calendarContext).includes('publicación pendiente'), 'Uncertain same-day DKI timing remains visible beside the confirmed filing');
-checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VCIG)", calendarContext).includes('publicación pendiente'), 'VCIG verification limitations stay visible rather than claiming exhaustive no-news coverage');
+const dkiNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.DKI)", calendarContext);
+checkConsistency(dkiNewsMarkup.includes('2 noticias') && dkiNewsMarkup.includes('Coincidencia del mismo día') && !dkiNewsMarkup.includes('04:34'), 'DKI report counts by date with no unconfirmed clock displayed and an explicit ordering limitation');
+const vcigNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VCIG)", calendarContext);
+checkConsistency(vcigNewsMarkup.includes('1 noticia') && vcigNewsMarkup.includes('Limitaciones de la fuente') && !vcigNewsMarkup.includes('publicación pendiente'), 'VCIG publication counts with source discrepancies visible');
 calendarVm.runInContext('globalThis.newsAudit = auditNewsCoverage(dataset); renderNewsCoverage()', calendarContext);
 checkConsistency(calendarContext.newsAudit.length === 500 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 31, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
 checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 1529, 'News audit preserves all unreviewed entries');
@@ -201,7 +203,11 @@ calendarVm.runInContext("dataset = { ...dataset, trades: [...dataset.trades, { .
 checkConsistency(calendarElements.get('data-news-complete').hidden && !calendarElements.get('data-news-pending').hidden, 'A new trade revokes ticker news completion');
 calendarVm.runInContext("dataset = { ...realNewsDataset, trades: realNewsDataset.trades.filter(trade => trade.symbol === 'WFF' && trade.date === '2026-11-03') }; updateIssuerNews(realNewsPayload, dataset); renderNewsCoverage()", calendarContext);
 checkConsistency(!calendarElements.get('data-news-complete').hidden, 'A reviewed entry without a confirmed publication counts as reviewed rather than needing invented news');
-calendarVm.runInContext("dataset = { ...realNewsDataset, trades: realNewsDataset.trades.filter(trade => trade.symbol === 'DKI' && trade.date === '2026-11-04') }; updateIssuerNews(realNewsPayload, dataset); renderNewsCoverage()", calendarContext);
+calendarVm.runInContext(`dataset = { ...realNewsDataset, trades: realNewsDataset.trades.filter(trade => trade.symbol === 'DKI' && trade.date === '2026-11-04') };
+  const pendingAuditPayload = JSON.parse(JSON.stringify(realNewsPayload));
+  pendingAuditPayload.reviews.find(review => review.symbol === 'DKI').unresolvedCandidates = [{id: 'unidentified-date', candidateTradeIds: [dataset.trades[0].id]}];
+  pendingAuditPayload.trades.find(trade => trade.tradeId === dataset.trades[0].id).unresolvedCandidateIds = ['unidentified-date'];
+  updateIssuerNews(pendingAuditPayload, dataset); renderNewsCoverage()`, calendarContext);
 checkConsistency(calendarElements.get('data-news-complete').hidden && calendarElements.get('data-news-table').innerHTML.includes('Verificación pendiente'), 'An unresolved publication blocks 100 percent even when every entry has a review');
 calendarVm.runInContext("dataset = { ...realNewsDataset, trades: realNewsDataset.trades.filter(trade => trade.symbol === 'VIVK').map((trade, index) => index ? trade : {...trade, opened: '2026-07-24T10:27:30-04:00'}) }; renderNewsCoverage()", calendarContext);
 checkConsistency(calendarElements.get('data-news-complete').hidden, 'Changed entry times invalidate audit completion even before a news reload');
@@ -213,7 +219,7 @@ calendarVm.runInContext('dataset = realNewsDataset; updateIssuerNews(realNewsPay
 checkConsistency(calendarVm.runInContext("issuerNewsIndex.get('VIVK').articles.get('vivk-20261104-direct-midstream-wells-release').linkedTrades.size", calendarContext) === 1, 'A known timestamp outside 48 hours cannot use the date fallback');
 checkConsistency(calendarVm.runInContext("issuerNewsIndex.get('VIVK').articles.get('vivk-20260728-houston-commissioning-report').linkedTrades.size", calendarContext) === 3, 'The date-only commissioning report links to all three next-day entries');
 checkConsistency(calendarVm.runInContext("newsDateFallbackMatches({publicationDate:'2026-11-04'}, '2026-11-06T09:00:00-05:00', 2)", calendarContext), 'The previous two days qualify when the publication hour is missing');
-checkConsistency(!calendarVm.runInContext("newsDateFallbackMatches({publicationDate:'2026-11-06'}, '2026-11-06T09:00:00-05:00', 2)", calendarContext), 'Same-day date-only news cannot establish it preceded entry');
+checkConsistency(calendarVm.runInContext("newsDateFallbackMatches({publicationDate:'2026-11-06'}, '2026-11-06T09:00:00-05:00', 2)", calendarContext), 'Same-day date-only news counts by date under the revised user rule');
 checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.ABTS)", calendarContext).includes('Sin revisar'), 'Unresearched tickers do not show zero news');
 checkConsistency(calendarVm.runInContext("dataset.tickerProfiles.VIVK.vie_status", calendarContext) === 'unknown', 'Hiding VIE does not alter the canonical issuer profile');
 const stalePayload = JSON.parse(JSON.stringify(calendarContext.realNewsPayload));
