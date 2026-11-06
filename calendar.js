@@ -2,6 +2,24 @@
 
 let calendarOverviewEndMonth = '';
 
+function renderCalendarResults(rows) {
+  const period = $('calendar-results-period').value;
+  const title = { month: 'Resultados mensuales', week: 'Resultados semanales', day: 'Resultados diarios' }[period];
+  const scope = { month: 'mes de cierre en Nueva York', week: 'semana de cierre en Nueva York, de lunes a domingo', day: 'día de cierre en Nueva York' }[period];
+  $('calendar-results-title').textContent = title;
+  const groups = groupedStatistics(rows, trade => period === 'day' ? trade.date : consistencyPeriod(trade.date, period))
+    .sort(([left], [right]) => left.localeCompare(right));
+  const values = groups.map(([date, trades]) => [date, sum(trades)]);
+  if (period === 'week') values.forEach(point => point.push(`Semana del ${point[0]} (lunes a domingo).`));
+  renderChart('months-chart', [{ values, color: '#5c9bff' }], {
+    bar: true, currency: true, title,
+    explanation: `${HELP_PNL} Cada barra suma las operaciones agrupadas por ${scope}. Se aplican los filtros actuales; se omiten los periodos sin operaciones y los extremos pueden ser parciales.`
+  });
+  $('calendar-results-table').innerHTML = groups.length
+    ? breakdownTable(groups.map(([date, trades]) => [period === 'week' ? `Semana del ${date}` : date, trades]))
+    : '<p class="muted">Sin operaciones para estos filtros.</p>';
+}
+
 function shiftCalendarMonth(month, offset) {
   const [year, number] = month.split('-').map(Number);
   return new Date(Date.UTC(year, number - 1 + offset, 1)).toISOString().slice(0, 7);
@@ -106,6 +124,7 @@ function renderCalendarDay(rows) {
 }
 
 function initializeCalendarOverview() {
+  $('calendar-results-period').addEventListener('change', () => renderCalendarResults(filtered));
   for (const [id, step] of [['calendar-overview-prev', -6], ['calendar-overview-next', 6]]) {
     $(id).addEventListener('click', () => {
       calendarOverviewEndMonth = shiftCalendarMonth(calendarOverviewEndMonth || $('calendar-month').value, step);
@@ -115,8 +134,8 @@ function initializeCalendarOverview() {
   $('calendar-mini-months').addEventListener('click', event => {
     const day = event.target.closest('[data-mini-day]');
     if (day && !day.disabled) {
-      selectedCalendarDay = day.dataset.miniDay;
-      $('calendar-month').value = selectedCalendarDay.slice(0, 7);
+      selectedCalendarDay = selectedCalendarDay === day.dataset.miniDay ? '' : day.dataset.miniDay;
+      $('calendar-month').value = day.dataset.miniDay.slice(0, 7);
       renderCalendar(filtered);
       return;
     }

@@ -53,6 +53,16 @@ function ratioValue(value) {
   return value === Infinity ? '∞' : num(value);
 }
 
+function renderRecentSessions(daily) {
+  const count = $('recent-session-count').value;
+  const values = count === 'all' ? daily : daily.slice(-Number(count));
+  const title = count === 'all' ? 'Todas las sesiones' : `Últimas ${count} sesiones`;
+  renderChart('recent-chart', [{ values }], {
+    bar: true, currency: true, title,
+    explanation: `${HELP_PNL} Cada barra suma el PnL por fecha de cierre en Nueva York. Se muestran ${count === 'all' ? 'todas las sesiones con operaciones' : `las últimas ${count} sesiones con operaciones disponibles`} dentro de los filtros actuales, en orden cronológico.`
+  });
+}
+
 function renderWorkspace(rows) {
   const s = statistics(rows);
   $('overview-stats').innerHTML = [
@@ -67,7 +77,7 @@ function renderWorkspace(rows) {
     ['Mejor operación', s.wins.length ? money(Math.max(...s.wins.map(t => t.pnl))) : '—', 'positive'],
     ['Peor operación', s.losses.length ? money(Math.min(...s.losses.map(t => t.pnl))) : '—', 'negative']
   ].map(item => metric(...item)).join('');
-  renderChart('recent-chart',[{ values: s.daily.slice(-10) }], { bar: true, currency: true, title: 'Últimas diez sesiones' });
+  renderRecentSessions(s.daily);
   $('symbols-table').innerHTML = breakdownTable(groupedStatistics(rows, t => t.symbol));
   const durationBands = [['Menos de 1 min', 0, 1], ['1–5 min', 1, 5], ['5–15 min', 5, 15], ['15–60 min', 15, 60], ['60 min o más', 60, Infinity]];
   const durationGroups = durationBands.map(([name, min, max]) => [name, rows.filter(t => Number.isFinite(t.holdMinutes) && t.holdMinutes >= min && t.holdMinutes < max)]);
@@ -349,12 +359,6 @@ function renderCalendar(rows) {
   $('calendar-selection').textContent = selected.length ? `${selectedCalendarDay} · ${selected.length} operaciones · ${signed(sum(selected))}` : 'Selecciona un día operado para ver sus operaciones.';
   $('calendar-trades').innerHTML = selected.length ? tableMarkup(['Símbolo', 'Dirección', 'Apertura NY', 'Cierre NY', 'PnL'], selected.map(t => [t.symbol, t.side === 'BUY' ? 'Long' : 'Short', t.opened.slice(11, 19), t.closed.slice(11, 19), signed(t.pnl)])) : '';
   renderCalendarDay(selected);
-  const weeks = groupedStatistics(monthRows, trade => {
-    const date = new Date(`${trade.date}T12:00:00Z`);
-    date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 6) % 7);
-    return date.toISOString().slice(0, 10);
-  }).sort((a, b) => a[0].localeCompare(b[0]));
-  $('weekly-table').innerHTML = weeks.length ? breakdownTable(weeks.map(([start, trades]) => [`Semana del ${start}`, trades])) : '<p class="muted">Sin operaciones en este mes.</p>';
 }
 
 function comparisonRows(key) {
@@ -415,6 +419,7 @@ function initializeWorkspace() {
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
   $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));
+  $('recent-session-count').addEventListener('change', () => renderRecentSessions(statistics(filtered).daily));
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
@@ -429,6 +434,7 @@ function initializeWorkspace() {
   $('calendar-grid').addEventListener('click', event => {
     const button = event.target.closest('[data-day]');
     if (!button || button.disabled) return;
-    selectedCalendarDay = button.dataset.day; renderCalendar(filtered);
+    selectedCalendarDay = selectedCalendarDay === button.dataset.day ? '' : button.dataset.day;
+    renderCalendar(filtered);
   });
 }

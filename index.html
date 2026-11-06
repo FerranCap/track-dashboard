@@ -121,7 +121,17 @@
 </div>
 </section>
 <section class="section panel">
+<div class="panel-head">
 <h2>Últimas sesiones</h2>
+<div class="best-controls"><label for="recent-session-count">Sesiones
+<select id="recent-session-count">
+<option value="10" selected>10</option>
+<option value="25">25</option>
+<option value="100">100</option>
+<option value="all">Todas</option>
+</select>
+</label></div>
+</div>
 <div id="recent-chart" class="chart">
 </div>
 </section>
@@ -220,13 +230,19 @@
 </div>
 </section>
 <section class="section panel">
-<h2>Resultados semanales</h2>
-<div id="weekly-table" class="table-wrap"></div>
-</section>
-<section class="section panel">
-<h2>Resultados mensuales</h2>
+<div class="panel-head">
+<h2 id="calendar-results-title">Resultados semanales</h2>
+<div class="best-controls"><label for="calendar-results-period">Agrupar por
+<select id="calendar-results-period">
+<option value="month">Mensual</option>
+<option value="week" selected>Semanal</option>
+<option value="day">Diario</option>
+</select>
+</label></div>
+</div>
 <div id="months-chart" class="chart">
 </div>
+<div id="calendar-results-table" class="table-wrap"></div>
 </section>
 </div>
 <div id="view-analysis" class="view" aria-labelledby="page-title" hidden>
@@ -529,15 +545,15 @@
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="calendar.js?v=20261106-calendar-results-35" defer></script>
 <script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="table-sort.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="help.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-news-date-fallback-31" defer>
+<script src="workspace.js?v=20261106-calendar-results-35" defer>
 </script>
-<script src="dashboard.js?v=20261106-news-date-fallback-31" defer>
+<script src="dashboard.js?v=20261106-calendar-period-32" defer>
 </script>
 </body>
 </html>

@@ -201,7 +201,7 @@ function renderCharts(rows){
   renderChart('short-daily',[{values:group(short,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
   const axis=dates(rows);
   renderChart('comparison-chart',[{values:alignedEquity(long,axis),color:'#20d07a'},{values:alignedEquity(short,axis),color:'#ff4e62'}],{currency:true});
-  renderChart('months-chart',[{values:group(rows,t=>t.date.slice(0,7)),color:'#5c9bff'}],{bar:true,currency:true});
+  renderCalendarResults(rows);
   const popular=[...rows.reduce((m,t)=>m.set(t.symbol,(m.get(t.symbol)||0)+1),new Map())].sort((a,b)=>b[1]-a[1]).slice(0,12).map(x=>x[0]);
   renderChart('symbols-chart',[{values:group(rows.filter(t=>popular.includes(t.symbol)),t=>t.symbol),color:'#37cfe9'}],{bar:true,currency:true});
   renderSide('long-stats',long,'Long','long');renderSide('short-stats',short,'Short','short');
