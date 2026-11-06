@@ -79,15 +79,7 @@ function renderWorkspace(rows) {
     ['Peor operación', s.losses.length ? money(Math.min(...s.losses.map(t => t.pnl))) : '—', 'negative']
   ].map(item => metric(...item)).join('');
   renderRecentSessions(s.daily);
-  const durationBands = [['Menos de 1 min', 0, 1], ['1–5 min', 1, 5], ['5–15 min', 5, 15], ['15–60 min', 15, 60], ['60 min o más', 60, Infinity]];
-  const durationGroups = durationBands.map(([name, min, max]) => [name, rows.filter(t => Number.isFinite(t.holdMinutes) && t.holdMinutes >= min && t.holdMinutes < max)]);
-  const unknownDuration = rows.filter(t => !Number.isFinite(t.holdMinutes) || t.holdMinutes < 0);
-  if (unknownDuration.length) durationGroups.push(['Sin duración', unknownDuration]);
-  $('duration-table').innerHTML = breakdownTable(durationGroups);
-  $('duration-stats').innerHTML = ['win', 'loss', 'scratch'].map((kind, index) => {
-    const available = rows.filter(t => classify(t) === kind && Number.isFinite(t.holdMinutes));
-    return metric(['Duración media · Ganadoras', 'Duración media · Perdedoras', 'Duración media · A cero'][index], available.length ? `${num(s.holds(kind), 1)} min` : '—');
-  }).join('');
+  renderDurationStudies(rows);
   renderCountries(rows);
   renderRatios(rows);
   renderCalendar(rows);
@@ -398,6 +390,7 @@ function initializeWorkspace() {
   $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));
   $('recent-session-count').addEventListener('change', () => renderRecentSessions(statistics(filtered).daily));
   $('price-range-width').addEventListener('change', () => renderPrice(filtered));
+  $('duration-range-width').addEventListener('change', () => renderDurationStudies(filtered));
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; calendarOverviewEndMonth = ''; renderCalendar(filtered); });

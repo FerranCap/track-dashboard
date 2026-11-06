@@ -135,6 +135,7 @@ function chartLabel(value) {
   return label.length > 19 ? `${label.slice(0,18)}…` : label;
 }
 function svgChart(series,opts={}){
+  if (opts.scatter) return durationScatterSvg(series, opts);
   series = series.map(s => ({ ...s, values: s.values.filter(p => Number.isFinite(p[1])) }));
   if(!series.length || !series.some(s=>s.values.length))return `<span>${esc(opts.empty || 'Sin operaciones para estos filtros')}</span>`;
   const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=78,r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
@@ -148,7 +149,7 @@ function svgChart(series,opts={}){
   const pad=v=>Number(v.toFixed(2)).toLocaleString('en-US');
   const valueLabel=v=>opts.currency?moneyFormat.format(v):`${pad(v)}${opts.unit||''}`;
   const pointHelp = point => {
-    const meaning = opts.unit === 'x' ? ` Por cada $1 de pérdida media, la ganancia media fue de ${money(point[1])}.` : '';
+    const meaning = opts.unit === 'x' && !opts.suppressRatioMeaning ? ` Por cada $1 de pérdida media, la ganancia media fue de ${money(point[1])}.` : '';
     return `${point[0]}: ${valueLabel(point[1])}.${meaning}${point[2] ? ` ${point[2]}` : ''}\n\n${opts.explanation || chartHelp('', opts)}`;
   };
   let shapes='';

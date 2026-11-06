@@ -267,10 +267,38 @@
 </div>
 <div id="view-duration" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
-<h2>Rendimiento por duración</h2>
+<div class="panel-head"><h2>Rendimiento por duración</h2><div class="best-controls"><label for="duration-range-width">Ancho del rango
+<select id="duration-range-width"><option value="1">1 minuto</option><option value="5" selected>5 minutos</option><option value="10">10 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="60">60 minutos</option></select>
+</label></div></div>
+<p id="duration-study-note"></p>
 <div id="duration-stats" class="metrics three"></div>
-<div id="duration-table" class="table-wrap">
-</div>
+</section>
+<section class="section panel">
+<h2>Distribución de las duraciones</h2>
+<div id="duration-count-chart" class="chart"></div>
+<div id="duration-distribution-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<h2>Resultados por duración</h2>
+<div class="two-col chart-row"><div><h3>PnL total</h3><div id="duration-pnl-chart" class="chart"></div></div><div><h3>PnL medio por operación</h3><div id="duration-average-chart" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>Win rate (%)</h3><div id="duration-winrate-chart" class="chart"></div></div><div><h3>Ganancia / pérdida media</h3><div id="duration-rr-chart" class="chart"></div></div></div>
+<h3>Profit factor</h3><div id="duration-pf-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Cantidad de acciones por duración</h2>
+<p>Se utiliza la cantidad de entrada registrada (entryQty), sin sumar las salidas. Las cantidades desconocidas quedan fuera de estos cálculos; la tabla indica cuántos trades tienen cantidad disponible.</p>
+<div class="two-col chart-row"><div><h3>Acciones totales</h3><div id="duration-quantity-chart" class="chart"></div></div><div><h3>Acciones medias por operación</h3><div id="duration-average-quantity-chart" class="chart"></div></div></div>
+<h3>PnL por acción</h3><div id="duration-per-share-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Operaciones individuales frente a duración</h2>
+<p>Cada punto representa una operación. Verde: ganadora; rojo: perdedora; gris: a cero. Pasa el cursor para ver ticker, fecha, duración, PnL y acciones.</p>
+<div class="two-col chart-row"><div><h3>Duración frente a PnL (USD)</h3><div id="duration-scatter-pnl" class="chart"></div></div><div><h3>Duración frente a cantidad de acciones</h3><div id="duration-scatter-quantity" class="chart"></div></div></div>
+</section>
+<section class="section panel">
+<h2>Detalle por duración</h2>
+<p>Ganancia y pérdida medias, ratio realizado, profit factor, costes informativos y tamaño de entrada. Las comisiones no se descuentan otra vez del PnL. Los rangos con menos de 20 operaciones se marcan como muestra reducida. Las operaciones sin duración permanecen en su propia fila.</p>
+<div id="duration-table" class="table-wrap"></div>
 </section>
 </div>
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
@@ -458,13 +486,14 @@
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
 <script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
 <script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="duration.js?v=20261106-duration-studies-45" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-duration-filter-44" defer></script>
+<script src="help.js?v=20261106-duration-studies-45" defer></script>
 <script src="filters.js?v=20261106-duration-filter-44" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-price-ranges-42" defer>
+<script src="workspace.js?v=20261106-duration-studies-45" defer>
 </script>
-<script src="dashboard.js?v=20261106-price-ranges-43" defer>
+<script src="dashboard.js?v=20261106-duration-studies-45" defer>
 </script>
 </body>
 </html>
