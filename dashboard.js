@@ -252,16 +252,6 @@ function renderWeekdays(rows){
   $('weekday-highlights').innerHTML=best&&worst?`<div class="highlight">Mejor día<strong class="positive">${esc(best.name)} · ${esc(money(sum(best.rows)))} (${best.rows.length} trades)</strong></div><div class="highlight worst">Peor día<strong class="negative">${esc(worst.name)} · ${esc(money(sum(worst.rows)))} (${worst.rows.length} trades)</strong></div>`:'';
   $('weekday-table').innerHTML=tableMarkup(['Día','Trades','Win Rate','PnL Total','PnL Medio / Trade'],groups.map(g=>[g.name,g.rows.length,pct(g.rows.filter(t=>classify(t)==='win').length,g.rows.length),signed(sum(g.rows)),g.rows.length?money(sum(g.rows)/g.rows.length):'—']));
 }
-function renderBest(){
-  const from=$('best-from').value,to=$('best-to').value;
-  if(!from||!to){$('best-results').textContent='Selecciona un rango de fechas y pulsa Buscar.';return;}
-  if(from>to){$('best-results').textContent='La fecha Desde debe ser anterior a Hasta.';return;}
-  const rows=filtered.filter(t=>t.date>=from&&t.date<=to);
-  if(!rows.length){$('best-results').textContent='No hay operaciones en ese rango.';return;}
-  const ordered=[...rows].sort((a,b)=>b.pnl-a.pnl);
-  const content=(t,title)=>`<div class="best-card" tabindex="0" ${helpAttributes(`Se ordenan las operaciones del intervalo por su PnL: se muestra el mayor o el menor resultado individual. ${HELP_PNL}`)}><h4>${esc(title)}<span class="help-mark" aria-hidden="true">ⓘ</span></h4><div class="big ${cssSign(t.pnl)}">${esc(signed(t.pnl))}</div><small>${esc(t.date)} · ${esc(t.symbol)} · ${t.side==='BUY'?'Long':'Short'} · Entrada: ${esc(t.entryPrice===null?'N/D':money(t.entryPrice))}</small></div>`;
-  $('best-results').innerHTML=`<div class="best-columns">${content(ordered[0],'Mejor trade')}${content(ordered[ordered.length-1],'Peor trade')}</div>`;
-}
 function populateFilters(rows, preserve = false){
   for (const panel of tradeFilterPanels.values()) panel.populate(rows, dataset.tickerProfiles, preserve);
 }
@@ -269,7 +259,6 @@ function applyFilters(){
   if(!dataset)return;
   filtered=tradeFilterPanels.get('general').matchingRows();
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
-  if($('best-from').value&&$('best-to').value)renderBest();
 }
 function setTradeTableSort(state) {
   tradeTableSort = state;
@@ -330,7 +319,6 @@ $('search').addEventListener('input',()=>{page=0;renderTable();});
 $('prev').addEventListener('click',()=>{page--;renderTable();});
 $('next').addEventListener('click',()=>{page++;renderTable();});
 $('refresh').addEventListener('click',()=>loadData({preserveFilters:true}));
-$('best-search').addEventListener('click',renderBest);
 initializeTradeFilters();
 initializeHelp();
 initializeWorkspace();

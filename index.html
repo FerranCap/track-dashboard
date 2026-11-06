@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-news-date-fallback-31">
+  <link rel="stylesheet" href="styles.css?v=20261106-table-disclosure-38">
 </head>
 <body>
 <aside class="sidebar">
@@ -136,24 +136,8 @@
 </div>
 </section>
 </div>
-<div id="view-trades" class="view" aria-labelledby="page-title" hidden>    <section class="section">
-<div class="panel">
-<div class="panel-head">
-<div>
-<h2>Mejores y peores trades</h2>
-<small>Selecciona un intervalo para comparar operaciones</small>
-</div>
-<div class="best-controls">
-<label>Desde<input id="best-from" type="date">
-</label>
-<label>Hasta<input id="best-to" type="date">
-</label>
-<button id="best-search" type="button">Buscar</button>
-</div>
-</div>
-<div id="best-results" class="best-results muted">Selecciona un rango de fechas y pulsa Buscar.</div>
-</div>
-</section>    <section class="section panel">
+<div id="view-trades" class="view" aria-labelledby="page-title" hidden>
+<section class="section panel">
 <div class="panel-head">
 <div>
 <h2>Operaciones</h2>
@@ -355,15 +339,6 @@
 </div>
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
-<h2>Cobertura por país</h2>
-<div class="audit-actions"><button id="country-check-pending" type="button" disabled>Comprobar tickers pendientes</button><a href="#data">Ver pendientes en Tickers</a></div>
-<p>Los resultados se agrupan exclusivamente por país de constitución. El resto de información del emisor se conserva en Tickers.</p>
-<div id="country-stats" class="metrics three">
-</div>
-<p id="country-note" class="mini-caption">
-</p>
-</section>
-<section class="section panel">
 <h2>Resultados por país</h2>
 <div id="country-chart" class="chart">
 </div>
@@ -547,13 +522,13 @@
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
 <script src="calendar.js?v=20261106-calendar-results-35" defer></script>
 <script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="table-sort.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="help.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
+<script src="help.js?v=20261106-trades-panel-37" defer></script>
 <script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-calendar-results-35" defer>
+<script src="workspace.js?v=20261106-country-panel-36" defer>
 </script>
-<script src="dashboard.js?v=20261106-calendar-period-32" defer>
+<script src="dashboard.js?v=20261106-trades-panel-37" defer>
 </script>
 </body>
 </html>

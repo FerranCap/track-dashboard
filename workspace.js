@@ -171,12 +171,6 @@ function renderAnalysisCountries(rows) {
 
 function renderCountries(rows) {
   const countryOf = tradeCountry;
-  const known = rows.filter(t => countryOf(t));
-  $('country-stats').innerHTML = [
-    ['Países identificados', new Set(known.map(countryOf)).size],
-    ['Cobertura', pct(known.length, rows.length)], ['Sin clasificar', rows.length - known.length]
-  ].map(item => metric(...item)).join('');
-  $('country-note').textContent = 'País de constitución de la entidad cotizada, según la base de emisores. Solo la ausencia de este país genera Sin clasificar. Los datos adicionales se conservan en Tickers y no modifican los resultados por país.';
   const groups = groupedStatistics(rows, t => countryOf(t) || 'Sin clasificar');
   $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
   renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país de constitución', explanation: `${HELP_PNL} Se agrupa exclusivamente por país de constitución. La operación principal, sede, ADR y VIE son informativos y no afectan a esta agrupación. Solo la ausencia del país de constitución genera Sin clasificar.` });
@@ -238,7 +232,6 @@ function renderDataAudit() {
   const checked = new Date().toLocaleString('es-ES', { timeZone: 'America/New_York' });
   const generated = new Date(dataset.generatedAt).toLocaleString('es-ES', { timeZone: 'America/New_York' });
   $('data-audit-status').textContent = `Comprobado: ${checked} (Nueva York). Datos publicados: ${generated}. Un ticker está identificado si tiene país de constitución. La jurisdicción detallada, operación, sede, tipo de valor y VIE se conservan como información adicional y no afectan a esa identificación.`;
-  $('country-check-pending').disabled = false;
   $('data-check-pending').disabled = false;
   renderPendingIssuers();
   renderIssuerProfiles(dataset.trades);
@@ -260,7 +253,6 @@ function renderPendingIssuers() {
 }
 
 async function checkPendingIssuers() {
-  $('country-check-pending').disabled = true;
   $('data-check-pending').disabled = true;
   $('data-audit-status').textContent = 'Cargando los últimos datos publicados y comprobando los tickers…';
   try {
@@ -271,7 +263,6 @@ async function checkPendingIssuers() {
       $('data-audit-status').textContent = 'No se ha podido actualizar la comprobación. La lista anterior se conserva; revisa el error de carga e inténtalo de nuevo.';
     }
   } finally {
-    $('country-check-pending').disabled = !dataset;
     $('data-check-pending').disabled = !dataset;
   }
 }
@@ -414,7 +405,6 @@ function initializeWorkspace() {
     refreshCharts();
   };
   selectAnalysis('time');
-  $('country-check-pending').addEventListener('click', checkPendingIssuers);
   $('data-check-pending').addEventListener('click', checkPendingIssuers);
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);

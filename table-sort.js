@@ -3,6 +3,39 @@
 const tableSortStates = new Map();
 const preparedTables = new WeakSet();
 const tableCollator = new Intl.Collator('es', { numeric: true, sensitivity: 'base' });
+const tableDisclosureStates = new WeakMap();
+
+function prepareCollapsibleTables() {
+  document.querySelectorAll('.table-wrap').forEach(host => {
+    const rowCount = [...host.querySelectorAll('table > tbody > tr')].length;
+    let state = tableDisclosureStates.get(host);
+    if (rowCount <= 10) {
+      if (state?.details.isConnected) {
+        state.details.before(host);
+        state.details.remove();
+      }
+      return;
+    }
+    if (!state) {
+      const details = document.createElement('details');
+      details.className = 'table-disclosure';
+      const summary = document.createElement('summary');
+      details.append(summary);
+      state = { details, summary, rowCount };
+      tableDisclosureStates.set(host, state);
+      details.addEventListener('toggle', () => {
+        summary.textContent = `${details.open ? 'Ocultar' : 'Ver'} tabla · ${state.rowCount} filas`;
+      });
+    }
+    state.rowCount = rowCount;
+    const label = `${state.details.open ? 'Ocultar' : 'Ver'} tabla · ${rowCount} filas`;
+    if (state.summary.textContent !== label) state.summary.textContent = label;
+    if (!state.details.isConnected) {
+      host.before(state.details);
+      state.details.append(host);
+    }
+  });
+}
 
 function tableSortValue(value, heading = '') {
   const text = String(value ?? '').trim();
@@ -91,8 +124,12 @@ function initializeTableSorting() {
   document.addEventListener('click', activate);
   document.addEventListener('keydown', activate);
   prepareSortableTables();
+  prepareCollapsibleTables();
   if (typeof MutationObserver !== 'undefined') {
-    const observer = new MutationObserver(prepareSortableTables);
+    const observer = new MutationObserver(() => {
+      prepareSortableTables();
+      prepareCollapsibleTables();
+    });
     observer.observe(document.body, { childList: true, subtree: true });
   }
 }
