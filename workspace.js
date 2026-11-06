@@ -216,6 +216,7 @@ function renderDataAudit() {
   $('data-audit-status').textContent = `Comprobado: ${checked} (Nueva York). Datos publicados: ${generated}. Un ticker está identificado si tiene país de constitución. La jurisdicción detallada, operación, sede, tipo de valor y VIE se conservan como información adicional y no afectan a esa identificación.`;
   $('data-check-pending').disabled = false;
   renderPendingIssuers();
+  renderNewsCoverage();
   renderIssuerProfiles(dataset.trades);
 }
 
@@ -236,6 +237,8 @@ function renderPendingIssuers() {
 
 async function checkPendingIssuers() {
   $('data-check-pending').disabled = true;
+  $('data-news-refresh').disabled = true;
+  $('data-news-status').textContent = 'Cargando los últimos datos publicados y comprobando la cobertura de noticias…';
   $('data-audit-status').textContent = 'Cargando los últimos datos publicados y comprobando los tickers…';
   try {
     if (await loadData({ preserveFilters: true })) {
@@ -243,9 +246,11 @@ async function checkPendingIssuers() {
       activateView();
     } else {
       $('data-audit-status').textContent = 'No se ha podido actualizar la comprobación. La lista anterior se conserva; revisa el error de carga e inténtalo de nuevo.';
+      $('data-news-status').textContent = 'No se ha podido actualizar la comprobación de noticias. Revisa el error de carga e inténtalo de nuevo.';
     }
   } finally {
     $('data-check-pending').disabled = !dataset;
+    $('data-news-refresh').disabled = !dataset;
   }
 }
 
@@ -382,6 +387,9 @@ function initializeWorkspace() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   });
   $('data-check-pending').addEventListener('click', checkPendingIssuers);
+  $('data-news-refresh').addEventListener('click', checkPendingIssuers);
+  $('data-news-search').addEventListener('input', renderNewsCoverage);
+  $('data-news-kind').addEventListener('change', renderNewsCoverage);
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
   $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));

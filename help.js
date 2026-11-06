@@ -214,6 +214,9 @@ function initializeHelp() {
     'consistency-concentration': 'Agrupa por ticker, país de constitución, franja de entrada de 5 minutos en Nueva York o día de cierre. El peso se calcula sobre la suma de beneficios positivos de los grupos; las pérdidas no se usan como denominador.',
     'consistency-horizon': 'Número de operaciones de cada uno de los 500 escenarios. Se sortean sesiones históricas con reemplazo, conservando el orden de sus trades y recortando el último bloque. La misma selección produce resultados repetibles. No es una previsión ni una rentabilidad sobre capital.',
     'data-check-pending': 'Actualiza los datos publicados y repite la comprobación de todos los tickers del historial. No investiga ni asigna países automáticamente.',
+    'data-news-refresh': 'Recarga el historial y el contexto de noticias publicado para actualizar el progreso. No busca noticias nuevas en internet por sí mismo. Conserva los filtros de análisis.',
+    'data-news-search': 'Busca ticker o empresa entre los pendientes de noticias de todo el historial. La búsqueda no modifica el porcentaje de progreso ni los filtros de análisis.',
+    'data-news-kind': 'Muestra todos los pendientes de noticias, los tickers sin revisar, los parcialmente revisados o los que tienen publicaciones por verificar. El 100 % exige revisar todas las entradas actuales y resolver los candidatos.',
     'data-pending-search': 'Busca un ticker o nombre de empresa en los pendientes de todo el historial, sin aplicar los filtros globales de análisis.',
     'data-pending-kind': 'Muestra tickers sin país de constitución o solo aquellos sin ficha. Otros campos incompletos se conservan en la base de emisores y no cuentan como tickers sin identificar.',
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'
@@ -231,7 +234,8 @@ function initializeFilterControlHelp(root = document) {
     from: 'Incluye operaciones cerradas desde esta fecha, inclusive. Cada grupo usa sus propios filtros.',
     to: 'Incluye operaciones cerradas hasta esta fecha, inclusive. Cada grupo usa sus propios filtros.',
     symbol: 'Escribe el ticker completo. Se aceptan mayúsculas o minúsculas. Deja el campo vacío para incluir todos.',
-    side: 'Filtra por dirección: todas, Long (BUY) o Short (SELL).'
+    side: 'Filtra por dirección: todas, Long (BUY) o Short (SELL).',
+    news: 'Antigüedad máxima de alguna noticia previa a la primera entrada del trade: barra 100 = 48 h, 50 = 24 h, 0 = sin filtro. Con hora confirmada se usa el tiempo transcurrido exacto. Sin hora, una publicación del día anterior cuenta como 24 h y de dos días antes como 48 h, según Nueva York. El mismo día sin hora queda pendiente. La cobertura es parcial; se incluyen solo coincidencias verificadas. Pulsa Aplicar filtros.'
   };
   root.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));
   root.querySelectorAll('.trade-filter-panel [data-kind="duration"]').forEach(control => control.setAttribute('data-help', 'Duración entre apertura y cierre, en minutos. Ambos límites son inclusivos y admiten decimales. Máximo vacío: sin límite. Al restringir el rango se excluyen duraciones desconocidas. Pulsa Aplicar filtros para actualizar los resultados.'));

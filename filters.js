@@ -37,6 +37,7 @@ function selectFilteredTrades(rows, profiles, criteria) {
     if (durationMin > 0 || durationMax < Infinity) {
       if (!Number.isFinite(trade.holdMinutes) || trade.holdMinutes < 0 || trade.holdMinutes < durationMin || trade.holdMinutes > durationMax) return false;
     }
+    if (criteria.newsHours > 0 && !tradeHasNewsWithin(trade, criteria.newsHours)) return false;
     const country = incorporationCountry(profiles?.[trade.symbol]) || UNKNOWN_FILTER_COUNTRY;
     return !criteria.countries.size || criteria.countries.has(country);
   });
@@ -78,6 +79,12 @@ class TradeFilterPanel {
         <div class="filter-range" role="group" aria-labelledby="${prefix}-duration-label">
           <div class="range-values"><label><span class="sr-only">Duración mínima en minutos</span><input type="number" min="0" step="any" value="0" data-kind="duration" data-bound="min"></label><span>—</span><label><span class="sr-only">Duración máxima en minutos</span><input type="number" min="0" step="any" placeholder="Sin límite" data-kind="duration" data-bound="max"></label></div>
           <small>Minutos entre apertura y cierre · límites incluidos</small>
+        </div></div>
+      <div class="filter-row"><label class="filter-label" for="${prefix}-news">Noticias previas</label>
+        <div class="filter-range"><div class="news-range-heading"><span>Antigüedad máxima</span><output for="${prefix}-news" data-news-value>Sin filtro</output></div>
+          <input id="${prefix}-news" class="news-filter-slider" type="range" min="0" max="100" step="1" value="0" data-field="news" aria-valuetext="Sin filtro" style="--news-fill:0%">
+          <div class="news-range-endpoints"><span>Sin filtro</span><span>48 h</span></div>
+          <small>Solo operaciones con noticia en la ventana elegida. Sin hora: día anterior = 24 h; dos días antes = 48 h, según Nueva York. Cobertura parcial: sin revisar no significa sin noticias.</small>
         </div></div>
       <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Sin selección: todos los países. Puedes activar varios.</small></div></div>
       <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;
@@ -129,6 +136,7 @@ class TradeFilterPanel {
       this.validationMessage = '';
     }
     this.syncRange('price');
+    this.syncNewsRange();
   }
 
   setPeriod() {
@@ -166,10 +174,20 @@ class TradeFilterPanel {
     this.slider(kind, 'min').style.zIndex = low >= maximum - 1 ? '4' : '2';
   }
 
+  syncNewsRange() {
+    const input = this.field('news');
+    const position = Number(input.value);
+    const label = position ? `${Number((position * 0.48).toFixed(2)).toLocaleString('es-ES', { maximumFractionDigits: 2 })} h` : 'Sin filtro';
+    input.style.setProperty('--news-fill', `${position}%`);
+    input.setAttribute('aria-valuetext', label);
+    this.host.querySelector('[data-news-value]').textContent = label;
+  }
+
   handleInput(event) {
     const input = event.target;
     if (input.dataset.field === 'period') return;
-    if (input.dataset.slider) {
+    if (input.dataset.field === 'news') this.syncNewsRange();
+    else if (input.dataset.slider) {
       const kind = input.dataset.slider, bound = input.dataset.bound;
       const other = this.slider(kind, bound === 'min' ? 'max' : 'min');
       input.value = bound === 'min' ? Math.min(Number(input.value), Number(other.value)) : Math.max(Number(input.value), Number(other.value));
@@ -185,6 +203,7 @@ class TradeFilterPanel {
     return { from: this.field('from').value, to: this.field('to').value, symbol: this.field('symbol').value.trim().toUpperCase(), side: this.field('side').value,
       timeMin: minutes(this.bound('time', 'min').value || '00:00'), timeMax: minutes(this.bound('time', 'max').value || '23:59'),
       durationMin: Number(this.bound('duration', 'min').value || 0), durationMax: this.bound('duration', 'max').value === '' ? Infinity : Number(this.bound('duration', 'max').value),
+      newsHours: Number((Number(this.field('news').value || 0) * 0.48).toFixed(2)),
       priceMin: Number(this.bound('price', 'min').value || 0), priceMax: this.bound('price', 'max').value === '' ? Infinity : Number(this.bound('price', 'max').value), countries: this.countries };
   }
 
@@ -217,8 +236,9 @@ class TradeFilterPanel {
 
   updateStatus() {
     const status = this.host.querySelector('.filter-count');
-    status.textContent = this.validationMessage || `${integerFormat.format(this.appliedCount)} operaciones${this.pending ? ' · Cambios sin aplicar' : ''}`;
-    status.classList.toggle('warning', this.pending || Boolean(this.validationMessage));
+    const newsUnavailable = this.appliedCriteria.newsHours > 0 && !issuerNewsAvailable;
+    status.textContent = this.validationMessage || `${integerFormat.format(this.appliedCount)} operaciones${this.pending ? ' · Cambios sin aplicar' : ''}${newsUnavailable ? ' · Noticias no disponibles para verificar coincidencias' : ''}`;
+    status.classList.toggle('warning', this.pending || Boolean(this.validationMessage) || newsUnavailable);
   }
 
   changed() {
@@ -233,6 +253,7 @@ class TradeFilterPanel {
     this.bound('time', 'min').value = '00:00'; this.bound('time', 'max').value = '23:59';
     this.bound('price', 'min').value = '0'; this.bound('price', 'max').value = '';
     this.bound('duration', 'min').value = '0'; this.bound('duration', 'max').value = '';
+    this.field('news').value = '0'; this.syncNewsRange();
     this.countries.clear();
     this.host.querySelectorAll('[data-country]').forEach(button => button.setAttribute('aria-pressed', 'false'));
     this.syncRange('time'); this.syncRange('price');

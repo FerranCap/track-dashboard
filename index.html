@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-consistency-views-47">
+  <link rel="stylesheet" href="styles.css?v=20261106-news-coverage-50">
 </head>
 <body>
 <aside class="sidebar">
@@ -379,6 +379,18 @@
 <div id="data-pending-table" class="table-wrap issuer-table"></div>
 </section>
 <section class="section panel">
+<div class="panel-head"><div><h2 class="data-audit-heading">Cobertura de noticias <span id="data-news-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % revisados</span></h2><small>Revisión de las 48 horas anteriores a cada entrada de todo el historial.</small></div><button id="data-news-refresh" type="button" disabled>Actualizar comprobación</button></div>
+<div id="data-news-stats" class="metrics four"></div>
+<div class="news-audit-progress"><label id="data-news-progress-label" for="data-news-progress">Esperando los datos de noticias.</label><progress id="data-news-progress" max="100" value="0"></progress></div>
+<p id="data-news-status" role="status" class="mini-caption">Esperando a que se carguen las noticias.</p>
+<div id="data-news-pending">
+<h3>Tickers pendientes de revisar noticias</h3>
+<div class="data-audit-filters"><label>Buscar ticker o empresa<input id="data-news-search" type="search" placeholder="Símbolo o empresa"></label><label>Tipo de pendiente<select id="data-news-kind"><option value="all">Todos los pendientes</option><option value="unreviewed">Sin revisar</option><option value="partial">Revisión parcial</option><option value="verification">Candidatos por verificar</option></select></label></div>
+<p id="data-news-count" class="mini-caption" role="status"></p>
+<div id="data-news-table" class="table-wrap issuer-table"></div>
+</div>
+</section>
+<section class="section panel">
 <div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
 <p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias usa las 48 horas exactas antes de cada entrada; solo si falta hora o zona horaria admite las fechas de los dos días anteriores. «Sin revisar» indica que aún no se ha investigado.</p>
 <label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
@@ -495,8 +507,11 @@
 <div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de constitución</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
 <p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar.</p>
 <p>Las barras muestran todos los grupos, ordenados por PnL. Desplázate dentro de cada gráfico para ver la lista completa; al pasar el cursor verás también el número de operaciones.</p>
-<div class="two-col chart-row"><div><h3>PnL por grupo</h3><div id="consistency-concentration-pnl" class="chart concentration-chart"></div></div><div><h3>Peso en los beneficios de grupos (%)</h3><div id="consistency-concentration-weight" class="chart concentration-chart"></div></div></div>
-<h3>PnL restante al excluir cada grupo</h3><div id="consistency-concentration-without" class="chart concentration-chart"></div>
+<div class="concentration-layout">
+<section class="concentration-card"><h3>PnL por grupo</h3><div id="consistency-concentration-pnl" class="chart concentration-chart"></div></section>
+<section class="concentration-card"><h3>Peso en los beneficios de grupos (%)</h3><div id="consistency-concentration-weight" class="chart concentration-chart"></div></section>
+<section class="concentration-card concentration-card-wide"><h3>PnL restante al excluir cada grupo</h3><div id="consistency-concentration-without" class="chart concentration-chart"></div></section>
+</div>
 </section>
 <section class="section panel">
 <h2>Comportamiento después de perder</h2>
@@ -546,10 +561,10 @@
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
 <script src="studies.js?v=20261106-price-country-studies-46" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-consistency-views-47" defer></script>
-<script src="filters.js?v=20261106-duration-filter-44" defer></script>
-<script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-price-country-studies-46" defer>
+<script src="help.js?v=20261106-news-coverage-50" defer></script>
+<script src="filters.js?v=20261106-news-filter-49" defer></script>
+<script src="news.js?v=20261106-news-coverage-50" defer></script>
+<script src="workspace.js?v=20261106-news-coverage-50" defer>
 </script>
 <script src="dashboard.js?v=20261106-consistency-views-47" defer>
 </script>

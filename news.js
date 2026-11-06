@@ -1,6 +1,7 @@
 'use strict';
 
 const issuerNewsIndex = new Map();
+const tradeNewsAgeIndex = new Map();
 let issuerNewsAvailable = false;
 const newsDateFormat = new Intl.DateTimeFormat('es-ES', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 const newsDayFormat = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -41,11 +42,12 @@ async function fetchTradeNews() {
 
 function updateIssuerNews(payload, source) {
   issuerNewsIndex.clear();
+  tradeNewsAgeIndex.clear();
   issuerNewsAvailable = false;
   if (payload?.schemaVersion !== 1 || !Number.isFinite(payload.windowHours) || payload.windowHours <= 0 || !Array.isArray(payload.articles) || !Array.isArray(payload.trades) || !Array.isArray(payload.scopedSymbols)) return;
   const trades = new Map(source.trades.map(trade => [trade.id, trade]));
   const articles = new Map(payload.articles.filter(article => article && typeof article.id === 'string').map(article => [article.id, article]));
-  for (const symbol of payload.scopedSymbols) issuerNewsIndex.set(symbol, { articles: new Map(), reviewedTrades: new Set(), totalTrades: 0, pending: new Map(), hours: payload.windowHours, fallbackDays: payload.dateFallbackDays || 0 });
+  for (const symbol of payload.scopedSymbols) issuerNewsIndex.set(symbol, { articles: new Map(), reviewedTrades: new Set(), reviewedEntries: new Map(), totalTrades: 0, pending: new Map(), hours: payload.windowHours, fallbackDays: payload.dateFallbackDays || 0 });
   for (const trade of source.trades) {
     const record = issuerNewsIndex.get(trade.symbol);
     if (record) record.totalTrades++;
@@ -53,7 +55,10 @@ function updateIssuerNews(payload, source) {
   for (const entry of payload.trades) {
     const trade = trades.get(entry?.tradeId), record = issuerNewsIndex.get(trade?.symbol);
     if (!trade || !record || entry.symbol !== trade.symbol || entry.entryAt !== trade.opened) continue;
-    if (entry.reviewStatus && entry.reviewStatus !== 'not_reviewed' && entry.reviewedOn) record.reviewedTrades.add(trade.id);
+    if (entry.reviewStatus && entry.reviewStatus !== 'not_reviewed' && entry.reviewedOn) {
+      record.reviewedTrades.add(trade.id);
+      record.reviewedEntries.set(trade.id, trade.opened);
+    }
     const opened = Date.parse(trade.opened), lower = opened - payload.windowHours * 3600000;
     if (!Number.isFinite(opened)) continue;
     for (const link of Array.isArray(entry.articles) ? entry.articles : []) {
@@ -70,6 +75,11 @@ function updateIssuerNews(payload, source) {
       }
       if (!record.articles.has(article.id)) record.articles.set(article.id, { ...article, linkedTrades: new Map() });
       record.articles.get(article.id).linkedTrades.set(trade.id, trade);
+      const filterAgeHours = article.timePrecision === 'day'
+        ? (Date.parse(`${newsCalendarDay(trade.opened)}T00:00:00Z`) - Date.parse(`${article.publicationDate}T00:00:00Z`)) / 3600000
+        : (opened - Date.parse(article.publishedAt)) / 3600000;
+      const previous = tradeNewsAgeIndex.get(trade.id);
+      if (!previous || filterAgeHours < previous.filterAgeHours) tradeNewsAgeIndex.set(trade.id, { opened: trade.opened, symbol: trade.symbol, filterAgeHours });
     }
     const pendingIds = new Set(Array.isArray(entry.unresolvedCandidateIds) ? entry.unresolvedCandidateIds : []);
     for (const review of Array.isArray(payload.reviews) ? payload.reviews : []) {
@@ -80,6 +90,70 @@ function updateIssuerNews(payload, source) {
     }
   }
   issuerNewsAvailable = true;
+}
+
+function tradeHasNewsWithin(trade, hours) {
+  const news = tradeNewsAgeIndex.get(trade.id);
+  return issuerNewsAvailable && Boolean(news) && news.opened === trade.opened && news.symbol === trade.symbol
+    && Number.isFinite(hours) && hours > 0 && hours <= 48 && news.filterAgeHours <= hours;
+}
+
+function auditNewsCoverage(source) {
+  const symbols = new Map();
+  for (const trade of source?.trades || []) {
+    if (!symbols.has(trade.symbol)) symbols.set(trade.symbol, []);
+    symbols.get(trade.symbol).push(trade);
+  }
+  return [...symbols].map(([symbol, trades]) => {
+    const record = issuerNewsIndex.get(symbol);
+    const reviewed = issuerNewsAvailable && record?.hours >= 48
+      ? trades.filter(trade => record.reviewedEntries.get(trade.id) === trade.opened).length : 0;
+    const pending = issuerNewsAvailable && record?.hours >= 48
+      ? trades.filter(trade => record.reviewedEntries.get(trade.id) !== trade.opened) : trades;
+    const ids = new Set(trades.map(trade => trade.id));
+    const candidates = issuerNewsAvailable ? [...(record?.pending.values() || [])].filter(candidate => candidate.candidateTradeIds.some(id => ids.has(id))).length : 0;
+    const dates = pending.map(trade => Number.isFinite(Date.parse(trade.opened)) ? newsCalendarDay(trade.opened) : trade.date).filter(Boolean).sort();
+    return { symbol, issuer: source.tickerProfiles?.[symbol]?.issuer_name || 'Sin ficha de emisor', total: trades.length, reviewed,
+      pending: pending.length, candidates, articles: issuerNewsAvailable && (reviewed || record?.articles.size) ? record?.articles.size || 0 : null,
+      firstPending: dates[0] || '', lastPending: dates.at(-1) || '',
+      complete: issuerNewsAvailable && reviewed === trades.length && candidates === 0 };
+  }).sort((left, right) => right.lastPending.localeCompare(left.lastPending) || left.symbol.localeCompare(right.symbol));
+}
+
+function renderNewsCoverage() {
+  const audit = auditNewsCoverage(dataset);
+  const complete = audit.filter(entry => entry.complete).length;
+  const reviewed = audit.reduce((total, entry) => total + entry.reviewed, 0);
+  const count = audit.reduce((total, entry) => total + entry.total, 0);
+  const candidates = audit.reduce((total, entry) => total + entry.candidates, 0);
+  const percentage = audit.length ? complete / audit.length * 100 : 0;
+  $('data-news-complete').hidden = !issuerNewsAvailable || !audit.length || complete !== audit.length;
+  $('data-news-stats').innerHTML = [
+    ['Tickers revisados', issuerNewsAvailable ? `${complete} / ${audit.length}` : '—', 'Tickers con todas sus primeras entradas revisadas para 48 h y sin candidatos pendientes. Se usa todo el historial, sin filtros de análisis.'],
+    ['Operaciones revisadas', issuerNewsAvailable ? `${reviewed} / ${count}` : '—', 'Entradas revisadas con el mismo ID y la misma fecha y hora de apertura que en el historial actual. Los trades nuevos o corregidos necesitan revisión propia.'],
+    ['Operaciones pendientes', issuerNewsAvailable ? String(count - reviewed) : '—', 'Operaciones que aún no tienen una revisión válida de noticias para su entrada. Sin revisar no significa sin noticias.'],
+    ['Candidatos por verificar', issuerNewsAvailable ? String(candidates) : '—', 'Publicaciones localizadas con identidad, fecha o zona horaria todavía sin resolver. No se cuentan como noticias confirmadas.']
+  ].map(args => consistencyMetric(...args)).join('');
+  $('data-news-progress').value = percentage;
+  $('data-news-progress-label').textContent = issuerNewsAvailable
+    ? `${num(percentage, 1)} % de tickers revisados · ${complete} de ${audit.length} completos · ${reviewed} de ${count} operaciones revisadas`
+    : 'Noticias no disponibles: no se puede comprobar el progreso.';
+  $('data-news-status').textContent = issuerNewsAvailable
+    ? 'Una revisión puede concluir sin noticias encontradas en las fuentes consultadas. El 100 % indica que todas las entradas están revisadas y no hay candidatos pendientes; no garantiza un archivo de noticias exhaustivo. Los filtros y la búsqueda no cambian este progreso.'
+    : 'No se han podido cargar las noticias. Actualiza la comprobación para reintentar; no se considera que los tickers estén revisados.';
+  $('data-news-refresh').disabled = !dataset;
+  const query = ($('data-news-search').value || '').trim().toLowerCase();
+  const kind = $('data-news-kind').value || 'all';
+  const pending = audit.filter(entry => !entry.complete);
+  const matches = pending.filter(entry => (!query || `${entry.symbol} ${entry.issuer}`.toLowerCase().includes(query))
+    && (kind === 'unreviewed' ? entry.reviewed === 0 : kind === 'partial' ? entry.reviewed > 0 && entry.pending > 0 : kind === 'verification' ? entry.candidates > 0 : true));
+  $('data-news-pending').hidden = issuerNewsAvailable && pending.length === 0;
+  $('data-news-count').textContent = `${matches.length} mostrados · ${pending.length} tickers pendientes en el historial`;
+  $('data-news-table').innerHTML = !issuerNewsAvailable ? '<p class="muted">Carga de noticias no disponible; no se puede verificar el estado de las entradas.</p>' : matches.length ? tableMarkup([
+    'Ticker', 'Emisor', 'Estado de noticias', 'Operaciones', 'Revisadas', 'Pendientes', 'Candidatos', 'Noticias', 'Primera entrada pendiente', 'Última entrada pendiente'
+  ], matches.map(entry => [entry.symbol, entry.issuer, entry.candidates ? entry.pending ? 'Revisión y verificación pendientes' : 'Verificación pendiente' : entry.reviewed ? 'Revisión parcial' : 'Sin revisar',
+    entry.total, entry.reviewed, entry.pending, entry.candidates, entry.articles === null ? '—' : entry.articles, entry.firstPending || '—', entry.lastPending || '—'
+  ])) : '<p class="muted">No hay tickers pendientes que coincidan con esta búsqueda y tipo de pendiente.</p>';
 }
 
 function newsSourceLink(url, label) {

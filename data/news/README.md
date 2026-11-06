@@ -23,6 +23,10 @@ The VIVK pilot uses **48 elapsed hours before the first entry** when publication
 
 ## Files and rebuild
 
+Tickers has a separate news coverage audit for the entire trade history, independent of the analysis filters and issuer-country completeness. It lists unreviewed entries, partial ticker reviews and unresolved publication candidates, with search and status filters. A ticker is complete only when every current trade ID and exact entry timestamp has a 48-hour review and no candidate remains unresolved. A reviewed entry with no publication found still counts as reviewed. The completion badge is hidden for empty history, unavailable news, new or changed entries and unresolved candidates. The badge describes review progress, not exhaustive news discovery.
+
+The general filter and each comparison group provide a news lookback slider: position 0 disables it, 50 selects 24 hours, and 100 selects 48 hours. A positive setting includes only trades with at least one validated linked publication inside the selected window. Exact timestamps use elapsed hours. For this filter only, date-only publications from the preceding New York entry-calendar day enter at 24 hours; publications from two calendar days earlier enter at 48 hours. These are filter bands, not invented publication timestamps or assertions of exact age. Same-day date-only candidates stay uncertain. Unreviewed trades do not become confirmed matches, and unavailable news is reported explicitly. Changes wait for Apply, and Clear restores the disabled state. Source records and canonical matching retain their existing timestamp/date precision.
+
 - `articles.json`: reviewed publication records, short factual summaries and timestamp evidence. Reproductions of one article use `sourceUrls`, not additional article IDs. Separate publications discussing the same event share an `eventId`.
 - `research.json`: source access, exact entries reviewed, unresolved candidates and coverage limitations. New trades and changed entries do not inherit a completed review.
 - `trade-context.json`: generated, reproducible links from publications to trades. Do not edit it by hand.

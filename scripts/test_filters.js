@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-for (const file of ['workspace.js', 'filters.js']) vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'));
+for (const file of ['workspace.js', 'news.js', 'filters.js']) vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'));
 
 const profiles = {
   US: { incorporation_country: 'United States' },
@@ -63,7 +63,7 @@ a.countries.clear();
 assert.equal(selectFilteredTrades(rows, profiles, b).length, 1);
 assert.equal(selectFilteredTrades(rows, profiles, a).length, rows.length);
 function deferredPanel(prototype = TradeFilterPanel.prototype) {
-  const draft = { period: { value: 'all' }, from: { value: '' }, to: { value: '' }, symbol: { value: '' }, side: { value: 'all' } };
+  const draft = { period: { value: 'all' }, from: { value: '' }, to: { value: '' }, symbol: { value: '' }, side: { value: 'all' }, news: { value: '0' } };
   const bounds = { time: { min: { value: '00:00' }, max: { value: '23:59' } }, price: { min: { value: '0' }, max: { value: '' } }, duration: { min: { value: '0' }, max: { value: '' } } };
   const sliders = { time: { min: { value: '0' }, max: { value: '1439' } } };
   const status = { textContent: '', classList: { toggle() {} } };
@@ -73,7 +73,7 @@ function deferredPanel(prototype = TradeFilterPanel.prototype) {
   instance.rows.filter = callback => { scans++; return rows.filter(callback); };
   Object.assign(instance, { profiles, countries: new Set(), initialSide: 'all', pending: false, validationMessage: '', appliedCount: 0,
     host: { querySelector: selector => selector === '.filter-count' ? status : { hidden: true }, querySelectorAll: selector => selector === 'input' ? [{ validity: { valid: true } }] : [] },
-    field: key => draft[key], bound: (kind, bound) => bounds[kind][bound], slider: (kind, bound) => sliders[kind][bound], syncRange() {},
+    field: key => draft[key], bound: (kind, bound) => bounds[kind][bound], slider: (kind, bound) => sliders[kind][bound], syncRange() {}, syncNewsRange() {},
     onChange() { renders++; instance.matchingRows(); }
   });
   instance.appliedCriteria = instance.snapshot();
@@ -194,4 +194,88 @@ assert.equal(pendingGroup.appliedCriteria.countries.size, 0, 'Group management m
 assert.ok(comparisonRenders > 0);
 TradeFilterPanel = originalPanelClass;
 renderComparisons = originalComparisonRender;
-console.log('Trade filter checks passed, including deferred edits and six-group lifecycle, palette uniqueness and preserved pending filters.');
+const newsTrades = ['timed', 'previous-day', 'two-days', 'same-day', 'too-old', 'unknown', 'wrong-issuer', 'future'].map(id => ({ ...rows[0], id, opened: '2026-11-06T12:00:00-05:00' }));
+const newsArticles = [
+  { id: 'timed', publishedAt: '2026-11-06T10:00:00-05:00', timePrecision: 'minute', verificationStatus: 'verified_publication' },
+  { id: 'previous-day', publishedAt: null, publicationDate: '2026-11-05', timePrecision: 'day', verificationStatus: 'verified_date' },
+  { id: 'two-days', publishedAt: null, publicationDate: '2026-11-04', timePrecision: 'day', verificationStatus: 'verified_date' },
+  { id: 'same-day', publishedAt: null, publicationDate: '2026-11-06', timePrecision: 'day', verificationStatus: 'verified_date' },
+  { id: 'too-old', publishedAt: '2026-11-04T11:00:00-05:00', publicationDate: '2026-11-04', timePrecision: 'minute', verificationStatus: 'verified_publication' },
+  { id: 'wrong-issuer', issuerCik: '2', publishedAt: '2026-11-06T11:00:00-05:00', timePrecision: 'minute', verificationStatus: 'verified_publication' },
+  { id: 'future', publishedAt: '2026-11-06T12:00:00-05:00', timePrecision: 'minute', verificationStatus: 'verified_publication' }
+].map(article => ({ symbol: 'US', issuerCik: '1', ...article }));
+const newsSource = { trades: newsTrades, tickerProfiles: { US: { cik: '1', incorporation_country: 'United States' } } };
+const newsPayload = { schemaVersion: 1, windowHours: 48, dateFallbackDays: 2, scopedSymbols: ['US'], articles: newsArticles, reviews: [],
+  trades: newsTrades.map(trade => ({ tradeId: trade.id, symbol: trade.symbol, entryAt: trade.opened, articles: trade.id === 'unknown' ? [] : [{ articleId: trade.id }] })) };
+updateIssuerNews(newsPayload, newsSource);
+const filterNews = hours => selectFilteredTrades(newsTrades, newsSource.tickerProfiles, { ...defaults, newsHours: hours }).map(trade => trade.id);
+assert.equal(filterNews(0).length, newsTrades.length, 'Zero disables news filtering rather than requiring a zero-hour window');
+assert.deepEqual(filterNews(1.99), []);
+assert.deepEqual(filterNews(2), ['timed'], 'Exact publication timestamps use elapsed hours and inclusive lookback');
+assert.deepEqual(filterNews(23.99), ['timed'], 'Previous-day date-only news must not enter before 24 hours');
+assert.deepEqual(filterNews(24), ['timed', 'previous-day']);
+assert.deepEqual(filterNews(47.99), ['timed', 'previous-day']);
+assert.deepEqual(filterNews(48), ['timed', 'previous-day', 'two-days']);
+assert.ok(!tradeNewsAgeIndex.has('same-day'), 'Same-day date-only publications remain uncertain');
+assert.ok(!tradeNewsAgeIndex.has('too-old'), 'Known timestamps outside 48 hours cannot fall back to publication dates');
+assert.ok(!tradeNewsAgeIndex.has('unknown'), 'Unreviewed trades are not invented news matches');
+assert.ok(!tradeNewsAgeIndex.has('wrong-issuer'), 'News filtering validates issuer identity');
+assert.ok(!tradeNewsAgeIndex.has('future'), 'Publication at entry is excluded');
+assert.equal(tradeHasNewsWithin({ ...newsTrades[0], opened: '2026-11-06T12:01:00-05:00' }, 48), false, 'Changed entry times invalidate cached links');
+const newsPanel = deferredPanel(), otherNewsPanel = deferredPanel();
+newsPanel.instance.rows = newsTrades;
+newsPanel.instance.profiles = newsSource.tickerProfiles;
+newsPanel.draft.news.value = '50';
+newsPanel.instance.handleInput({ target: { dataset: { field: 'news' } } });
+assert.equal(newsPanel.instance.matchingRows().length, newsTrades.length, 'Slider edits do not apply before pressing Apply');
+newsPanel.instance.apply();
+assert.equal(newsPanel.instance.appliedCriteria.newsHours, 24);
+assert.deepEqual(newsPanel.instance.matchingRows().map(trade => trade.id), ['timed', 'previous-day']);
+assert.equal(otherNewsPanel.instance.appliedCriteria.newsHours, 0, 'Comparison groups keep independent news windows');
+newsPanel.draft.news.value = '100';
+assert.equal(newsPanel.instance.matchingRows().length, 2, 'Pending news slider changes do not affect unrelated renders');
+newsPanel.instance.apply();
+assert.equal(newsPanel.instance.matchingRows().length, 3);
+newsPanel.instance.reset();
+assert.equal(newsPanel.draft.news.value, '0');
+newsPanel.instance.apply();
+assert.equal(newsPanel.instance.matchingRows().length, newsTrades.length);
+const output = {}, rangeStyle = {}, rangeAttributes = {};
+const rangeInput = { value: '50', style: { setProperty(key, value) { rangeStyle[key] = value; } }, setAttribute(key, value) { rangeAttributes[key] = value; } };
+const rangePanel = { field: () => rangeInput, host: { querySelector: () => output } };
+for (const [position, label] of [['0', 'Sin filtro'], ['25', '12 h'], ['50', '24 h'], ['100', '48 h']]) {
+  rangeInput.value = position;
+  TradeFilterPanel.prototype.syncNewsRange.call(rangePanel);
+  assert.equal(output.textContent, label);
+  assert.equal(rangeAttributes['aria-valuetext'], label);
+  assert.equal(rangeStyle['--news-fill'], `${position}%`);
+}
+const midnightTrade = { ...newsTrades[1], opened: '2026-11-06T04:30:00Z' };
+updateIssuerNews({ ...newsPayload, articles: [{ ...newsArticles[1], publicationDate: '2026-11-04' }], trades: [{ tradeId: midnightTrade.id, symbol: 'US', entryAt: midnightTrade.opened, articles: [{ articleId: 'previous-day' }] }] }, { ...newsSource, trades: [midnightTrade] });
+assert.equal(tradeHasNewsWithin(midnightTrade, 24), true, 'Calendar-day bands follow entry day in New York, not UTC or closing day');
+const dstTrade = { ...newsTrades[0], opened: '2026-11-02T00:30:00-05:00' };
+updateIssuerNews({ ...newsPayload, articles: [{ ...newsArticles[0], publishedAt: '2026-10-31T01:00:00-04:00' }], trades: [{ tradeId: dstTrade.id, symbol: 'US', entryAt: dstTrade.opened, articles: [{ articleId: 'timed' }] }] }, { ...newsSource, trades: [dstTrade] });
+assert.equal(tradeHasNewsWithin(dstTrade, 48), false, 'Known timestamps use elapsed hours across daylight-saving changes');
+updateIssuerNews(null, newsSource);
+assert.equal(tradeNewsAgeIndex.size, 0, 'Unavailable or refreshed news clears stale matches');
+assert.equal(filterNews(48).length, 0);
+assert.equal(filterNews(0).length, newsTrades.length, 'Unavailable news must not affect the unfiltered history');
+const publishedData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'trades.json'), 'utf8'));
+const publishedNews = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'news', 'trade-context.json'), 'utf8'));
+updateIssuerNews(publishedNews, publishedData);
+const allMatches = selectFilteredTrades(publishedData.trades, publishedData.tickerProfiles, { ...defaults, newsHours: 48 });
+assert.equal(allMatches.length, publishedNews.counts.tradesWithNews, 'Full news window reconciles the curated trade links including date-only evidence');
+assert.equal(selectFilteredTrades(publishedData.trades, publishedData.tickerProfiles, { ...defaults, newsHours: 0 }).length, publishedData.trades.length);
+for (const trade of publishedData.trades) {
+  const expected = publishedNews.trades.find(entry => entry.tradeId === trade.id)?.articles || [];
+  const byId = new Map(publishedNews.articles.map(article => [article.id, article]));
+  for (const hours of [0.48, 12, 24, 48]) {
+    const matched = expected.some(link => {
+      const article = byId.get(link.articleId);
+      const age = article.timePrecision === 'day' ? 24 * link.daysBeforeEntry : (Date.parse(trade.opened) - Date.parse(article.publishedAt)) / 3600000;
+      return age <= hours;
+    });
+    assert.equal(tradeHasNewsWithin(trade, hours), matched, `Published news filter: ${trade.id} at ${hours} hours`);
+  }
+}
+console.log('Trade filters, news windows and date-only bands, deferred edits and independent comparison groups verified.');
