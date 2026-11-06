@@ -1,2 +1,3 @@
 .cache/ticker-research/
+.cache/python-deps/
 __pycache__/

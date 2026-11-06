@@ -26,7 +26,7 @@ function activateView() {
   $('page-title').textContent = VIEW_DETAILS[active][0];
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
-  $('global-filters').hidden = active === 'data';
+  $('global-filters').hidden = active === 'data' || active === 'compare';
   refreshCharts();
 }
 
@@ -357,17 +357,13 @@ function renderCalendar(rows) {
 }
 
 function comparisonRows(key) {
-  const from = $(`compare-${key}-from`).value, to = $(`compare-${key}-to`).value;
-  const side = $(`compare-${key}-side`).value, symbol = $(`compare-${key}-symbol`).value;
-  if (from && to && from > to) return null;
-  return filtered.filter(t => (!from || t.date >= from) && (!to || t.date <= to) && (side === 'all' || t.side === side) && (symbol === 'all' || t.symbol === symbol));
+  return tradeFilterPanels.get(key).matchingRows();
 }
 
 function renderComparisons() {
   if (!dataset) return;
   const a = comparisonRows('a'), b = comparisonRows('b');
-  $('compare-status').textContent = a === null || b === null ? 'Revisa las fechas: Desde debe ser anterior o igual a Hasta.' : `Grupo A: ${a.length} operaciones · Grupo B: ${b.length} operaciones. Los grupos pueden contener operaciones comunes.`;
-  if (a === null || b === null) { $('compare-table').innerHTML = ''; $('compare-chart').innerHTML = ''; return; }
+  $('compare-status').textContent = `Grupo A: ${a.length} operaciones · Grupo B: ${b.length} operaciones. Los grupos pueden contener operaciones comunes.`;
   const summaries = [a, b].map(rows => statistics(rows));
   const measures = [
     ['Operaciones', (_, rows) => rows.length], ['PnL', s => signed(s.pnl)],
@@ -414,5 +410,4 @@ function initializeWorkspace() {
     if (!button || button.disabled) return;
     selectedCalendarDay = button.dataset.day; renderCalendar(filtered);
   });
-  for (const key of ['a', 'b']) for (const field of ['from', 'to', 'side', 'symbol']) $(`compare-${key}-${field}`).addEventListener('change', renderComparisons);
 }

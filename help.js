@@ -189,8 +189,6 @@ function initializeHelp() {
   window.addEventListener('hashchange', hide);
   document.addEventListener('visibilitychange', hide);
   const controls = {
-    year: 'Filtra por el año de la fecha de cierre en Nueva York.', symbol: 'Filtra por símbolo.', side: 'Filtra por dirección: Long (BUY) o Short (SELL).',
-    'date-from': 'Incluye operaciones cerradas desde esta fecha en Nueva York, inclusive.', 'date-to': 'Incluye operaciones cerradas hasta esta fecha en Nueva York, inclusive.',
     'ratio-time-interval': 'Agrupa por hora de entrada en Nueva York, en franjas de 5 minutos por defecto; también puedes elegir 30 o 60 minutos. El inicio está incluido y el final excluido: 09:30–09:35 incluye 09:30, pero no 09:35.',
     'ratio-min-trades': 'Muestra únicamente los grupos con al menos este número de operaciones. Se aplica al estudio por horario y al estudio por país.',
     'calendar-month': 'Selecciona el mes de las fechas de cierre. Cada día muestra la suma del PnL y el número de operaciones cerradas ese día.',
@@ -210,9 +208,14 @@ function initializeHelp() {
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'
   };
   for (const [id, text] of Object.entries(controls)) $(id).setAttribute('data-help', text);
-  for (const key of ['a', 'b']) for (const field of ['from', 'to', 'side', 'symbol']) {
-    $(`compare-${key}-${field}`).setAttribute('data-help', 'Este filtro define el grupo de comparación y se combina con los filtros globales. Desde y Hasta se incluyen. Los grupos A y B pueden contener las mismas operaciones.');
-  }
+  const filterHelp = {
+    period: 'Selecciona todo el historial, un a?o, un mes o un rango personalizado de fechas de cierre en Nueva York.',
+    from: 'Incluye operaciones cerradas desde esta fecha, inclusive. Cada grupo usa sus propios filtros.',
+    to: 'Incluye operaciones cerradas hasta esta fecha, inclusive. Cada grupo usa sus propios filtros.',
+    symbol: 'Escribe o selecciona un s?mbolo. Deja el campo vac?o para incluir todos.',
+    side: 'Filtra por direcci?n: todas, Long (BUY) o Short (SELL).'
+  };
+  document.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));
   document.querySelectorAll('th').forEach(header => {
     header.setAttribute('data-help', helpText(header.textContent)); header.tabIndex = 0;
   });

@@ -99,4 +99,31 @@ const leapCells = miniCalendarCells('2024-02');
 checkConsistency(leapCells.length === 42 && leapCells.filter(cell => !cell.outside).length === 29, 'Mini calendars preserve leap days in a fixed six-week grid');
 checkConsistency(leapCells[0].date === '2024-01-29' && leapCells[3].date === '2024-02-01', 'Mini calendars start weeks on Monday');
 checkConsistency(miniCalendarCells('2026-11').filter(cell => !cell.outside).length === 30, 'Mini calendar marks adjacent-month padding separately');
-console.log('Consistency calculations passed: rolling windows, periods, recovery, causal ordering, percentiles, session resampling and immutability.');
+// Exercise ticker cards with the production calculations and a minimal render target.
+const calendarFs = require('node:fs'), calendarVm = require('node:vm'), calendarPath = require('node:path');
+const calendarElements = new Map();
+const calendarContext = calendarVm.createContext({ document: { getElementById(id) {
+  if (!calendarElements.has(id)) calendarElements.set(id, { innerHTML: '', textContent: '', hidden: false });
+  return calendarElements.get(id);
+} } });
+const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'dashboard.js'), 'utf8');
+calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
+for (const file of ['workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
+calendarVm.runInContext('const renderedCalendarCharts = new Map(); renderChart = (id, series) => renderedCalendarCharts.set(id, series);', calendarContext);
+calendarContext.sampleRows = [10, -2, 5].map((pnl, index) => ({ id: String(index), symbol: 'MIX', side: index === 2 ? 'SELL' : 'BUY', pnl, fees: 0.1 * (index + 1), date: '2026-11-06', opened: `2026-11-06T09:0${index}:00-05:00`, closed: `2026-11-06T09:1${index}:00-05:00` }));
+calendarVm.runInContext('renderCalendarDay(sampleRows)', calendarContext);
+let tickerMarkup = calendarElements.get('calendar-symbol-cards').innerHTML;
+checkConsistency((tickerMarkup.match(/class="calendar-ticker-side"/g) || []).length === 2, 'Mixed tickers show separate Long and Short metric groups');
+checkConsistency(tickerMarkup.includes('50.0%') && tickerMarkup.includes('100.0%'), 'Win rates use each direction denominator');
+checkConsistency(tickerMarkup.includes('+$8.00') && tickerMarkup.includes('+$5.00'), 'PnL is calculated separately by direction');
+checkConsistency(calendarVm.runInContext("renderedCalendarCharts.get('calendar-ticker-chart-0')[0].values.at(-1)[1]", calendarContext) === 13, 'Ticker chart combines Long and Short trades');
+for (const side of ['BUY', 'SELL']) {
+  calendarContext.selectedSide = side;
+  calendarVm.runInContext('renderCalendarDay(sampleRows.filter(trade => trade.side === selectedSide))', calendarContext);
+  tickerMarkup = calendarElements.get('calendar-symbol-cards').innerHTML;
+  checkConsistency((tickerMarkup.match(/class="calendar-ticker-side"/g) || []).length === 1 && tickerMarkup.includes('single-side'), 'Direction filtering removes the other metric group');
+  checkConsistency(!tickerMarkup.includes(`aria-label="MIX ${side === 'BUY' ? 'Short' : 'Long'}"`), 'Single-direction ticker cards have no empty opposite-side section');
+}
+calendarVm.runInContext('renderCalendarDay([])', calendarContext);
+checkConsistency(calendarElements.get('calendar-symbol-cards').innerHTML === '', 'Empty filtered sessions clear ticker detail');
+console.log('Consistency calculations and calendar ticker direction checks passed.');

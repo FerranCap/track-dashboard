@@ -262,21 +262,12 @@ function renderBest(){
   const content=(t,title)=>`<div class="best-card" tabindex="0" ${helpAttributes(`Se ordenan las operaciones del intervalo por su PnL: se muestra el mayor o el menor resultado individual. ${HELP_PNL}`)}><h4>${esc(title)}<span class="help-mark" aria-hidden="true">ⓘ</span></h4><div class="big ${cssSign(t.pnl)}">${esc(signed(t.pnl))}</div><small>${esc(t.date)} · ${esc(t.symbol)} · ${t.side==='BUY'?'Long':'Short'} · Entrada: ${esc(t.entryPrice===null?'N/D':money(t.entryPrice))}</small></div>`;
   $('best-results').innerHTML=`<div class="best-columns">${content(ordered[0],'Mejor trade')}${content(ordered[ordered.length-1],'Peor trade')}</div>`;
 }
-function populateFilters(rows){
-  const years=[...new Set(rows.map(t=>t.date.slice(0,4)))].sort().reverse();
-  const symbols=[...new Set(rows.map(t=>t.symbol))].sort();
-  $('year').innerHTML='<option value="all">Todos</option>'+years.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
-  $('symbol').innerHTML='<option value="all">Todos</option>'+symbols.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
-  for(const key of ['a','b']){
-    const select=$(`compare-${key}-symbol`),previous=select.value;
-    select.innerHTML=$('symbol').innerHTML;
-    select.value=symbols.includes(previous)?previous:'all';
-  }
+function populateFilters(rows, preserve = false){
+  for (const panel of tradeFilterPanels.values()) panel.populate(rows, dataset.tickerProfiles, preserve);
 }
 function applyFilters(){
   if(!dataset)return;
-  const year=$('year').value,symbol=$('symbol').value,side=$('side').value,from=$('date-from').value,to=$('date-to').value;
-  filtered=dataset.trades.filter(t=>(year==='all'||t.date.startsWith(year))&&(symbol==='all'||t.symbol===symbol)&&(side==='all'||t.side===side)&&(!from||t.date>=from)&&(!to||t.date<=to));
+  filtered=tradeFilterPanels.get('general').matchingRows();
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
   if($('best-from').value&&$('best-to').value)renderBest();
 }
@@ -307,19 +298,15 @@ function renderTable(){
   $('prev').disabled=page===0;$('next').disabled=page>=maxPage;
 }
 async function loadData(options = {}){
-  const previous = options.preserveFilters ? Object.fromEntries(['year','symbol','side','date-from','date-to','search'].map(id=>[id,$(id).value])) : null;
+  const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
     const response=await fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'});
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
-    dataset=next;populateFilters(dataset.trades);
-    $('year').value='all';$('symbol').value='all';$('side').value='all';$('date-from').value='';$('date-to').value='';$('search').value='';
-    if(previous)for(const [id,value] of Object.entries(previous)){
-      const element=$(id);
-      element.value=element.tagName==='SELECT'&&!Array.from(element.options).some(option=>option.value===value)?'all':value;
-    }
+    dataset=next;populateFilters(dataset.trades, Boolean(options.preserveFilters));
+    $('search').value=previousSearch;
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;
     $('dataset-info').textContent=`${next.tradeCount} trades · ${next.uniqueExecutionRows} ejecuciones únicas · ${next.sourceFiles.length} CSV Quant compatibles`;
     $('source-status').textContent='Datos cargados';
@@ -338,13 +325,12 @@ async function loadData(options = {}){
   }
   finally{$('refresh').disabled=false;}
 }
-for(const id of ['year','symbol','side','date-from','date-to'])$(id).addEventListener('change',applyFilters);
-$('clear').addEventListener('click',()=>{$('year').value='all';$('symbol').value='all';$('side').value='all';$('date-from').value='';$('date-to').value='';applyFilters();});
 $('search').addEventListener('input',()=>{page=0;renderTable();});
 $('prev').addEventListener('click',()=>{page--;renderTable();});
 $('next').addEventListener('click',()=>{page++;renderTable();});
-$('refresh').addEventListener('click',loadData);
+$('refresh').addEventListener('click',()=>loadData({preserveFilters:true}));
 $('best-search').addEventListener('click',renderBest);
+initializeTradeFilters();
 initializeHelp();
 initializeWorkspace();
 initializeCalendarOverview();

@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261105-growth-individual-20">
+  <link rel="stylesheet" href="styles.css?v=20261106-calendar-sides-22">
 </head>
 <body>
 <aside class="sidebar">
@@ -103,27 +103,7 @@
 </div>
 <div id="last-updated" class="updated">
 </div>
-</div>    <section id="global-filters" class="filters" aria-label="Filtros globales">
-      <label>Año<select id="year">
-<option value="all">Todos</option>
-</select>
-</label>
-      <label>Símbolo<select id="symbol">
-<option value="all">Todos</option>
-</select>
-</label>
-      <label>Dirección<select id="side">
-<option value="all">Todas</option>
-<option value="BUY">Long</option>
-<option value="SELL">Short</option>
-</select>
-</label>
-      <label>Desde<input type="date" id="date-from">
-</label>
-      <label>Hasta<input type="date" id="date-to">
-</label>
-      <button id="clear" class="secondary" type="button">Limpiar filtros</button>
-    </section>
+</div>    <section id="global-filters" class="filters" aria-label="Filtros generales"></section>
     <div id="error" class="error" role="alert" hidden>
 </div>
 <div id="view-general" class="view" aria-labelledby="page-title" hidden>
@@ -520,42 +500,10 @@
 <div id="view-compare" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Selecciona los grupos</h2>
-<p>Los filtros de cada grupo se combinan con los filtros globales de arriba.</p>
+<p>Filtra cada grupo de forma independiente sobre todo el historial de operaciones.</p>
 <div class="two-col comparison-controls">
-<fieldset>
-<legend>Grupo A</legend>
-<label>Desde<input type="date" id="compare-a-from">
-</label>
-<label>Hasta<input type="date" id="compare-a-to">
-</label>
-<label>Dirección<select id="compare-a-side">
-<option value="all">Todas</option>
-<option value="BUY" selected>Long</option>
-<option value="SELL">Short</option>
-</select>
-</label>
-<label>Símbolo<select id="compare-a-symbol">
-<option value="all">Todos</option>
-</select>
-</label>
-</fieldset>
-<fieldset>
-<legend>Grupo B</legend>
-<label>Desde<input type="date" id="compare-b-from">
-</label>
-<label>Hasta<input type="date" id="compare-b-to">
-</label>
-<label>Dirección<select id="compare-b-side">
-<option value="all">Todas</option>
-<option value="BUY">Long</option>
-<option value="SELL" selected>Short</option>
-</select>
-</label>
-<label>Símbolo<select id="compare-b-symbol">
-<option value="all">Todos</option>
-</select>
-</label>
-</fieldset>
+<fieldset><legend>Grupo A</legend><div id="compare-a-filters"></div></fieldset>
+<fieldset><legend>Grupo B</legend><div id="compare-b-filters"></div></fieldset>
 </div>
 <p id="compare-status" role="status" class="mini-caption">
 </p>
@@ -577,19 +525,20 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261105-growth-individual-20</span>
+<span>Versión: 20261106-calendar-sides-22</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261105-growth-individual-20" defer></script>
-<script src="consistency.js?v=20261105-growth-individual-20" defer></script>
-<script src="table-sort.js?v=20261105-growth-individual-20" defer></script>
-<script src="help.js?v=20261105-growth-individual-20" defer></script>
-<script src="workspace.js?v=20261105-growth-individual-20" defer>
+<script src="calendar.js?v=20261106-calendar-sides-22" defer></script>
+<script src="consistency.js?v=20261106-calendar-sides-22" defer></script>
+<script src="table-sort.js?v=20261106-calendar-sides-22" defer></script>
+<script src="help.js?v=20261106-calendar-sides-22" defer></script>
+<script src="filters.js?v=20261106-calendar-sides-22" defer></script>
+<script src="workspace.js?v=20261106-calendar-sides-22" defer>
 </script>
-<script src="dashboard.js?v=20261105-growth-individual-20" defer>
+<script src="dashboard.js?v=20261106-calendar-sides-22" defer>
 </script>
 </body>
 </html>
