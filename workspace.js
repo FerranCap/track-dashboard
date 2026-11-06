@@ -4,10 +4,11 @@ const VIEW_DETAILS = {
   general: ['General', 'Actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
   compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
-  analysis: ['Análisis', 'Explora los factores que explican tus resultados.'],
-  growth: ['Crecimiento', 'Evolución del beneficio y del movimiento del PnL por operación.'],
+  price: ['Precio', 'Resultados por rango de precio de entrada.'],
+  duration: ['Duración', 'Resultados según el tiempo de permanencia en cada operación.'],
+  growth: ['Relativo', 'Evolución del beneficio y del movimiento del PnL por operación.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
-  risk: ['Riesgo y consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
+  risk: ['Consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
   country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
   data: ['Tickers', 'Detecta tickers nuevos y datos pendientes en la base de emisores.'],
   trades: ['Operaciones', 'Consulta y estudia tus operaciones individuales.']
@@ -78,7 +79,6 @@ function renderWorkspace(rows) {
     ['Peor operación', s.losses.length ? money(Math.min(...s.losses.map(t => t.pnl))) : '—', 'negative']
   ].map(item => metric(...item)).join('');
   renderRecentSessions(s.daily);
-  $('symbols-table').innerHTML = breakdownTable(groupedStatistics(rows, t => t.symbol));
   const durationBands = [['Menos de 1 min', 0, 1], ['1–5 min', 1, 5], ['5–15 min', 5, 15], ['15–60 min', 15, 60], ['60 min o más', 60, Infinity]];
   const durationGroups = durationBands.map(([name, min, max]) => [name, rows.filter(t => Number.isFinite(t.holdMinutes) && t.holdMinutes >= min && t.holdMinutes < max)]);
   const unknownDuration = rows.filter(t => !Number.isFinite(t.holdMinutes) || t.holdMinutes < 0);
@@ -89,7 +89,6 @@ function renderWorkspace(rows) {
     return metric(['Duración media · Ganadoras', 'Duración media · Perdedoras', 'Duración media · A cero'][index], available.length ? `${num(s.holds(kind), 1)} min` : '—');
   }).join('');
   renderCountries(rows);
-  renderAnalysisCountries(rows);
   renderRatios(rows);
   renderCalendar(rows);
   renderComparisons();
@@ -161,12 +160,6 @@ function incorporationCountry(profile) {
 
 function tradeCountry(trade) {
   return incorporationCountry(dataset?.tickerProfiles?.[trade.symbol]);
-}
-
-function renderAnalysisCountries(rows) {
-  const groups = groupedStatistics(rows, trade => tradeCountry(trade) || 'Sin clasificar');
-  $('analysis-country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  $('analysis-country-note').textContent = 'Se agrupa exclusivamente por país de constitución. Solo quedan sin clasificar los tickers sin ese país identificado; operación, sede, ADR y VIE no afectan a esta clasificación. Se aplican los filtros generales.';
 }
 
 function renderCountries(rows) {
@@ -399,12 +392,6 @@ function initializeWorkspace() {
     activateView();
     window.scrollTo({ top: 0, behavior: 'instant' });
   });
-  const selectAnalysis = key => {
-    document.querySelectorAll('[data-analysis-panel]').forEach(panel => { panel.hidden = panel.dataset.analysisPanel !== key; });
-    document.querySelectorAll('[data-analysis]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.analysis === key)));
-    refreshCharts();
-  };
-  selectAnalysis('time');
   $('data-check-pending').addEventListener('click', checkPendingIssuers);
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
@@ -412,7 +399,6 @@ function initializeWorkspace() {
   $('recent-session-count').addEventListener('change', () => renderRecentSessions(statistics(filtered).daily));
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
-  document.querySelectorAll('[data-analysis]').forEach(button => button.addEventListener('click', () => selectAnalysis(button.dataset.analysis)));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; calendarOverviewEndMonth = ''; renderCalendar(filtered); });
   for (const [id, step] of [['month-prev', -1], ['month-next', 1]]) $(id).addEventListener('click', () => {
     const value = $('calendar-month').value;

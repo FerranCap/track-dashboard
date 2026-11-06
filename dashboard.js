@@ -190,32 +190,12 @@ function alignedEquity(rows,axis){
   const daily=new Map(group(rows,t=>t.date));let total=0;
   return axis.map(day=>[day,+(total+=(daily.get(day)||0)).toFixed(4)]);
 }
-function renderCharts(rows){
-  const long=rows.filter(t=>t.side==='BUY'),short=rows.filter(t=>t.side==='SELL');
-  const dd=drawdownStats(rows);
-  renderChart('equity-chart',[{values:equity(rows),color:'#20d075'}],{currency:true});
-  renderChart('drawdown-chart',[{values:dd.points,color:'#f4485b'}],{currency:true});
-  renderChart('long-equity',[{values:equity(long),color:'#24d578'}],{currency:true});
-  renderChart('short-equity',[{values:equity(short),color:'#24d578'}],{currency:true});
-  renderChart('long-daily',[{values:group(long,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
-  renderChart('short-daily',[{values:group(short,t=>t.date),color:'#27c873'}],{bar:true,currency:true});
-  const axis=dates(rows);
-  renderChart('comparison-chart',[{values:alignedEquity(long,axis),color:'#20d07a'},{values:alignedEquity(short,axis),color:'#ff4e62'}],{currency:true});
+function renderCharts(rows) {
+  const dd = drawdownStats(rows);
+  renderChart('equity-chart', [{ values: equity(rows), color: '#20d075' }], { currency: true });
+  renderChart('drawdown-chart', [{ values: dd.points, color: '#f4485b' }], { currency: true });
   renderCalendarResults(rows);
-  const popular=[...rows.reduce((m,t)=>m.set(t.symbol,(m.get(t.symbol)||0)+1),new Map())].sort((a,b)=>b[1]-a[1]).slice(0,12).map(x=>x[0]);
-  renderChart('symbols-chart',[{values:group(rows.filter(t=>popular.includes(t.symbol)),t=>t.symbol),color:'#37cfe9'}],{bar:true,currency:true});
-  renderSide('long-stats',long,'Long','long');renderSide('short-stats',short,'Short','short');
-  renderTime(rows);renderPrice(rows);renderWeekdays(rows);
-}
-function renderSide(id,rows,title,kind){
-  const s=statistics(rows),daily=s.daily,sorted=daily.map(x=>x[1]);
-  const items=[
-    ['Trades',String(rows.length)],['Wins / Losses',`${s.wins.length} / ${s.losses.length}`],['Win Rate',pct(s.wins.length,rows.length)],
-    ['PnL Total',money(s.pnl),cssSign(s.pnl)],['PnL Medio',money(s.expectancy),cssSign(s.expectancy)],['Avg Win',money(s.winAvg),'positive'],
-    ['Avg Loss',money(s.lossAvg),'negative'],['Profit Factor',num(s.pf)],['Trading Days',String(daily.length)],
-    ['Best Day',money(sorted.length?Math.max(...sorted):null),'positive'],['Worst Day',money(sorted.length?Math.min(...sorted):null),'negative']
-  ];
-  $(id).innerHTML=`<div class="side-title ${kind}">${title}</div><div class="side-grid">${items.map(([label,value,cls])=>`<div tabindex="0" ${helpAttributes(helpText(label))}><div class="side-cell-label">${esc(label)}<span class="help-mark" aria-hidden="true">ⓘ</span></div><div class="side-cell-value ${cls||''}">${esc(value)}</div></div>`).join('')}</div>`;
+  renderPrice(rows);
 }
 function timeBand(trade, interval = 5) {
   const time = (trade.opened || '').slice(11, 16);
@@ -225,10 +205,6 @@ function timeBand(trade, interval = 5) {
   const start = Math.floor((hour * 60 + minute) / interval) * interval;
   const format = value => `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
   return `${format(start)}–${format(start + interval)}`;
-}
-function renderTime(rows){
-  const bands=group(rows,trade=>timeBand(trade)).filter(p=>p[0]!==null);
-  renderChart('time-chart',[{values:bands,color:'#25c7dd'}],{bar:true,currency:true});
 }
 const PRICE_BANDS=[['$0–2',0,2],['$2–5',2,5],['$5–10',5,10],['$10–20',10,20],['$20+',20,Infinity]];
 function priceGroups(rows){return PRICE_BANDS.map(([name,min,max])=>({name,rows:rows.filter(t=>Number.isFinite(t.entryPrice)&&t.entryPrice>=min&&t.entryPrice<max)}));}
@@ -242,16 +218,6 @@ function renderPrice(rows){
   $('price-table').innerHTML=tableMarkup(['Rango','Trades','Win Rate','PnL Total','PnL Medio'],bands.map(b=>[b.name,b.rows.length,pct(b.rows.filter(t=>classify(t)==='win').length,b.rows.length),signed(sum(b.rows)),b.rows.length?money(sum(b.rows)/b.rows.length):'—']));
 }
 function tableMarkup(headers,rows){return `<table><thead><tr>${headers.map(x=>`<th tabindex="0" ${helpAttributes(helpText(x))}>${esc(x)}<span class="help-mark" aria-hidden="true">ⓘ</span></th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((v,i)=>`<td ${helpAttributes(`${headers[i]}: ${v}. ${helpText(headers[0]==='Métrica'?row[0]:headers[i])}`)} class="${i>=3&&String(v).startsWith('-')?'negative':i>=3&&String(v).startsWith('+')?'positive':''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
-function renderWeekdays(rows){
-  const names=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-  const groups=names.map((name,i)=>({name,rows:rows.filter(t=>{const [y,m,d]=t.date.split('-').map(Number);return (new Date(Date.UTC(y,m-1,d)).getUTCDay()+6)%7===i;})}));
-  renderChart('weekday-chart',[{values:groups.map(x=>[x.name,sum(x.rows)]),color:'#25c56c'}],{bar:true,currency:true});
-  const present=groups.filter(x=>x.rows.length);
-  const best=present.length?[...present].sort((a,b)=>sum(b.rows)-sum(a.rows))[0]:null;
-  const worst=present.length?[...present].sort((a,b)=>sum(a.rows)-sum(b.rows))[0]:null;
-  $('weekday-highlights').innerHTML=best&&worst?`<div class="highlight">Mejor día<strong class="positive">${esc(best.name)} · ${esc(money(sum(best.rows)))} (${best.rows.length} trades)</strong></div><div class="highlight worst">Peor día<strong class="negative">${esc(worst.name)} · ${esc(money(sum(worst.rows)))} (${worst.rows.length} trades)</strong></div>`:'';
-  $('weekday-table').innerHTML=tableMarkup(['Día','Trades','Win Rate','PnL Total','PnL Medio / Trade'],groups.map(g=>[g.name,g.rows.length,pct(g.rows.filter(t=>classify(t)==='win').length,g.rows.length),signed(sum(g.rows)),g.rows.length?money(sum(g.rows)/g.rows.length):'—']));
-}
 function populateFilters(rows, preserve = false){
   for (const panel of tradeFilterPanels.values()) panel.populate(rows, dataset.tickerProfiles, preserve);
 }

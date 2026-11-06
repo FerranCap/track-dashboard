@@ -36,15 +36,17 @@
 </svg>
 <span>Calendario</span>
 </a>
-<a href="#analysis" data-view="analysis">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M3 3v18h18M7 16l4-6 4 3 6-8"/>
-</svg>
-<span>Análisis</span>
+<a href="#price" data-view="price">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18m5-14H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H6"/></svg>
+<span>Precio</span>
+</a>
+<a href="#duration" data-view="duration">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+<span>Duración</span>
 </a>
 <a href="#growth" data-view="growth">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M6 16l5-5 4 3 6-9m-6 0h6v6"/></svg>
-<span>Crecimiento</span>
+<span>Relativo</span>
 </a>
 <a href="#ratios" data-view="ratios">
 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -58,7 +60,7 @@
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M12 3l8 4v6c0 5-8 8-8 8s-8-3-8-8V7zM12 8v5m0 3v1"/>
 </svg>
-<span>Riesgo y consistencia</span>
+<span>Consistencia</span>
 </a>
 <a href="#country" data-view="country">
 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -237,52 +239,7 @@
 <div id="calendar-results-table" class="table-wrap"></div>
 </section>
 </div>
-<div id="view-analysis" class="view" aria-labelledby="page-title" hidden>
-<div class="analysis-tabs" role="group" aria-label="Tipo de análisis">
-<button type="button" data-analysis="time" aria-pressed="false">Horario</button>
-<button type="button" data-analysis="symbols" aria-pressed="false">Símbolos</button>
-<button type="button" data-analysis="country" aria-pressed="false">País</button>
-<button type="button" data-analysis="price" aria-pressed="false">Precio</button>
-<button type="button" data-analysis="duration" aria-pressed="false">Duración</button>
-<button type="button" data-analysis="side" aria-pressed="false">Long/Short</button>
-</div>
-<div data-analysis-panel="time">
-<section class="section panel">
-<h2>PnL por franja horaria (5m)</h2>
-<div id="time-chart" class="chart">
-</div>
-</section>    <section class="section panel">
-<h2>Rendimiento por día de la semana</h2>
-<div class="weekday-layout">
-<div id="weekday-chart" class="chart">
-</div>
-<div id="weekday-highlights" class="highlights">
-</div>
-</div>
-<div id="weekday-table" class="table-wrap">
-</div>
-</section>
-</div>
-<div data-analysis-panel="symbols" hidden>
-<section class="section panel">
-<h2>PnL por símbolo · 12 más operados</h2>
-<div id="symbols-chart" class="chart">
-</div>
-</section>
-<section class="section panel">
-<h2>Todos los símbolos</h2>
-<div id="symbols-table" class="table-wrap">
-</div>
-</section>
-</div>
-<div data-analysis-panel="country" hidden>
-<section class="section panel">
-<h2>Resultados por país</h2>
-<p id="analysis-country-note" class="mini-caption"></p>
-<div id="analysis-country-table" class="table-wrap"></div>
-</section>
-</div>
-<div data-analysis-panel="price" hidden>
+<div id="view-price" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>PnL por precio de entrada</h2>
 <div id="price-chart" class="chart">
@@ -295,55 +252,13 @@
 </div>
 </section>
 </div>
-<div data-analysis-panel="duration" hidden>
+<div id="view-duration" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Rendimiento por duración</h2>
 <div id="duration-stats" class="metrics three"></div>
 <div id="duration-table" class="table-wrap">
 </div>
 </section>
-</div>
-<div data-analysis-panel="side" hidden>    <section class="section">
-<h2>Long vs Short</h2>
-<div class="two-col equal">
-<div id="long-stats" class="side-panel long-panel">
-</div>
-<div id="short-stats" class="side-panel short-panel">
-</div>
-</div>
-<div class="two-col equal chart-row">
-<div class="panel">
-<h3>Equity Curve — Long</h3>
-<div id="long-equity" class="chart">
-</div>
-</div>
-<div class="panel">
-<h3>Equity Curve — Short</h3>
-<div id="short-equity" class="chart">
-</div>
-</div>
-<div class="panel">
-<h3>PnL Diario — Long</h3>
-<div id="long-daily" class="chart">
-</div>
-</div>
-<div class="panel">
-<h3>PnL Diario — Short</h3>
-<div id="short-daily" class="chart">
-</div>
-</div>
-</div>
-<div class="panel wide-chart">
-<h3>Equity Curve Comparativa (Net)</h3>
-<div id="comparison-chart" class="chart">
-</div>
-<div class="legend">
-<span class="legend-long">Long</span>
-<span class="legend-short">Short</span>
-</div>
-</div>
-</section>
-</div>
 </div>
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
@@ -534,9 +449,9 @@
 <script src="help.js?v=20261106-trades-panel-37" defer></script>
 <script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-calendar-layout-39" defer>
+<script src="workspace.js?v=20261106-price-duration-41" defer>
 </script>
-<script src="dashboard.js?v=20261106-trades-panel-37" defer>
+<script src="dashboard.js?v=20261106-price-duration-41" defer>
 </script>
 </body>
 </html>
