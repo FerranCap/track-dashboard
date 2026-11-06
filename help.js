@@ -14,6 +14,12 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/^pnl mediano$/, 'Mediana del PnL registrado por operación del grupo, con su signo y con los trades a cero incluidos. No es la mediana del PnL absoluto.'],
+    [/^precio medio$|^precio medio de entrada$/, 'Media de los precios de entrada por operación, sin ponderar por número de acciones. Solo precios conocidos, finitos y no negativos.'],
+    [/^precio mediano$|^precio mediano de entrada$/, 'Mediana de los precios de entrada por operación, con interpolación lineal. Solo precios conocidos, finitos y no negativos; no se pondera por acciones.'],
+    [/^precio p25$|^precio p75$|^precio p90$/, 'Percentil indicado del precio de entrada por operación, en USD, con interpolación lineal. Solo precios conocidos, finitos y no negativos.'],
+    [/^trades con precio$/, 'Número de operaciones del grupo con precio de entrada conocido, finito y no negativo. Es la muestra utilizada para calcular el precio mediano.'],
+    [/^trades con duracion$/, 'Número de operaciones del grupo con duración conocida, finita y no negativa. Es la muestra utilizada en las medias y medianas de duración.'],
     [/tickers identificados/, 'Tickers distintos del historial que tienen país de constitución identificado. La ausencia de jurisdicción detallada, país de operación, sede, ADR o VIE no cambia esta clasificación.'],
     [/tickers sin identificar/, 'Tickers distintos del historial sin país de constitución identificado. Este es el único dato que determina Sin identificar y Sin clasificar en los estudios por país.'],
     [/variacion pnl absoluto medio/, 'Media de |PnL| del mes actual menos la media de |PnL| del anterior mes observado, en USD. No utiliza precio ni shares. Puede aumentar tanto por mayores ganancias como por mayores pérdidas.'],
@@ -204,6 +210,7 @@ function initializeHelp() {
     'calendar-overview-next': 'Muestra el bloque siguiente de seis meses en el panel lateral. Los colores y totales usan los filtros generales y las fechas de cierre en Nueva York.',
     'issuer-search': 'Busca un ticker o nombre de emisor en todo el historial publicado. Las fichas de Tickers no se limitan por los filtros de análisis.',
     'consistency-window': 'Selecciona 25, 50 o 100 operaciones para los gráficos móviles de PnL medio y win rate. La tabla conserva las tres ventanas. Cada punto usa cierres consecutivos y requiere la ventana completa.',
+    'consistency-stability-period': 'Agrupa el gráfico y la tabla de estabilidad por mes, semana o día de cierre en Nueva York. Por defecto, semanas de lunes a domingo. Se omiten periodos sin operaciones y se mantienen los filtros generales.',
     'consistency-concentration': 'Agrupa por ticker, país de constitución, franja de entrada de 5 minutos en Nueva York o día de cierre. El peso se calcula sobre la suma de beneficios positivos de los grupos; las pérdidas no se usan como denominador.',
     'consistency-horizon': 'Número de operaciones de cada uno de los 500 escenarios. Se sortean sesiones históricas con reemplazo, conservando el orden de sus trades y recortando el último bloque. La misma selección produce resultados repetibles. No es una previsión ni una rentabilidad sobre capital.',
     'data-check-pending': 'Actualiza los datos publicados y repite la comprobación de todos los tickers del historial. No investiga ni asigna países automáticamente.',

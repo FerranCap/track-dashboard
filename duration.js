@@ -45,20 +45,30 @@ function durationScatterSvg(series, opts) {
   if (!points.length) return `<span>${esc(opts.empty || 'Sin operaciones con datos disponibles para estos filtros.')}</span>`;
   const width = Math.max(240, opts.width || 800), height = Math.max(160, opts.height || 275);
   const left = 78, right = 22, top = 18, bottom = 46;
-  const xMax = Math.max(1, ...points.map(point => point[0]));
+  const xMax = opts.xCategories ? Math.max(1, opts.xCategories.length - 1) : Math.max(opts.xCurrency ? 0.01 : 1, ...points.map(point => point[0]));
   const yMin = Math.min(0, ...points.map(point => point[1]));
   const yMax = Math.max(0, yMin + 1, ...points.map(point => point[1]));
-  const x = value => left + value / xMax * (width - left - right);
+  const x = value => left + (opts.xCategories?.length === 1 ? 0.5 : value / xMax) * (width - left - right);
   const y = value => top + (yMax - value) / (yMax - yMin) * (height - top - bottom);
-  const format = value => opts.currency ? money(value) : num(value, 0);
+  const format = value => opts.currency ? money(value) : num(value, opts.yDecimals || 0);
   let shapes = '';
   for (let tick = 0; tick <= 4; tick++) {
     const value = yMin + (yMax - yMin) * tick / 4;
     shapes += `<line x1="${left}" x2="${width - right}" y1="${y(value)}" y2="${y(value)}" stroke="#304058" stroke-dasharray="3 5"/><text x="${left - 8}" y="${y(value) + 4}" text-anchor="end" fill="#9bb3cd" font-size="11">${esc(format(value))}</text>`;
-    const minute = xMax * tick / 4;
-    shapes += `<text x="${x(minute)}" y="${height - 24}" text-anchor="${tick === 0 ? 'start' : tick === 4 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11">${esc(num(minute, 1))}</text>`;
+    if (!opts.xCategories) {
+      const value = xMax * tick / 4;
+      shapes += `<text x="${x(value)}" y="${height - 24}" text-anchor="${tick === 0 ? 'start' : tick === 4 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11">${esc(opts.xCurrency ? money(value) : num(value, 1))}</text>`;
+    }
   }
-  shapes += `<line x1="${left}" x2="${width - right}" y1="${y(0)}" y2="${y(0)}" stroke="#688099" stroke-dasharray="4 4"/><text x="${(left + width - right) / 2}" y="${height - 5}" text-anchor="middle" fill="#9bb3cd" font-size="11">Duración (min)</text>`;
+  if (opts.xCategories) {
+    const ticks = Math.min(opts.xCategories.length, Math.max(1, Math.floor((width - left - right) / 140) + 1));
+    for (let tick = 0; tick < ticks; tick++) {
+      const index = ticks === 1 ? 0 : Math.round(tick * (opts.xCategories.length - 1) / (ticks - 1));
+      const name = opts.xCategories[index];
+      shapes += `<text x="${x(index)}" y="${height - 24}" text-anchor="${ticks === 1 ? 'middle' : tick === 0 ? 'start' : tick === ticks - 1 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11" ${helpAttributes(name)}>${esc(chartLabel(name))}</text>`;
+    }
+  }
+  shapes += `<line x1="${left}" x2="${width - right}" y1="${y(0)}" y2="${y(0)}" stroke="#688099" stroke-dasharray="4 4"/><text x="${(left + width - right) / 2}" y="${height - 5}" text-anchor="middle" fill="#9bb3cd" font-size="11">${esc(opts.xLabel || 'Duración (min)')}</text>`;
   for (const item of series) for (const point of item.values) {
     if (!Number.isFinite(point[0]) || !Number.isFinite(point[1])) continue;
     shapes += `<circle cx="${x(point[0])}" cy="${y(point[1])}" r="4" fill="${item.color}" fill-opacity=".65" ${helpAttributes(`${point[2]}\n\n${opts.explanation}`)}><title>${esc(point[2])}</title></circle>`;

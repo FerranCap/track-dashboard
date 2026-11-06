@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-nav-groups-40">
+  <link rel="stylesheet" href="styles.css?v=20261106-consistency-views-47">
 </head>
 <body>
 <aside class="sidebar">
@@ -60,7 +60,7 @@
 <ellipse cx="12" cy="12" rx="4" ry="9"/>
 <path d="M3 12h18"/>
 </svg>
-<span>País</span>
+<span>Localidad</span>
 </a>
 <a href="#duration" data-view="duration">
 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
@@ -242,7 +242,7 @@
 <div id="view-price" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <div class="panel-head">
-<h2>PnL por precio de entrada</h2>
+<h2>Rendimiento por precio de entrada</h2>
 <div class="best-controls"><label for="price-range-width">Ancho del rango
 <select id="price-range-width">
 <option value="0.1">$0.10</option>
@@ -255,14 +255,40 @@
 </select>
 </label></div>
 </div>
-<div id="price-chart" class="chart">
-</div>
-<div id="price-caption" class="mini-caption">
-</div>
-</section>    <section class="section panel">
-<h2>Estadísticas por rango de precio</h2>
-<div id="price-table" class="table-wrap">
-</div>
+<p id="price-caption" class="mini-caption"></p>
+<div id="price-stats" class="metrics three"></div>
+</section>
+<section class="section panel">
+<h2>Distribución de los precios de entrada</h2>
+<div id="price-count-chart" class="chart"></div>
+<div id="price-distribution-table" class="table-wrap"></div>
+</section>
+<section class="section panel">
+<h2>Resultados por precio</h2>
+<div class="two-col chart-row"><div><h3>PnL total</h3><div id="price-chart" class="chart"></div></div><div><h3>PnL medio por operación</h3><div id="price-average-chart" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>Win rate (%)</h3><div id="price-winrate-chart" class="chart"></div></div><div><h3>Ganancia / pérdida media</h3><div id="price-rr-chart" class="chart"></div></div></div>
+<h3>Profit factor</h3><div id="price-pf-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Cantidad de acciones por precio</h2>
+<p>Se utiliza la cantidad de entrada registrada, sin duplicar salidas. Las cantidades desconocidas quedan fuera del cálculo de acciones; el PnL por acción usa únicamente los trades con cantidad válida.</p>
+<div class="two-col chart-row"><div><h3>Acciones totales</h3><div id="price-quantity-chart" class="chart"></div></div><div><h3>Acciones medias por operación</h3><div id="price-average-quantity-chart" class="chart"></div></div></div>
+<h3>PnL por acción</h3><div id="price-per-share-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Duración por precio</h2>
+<div class="two-col chart-row"><div><h3>Duración media (min)</h3><div id="price-duration-mean-chart" class="chart"></div></div><div><h3>Duración mediana (min)</h3><div id="price-duration-median-chart" class="chart"></div></div></div>
+</section>
+<section class="section panel">
+<h2>Operaciones individuales frente a precio</h2>
+<p>Cada punto es una operación: verde, ganadora; rojo, perdedora; gris, a cero. Los ejes son lineales. Pasa el cursor para consultar sus datos. Las relaciones observadas no implican causalidad.</p>
+<div class="two-col chart-row"><div><h3>Precio frente a PnL (USD)</h3><div id="price-scatter-pnl" class="chart"></div></div><div><h3>Precio frente a cantidad de acciones</h3><div id="price-scatter-quantity" class="chart"></div></div></div>
+<h3>Precio frente a duración (min)</h3><div id="price-scatter-duration" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Detalle por precio</h2>
+<p>Estadísticas sincronizadas con los rangos y filtros actuales. Los trades sin precio válido permanecen en una fila propia. Las comisiones son informativas y no se descuentan otra vez. Se indican las muestras de menos de 20 operaciones.</p>
+<div id="price-table" class="table-wrap"></div>
 </section>
 </div>
 <div id="view-duration" class="view" aria-labelledby="page-title" hidden>
@@ -303,11 +329,40 @@
 </div>
 <div id="view-country" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
+<h2>Rendimiento por país de constitución</h2>
+<p id="country-study-note"></p>
+<div id="country-study-stats" class="metrics three"></div>
+</section>
+<section class="section panel">
+<h2>Distribución de las operaciones por país</h2>
+<div id="country-count-chart" class="chart"></div>
+</section>
+<section class="section panel">
 <h2>Resultados por país</h2>
-<div id="country-chart" class="chart">
-</div>
-<div id="country-table" class="table-wrap">
-</div>
+<div class="two-col chart-row"><div><h3>PnL total</h3><div id="country-chart" class="chart"></div></div><div><h3>PnL medio por operación</h3><div id="country-average-chart" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>Win rate (%)</h3><div id="country-winrate-chart" class="chart"></div></div><div><h3>Ganancia / pérdida media</h3><div id="country-rr-chart" class="chart"></div></div></div>
+<h3>Profit factor</h3><div id="country-pf-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Cantidad de acciones por país</h2>
+<p>Acciones de entrada registradas, sin duplicar salidas. Las medias y el PnL por acción usan solo cantidades conocidas y positivas.</p>
+<div class="two-col chart-row"><div><h3>Acciones totales</h3><div id="country-quantity-chart" class="chart"></div></div><div><h3>Acciones medias por operación</h3><div id="country-average-quantity-chart" class="chart"></div></div></div>
+<h3>PnL por acción</h3><div id="country-per-share-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Duración y precio por país</h2>
+<div class="two-col chart-row"><div><h3>Duración media (min)</h3><div id="country-duration-mean-chart" class="chart"></div></div><div><h3>Duración mediana (min)</h3><div id="country-duration-median-chart" class="chart"></div></div></div>
+<h3>Precio mediano de entrada (USD)</h3><div id="country-price-median-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<h2>Operaciones individuales por país</h2>
+<p>Cada punto es una operación, agrupada por país de constitución. Verde: ganadora; rojo: perdedora; gris: a cero. Pasa el cursor para consultar ticker y datos de la operación.</p>
+<div class="two-col chart-row"><div><h3>PnL por operación (USD)</h3><div id="country-scatter-pnl" class="chart"></div></div><div><h3>Acciones por operación</h3><div id="country-scatter-quantity" class="chart"></div></div></div>
+</section>
+<section class="section panel">
+<h2>Detalle por país</h2>
+<p>Solo se utiliza el país de constitución. La sede, operación principal, ADR y VIE son informativos y no reasignan los grupos. Sin clasificar se conserva en gráficos y tabla. Las comisiones no se descuentan otra vez; se indican muestras menores de 20 operaciones.</p>
+<div id="country-table" class="table-wrap"></div>
 </section>
 
 </div>
@@ -431,15 +486,17 @@
 <div id="recovery-table" class="table-wrap study-scroll"></div>
 </section>
 <section class="section panel">
-<h2>Estabilidad del beneficio medio</h2>
-<p>Compara PnL medio por operación, acierto y profit factor entre meses. Se muestran todas las muestras, incluidas las pequeñas; un mes positivo no garantiza estabilidad futura.</p>
+<div class="panel-head"><h2>Estabilidad del beneficio medio</h2><label class="study-control" for="consistency-stability-period">Agrupar por<select id="consistency-stability-period"><option value="month">Mensual</option><option value="week" selected>Semanal</option><option value="day">Diario</option></select></label></div>
+<p id="consistency-stability-note"></p>
 <div id="monthly-expectancy-chart" class="chart"></div>
 <div id="monthly-consistency-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de operación</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
+<div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de constitución</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
 <p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar.</p>
-<div id="consistency-concentration-table" class="table-wrap study-scroll"></div>
+<p>Las barras muestran todos los grupos, ordenados por PnL. Desplázate dentro de cada gráfico para ver la lista completa; al pasar el cursor verás también el número de operaciones.</p>
+<div class="two-col chart-row"><div><h3>PnL por grupo</h3><div id="consistency-concentration-pnl" class="chart concentration-chart"></div></div><div><h3>Peso en los beneficios de grupos (%)</h3><div id="consistency-concentration-weight" class="chart concentration-chart"></div></div></div>
+<h3>PnL restante al excluir cada grupo</h3><div id="consistency-concentration-without" class="chart concentration-chart"></div>
 </section>
 <section class="section panel">
 <h2>Comportamiento después de perder</h2>
@@ -485,15 +542,16 @@
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
 <script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
-<script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="duration.js?v=20261106-duration-studies-45" defer></script>
+<script src="consistency.js?v=20261106-consistency-views-47" defer></script>
+<script src="duration.js?v=20261106-price-country-studies-46" defer></script>
+<script src="studies.js?v=20261106-price-country-studies-46" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-duration-studies-45" defer></script>
+<script src="help.js?v=20261106-consistency-views-47" defer></script>
 <script src="filters.js?v=20261106-duration-filter-44" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-duration-studies-45" defer>
+<script src="workspace.js?v=20261106-price-country-studies-46" defer>
 </script>
-<script src="dashboard.js?v=20261106-duration-studies-45" defer>
+<script src="dashboard.js?v=20261106-consistency-views-47" defer>
 </script>
 </body>
 </html>

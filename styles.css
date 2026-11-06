@@ -199,6 +199,8 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .table-disclosure>summary:focus-visible{outline:2px solid #8abbff;outline-offset:3px}
 .table-disclosure[open]>.table-wrap{margin-top:12px}
 .table-disclosure:not([open])+.table-footer{display:none}
+.concentration-chart{height:420px;display:block;overflow:auto;scrollbar-gutter:stable}
+.concentration-chart svg{height:auto}
 .sidebar nav{gap:0}
 .nav-group{display:grid;gap:7px;min-width:0}
 .nav-group+.nav-group{margin-top:14px;padding-top:12px;border-top:1px solid #263247}

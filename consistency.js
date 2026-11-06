@@ -22,6 +22,7 @@ function rollingConsistency(rows, size) {
 }
 
 function consistencyPeriod(date, unit) {
+  if (unit === 'day') return date;
   if (unit === 'month') return date.slice(0, 7);
   const monday = new Date(`${date}T00:00:00Z`);
   monday.setUTCDate(monday.getUTCDate() - (monday.getUTCDay() + 6) % 7);
@@ -143,8 +144,7 @@ function renderConsistencyStudies(rows) {
     ['Racha de semanas negativas', weeks.length ? negativeRun(weeks) : '—', 'Mayor número consecutivo de semanas observadas con PnL negativo. Se omiten semanas sin operaciones.'],
     ['Racha de meses negativos', months.length ? negativeRun(months) : '—', 'Mayor número consecutivo de meses observados con PnL negativo. Se omiten meses sin operaciones.']
   ].map(args => consistencyMetric(...args)).join('');
-  $('monthly-consistency-table').innerHTML = tableMarkup(['Mes', 'Operaciones', 'PnL', 'PnL medio', 'Win rate', 'Profit factor'], months.map(period => [period.period, period.count, signed(period.pnl), money(period.average), `${num(period.winRate, 1)}%`, ratioValue(period.pf)]));
-  renderChart('monthly-expectancy-chart', [{ values: months.map(period => [period.period, period.average]), color: '#5c9bff' }], { bar: true, currency: true, explanation: 'PnL mensual ÷ operaciones del mes, por fecha de cierre NY. Compara la media por operación entre meses; no representa rentabilidad sobre capital.' });
+  renderConsistencyStability(ordered);
 
   const winners = ordered.filter(trade => classify(trade) === 'win').sort((a, b) => b.pnl - a.pnl);
   const grossWins = sum(winners);
@@ -174,6 +174,56 @@ function renderConsistencyStudies(rows) {
   renderConsistencyScenarios(ordered);
 }
 
+function renderConsistencyStability(rows) {
+  const selected = $('consistency-stability-period').value;
+  const unit = ['month', 'week', 'day'].includes(selected) ? selected : 'week';
+  const label = { month: 'Mes', week: 'Semana', day: 'Día' }[unit];
+  const scope = { month: 'meses', week: 'semanas de lunes a domingo', day: 'días' }[unit];
+  const periods = periodConsistency(rows, unit);
+  $('consistency-stability-note').textContent = `Compara PnL medio por operación, acierto y profit factor entre ${scope}, por fecha de cierre en Nueva York. Solo periodos con operaciones y con los filtros actuales; los extremos pueden ser parciales. Se muestran todas las muestras, incluidas las pequeñas. Un periodo positivo no garantiza estabilidad futura.`;
+  $('monthly-consistency-table').innerHTML = periods.length ? tableMarkup([label, 'Operaciones', 'PnL', 'PnL medio', 'Win rate', 'Profit factor'], periods.map(period => [
+    unit === 'week' ? `Semana del ${period.period}` : period.period, period.count, signed(period.pnl), money(period.average), `${num(period.winRate, 1)}%`, ratioValue(period.pf)
+  ])) : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  renderChart('monthly-expectancy-chart', [{ values: periods.map(period => [period.period, period.average, `${label}${unit === 'week' ? ' del' : ':'} ${period.period}; ${period.count} operaciones.${period.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }], {
+    bar: true, currency: true, title: `PnL medio por ${label.toLowerCase()}`,
+    explanation: `PnL del periodo ÷ sus operaciones, por fecha de cierre en Nueva York. Agrupación por ${scope}. Se omiten periodos vacíos; los extremos pueden ser parciales. Se aplican los filtros actuales. Compara la media por operación; no representa rentabilidad sobre capital. ${HELP_PNL}`
+  });
+}
+
+function concentrationGroups(rows, key) {
+  const groups = groupedStatistics(rows, key);
+  const positive = groups.reduce((total, [, sample]) => total + Math.max(0, sum(sample)), 0);
+  const total = sum(rows);
+  return groups.map(([name, sample]) => ({ name, count: sample.length, pnl: sum(sample),
+    weight: positive ? 100 * Math.max(0, sum(sample)) / positive : null, without: total - sum(sample) }));
+}
+
+function concentrationChartSvg(series, opts) {
+  const points = series.flatMap(item => item.values).filter(point => Number.isFinite(point[1]));
+  if (!points.length) return `<span>${esc(opts.empty || 'Sin operaciones para estos filtros.')}</span>`;
+  const width = Math.max(320, opts.width || 800), left = Math.min(175, width * 0.36), right = 92;
+  const top = 38, rowHeight = 29, height = top + points.length * rowHeight + 12;
+  const low = Math.min(0, ...points.map(point => point[1]));
+  const high = Math.max(opts.max || 0, 0, ...points.map(point => point[1]), low === 0 ? 1 : 0);
+  const x = value => left + (value - low) / (high - low) * (width - left - right);
+  const valueLabel = value => opts.currency ? money(value) : `${num(value, 1)}${opts.unit || ''}`;
+  let shapes = '';
+  for (let tick = 0; tick <= 2; tick++) {
+    const value = low + (high - low) * tick / 2;
+    shapes += `<line x1="${x(value)}" x2="${x(value)}" y1="${top - 12}" y2="${height - 8}" stroke="#304058" stroke-dasharray="3 5"/><text x="${x(value)}" y="17" text-anchor="${tick === 0 ? 'start' : tick === 2 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11">${esc(valueLabel(value))}</text>`;
+  }
+  shapes += `<line x1="${x(0)}" x2="${x(0)}" y1="${top - 12}" y2="${height - 8}" stroke="#688099"/>`;
+  const labelLength = Math.max(7, Math.floor((left - 16) / 6.5));
+  points.forEach((point, index) => {
+    const y = top + index * rowHeight;
+    const full = `${point[0]}: ${valueLabel(point[1])}. ${point[2]}\n\n${opts.explanation}`;
+    const name = String(point[0]);
+    const label = name.length > labelLength ? `${name.slice(0, labelLength - 1)}…` : name;
+    shapes += `<text x="${left - 10}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(label)}</text><rect x="${Math.min(x(0), x(point[1]))}" y="${y - 8}" width="${Math.max(1, Math.abs(x(point[1]) - x(0)))}" height="17" rx="3" fill="${point[1] < 0 ? '#fb4f61' : '#5c9bff'}" ${helpAttributes(full)}><title>${esc(full)}</title></rect><text x="${width - 8}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(valueLabel(point[1]))}</text>`;
+  });
+  return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(opts.title)}">${shapes}</svg>`;
+}
+
 function renderConsistencyConcentration(rows) {
   const keys = {
     symbol: ['Ticker', trade => trade.symbol],
@@ -183,9 +233,16 @@ function renderConsistencyConcentration(rows) {
   };
   const dimension = $('consistency-concentration').value;
   const [, key] = keys[dimension] || keys.symbol;
-  const groups = groupedStatistics(rows, key);
-  const positive = groups.reduce((total, [, sample]) => total + Math.max(0, sum(sample)), 0);
-  $('consistency-concentration-table').innerHTML = tableMarkup(['Grupo', 'Operaciones', 'PnL', 'Peso en beneficios de grupos', 'PnL sin este grupo'], groups.map(([name, sample]) => [name, sample.length, signed(sum(sample)), pct(Math.max(0, sum(sample)), positive), signed(sum(rows) - sum(sample))]));
+  const groups = concentrationGroups(rows, key);
+  const explanation = `Se usa el PnL neto de cada grupo. Peso = máximo entre 0 y PnL del grupo ÷ suma de los PnL netos positivos de los grupos × 100. PnL sin grupo = PnL total filtrado − PnL del grupo. Se muestran todos los grupos, ordenados por PnL; puedes desplazarte para verlos. País utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar. ${HELP_PNL}`;
+  for (const [id, field, title, options] of [
+    ['pnl', 'pnl', 'PnL por grupo', { currency: true }],
+    ['weight', 'weight', 'Peso en los beneficios de grupos', { unit: '%', max: 100, empty: 'Sin grupos con PnL positivo: el peso porcentual no se puede calcular.' }],
+    ['without', 'without', 'PnL restante al excluir cada grupo', { currency: true }]
+  ]) {
+    renderChart(`consistency-concentration-${id}`, [{ values: groups.filter(group => Number.isFinite(group[field])).map(group => [group.name, group[field], `${group.count} operaciones; PnL del grupo ${signed(group.pnl)}; PnL sin este grupo ${signed(group.without)}.`]) }],
+      { horizontal: true, ...options, title, explanation });
+  }
 }
 
 let consistencyScenarioCache = null;
@@ -208,6 +265,7 @@ function renderConsistencyScenarios(rows) {
 }
 
 function initializeConsistencyStudies() {
+  $('consistency-stability-period').addEventListener('change', () => renderConsistencyStability(filtered));
   $('consistency-window').addEventListener('change', () => renderConsistencyStudies(filtered));
   $('consistency-concentration').addEventListener('change', () => renderConsistencyConcentration(filtered));
   $('consistency-horizon').addEventListener('change', () => renderConsistencyScenarios(chronologicalTrades(filtered)));

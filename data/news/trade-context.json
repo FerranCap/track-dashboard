@@ -6,7 +6,19 @@
   "dateFallbackRule": "previous_calendar_days_only_when_time_unknown",
   "timezone": "America/New_York",
   "scopedSymbols": [
-    "VIVK"
+    "CHSN",
+    "DKI",
+    "HPAI",
+    "INLF",
+    "INO",
+    "LABT",
+    "MERC",
+    "OMH",
+    "PLCE",
+    "SRTS",
+    "VCIG",
+    "VIVK",
+    "WFF"
   ],
   "tradeAccountingSha256": "fe35e4a7c17d4bcff631ffc28f3e8cb45d7391fe309847daf2bac867f74c2e4b",
   "articles": [
@@ -176,6 +188,125 @@
       "checkedOn": "2026-11-06"
     },
     {
+      "id": "ino-20261102-voceryq-8k",
+      "eventId": "ino-20261030-voceryq-approval",
+      "symbol": "INO",
+      "issuerName": "INOVIO PHARMACEUTICALS, INC.",
+      "issuerCik": "1055726",
+      "headline": "Form 8-K: VOCERYQ accelerated approval and investor presentation",
+      "publishedAt": "2026-11-02T07:15:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "author": "INOVIO PHARMACEUTICALS, INC.",
+      "kind": "issuer_filing",
+      "category": "regulatory_approval",
+      "summary": "The November 2 filing reports the October 30 accelerated approval of VOCERYQ for adult recurrent respiratory papillomatosis and furnishes investor-call slides. Continued approval depends on confirming clinical benefit. This is a newly published filing about an earlier event, not a re-dated October 30 press release.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1055726/000119312526442648/d150457d8k.htm",
+      "sourceUrls": [
+        "https://www.stocktitan.net/sec-filings/INO/8-k-inovio-pharmaceuticals-inc-reports-material-event-93ff47ced3eb.html",
+        "https://secwatch.observer/ticker/INO?view=notable"
+      ],
+      "timestampEvidence": "StockTitan separately labels SEC acceptance and public availability at November 2, 07:15 AM EST; SECWatch independently agrees. The original filing has an October 30 event date and a November 2 signature, which are not substituted for the publication time.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "merc-20261102-recapitalization-release",
+      "eventId": "merc-20261102-recapitalization",
+      "symbol": "MERC",
+      "issuerName": "MERCER INTERNATIONAL INC.",
+      "issuerCik": "1333274",
+      "headline": "Mercer International Announces Comprehensive Recapitalization Agreement with Significant Support from Noteholders and Shareholders",
+      "publishedAt": "2026-11-02T18:49:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "MERCER INTERNATIONAL INC.",
+      "kind": "issuer_release",
+      "category": "restructuring",
+      "summary": "Mercer announces stakeholder support for a proposed recapitalization involving roughly $1.1 billion of debt exchanged for equity and $400 million of backstopped new capital. Implementation is through a prepackaged Chapter 11 plan at the parent and one subsidiary, while operating businesses are expected to continue normally. Completion remains conditional.",
+      "url": "https://mercerint.com/news/mercer-international-announces-comprehensive-recapitalization-agreement-with-significant-support-from-noteholders-and-shareholders/",
+      "sourceUrls": [
+        "https://www.streetinsider.com/Globe%2BNewswire/Mercer%2BInternational%2BAnnounces%2BComprehensive%2BRecapitalization%2BAgreement%2Bwith%2BSignificant%2BSupport%2Bfrom%2BNoteholders%2Band%2BShareholders/27275490.html",
+        "https://finviz.com/news/413776/mercer-international-announces-comprehensive-recapitalization-agreement-with-significant-support-from-noteholders-and-shareholders"
+      ],
+      "timestampEvidence": "The issuer site verifies the November 2 publication date and release text. The GlobeNewswire reproduction at StreetInsider explicitly labels 6:49 PM EST. Finviz agrees at 18:49.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "dki-20261103-charter-6k",
+      "eventId": "dki-20261026-charter-registration",
+      "symbol": "DKI",
+      "issuerName": "DarkIris Inc.",
+      "issuerCik": "2058584",
+      "headline": "Form 6-K: amendments to DarkIris memorandum and articles",
+      "publishedAt": "2026-11-03T08:18:43-05:00",
+      "timePrecision": "second",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "author": "DarkIris Inc.",
+      "kind": "issuer_filing",
+      "category": "corporate_governance",
+      "summary": "DarkIris furnishes its amended constitutional documents after their registration in the Cayman Islands on October 26. The underlying shareholder and board approvals were earlier in October. The November 3 report is a separate publication and does not establish a new operating contract or revenue.",
+      "url": "https://www.sec.gov/Archives/edgar/data/2058584/000149315226049713/form6-k.htm",
+      "sourceUrls": [
+        "https://last10k.com/sec-filings/dki/0001493152-26-049713.htm",
+        "https://stockmarketwatch.com/stock/DKI/filings"
+      ],
+      "timestampEvidence": "Last10K identifies accession 0001493152-26-049713 with a November 3 submission at 08:18:43 AM EST. The filing list independently verifies the November 3 filing date. The original SEC report verifies the October 26 underlying registration event.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "hpai-20261103-autonomous-labor-release",
+      "eventId": "hpai-20261103-autonomous-labor",
+      "symbol": "HPAI",
+      "issuerName": "Helport AI Ltd",
+      "issuerCik": "2001699",
+      "headline": "Helport AI Advances Transition to Autonomous AI Labor in Southeast Asian Fintech Market",
+      "publishedAt": "2026-11-03T17:36:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Helport AI Ltd",
+      "kind": "issuer_release",
+      "category": "operational_update",
+      "summary": "Helport describes expanding autonomous debt-collection systems within an existing Southeast Asian fintech relationship. Deployment of about 300 AI workforce units by the end of November is a target for one customer, subject to customer needs and readiness, rather than a binding new order.",
+      "url": "https://www.globenewswire.com/de/news-release/2026/11/03/3394898/0/en/helport-ai-advances-transition-to-autonomous-ai-labor-in-southeast-asian-fintech-market.html",
+      "sourceUrls": [
+        "https://finance.yahoo.com/technology/ai/articles/helport-ai-advances-transition-autonomous-223600810.html",
+        "https://finviz.com/news/414990/helport-ai-advances-transition-to-autonomous-ai-labor-in-southeast-asian-fintech-market"
+      ],
+      "timestampEvidence": "The original distributor header gives November 3 at 17:36 ET. Indexed Yahoo syndication explicitly identifies EST. Finviz reproduces the release at the same clock time.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "plce-20261104-leadership-8k",
+      "eventId": "plce-20261101-leadership-changes",
+      "symbol": "PLCE",
+      "issuerName": "The Children's Place, Inc.",
+      "issuerCik": "1041859",
+      "headline": "Form 8-K: executive and board changes at The Children's Place",
+      "publishedAt": "2026-11-04T08:01:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "author": "The Children's Place, Inc.",
+      "kind": "issuer_filing",
+      "category": "management_changes",
+      "summary": "The issuer discloses the resignations of its interim CEO and chief strategy officer, with both remaining directors, and the CFO taking the acting president role. It also reports board and executive-chair changes. The personnel events occurred from October 30 through November 3; this filing was published November 4.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1041859/000110465926122379/tm2628920d1_8k.htm",
+      "sourceUrls": [
+        "https://www.stocktitan.net/sec-filings/PLCE/8-k-childrens-place-inc-reports-material-event-985beccb3f1e.html"
+      ],
+      "timestampEvidence": "The filing mirror distinguishes acceptance at 08:00 AM EST from availability at 08:01 AM EST on November 4. The later availability minute is used conservatively. The original SEC filing corroborates the issuer and disclosed events.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
       "id": "vivk-20261104-direct-midstream-wells-release",
       "eventId": "vivk-20261104-direct-midstream-wells",
       "symbol": "VIVK",
@@ -194,6 +325,53 @@
         "https://sg.finance.yahoo.com/news/vivakor-highlights-direct-midstream-mexico-140000960.html"
       ],
       "timestampEvidence": "Finviz reproduces the issuer release at November 4, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 GMT-5.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "plce-20261104-bankruptcy-options-report",
+      "eventId": "plce-20261102-bankruptcy-planning",
+      "symbol": "PLCE",
+      "issuerName": "The Children's Place, Inc.",
+      "issuerCik": "1041859",
+      "headline": "57-year-old children's chain considers Chapter 11, liquidation",
+      "publishedAt": "2026-11-04T09:01:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "TheStreet",
+      "author": "Daniel Kline; reviewed by Celine Provini",
+      "kind": "issuer_reporting",
+      "category": "restructuring",
+      "summary": "TheStreet reports on Bloomberg's account of possible bankruptcy, a business sale or liquidation at The Children's Place. These are reported options under discussion, not confirmation of a completed sale or a bankruptcy filing. The currently served story was updated the following morning.",
+      "url": "https://www.thestreet.com/retail/57-year-old-childrens-chain-considers-chapter-11-liquidation",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/57-old-childrens-chain-considers-170147974.html"
+      ],
+      "timestampEvidence": "The original article labels November 4 at 09:01 AM EST and an update on November 5 at 08:53 AM EST. Yahoo syndication labels November 4 at 12:01 PM EST. The original publication time is used, without claiming that current text equals the pre-entry version.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "labt-20261105-series-c-redemption-release",
+      "eventId": "labt-20261105-series-c-redemption",
+      "symbol": "LABT",
+      "issuerName": "Lakewood-Amedex Biotherapeutics Inc.",
+      "issuerCik": "2079272",
+      "headline": "Lakewood-Amedex Biotherapeutics Announces Completion of Series C Convertible Preferred Stock Redemption",
+      "publishedAt": "2026-11-05T08:02:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "PR Newswire",
+      "author": "Lakewood-Amedex Biotherapeutics Inc.",
+      "kind": "issuer_release",
+      "category": "capital_structure",
+      "summary": "The issuer reports redeeming the remaining 127,097 Series C preferred shares for $1,270,970 using existing cash. It says that this preferred series is no longer outstanding and its associated conversion rights and financing restrictions have ended.",
+      "url": "https://www.prnewswire.com/news-releases/lakewood-amedex-biotherapeutics-announces-completion-of-series-c-convertible-preferred-stock-redemption-302930368.html",
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/lakewood-amedex-biotherapeutics-announces-completion-130200418.html",
+        "https://finviz.com/stock?t=LABT"
+      ],
+      "timestampEvidence": "The distributor gives November 5, 2026 at 08:02 ET. Indexed Yahoo syndication explicitly corroborates 08:02 GMT-5. Finviz lists a later InvestorsHub reproduction at 10:46; that reproduction is not treated as the original publication time.",
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
       "checkedOn": "2026-11-06"
@@ -223,6 +401,118 @@
     }
   ],
   "trades": [
+    {
+      "tradeId": "cmmdrwmda05v1l3l3wrt7ccbx",
+      "symbol": "VCIG",
+      "entryAt": "2025-11-10T10:48:39-05:00",
+      "windowStartAt": "2025-11-08T15:48:39+00:00",
+      "windowEndAt": "2025-11-10T15:48:39+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdrwmec06r3l3l3qk2irhhj",
+      "symbol": "VCIG",
+      "entryAt": "2025-12-02T08:12:07-05:00",
+      "windowStartAt": "2025-11-30T13:12:07+00:00",
+      "windowEndAt": "2025-12-02T13:12:07+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdufgeq08wfspyb3ejh6wiz",
+      "symbol": "DKI",
+      "entryAt": "2026-02-02T08:06:47-05:00",
+      "windowStartAt": "2026-01-31T13:06:47+00:00",
+      "windowEndAt": "2026-02-02T13:06:47+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdufges08ybspybnujsy2t0",
+      "symbol": "DKI",
+      "entryAt": "2026-02-02T09:57:09-05:00",
+      "windowStartAt": "2026-01-31T14:57:09+00:00",
+      "windowEndAt": "2026-02-02T14:57:09+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdufgfv09wtspyb5iigsqck",
+      "symbol": "VCIG",
+      "entryAt": "2026-03-04T09:03:34-05:00",
+      "windowStartAt": "2026-03-02T14:03:34+00:00",
+      "windowEndAt": "2026-03-04T14:03:34+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdufgfv09xaspyb86mv8ior",
+      "symbol": "VCIG",
+      "entryAt": "2026-03-04T09:36:53-05:00",
+      "windowStartAt": "2026-03-02T14:36:53+00:00",
+      "windowEndAt": "2026-03-04T14:36:53+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmruxa2nj406u1hiqu78xcjny",
+      "symbol": "OMH",
+      "entryAt": "2026-07-21T13:09:33-04:00",
+      "windowStartAt": "2026-07-19T17:09:33+00:00",
+      "windowEndAt": "2026-07-21T17:09:33+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmrwbagj16sec1hiqcekszdn3",
+      "symbol": "LABT",
+      "entryAt": "2026-07-22T08:31:01-04:00",
+      "windowStartAt": "2026-07-20T12:31:01+00:00",
+      "windowEndAt": "2026-07-22T12:31:01+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
     {
       "tradeId": "cmrz3qek64f57okc2v8sww3st",
       "symbol": "VIVK",
@@ -365,6 +655,34 @@
       "unresolvedCandidateIds": []
     },
     {
+      "tradeId": "cmsgcx9pj30epwvwgmes6448u",
+      "symbol": "INLF",
+      "entryAt": "2026-08-05T09:18:45-04:00",
+      "windowStartAt": "2026-08-03T13:18:45+00:00",
+      "windowEndAt": "2026-08-05T13:18:45+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmuh2u2hr04kh3njdyg9uk8r1",
+      "symbol": "INLF",
+      "entryAt": "2026-09-25T09:34:09-04:00",
+      "windowStartAt": "2026-09-23T13:34:09+00:00",
+      "windowEndAt": "2026-09-25T13:34:09+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
       "tradeId": "cmv10b2m602meyd47tor1q5f0",
       "symbol": "VIVK",
       "entryAt": "2026-10-09T09:17:41-04:00",
@@ -380,6 +698,515 @@
           "matchingBasis": "timestamp",
           "ageSecondsMin": 1001.0,
           "ageSecondsMax": 1061.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmv12n6n0035wyd47o4akosj7",
+      "symbol": "WFF",
+      "entryAt": "2026-10-09T10:15:44-04:00",
+      "windowStartAt": "2026-10-07T14:15:44+00:00",
+      "windowEndAt": "2026-10-09T14:15:44+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmv14bruh06d3yd4736j8ushn",
+      "symbol": "WFF",
+      "entryAt": "2026-10-09T11:20:37-04:00",
+      "windowStartAt": "2026-10-07T15:20:37+00:00",
+      "windowEndAt": "2026-10-09T15:20:37+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmv6yln7j18q4lw0rmu5acbke",
+      "symbol": "WFF",
+      "entryAt": "2026-10-13T10:23:22-04:00",
+      "windowStartAt": "2026-10-11T14:23:22+00:00",
+      "windowEndAt": "2026-10-13T14:23:22+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmvzp1xx10ih5qy91czoifk9x",
+      "symbol": "INLF",
+      "entryAt": "2026-11-02T09:31:48-05:00",
+      "windowStartAt": "2026-10-31T14:31:48+00:00",
+      "windowEndAt": "2026-11-02T14:31:48+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmvzp1xx20ih6qy913hi19ivl",
+      "symbol": "INO",
+      "entryAt": "2026-11-02T09:41:27-05:00",
+      "windowStartAt": "2026-10-31T14:41:27+00:00",
+      "windowEndAt": "2026-11-02T14:41:27+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "ino-20261102-voceryq-8k",
+          "eventId": "ino-20261030-voceryq-approval",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 8727.0,
+          "ageSecondsMax": 8787.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw0z1nok0szeqy915hin5q2q",
+      "symbol": "VCIG",
+      "entryAt": "2026-11-03T09:44:03-05:00",
+      "windowStartAt": "2026-11-01T14:44:03+00:00",
+      "windowEndAt": "2026-11-03T14:44:03+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "vcig-20261103-f1a-unverified"
+      ]
+    },
+    {
+      "tradeId": "cmw0z1nok0szdqy91ngguf4rm",
+      "symbol": "WFF",
+      "entryAt": "2026-11-03T10:06:47-05:00",
+      "windowStartAt": "2026-11-01T15:06:47+00:00",
+      "windowEndAt": "2026-11-03T15:06:47+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw0z1nok0szfqy911soejb3a",
+      "symbol": "MERC",
+      "entryAt": "2026-11-03T11:01:19-05:00",
+      "windowStartAt": "2026-11-01T16:01:19+00:00",
+      "windowEndAt": "2026-11-03T16:01:19+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "merc-20261102-recapitalization-release",
+          "eventId": "merc-20261102-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 58279.0,
+          "ageSecondsMax": 58339.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw0z1nok0szhqy91g4wb1ruk",
+      "symbol": "MERC",
+      "entryAt": "2026-11-03T11:51:12-05:00",
+      "windowStartAt": "2026-11-01T16:51:12+00:00",
+      "windowEndAt": "2026-11-03T16:51:12+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "merc-20261102-recapitalization-release",
+          "eventId": "merc-20261102-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 61272.0,
+          "ageSecondsMax": 61332.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw0z1nok0szgqy91n0ki1i4j",
+      "symbol": "SRTS",
+      "entryAt": "2026-11-03T12:14:50-05:00",
+      "windowStartAt": "2026-11-01T17:14:50+00:00",
+      "windowEndAt": "2026-11-03T17:14:50+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw0z1nok0sziqy91vwrnd18n",
+      "symbol": "MERC",
+      "entryAt": "2026-11-03T12:27:19-05:00",
+      "windowStartAt": "2026-11-01T17:27:19+00:00",
+      "windowEndAt": "2026-11-03T17:27:19+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "merc-20261102-recapitalization-release",
+          "eventId": "merc-20261102-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 63439.0,
+          "ageSecondsMax": 63499.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw11ap2d0vk9qy91dmy970jr",
+      "symbol": "MERC",
+      "entryAt": "2026-11-03T13:21:13-05:00",
+      "windowStartAt": "2026-11-01T18:21:13+00:00",
+      "windowEndAt": "2026-11-03T18:21:13+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "merc-20261102-recapitalization-release",
+          "eventId": "merc-20261102-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 66673.0,
+          "ageSecondsMax": 66733.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qskgnoiyuzos6j",
+      "symbol": "DKI",
+      "entryAt": "2026-11-04T08:09:58-05:00",
+      "windowStartAt": "2026-11-02T13:09:58+00:00",
+      "windowEndAt": "2026-11-04T13:09:58+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "dki-20261103-charter-6k",
+          "eventId": "dki-20261026-charter-registration",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 85875.0,
+          "ageSecondsMax": 85875.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "dki-20261104-report-zone-unconfirmed"
+      ]
+    },
+    {
+      "tradeId": "cmw2bm12u06qtkgno9mzzi6ly",
+      "symbol": "HPAI",
+      "entryAt": "2026-11-04T09:32:36-05:00",
+      "windowStartAt": "2026-11-02T14:32:36+00:00",
+      "windowEndAt": "2026-11-04T14:32:36+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "hpai-20261103-autonomous-labor-release",
+          "eventId": "hpai-20261103-autonomous-labor",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 57336.0,
+          "ageSecondsMax": 57396.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qukgnoxtn5wg22",
+      "symbol": "CHSN",
+      "entryAt": "2026-11-04T09:43:54-05:00",
+      "windowStartAt": "2026-11-02T14:43:54+00:00",
+      "windowEndAt": "2026-11-04T14:43:54+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qvkgnoogb98l6d",
+      "symbol": "OMH",
+      "entryAt": "2026-11-04T10:02:04-05:00",
+      "windowStartAt": "2026-11-02T15:02:04+00:00",
+      "windowEndAt": "2026-11-04T15:02:04+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qwkgnomc0fzjr8",
+      "symbol": "OMH",
+      "entryAt": "2026-11-04T10:06:08-05:00",
+      "windowStartAt": "2026-11-02T15:06:08+00:00",
+      "windowEndAt": "2026-11-04T15:06:08+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qxkgno3b4enmbx",
+      "symbol": "OMH",
+      "entryAt": "2026-11-04T10:19:39-05:00",
+      "windowStartAt": "2026-11-02T15:19:39+00:00",
+      "windowEndAt": "2026-11-04T15:19:39+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmw2bm12u06qykgno490s5ydb",
+      "symbol": "OMH",
+      "entryAt": "2026-11-04T10:25:14-05:00",
+      "windowStartAt": "2026-11-02T15:25:14+00:00",
+      "windowEndAt": "2026-11-04T15:25:14+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-4c545948782978f4132e3b34",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T08:47:22-05:00",
+      "windowStartAt": "2026-11-03T13:47:22+00:00",
+      "windowEndAt": "2026-11-05T13:47:22+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 2662.0,
+          "ageSecondsMax": 2722.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-701bf0077dd53b41314415bb",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T08:51:24-05:00",
+      "windowStartAt": "2026-11-03T13:51:24+00:00",
+      "windowEndAt": "2026-11-05T13:51:24+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 2904.0,
+          "ageSecondsMax": 2964.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-d28da555a62e5bcc655c671f",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T09:33:34-05:00",
+      "windowStartAt": "2026-11-03T14:33:34+00:00",
+      "windowEndAt": "2026-11-05T14:33:34+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 5434.0,
+          "ageSecondsMax": 5494.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-66b92dbc4bc50344351cdce5",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T09:37:40-05:00",
+      "windowStartAt": "2026-11-03T14:37:40+00:00",
+      "windowEndAt": "2026-11-05T14:37:40+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 5680.0,
+          "ageSecondsMax": 5740.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-7785f94b3b11f6197da02911",
+      "symbol": "PLCE",
+      "entryAt": "2026-11-05T09:51:57-05:00",
+      "windowStartAt": "2026-11-03T14:51:57+00:00",
+      "windowEndAt": "2026-11-05T14:51:57+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "plce-20261104-leadership-8k",
+          "eventId": "plce-20261101-leadership-changes",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 92997.0,
+          "ageSecondsMax": 93057.0
+        },
+        {
+          "articleId": "plce-20261104-bankruptcy-options-report",
+          "eventId": "plce-20261102-bankruptcy-planning",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 89397.0,
+          "ageSecondsMax": 89457.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-543c057fbc5f2c9bc2274473",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T10:10:59-05:00",
+      "windowStartAt": "2026-11-03T15:10:59+00:00",
+      "windowEndAt": "2026-11-05T15:10:59+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 7679.0,
+          "ageSecondsMax": 7739.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-b1796d5b32480627f8af63ed",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T10:32:16-05:00",
+      "windowStartAt": "2026-11-03T15:32:16+00:00",
+      "windowEndAt": "2026-11-05T15:32:16+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 8956.0,
+          "ageSecondsMax": 9016.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-ee13b78df9a4664ffa5d85d6",
+      "symbol": "LABT",
+      "entryAt": "2026-11-05T10:43:08-05:00",
+      "windowStartAt": "2026-11-03T15:43:08+00:00",
+      "windowEndAt": "2026-11-05T15:43:08+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "labt-20261105-series-c-redemption-release",
+          "eventId": "labt-20261105-series-c-redemption",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 9608.0,
+          "ageSecondsMax": 9668.0
         }
       ],
       "eventCount": 1,
@@ -512,14 +1339,469 @@
           "resolution": "Included using the verified publication date under the user-authorized two-day fallback; exact hour remains unknown."
         }
       ]
+    },
+    {
+      "symbol": "CHSN",
+      "issuerCik": "1825349",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw2bm12u06qukgnoxtn5wg22": "2026-11-04T09:43:54-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CHSN",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CHSN/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "No eligible issuer-specific release was located in the consulted listings/searches for the November 4 entry. Price-only roundups are not treated as verified issuer developments. Historical coverage is limited."
+      ]
+    },
+    {
+      "symbol": "DKI",
+      "issuerCik": "2058584",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw2bm12u06qskgnoiyuzos6j": "2026-11-04T08:09:58-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=DKI",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/DKI/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2058584/000149315226049713/form6-k.htm",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [
+        {
+          "id": "dki-20261104-report-zone-unconfirmed",
+          "url": "https://www.investing.com/news/stock-market-news/why-is-darkiris-stock-surging-66-today-93CH-4997941",
+          "reportedDate": "2026-11-04",
+          "reportedLocalTime": "04:34 AM",
+          "reason": "The article is dated on the entry day and displays 04:34 AM without an independently established timezone. Same-day date fallback cannot confirm eligibility. Its causal interpretation is not adopted.",
+          "candidateTradeIds": [
+            "cmw2bm12u06qskgnoiyuzos6j"
+          ]
+        }
+      ],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The November 3 charter filing qualifies. A separately published November 4 Investing.com report displays 04:34 AM without an established timezone; it remains an unresolved same-day candidate."
+      ]
+    },
+    {
+      "symbol": "HPAI",
+      "issuerCik": "2001699",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw2bm12u06qtkgno9mzzi6ly": "2026-11-04T09:32:36-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=HPAI",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/HPAI/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/de/news-release/2026/11/03/3394898/0/en/helport-ai-advances-transition-to-autonomous-ai-labor-in-southeast-asian-fintech-market.html",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The November 3 issuer release precedes the November 4 entry. Its workforce deployment figures are targets, not guaranteed orders. Intraday November 4 reports published after the entry were excluded."
+      ]
+    },
+    {
+      "symbol": "INLF",
+      "issuerCik": "1991592",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmvzp1xx10ih5qy91czoifk9x": "2026-11-02T09:31:48-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=INLF",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/INLF/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.stocktitan.net/sec-filings/INLF/",
+          "access": "page",
+          "note": "Verified that the migration report was published November 4, after the November 2 entry."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "No qualifying issuer release was located in the consulted sources for the November 2 entry. The migration occurred November 2 but the reviewed 6-K was published November 4 at 16:30; the later amendment was November 6. Neither is re-dated to the event date. Automated mover lists without issuer developments are not counted."
+      ]
+    },
+    {
+      "symbol": "INO",
+      "issuerCik": "1055726",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmvzp1xx20ih6qy913hi19ivl": "2026-11-02T09:41:27-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=INO",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/INO/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1055726/000119312526442648/d150457d8k.htm",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The November 2 SEC filing is a separate eligible publication. The original October 30 18:01 ET approval release is more than 48 hours old at entry and cannot use date fallback. November 2 earnings-date news at 16:15 and reproductions at 10:54 are after the 09:41 entry and excluded."
+      ]
+    },
+    {
+      "symbol": "LABT",
+      "issuerCik": "2079272",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "broker-4c545948782978f4132e3b34": "2026-11-05T08:47:22-05:00",
+        "broker-701bf0077dd53b41314415bb": "2026-11-05T08:51:24-05:00",
+        "broker-d28da555a62e5bcc655c671f": "2026-11-05T09:33:34-05:00",
+        "broker-66b92dbc4bc50344351cdce5": "2026-11-05T09:37:40-05:00",
+        "broker-543c057fbc5f2c9bc2274473": "2026-11-05T10:10:59-05:00",
+        "broker-b1796d5b32480627f8af63ed": "2026-11-05T10:32:16-05:00",
+        "broker-ee13b78df9a4664ffa5d85d6": "2026-11-05T10:43:08-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=LABT",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/LABT/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/lakewood-amedex-biotherapeutics-announces-completion-of-series-c-convertible-preferred-stock-redemption-302930368.html",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The issuer redemption release precedes all seven November 5 entries. A later InvestorsHub reproduction is not treated as a separate publication. No IPO, analyst action or October release is moved into the November 3-5 windows."
+      ]
+    },
+    {
+      "symbol": "MERC",
+      "issuerCik": "1333274",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw0z1nok0szfqy911soejb3a": "2026-11-03T11:01:19-05:00",
+        "cmw0z1nok0szhqy91g4wb1ruk": "2026-11-03T11:51:12-05:00",
+        "cmw0z1nok0sziqy91vwrnd18n": "2026-11-03T12:27:19-05:00",
+        "cmw11ap2d0vk9qy91dmy970jr": "2026-11-03T13:21:13-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=MERC",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/MERC/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://mercerint.com/news/mercer-international-announces-comprehensive-recapitalization-agreement-with-significant-support-from-noteholders-and-shareholders/",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The November 2 evening recapitalization release precedes all four November 3 entries. November 5 quarterly results are later than these entries and were excluded."
+      ]
+    },
+    {
+      "symbol": "OMH",
+      "issuerCik": "1944902",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw2bm12u06qvkgnoogb98l6d": "2026-11-04T10:02:04-05:00",
+        "cmw2bm12u06qwkgnomc0fzjr8": "2026-11-04T10:06:08-05:00",
+        "cmw2bm12u06qxkgno3b4enmbx": "2026-11-04T10:19:39-05:00",
+        "cmw2bm12u06qykgno490s5ydb": "2026-11-04T10:25:14-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=OMH",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/OMH/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.stocktitan.net/overview/OMH/",
+          "access": "page_and_search_index",
+          "note": "Cross-checked recent release and filing dates; older corporate events were not assigned to the trade day."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "Finviz and a second public news/filing listing expose no qualifying publication for the November 4 entries. October filings and September releases are outside these windows. A price move alone is not recorded as verified issuer news."
+      ]
+    },
+    {
+      "symbol": "PLCE",
+      "issuerCik": "1041859",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "broker-7785f94b3b11f6197da02911": "2026-11-05T09:51:57-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=PLCE",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PLCE/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.thestreet.com/retail/57-year-old-childrens-chain-considers-chapter-11-liquidation",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1041859/000110465926122379/tm2628920d1_8k.htm",
+          "access": "page",
+          "note": "Reviewed original issuer statement, regulatory filing or publisher article; publication evidence and alternative sources are recorded on the article."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "Reviewed the November 4 leadership filing and original TheStreet report. The original Bloomberg report is dated November 2 and falls outside the November 5 entry window; it is not independently counted. Current TheStreet text was updated, so original pre-entry text is not established."
+      ]
+    },
+    {
+      "symbol": "SRTS",
+      "issuerCik": "1494891",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw0z1nok0szgqy91n0ki1i4j": "2026-11-03T12:14:50-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SRTS",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SRTS/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The October 29 earnings-date release is outside the November 3 entry window. No qualifying issuer release was established in the consulted sources; this does not exclude undiscovered reporting or filings."
+      ]
+    },
+    {
+      "symbol": "VCIG",
+      "issuerCik": "1930510",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw0z1nok0szeqy915hin5q2q": "2026-11-03T09:44:03-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=VCIG",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/VCIG/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=ECA2026-779",
+          "access": "page",
+          "note": "Verified October 29 publication versus November 2 reverse-split effective date; publication is outside the reviewed window."
+        }
+      ],
+      "unresolvedCandidates": [
+        {
+          "id": "vcig-20261103-f1a-unverified",
+          "url": "https://www.financialist.com/news/ipo/vci-global-ltd-files-amendment-for-share-offering-000121390026115124",
+          "reportedDate": "2026-11-03",
+          "reason": "An indexed page gives 06:06 AM EST for reporting on accession 0001213900-26-115124, but the indexed page title names another issuer and the body alternates November 2 and 3. The original SEC filing was not accessible in this review. Do not count or infer the share amounts until identity, filing contents and publication time are verified.",
+          "candidateTradeIds": [
+            "cmw0z1nok0szeqy915hin5q2q"
+          ]
+        }
+      ],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The October 29 reverse-split notice is outside the November 3 entry window despite a November 2 effective date. A November 3 F-1/A candidate needs direct filing and publication verification; it remains pending rather than becoming no-news."
+      ]
+    },
+    {
+      "symbol": "WFF",
+      "issuerCik": "1980210",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Recent-session backfill: exact first entries on November 2-5, 2026. Confirmed timestamps use the preceding 48 elapsed hours; only genuinely unknown clocks or zones may use the previous two New York calendar dates.",
+      "tradeEntries": {
+        "cmw0z1nok0szdqy91ngguf4rm": "2026-11-03T10:06:47-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=WFF",
+          "access": "page",
+          "note": "Reviewed the visible dated issuer news list; generic price summaries were not treated as issuer announcements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/WFF/news/",
+          "access": "http_429",
+          "note": "Direct request was blocked; search-index evidence is identified separately when used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial review of the exact listed entries only; other entries and older sessions remain unreviewed.",
+        "Direct Yahoo quote/news requests returned HTTP 429. Indexed syndications were used where available, and publication clocks were not inferred from URLs or relative ages.",
+        "Search and public quote-page archives are incomplete. No finding establishes exhaustive coverage, a price catalyst or the version of an article served before entry.",
+        "The visible October 27 share-consolidation release is outside the November 3 entry window. No qualifying publication was established in the consulted sources; this is not proof that none existed."
+      ]
     }
   ],
   "counts": {
-    "trades": 7,
-    "articles": 9,
-    "events": 7,
-    "tradeArticleLinks": 15,
+    "trades": 44,
+    "articles": 16,
+    "events": 14,
+    "tradeArticleLinks": 31,
     "dateFallbackLinks": 4,
-    "tradesWithNews": 7
+    "tradesWithNews": 22
   }
 }

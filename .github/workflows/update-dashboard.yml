@@ -17,6 +17,7 @@ on:
       - 'consistency.js'
       - 'calendar.js'
       - 'duration.js'
+      - 'studies.js'
       - 'styles.css'
   workflow_dispatch:
 
@@ -52,7 +53,7 @@ jobs:
       - name: Assemble website
         run: |
           mkdir -p site/data/reference site/data/news
-          cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js styles.css site/
+          cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
           cp data/trades.json site/data/trades.json
           cp data/news/trade-context.json site/data/news/trade-context.json
           cp data/reference/ticker-profiles.csv data/reference/research-summary.json site/data/reference/

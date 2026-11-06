@@ -9,7 +9,7 @@ const VIEW_DETAILS = {
   growth: ['Relativo', 'Evolución del beneficio y del movimiento del PnL por operación.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
-  country: ['País', 'Estudia tu operativa por país de la empresa emisora.'],
+  country: ['Localidad', 'Estudia tu operativa por país de la empresa emisora.'],
   data: ['Tickers', 'Detecta tickers nuevos y datos pendientes en la base de emisores.'],
   trades: ['Operaciones', 'Consulta y estudia tus operaciones individuales.']
 };
@@ -155,10 +155,7 @@ function tradeCountry(trade) {
 }
 
 function renderCountries(rows) {
-  const countryOf = tradeCountry;
-  const groups = groupedStatistics(rows, t => countryOf(t) || 'Sin clasificar');
-  $('country-table').innerHTML = groups.length ? breakdownTable(groups) : '<p class="muted">Sin operaciones para estos filtros.</p>';
-  renderChart('country-chart',[{ values: groups.map(([name, trades]) => [name, sum(trades)]), color: '#5c9bff' }], { bar: true, currency: true, title: 'PnL por país de constitución', explanation: `${HELP_PNL} Se agrupa exclusivamente por país de constitución. La operación principal, sede, ADR y VIE son informativos y no afectan a esta agrupación. Solo la ausencia del país de constitución genera Sin clasificar.` });
+  renderCountryStudies(rows);
 }
 
 function renderIssuerProfiles(rows) {

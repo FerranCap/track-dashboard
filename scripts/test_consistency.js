@@ -42,6 +42,7 @@ checkConsistency(rollingConsistency(rollingFixture, 5).length === 0, 'Incomplete
 checkConsistency(rollingResult[0].pf === 2 && Math.abs(rollingResult[0].winRate - 200 / 3) < 1e-9, 'Rolling profit factor and win rate match known values');
 checkConsistency(consistencyPeriod('2027-01-03', 'week') === '2026-12-28', 'Monday weeks span year boundaries');
 checkConsistency(consistencyPeriod('2026-11-01', 'month') === '2026-11', 'Month grouping uses NY date');
+checkConsistency(consistencyPeriod('2026-11-01', 'day') === '2026-11-01', 'Daily grouping preserves the NY closing date');
 checkConsistency(periodConsistency(rollingFixture, 'month')[0].average === 1.5, 'Monthly expectancy uses trade counts');
 checkConsistency(sampleQuantile([0, 10], 0.5) === 5 && sampleQuantile([], 0.5) === null, 'Percentiles interpolate and handle empty input');
 
@@ -179,6 +180,11 @@ checkConsistency(issuerMarkup.includes('>Noticias<') && !issuerMarkup.includes('
 checkConsistency(issuerMarkup.includes('9 noticias') && issuerMarkup.includes('7 temas'), 'News counts deduplicate publications across linked trades');
 checkConsistency(issuerMarkup.includes('<summary>Detalle</summary>') && issuerMarkup.includes('news-linked-trades') && issuerMarkup.includes('https://finviz.com/news/'), 'Expanded news includes publication details, source links and matched entries');
 checkConsistency(issuerMarkup.includes('Incluida por fecha') && !issuerMarkup.includes('publicaciones pendientes') && issuerMarkup.includes('7 de 7 operaciones revisadas'), 'Date-only candidates use the explicit fallback without invented hours');
+const labtNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.LABT)", calendarContext);
+checkConsistency(labtNewsMarkup.includes('1 noticia') && labtNewsMarkup.includes('7 de 8 operaciones revisadas'), 'LABT release is counted once across seven reviewed entries and an older entry stays pending');
+checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.PLCE)", calendarContext).includes('2 noticias'), 'PLCE distinguishes the leadership filing and separately published bankruptcy report');
+checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.DKI)", calendarContext).includes('publicación pendiente'), 'Uncertain same-day DKI timing remains visible beside the confirmed filing');
+checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VCIG)", calendarContext).includes('publicación pendiente'), 'VCIG verification limitations stay visible rather than claiming exhaustive no-news coverage');
 checkConsistency(calendarVm.runInContext("issuerNewsIndex.get('VIVK').articles.get('vivk-20261104-direct-midstream-wells-release').linkedTrades.size", calendarContext) === 1, 'A known timestamp outside 48 hours cannot use the date fallback');
 checkConsistency(calendarVm.runInContext("issuerNewsIndex.get('VIVK').articles.get('vivk-20260728-houston-commissioning-report').linkedTrades.size", calendarContext) === 3, 'The date-only commissioning report links to all three next-day entries');
 checkConsistency(calendarVm.runInContext("newsDateFallbackMatches({publicationDate:'2026-11-04'}, '2026-11-06T09:00:00-05:00', 2)", calendarContext), 'The previous two days qualify when the publication hour is missing');
@@ -192,4 +198,46 @@ checkConsistency(calendarVm.runInContext("updateIssuerNews(staleNewsPayload, dat
 calendarVm.runInContext('updateIssuerNews(null, dataset);', calendarContext);
 checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VIVK)", calendarContext).includes('No disponibles'), 'Unavailable news does not claim no news');
 checkConsistency(calendarVm.runInContext("newsSourceLink('javascript:alert(1)', '<script>')", calendarContext) === '&lt;script&gt;', 'News source links reject unsafe protocols and escape labels');
-console.log('Consistency, calendar, comparison groups, issuer completion and ticker news rendering checks passed.');
+calendarContext.stabilityRows = [
+  { date: '2026-12-31', pnl: 10 }, { date: '2027-01-03', pnl: -4 }, { date: '2027-01-04', pnl: 2 }
+];
+for (const [unit, expected] of [
+  ['month', [['2026-12', 10], ['2027-01', -1]]],
+  ['week', [['2026-12-28', 3], ['2027-01-04', 2]]],
+  ['day', [['2026-12-31', 10], ['2027-01-03', -4], ['2027-01-04', 2]]]
+]) {
+  calendarElements.set('consistency-stability-period', { value: unit });
+  calendarVm.runInContext('renderConsistencyStability(stabilityRows)', calendarContext);
+  const values = calendarVm.runInContext("renderedCalendarCharts.get('monthly-expectancy-chart')[0].values.map(point => point.slice(0, 2))", calendarContext);
+  checkConsistency(JSON.stringify(values) === JSON.stringify(expected), 'Stability grouping preserves per-period trade denominators and year boundaries');
+  if (unit === 'week') checkConsistency(calendarElements.get('monthly-consistency-table').innerHTML.includes('Semana del 2026-12-28'), 'Weekly stability table matches the chart');
+}
+calendarVm.runInContext('renderConsistencyStability([])', calendarContext);
+checkConsistency(calendarElements.get('monthly-consistency-table').innerHTML.includes('Sin operaciones'), 'Empty stability filters clear the detail table');
+checkConsistency(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'index.html'), 'utf8').includes('id="consistency-stability-period"><option value="month">Mensual</option><option value="week" selected>Semanal'), 'Stability defaults to weekly');
+calendarContext.concentrationRows = [
+  { symbol: 'A', pnl: 10 }, { symbol: 'A', pnl: -4 }, { symbol: 'B', pnl: -2 }, { symbol: 'C', pnl: 2 }
+].map(trade => ({ ...trade, date: '2026-11-06', opened: '2026-11-06T09:00:00-05:00' }));
+calendarVm.runInContext('globalThis.concentrated = concentrationGroups(concentrationRows, trade => trade.symbol)', calendarContext);
+const concentrated = calendarContext.concentrated;
+checkConsistency(concentrated.map(group => group.weight).join(',') === '75,25,0', 'Concentration weights use positive net group PnL, not net total or gross winning trades');
+checkConsistency(concentrated.map(group => group.without).join(',') === '0,4,8', 'Excluding a losing group increases remaining PnL');
+checkConsistency(calendarVm.runInContext("concentrationGroups([{symbol: 'A', pnl: -4}], trade => trade.symbol)[0].weight", calendarContext) === null, 'Concentration weights stay undefined when no groups have positive PnL');
+calendarVm.runInContext("dataset = { tickerProfiles: { A: { incorporation_country: 'Cayman Islands', operating_country: 'China' }, B: { operating_country: 'United States' } } }", calendarContext);
+for (const dimension of ['symbol', 'country', 'time', 'weekday']) {
+  calendarElements.set('consistency-concentration', { value: dimension });
+  calendarVm.runInContext('renderConsistencyConcentration(concentrationRows)', calendarContext);
+  const series = calendarVm.runInContext("renderedCalendarCharts.get('consistency-concentration-pnl')[0].values", calendarContext);
+  checkConsistency(series.reduce((total, point) => total + point[1], 0) === 6, 'Each concentration dimension reconciles total PnL');
+  if (dimension === 'country') checkConsistency(series.some(point => point[0] === 'Cayman Islands') && series.some(point => point[0] === 'Sin clasificar') && !series.some(point => point[0] === 'China'), 'Concentration uses incorporation country exclusively');
+}
+const horizontal = calendarVm.runInContext("svgChart([{values: [['A', 6, '2 trades'], ['C', 2, '1 trade'], ['B', -2, '1 trade']]}], {horizontal: true, currency: true, width: 800, title: 'PnL', explanation: 'Test'})", calendarContext);
+checkConsistency((horizontal.match(/<rect /g) || []).length === 3 && !/NaN|Infinity|undefined/.test(horizontal), 'Horizontal concentration renders all positive and negative groups');
+for (const value of [0, -1, 1]) {
+  calendarContext.horizontalValue = value;
+  const markup = calendarVm.runInContext("svgChart([{values: [['A', horizontalValue, '1 trade']]}], {horizontal: true, currency: true, width: 320, title: 'PnL', explanation: 'Test'})", calendarContext);
+  checkConsistency(!/NaN|Infinity|undefined/.test(markup), 'Single-group concentration renders zero, losses and gains on narrow charts');
+}
+calendarVm.runInContext('renderConsistencyConcentration([])', calendarContext);
+checkConsistency(calendarVm.runInContext("renderedCalendarCharts.get('consistency-concentration-weight')[0].values.length", calendarContext) === 0, 'Empty concentration filters clear every chart');
+console.log('Consistency, stability periods, graphical concentration, calendar, comparisons and ticker news checks passed.');

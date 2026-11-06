@@ -1,4 +1,4 @@
-"""Check news eligibility, evidence boundaries and the VIVK pilot."""
+"""Check news eligibility, evidence boundaries and reviewed historical context."""
 import copy
 import hashlib
 import json
@@ -107,10 +107,14 @@ class NewsContextTests(unittest.TestCase):
         read = lambda path: json.loads(path.read_text(encoding='utf-8'))
         dataset = read(ROOT / 'data/trades.json')
         before = copy.deepcopy(dataset)
-        result = build_context(dataset, read(ROOT / 'data/news/articles.json')['articles'],
-                               read(ROOT / 'data/news/research.json')['reviews'], {'VIVK'})
+        articles = read(ROOT / 'data/news/articles.json')['articles']
+        reviews = read(ROOT / 'data/news/research.json')['reviews']
+        result = build_context(dataset, articles, reviews, {'VIVK'})
         self.assertEqual(dataset, before)
-        self.assertEqual(result, read(ROOT / 'data/news/trade-context.json'))
+        generated = read(ROOT / 'data/news/trade-context.json')
+        full = build_context(dataset, articles, reviews, {record['symbol'] for record in articles + reviews})
+        self.assertEqual(full, generated)
+        self.assertEqual(result, build_context(dataset, generated['articles'], generated['reviews'], {'VIVK'}))
         self.assertEqual(result['counts'], {'trades': 7, 'articles': 9, 'events': 7,
                                            'tradeArticleLinks': 15, 'dateFallbackLinks': 4, 'tradesWithNews': 7})
         by_entry = {trade['entryAt']: trade for trade in result['trades']}
@@ -119,6 +123,31 @@ class NewsContextTests(unittest.TestCase):
         later = by_entry['2026-11-06T09:06:58-05:00']['articles']
         self.assertEqual([article['articleId'] for article in later], ['vivk-20261105-bernard-brown-release'])
         self.assertEqual(result['tradeAccountingSha256'], hashlib.sha256(json.dumps(dataset['trades'], sort_keys=True).encode()).hexdigest())
+
+    def test_recent_session_backfill(self):
+        read = lambda path: json.loads(path.read_text(encoding='utf-8'))
+        dataset = read(ROOT / 'data/trades.json')
+        generated = read(ROOT / 'data/news/trade-context.json')
+        articles = read(ROOT / 'data/news/articles.json')['articles']
+        reviews = read(ROOT / 'data/news/research.json')['reviews']
+        self.assertEqual(generated['counts'], {'trades': 44, 'articles': 16, 'events': 14,
+                                              'tradeArticleLinks': 31, 'dateFallbackLinks': 4,
+                                              'tradesWithNews': 22})
+        entries = {trade['id']: trade for trade in dataset['trades']}
+        reviewed = {trade_id for review in reviews for trade_id, opened in review['tradeEntries'].items()
+                    if trade_id in entries and entries[trade_id]['opened'] == opened}
+        self.assertEqual(len(reviewed), 31)
+        self.assertEqual(len(reviews), 13)
+        recent = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and trade['entryAt'].startswith('2026-11-05')]
+        self.assertEqual(len(recent), 7)
+        self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['labt-20261105-series-c-redemption-release'] for trade in recent))
+        by_symbol = {review['symbol']: review for review in reviews}
+        self.assertEqual(len(by_symbol['VCIG']['unresolvedCandidates']), 1)
+        self.assertEqual(len(by_symbol['DKI']['unresolvedCandidates']), 1)
+        self.assertFalse(any(article['symbol'] in {'INLF', 'WFF', 'SRTS', 'OMH', 'CHSN', 'VCIG'} for article in articles))
+        self.assertEqual(sum(link['matchingBasis'] == 'publication_date' for trade in generated['trades'] for link in trade['articles']), 4)
+        older_labt = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and not trade['entryAt'].startswith('2026-11-05')]
+        self.assertTrue(all(trade['reviewStatus'] == 'not_reviewed' for trade in older_labt))
 
 
 if __name__ == '__main__':

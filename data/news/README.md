@@ -1,4 +1,23 @@
-# Trade news context pilot
+# Reviewed trade news context
+
+## Historical backfill progress
+
+As of 2026-11-06, the source log contains partial reviews for **13 tickers and 31 exact trade entries**. The dataset has 500 tickers and 1,560 trades, leaving **1,529 entries without a matching review**. Of those, 487 tickers have not yet had any entry reviewed. The next work should continue from the most recent unreviewed entries, without inheriting a review merely because the ticker has previously been checked.
+
+The November 2–5 batch adds **7 publications and 12 issuer reviews covering 24 entries**. Combined with the preserved VIVK pilot, the generated context contains **16 publications, 14 topics, 31 trade/publication links, 4 date-only links and 22 trades with qualifying news**. The 44 trades in the generated scope include 13 older entries of these tickers that remain unreviewed; 44 is not the reviewed-entry count. No new date-only publication was needed in this batch.
+
+| Symbol | Reviewed session | Publications added | Publication evidence |
+| --- | --- | --- | --- |
+| LABT | 2026-11-05 | 1 | [Issuer redemption release](https://www.prnewswire.com/news-releases/lakewood-amedex-biotherapeutics-announces-completion-of-series-c-convertible-preferred-stock-redemption-302930368.html), 08:02 ET; applies to all seven entries. |
+| PLCE | 2026-11-05 | 2 | [Leadership filing](https://www.sec.gov/Archives/edgar/data/1041859/000110465926122379/tm2628920d1_8k.htm), November 4, public availability 08:01 EST; [TheStreet reporting](https://www.thestreet.com/retail/57-year-old-childrens-chain-considers-chapter-11-liquidation), November 4, 09:01 EST. |
+| HPAI | 2026-11-04 | 1 | [Issuer deployment update](https://www.globenewswire.com/de/news-release/2026/11/03/3394898/0/en/helport-ai-advances-transition-to-autonomous-ai-labor-in-southeast-asian-fintech-market.html), November 3, 17:36 ET. |
+| MERC | 2026-11-03 | 1 | [Issuer recapitalization release](https://mercerint.com/news/mercer-international-announces-comprehensive-recapitalization-agreement-with-significant-support-from-noteholders-and-shareholders/), November 2, 18:49 EST; applies to four entries. |
+| DKI | 2026-11-04 | 1 | [Charter filing](https://www.sec.gov/Archives/edgar/data/2058584/000149315226049713/form6-k.htm), November 3, 08:18:43 EST. |
+| INO | 2026-11-02 | 1 | [Newly published filing and investor presentation](https://www.sec.gov/Archives/edgar/data/1055726/000119312526442648/d150457d8k.htm), November 2, 07:15 EST; the October 30 approval release itself is outside the entry window. |
+| INLF, WFF, SRTS, OMH, CHSN | 2026-11-02–04 | 0 | Partial searches found no eligible issuer publication in the consulted sources. This is not exhaustive coverage. |
+| VCIG | 2026-11-03 | 0 confirmed | A filing candidate remains unverified; it is not converted to a no-news finding. |
+
+Two candidates remain explicit in `research.json`: a VCIG registration-filing report with conflicting indexed details and an inaccessible original filing, and a same-day DKI report without a confirmed timezone. The DKI filing is independently eligible, but that does not establish the report's timing. Yahoo direct requests returned HTTP 429 across this batch; the audit log identifies indexed evidence and original pages used. Publication timestamps do not establish a pre-entry archived text version. The earlier pilot below is retained as its own audit record.
 
 The VIVK pilot uses **48 elapsed hours before the first entry** when publication time and timezone are confirmed. Only when the hour or timezone is unknown, a verified publication date in either of the **two preceding calendar days** qualifies. For a trade on the 20th, date-only news from the 18th and 19th qualifies. Same-day publications with known times still qualify if they precede entry; same-day date-only news remains uncertain. Entry dates use New York time. No continuous news feed is collected.
 
