@@ -2,9 +2,180 @@
 
 ## Historical backfill progress
 
-As of 2026-11-06, the source log contains partial reviews for **13 tickers and 31 exact trade entries**. The dataset has 500 tickers and 1,560 trades, leaving **1,529 entries without a matching review**. Of those, 487 tickers have not yet had any entry reviewed. The next work should continue from the most recent unreviewed entries, without inheriting a review merely because the ticker has previously been checked.
+As of 2026-11-06, the source log contains partial reviews for **127 tickers and 305 exact trade entries**. The dataset has 500 tickers and 1,560 trades, leaving **1,255 entries without a matching review**. Of those, 373 tickers have not yet had any entry reviewed. The next work should continue from the most recent unreviewed entries, without inheriting a review merely because the ticker has previously been checked.
 
-The initial November 2-5 batch added 7 publications and 12 issuer reviews covering 24 entries. Resolving DKI and VCIG under the revised user policy adds two publications. Combined with the preserved VIVK pilot, the context now has **18 publications, 15 topics, 33 trade/publication links, 5 date-only links and 23 trades with news**. Its 44 trades include 13 older entries that remain unreviewed; 44 is not the reviewed-entry count.
+The user-authorized fifteen-minute backfill on November 6 added **54 reviewed entries and 20 publications**, preserving the previous 31 reviewed entries. At the end of that first timed batch, totals were **38 publications, 32 topics, 94 trade/publication links, 8 date-only links and 71 trades with news** across 85 reviewed entries. These are historical batch counts, not current totals.
+
+Resume with ZBAO on July 22 (12:07:13 New York), KUST on July 22 (10:00:26), and LABT on July 22 (08:31:01), then the July 21 OMH and KIDZ entries. September and August gaps covered by this batch are now reviewed. Validate each exact entry against research.json before extending a review.
+
+The first timed batch covered exact selected entry dates for SLGB, TNMG, BURU, CETX, PCLA, CHOW, NEXR, AIOK, NUWE, POM, TDIC, ZTG, YRD, TGL, GENK, GLND, JZ, TCRT and WFF. Canonical sources and date exclusions are retained in articles.json and research.json. Same-day date-only matches for GLND and WFF explicitly leave pre-entry publication unconfirmed. GENK's initially uncertain timezone was resolved using explicit EDT syndications. The WFF report's Viatris acquisition assertion is disputed, and is not recorded as an actual corporate transaction. Direct Yahoo retrieval was restricted; indexed syndications and original releases are identified individually. These are partial source reviews, not exhaustive archived feeds.
+
+### Third timed batch: thirty-minute continuation
+
+The user-authorized thirty-minute continuation on November 6 added **120 exact reviewed entries and 68 publications**, preserving all previous 185 exact reviews, articles, source records and trade links. Accumulated review coverage is **305 of 1,560 trades (19.55%)**, leaving **1,255 unreviewed**. The new entries comprise **102 with linked publications and 18 with none established in consulted sources**. Overall, **259 reviewed trades have news and 46 have none established**. All reviews remain partial source reviews, not exhaustive archive coverage.
+
+Current generated totals are **143 publications, 135 topics, 294 trade/publication links and 36 date-only links**. This batch adds 109 links, including 22 date-only links. The generated scope contains 419 trades, including 114 unreviewed entries; scope size is not a review-completion count. Sources cover 127 reviewed tickers, with 373 tickers still without any exact reviewed entry.
+
+Time checks distinguish publication from event dates. RDAC's August 19 Nasdaq event was filed on August 20 according to SEC EDGAR, and ZYBT's August 5 letter was announced August 6. AUUD's original August 10 release at 07:00 ET precedes entry despite later reproductions at 09:50/09:58. BMGL's 15:36 UTC commentary qualifies only its final September 14 entry. DFNS's July 31 operating update at 10:39 ET is after entry, while the separately dated prior-day report can qualify. GMM's visible July 28 21:46 ET timestamp takes precedence over its July 29 URL path. Known out-of-window timestamps are never converted into date-only matches.
+
+Unknown-timezone publications retain null publishedAt and a separate audit clock. Same-day CDTG, SDOT and AGRZ market mentions explicitly warn that their afternoon clocks could be after the entries; they count solely under the user's agreed date rule, without asserting pre-entry availability. Conditional acquisitions, capital facilities, projections, share registrations and medical publications are described without treating them as completed financings, realized revenue, issued shares or regulatory approvals. Finviz and Yahoo were checked first, with original issuer/distributor evidence followed where accessible; direct Yahoo access remained restricted.
+
+An independent reconciliation recalculated every link from publication dates/timestamps, checked issuer CIKs and unique canonical IDs/URLs, confirmed every article serves at least one trade, and preserved every previous exact review and link. The raw trade SHA-256 remains `1eb6cb2172e928c1c93bd4d18afd3687438134674d435e57b4f86e747fe43fa8`; all 1,560 trades, execution accounting and PnL remain unchanged. The Python suite and JavaScript coverage/filter checks pass. Changes are local.
+
+| Symbol | Entry session | Newly reviewed trades | Trades with linked publications |
+| --- | --- | ---: | ---: |
+| FTFT | 2026-09-16 | 1 | 1 |
+| SUGP | 2026-09-15 | 1 | 1 |
+| NCT | 2026-09-14 | 2 | 2 |
+| FTFT | 2026-09-14 | 1 | 1 |
+| BMGL | 2026-09-14 | 4 | 1 |
+| TRUG | 2026-09-11 | 4 | 4 |
+| TNON | 2026-09-10 | 3 | 3 |
+| OLB | 2026-09-09 | 1 | 1 |
+| PDSB | 2026-09-08 | 1 | 1 |
+| GCDT | 2026-09-08 | 1 | 1 |
+| OFAL | 2026-09-04 | 1 | 1 |
+| CDTG | 2026-09-04 | 2 | 2 |
+| AKAN | 2026-09-04 | 1 | 1 |
+| SSM | 2026-09-01 | 1 | 1 |
+| HKPD | 2026-09-01 | 1 | 0 |
+| CLGN | 2026-08-31 | 1 | 1 |
+| QNRX | 2026-08-28 | 1 | 1 |
+| FNGR | 2026-08-28 | 1 | 1 |
+| CYAB | 2026-08-28 | 2 | 2 |
+| MIMI | 2026-08-27 | 1 | 1 |
+| CELU | 2026-08-27 | 1 | 1 |
+| SOAR | 2026-08-26 | 1 | 1 |
+| TNMG | 2026-08-25 | 1 | 1 |
+| SWVL | 2026-08-25 | 1 | 1 |
+| LUCY | 2026-08-24 | 2 | 2 |
+| BTCT | 2026-08-24 | 1 | 1 |
+| SDOT | 2026-08-21 | 1 | 1 |
+| JUNS | 2026-08-21 | 2 | 2 |
+| MMA | 2026-08-20 | 3 | 3 |
+| HUIZ | 2026-08-20 | 5 | 5 |
+| CDTG | 2026-08-20 | 1 | 0 |
+| BRLS | 2026-08-20 | 2 | 0 |
+| YJ | 2026-08-19 | 1 | 1 |
+| TNON | 2026-08-19 | 1 | 1 |
+| RDAC | 2026-08-19 | 1 | 0 |
+| MSS | 2026-08-19 | 3 | 3 |
+| XOS | 2026-08-18 | 2 | 2 |
+| AIXC | 2026-08-18 | 1 | 1 |
+| ONFO | 2026-08-14 | 2 | 2 |
+| MDXH | 2026-08-14 | 1 | 1 |
+| HCTI | 2026-08-13 | 2 | 2 |
+| FGI | 2026-08-13 | 3 | 3 |
+| DFSC | 2026-08-13 | 1 | 1 |
+| PLAG | 2026-08-11 | 1 | 1 |
+| MSGY | 2026-08-11 | 1 | 0 |
+| GLE | 2026-08-11 | 1 | 1 |
+| SCKT | 2026-08-10 | 2 | 2 |
+| AUUD | 2026-08-10 | 1 | 1 |
+| NAMI | 2026-08-07 | 1 | 1 |
+| CPOP | 2026-08-07 | 1 | 1 |
+| SURG | 2026-08-06 | 1 | 1 |
+| AZI | 2026-08-06 | 1 | 1 |
+| ZYBT | 2026-08-05 | 1 | 0 |
+| YXT | 2026-08-05 | 3 | 0 |
+| INLF | 2026-08-05 | 1 | 0 |
+| TNMG | 2026-08-04 | 2 | 2 |
+| ENSC | 2026-08-04 | 1 | 0 |
+| AMIX | 2026-08-04 | 1 | 1 |
+| EDBL | 2026-08-03 | 1 | 1 |
+| MGRX | 2026-07-31 | 1 | 1 |
+| FCUV | 2026-07-31 | 1 | 1 |
+| DFNS | 2026-07-31 | 1 | 1 |
+| NUWE | 2026-07-30 | 4 | 4 |
+| CYCU | 2026-07-30 | 10 | 10 |
+| GMM | 2026-07-29 | 1 | 1 |
+| AGRZ | 2026-07-29 | 1 | 1 |
+| POLA | 2026-07-28 | 3 | 3 |
+| MTNB | 2026-07-27 | 2 | 2 |
+| LVWR | 2026-07-24 | 1 | 1 |
+| WBUY | 2026-07-23 | 1 | 1 |
+| EHGO | 2026-07-23 | 3 | 0 |
+| AEHL | 2026-07-23 | 1 | 1 |
+
+### Second timed batch: twenty-minute continuation
+
+The next user-authorized twenty-minute batch on November 6 added **100 exact reviewed entries and 37 publications**. All previous 85 reviews and all previous articles were preserved. At the end of that second batch, the accumulated review count was **185 of 1,560 trades (11.86%)**, leaving **1,375 unreviewed**. Of the 185 reviewed entries, **157 have linked publications and 28 have none established in the consulted sources**. A completed partial source review is not an exhaustive claim of no news.
+
+Generated totals at the end of the second batch were **75 publications, 69 topics, 185 trade/publication links and 14 date-only links**. The 254 trades in the generated symbol scope include 69 unreviewed entries; the generated scope is not a completion count. This batch's 100 newly reviewed entries comprise 86 with linked publications and fourteen without an eligible publication established.
+
+Confirmed times preserve exact 48-hour boundaries: the September 29 NXL advisor release qualifies for only the earliest October 1 entry, and the September 16 TNMG release is already too old at the earliest September 18 entry. Final source verification confirmed RETO commentary at September 15 23:29 EDT, after all five intraday entries. Its initial date-only staging was removed, and its exclusion plus timezone evidence is preserved in resolvedCandidates. ZTG's separately dated article uses the agreed date fallback for an unknown timezone, while its original filing's known out-of-window timestamp is not reused. GRML's expansion headline is explicitly qualified as a pending license application, and SDST's Form 144 is labeled a proposed insider sale rather than an executed trade or issuer financing.
+
+Independent verification recalculated all eligible links from timestamps/dates, checked issuer CIKs, unique article IDs/URLs and preservation of prior exact entry reviews. The raw trade dataset SHA-256 remains `1eb6cb2172e928c1c93bd4d18afd3687438134674d435e57b4f86e747fe43fa8`; accounting is unchanged. The Python suite and JavaScript news coverage/filter checks pass. Direct Yahoo retrieval remained restricted; reviewed sources and limitations are stored per issuer.
+
+| Symbol | Entry sessions | Newly reviewed trades | Trades with linked publications |
+| --- | --- | ---: | ---: |
+| TC | 2026-10-14 | 1 | 1 |
+| WFF | 2026-10-13 | 1 | 1 |
+| LGCL | 2026-10-07 | 3 | 3 |
+| OLB | 2026-10-06 | 3 | 3 |
+| IPDN | 2026-10-06 | 2 | 2 |
+| APUS | 2026-10-05 | 3 | 3 |
+| BEAT | 2026-10-05 | 1 | 1 |
+| SDEV | 2026-10-05 | 1 | 1 |
+| MI | 2026-10-05 | 2 | 0 |
+| NXL | 2026-10-01 | 5 | 5 |
+| TNON | 2026-09-30 | 4 | 4 |
+| CNTB | 2026-09-30 | 1 | 1 |
+| BKYI | 2026-09-29 | 4 | 4 |
+| SLXN | 2026-09-29 | 1 | 1 |
+| MTEK | 2026-09-28 | 1 | 1 |
+| ARAY | 2026-09-28 | 1 | 1 |
+| SOAR | 2026-09-28 | 1 | 1 |
+| KNRX | 2026-09-28 | 1 | 1 |
+| CLRO | 2026-09-28 | 1 | 0 |
+| TDIC | 2026-09-25 | 2 | 0 |
+| JAGX | 2026-09-25 | 1 | 1 |
+| INLF | 2026-09-25 | 1 | 1 |
+| GLND | 2026-09-24 | 3 | 3 |
+| SPHL | 2026-09-24 | 1 | 0 |
+| BENF | 2026-09-23 | 3 | 3 |
+| TNMG | 2026-09-18 | 8 | 8 |
+| GIPR | 2026-09-18 | 4 | 4 |
+| IMCC | 2026-09-18 | 2 | 0 |
+| MRNO | 2026-09-18 | 1 | 0 |
+| GCDT | 2026-09-23 | 2 | 2 |
+| LHSW | 2026-09-22 | 2 | 2 |
+| GRML | 2026-09-22 | 2 | 2 |
+| ZEO | 2026-09-22 | 1 | 1 |
+| VEEA | 2026-09-15 | 8 | 8 |
+| QCLS | 2026-09-16 | 5 | 5 |
+| DLXY | 2026-09-16 | 3 | 3 |
+| RETO | 2026-09-15 | 5 | 0 |
+| MEDS | 2026-09-16 | 3 | 3 |
+| KXIN | 2026-09-17 | 3 | 3 |
+| SDST | 2026-09-17 | 2 | 2 |
+| ZTG | 2026-09-18 | 1 | 1 |
+
+### First timed batch entry audit
+
+| Symbol | Entry sessions | Newly reviewed trades | Trades with linked publications |
+| --- | --- | ---: | ---: |
+| SLGB | 2026-10-30 | 3 | 3 |
+| TNMG | 2026-10-30 | 2 | 2 |
+| BURU | 2026-10-29 | 12 | 12 |
+| CETX | 2026-10-29 | 2 | 2 |
+| PCLA | 2026-10-29 | 1 | 0 |
+| CHOW | 2026-10-30, 2026-10-19 | 3 | 0 |
+| NEXR | 2026-10-27 | 1 | 1 |
+| AIOK | 2026-10-23, 2026-10-27 | 6 | 5 |
+| NUWE | 2026-10-27 | 1 | 1 |
+| POM | 2026-10-28 | 1 | 0 |
+| TDIC | 2026-10-27 | 1 | 1 |
+| ZTG | 2026-10-16 | 4 | 4 |
+| YRD | 2026-10-14 | 2 | 2 |
+| TGL | 2026-10-14 | 2 | 2 |
+| GENK | 2026-10-14 | 1 | 1 |
+| GLND | 2026-10-14 | 1 | 1 |
+| JZ | 2026-10-08 | 3 | 3 |
+| TCRT | 2026-10-13 | 6 | 6 |
+| WFF | 2026-10-09 | 2 | 2 |
+
+The initial November 2-5 batch added 7 publications and 12 issuer reviews covering 24 entries. Resolving DKI and VCIG under the revised user policy added two publications. Before the timed backfill, the preserved VIVK pilot and that batch contained **18 publications, 15 topics, 33 trade/publication links, 5 date-only links and 23 trades with news**. Its 44 trades included 13 older entries without reviews. The following table preserves that earlier batch's audit history.
 
 | Symbol | Reviewed session | Publications added | Publication evidence |
 | --- | --- | --- | --- |

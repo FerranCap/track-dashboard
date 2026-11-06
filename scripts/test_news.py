@@ -132,14 +132,14 @@ class NewsContextTests(unittest.TestCase):
         generated = read(ROOT / 'data/news/trade-context.json')
         articles = read(ROOT / 'data/news/articles.json')['articles']
         reviews = read(ROOT / 'data/news/research.json')['reviews']
-        self.assertEqual(generated['counts'], {'trades': 44, 'articles': 18, 'events': 15,
-                                              'tradeArticleLinks': 33, 'dateFallbackLinks': 5,
-                                              'tradesWithNews': 23})
+        self.assertEqual(generated['counts'], {'trades': 419, 'articles': 143, 'events': 135,
+                                              'tradeArticleLinks': 294, 'dateFallbackLinks': 36,
+                                              'tradesWithNews': 259})
         entries = {trade['id']: trade for trade in dataset['trades']}
         reviewed = {trade_id for review in reviews for trade_id, opened in review['tradeEntries'].items()
                     if trade_id in entries and entries[trade_id]['opened'] == opened}
-        self.assertEqual(len(reviewed), 31)
-        self.assertEqual(len(reviews), 13)
+        self.assertEqual(len(reviewed), 305)
+        self.assertEqual(len(reviews), 127)
         recent = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and trade['entryAt'].startswith('2026-11-05')]
         self.assertEqual(len(recent), 7)
         self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['labt-20261105-series-c-redemption-release'] for trade in recent))
@@ -148,8 +148,10 @@ class NewsContextTests(unittest.TestCase):
         self.assertEqual(len(by_symbol['DKI']['unresolvedCandidates']), 0)
         self.assertTrue(by_symbol['VCIG']['resolvedCandidates'])
         self.assertTrue(by_symbol['DKI']['resolvedCandidates'])
-        self.assertFalse(any(article['symbol'] in {'INLF', 'WFF', 'SRTS', 'OMH', 'CHSN'} for article in articles))
-        self.assertEqual(sum(link['matchingBasis'] == 'publication_date' for trade in generated['trades'] for link in trade['articles']), 5)
+        self.assertFalse(any(article['symbol'] in {'SRTS', 'OMH', 'CHSN'} for article in articles))
+        november_inlf = [trade for trade in generated['trades'] if trade['symbol'] == 'INLF' and trade['entryAt'].startswith('2026-11')]
+        self.assertTrue(all(not trade['articles'] for trade in november_inlf))
+        self.assertEqual(sum(link['matchingBasis'] == 'publication_date' for trade in generated['trades'] for link in trade['articles']), 36)
         dki = next(article for article in articles if article['id'] == 'dki-20261104-charter-report-date')
         self.assertIsNone(dki['publishedAt'])
         self.assertEqual(dki['timePrecision'], 'day')
@@ -158,6 +160,51 @@ class NewsContextTests(unittest.TestCase):
         self.assertEqual(vcig['publishedAt'], '2026-11-03T06:06:00-05:00')
         older_labt = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and not trade['entryAt'].startswith('2026-11-05')]
         self.assertTrue(all(trade['reviewStatus'] == 'not_reviewed' for trade in older_labt))
+        tcrt = [trade for trade in generated['trades'] if trade['symbol'] == 'TCRT' and trade['entryAt'].startswith('2026-10-13')]
+        self.assertEqual(len(tcrt), 6)
+        for trade in tcrt:
+            linked = {link['articleId'] for link in trade['articles']}
+            self.assertIn('tcrt-20261013-paragon-velaris', linked)
+            self.assertEqual('tcrt-20261013-velaris-acquisition-release' in linked,
+                             trade['entryAt'][11:16] > '10:31')
+            self.assertEqual(trade['eventCount'], 1)
+        genk = next(article for article in articles if article['id'] == 'genk-20261014-restaurant-loi')
+        self.assertEqual(genk['publishedAt'], '2026-10-14T08:31:00-04:00')
+        wff = next(article for article in articles if article['id'] == 'wff-20261009-benzinga-disputed-acquisition-report')
+        self.assertIsNone(wff['publishedAt'])
+        self.assertTrue(wff['sourceWarnings'])
+        nxl = [trade for trade in generated['trades'] if trade['symbol'] == 'NXL' and trade['entryAt'].startswith('2026-10-01')]
+        self.assertEqual(len(nxl), 5)
+        self.assertEqual(sum(any(link['articleId'] == 'nxl-20260929-commercial-advisor' for link in trade['articles']) for trade in nxl), 1)
+        self.assertTrue(all(any(link['articleId'] == 'nxl-20261001-south-america-distribution' for link in trade['articles']) for trade in nxl))
+        tnl = [trade for trade in generated['trades'] if trade['symbol'] == 'TNMG' and trade['entryAt'].startswith('2026-09-18')]
+        self.assertEqual(len(tnl), 8)
+        self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['tnmg-20260918-tnl-daily'] for trade in tnl))
+        reto = [trade for trade in generated['trades'] if trade['symbol'] == 'RETO' and trade['entryAt'].startswith('2026-09-15')]
+        self.assertEqual(len(reto), 5)
+        self.assertTrue(all(not trade['articles'] and trade['reviewStatus'] == 'partial' for trade in reto))
+        self.assertNotIn('reto-20260915-after-hours-report-date', {article['id'] for article in articles})
+        self.assertTrue(by_symbol['RETO']['resolvedCandidates'])
+        bmgl = [trade for trade in generated['trades'] if trade['symbol'] == 'BMGL' and trade['entryAt'].startswith('2026-09-14')]
+        self.assertEqual(len(bmgl), 4)
+        self.assertEqual(sum(bool(trade['articles']) for trade in bmgl), 1)
+        self.assertTrue(all(bool(trade['articles']) == (trade['entryAt'][11:16] > '11:36') for trade in bmgl))
+        auud = next(article for article in articles if article['id'] == 'auud-20260810-s4-effective')
+        self.assertEqual(auud['publishedAt'], '2026-08-10T07:00:00-04:00')
+        auud_entry = next(trade for trade in generated['trades'] if trade['symbol'] == 'AUUD' and trade['entryAt'].startswith('2026-08-10'))
+        self.assertIn(auud['id'], {link['articleId'] for link in auud_entry['articles']})
+        rdac = next(trade for trade in generated['trades'] if trade['symbol'] == 'RDAC' and trade['entryAt'].startswith('2026-08-19'))
+        self.assertEqual(rdac['reviewStatus'], 'partial')
+        self.assertFalse(rdac['articles'])
+        cycu = [trade for trade in generated['trades'] if trade['symbol'] == 'CYCU' and trade['entryAt'].startswith('2026-07-30')]
+        self.assertEqual(len(cycu), 10)
+        self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['cycu-20260730-consulting-award'] for trade in cycu))
+        for article_id in ('cdtg-20260904-market-report-date', 'sdot-20260821-market-report-date'):
+            article = next(article for article in articles if article['id'] == article_id)
+            self.assertIsNone(article['publishedAt'])
+            self.assertTrue(article['sourceWarnings'])
+            self.assertTrue(all(link['publicationBeforeEntryUnconfirmed'] for trade in generated['trades']
+                                for link in trade['articles'] if link['articleId'] == article_id))
 
 
 if __name__ == '__main__':
