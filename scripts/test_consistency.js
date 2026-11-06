@@ -126,4 +126,33 @@ for (const side of ['BUY', 'SELL']) {
 }
 calendarVm.runInContext('renderCalendarDay([])', calendarContext);
 checkConsistency(calendarElements.get('calendar-symbol-cards').innerHTML === '', 'Empty filtered sessions clear ticker detail');
-console.log('Consistency calculations and calendar ticker direction checks passed.');
+calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'filters.js'), 'utf8'), calendarContext);
+const comparisonHeaders = Array.from({ length: 7 }, () => ({ style: {} }));
+const comparisonRows = Array.from({ length: 8 }, () => {
+  const cells = Array.from({ length: 7 }, () => {
+    const classes = new Set();
+    return { classes, classList: { remove(...values) { values.forEach(value => classes.delete(value)); }, add(value) { classes.add(value); } } };
+  });
+  return { cells, querySelectorAll: () => cells };
+});
+calendarElements.set('compare-table', { innerHTML: '', querySelectorAll: selector => selector === 'thead th' ? comparisonHeaders : comparisonRows });
+calendarVm.runInContext(`
+  dataset = { trades: sampleRows };
+  const comparisonSamples = [sampleRows.slice(0, 2), sampleRows.slice(2), sampleRows, [], [sampleRows[1]], [sampleRows[0]]];
+  for (const [index, key] of ['a', 'b', 'c', 'd', 'e', 'f'].entries()) {
+    comparisonGroups.set(key, { key, name: 'Grupo ' + key.toUpperCase(), color: COMPARISON_COLORS[index].value });
+    tradeFilterPanels.set(key, { matchingRows: () => comparisonSamples[index] });
+  }
+  renderComparisons();
+`, calendarContext);
+const comparisonSeries = calendarVm.runInContext("renderedCalendarCharts.get('compare-chart')", calendarContext);
+checkConsistency(comparisonSeries.length === 6, 'The comparison chart supports six groups including an empty group');
+checkConsistency(comparisonSeries.map(series => series.values.at(-1)[1]).join(',') === '8,5,13,0,-2,10', 'Each curve uses its own trades on the shared date axis');
+checkConsistency(comparisonSeries.every((series, index) => series.color === comparisonHeaders[index + 1].style.color), 'Chart colors and table group headings stay synchronized');
+checkConsistency(comparisonRows[1].cells[1].classes.has('positive') && comparisonRows[1].cells[5].classes.has('negative'), 'PnL retains profit and loss colors independently of group identity');
+checkConsistency(comparisonRows.filter((_, index) => index !== 1).every(row => row.cells.every(cell => cell.classes.size === 0)), 'Other metric values retain neutral text');
+checkConsistency(calendarElements.get('compare-legend').innerHTML.includes('Grupo F'), 'The legend includes additional groups');
+comparisonHeaders.pop(); comparisonRows.forEach(row => row.cells.pop());
+calendarVm.runInContext("comparisonGroups.delete('f'); tradeFilterPanels.delete('f'); renderComparisons();", calendarContext);
+checkConsistency(calendarVm.runInContext("renderedCalendarCharts.get('compare-chart').length", calendarContext) === 5 && !calendarElements.get('compare-legend').innerHTML.includes('Grupo F'), 'Removing a group removes its curve, table column and legend entry');
+console.log('Consistency calculations, calendar detail and six-group comparison rendering checks passed.');

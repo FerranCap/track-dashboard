@@ -1,6 +1,15 @@
 'use strict';
 
 const tradeFilterPanels = new Map();
+const comparisonGroups = new Map();
+const COMPARISON_COLORS = [
+  { name: 'Azul', value: '#6AA9FF' },
+  { name: 'Naranja', value: '#FFAD66' },
+  { name: 'Turquesa', value: '#42D6C4' },
+  { name: 'Violeta', value: '#B79AFF' },
+  { name: 'Rosa', value: '#F483B5' },
+  { name: 'Amarillo', value: '#E7CF70' }
+];
 const UNKNOWN_FILTER_COUNTRY = '__unknown__';
 const entryTimeFormat = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 
@@ -33,11 +42,11 @@ function filterRangeMarkup(prefix, kind, label, time = false) {
   const max = time ? 1439 : 1000;
   return `<div class="filter-row"><span class="filter-label" id="${prefix}-${kind}-label">${label}</span>
     <div class="filter-range" role="group" aria-labelledby="${prefix}-${kind}-label">
-      <div class="range-values"><label><span class="sr-only">${label}: mínimo</span><input data-bound="min" data-kind="${kind}" type="${time ? 'time' : 'number'}" ${time ? 'step="60" value="00:00"' : 'min="0" step="0.01" value="0"'}></label><span>—</span><label><span class="sr-only">${label}: máximo</span><input data-bound="max" data-kind="${kind}" type="${time ? 'time' : 'number'}" ${time ? 'step="60" value="23:59"' : 'min="0" step="0.01" placeholder="Sin límite"'}></label></div>
+      <div class="range-values"><label><span class="sr-only">${label}: mínimo${time ? ' (HH:mm)' : ''}</span><input data-bound="min" data-kind="${kind}" type="${time ? 'text' : 'number'}" ${time ? 'value="00:00" placeholder="HH:mm" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" autocomplete="off" spellcheck="false"' : 'min="0" step="0.01" value="0"'}></label><span>—</span><label><span class="sr-only">${label}: máximo${time ? ' (HH:mm)' : ''}</span><input data-bound="max" data-kind="${kind}" type="${time ? 'text' : 'number'}" ${time ? 'value="23:59" placeholder="HH:mm" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" autocomplete="off" spellcheck="false"' : 'min="0" step="0.01" placeholder="Sin límite"'}></label></div>
       <div class="dual-range" style="--range-start:0%;--range-end:100%"><div class="range-track"></div>
         <input type="range" min="0" max="${max}" value="0" data-slider="${kind}" data-bound="min" aria-label="${label}: mínimo">
         <input type="range" min="0" max="${max}" value="${max}" data-slider="${kind}" data-bound="max" aria-label="${label}: máximo">
-      </div><small>${time ? 'Hora de entrada · Nueva York' : 'Precio de entrada en USD · escala ampliada en precios bajos'}</small>
+      </div><small>${time ? 'Hora de entrada · Nueva York · 24 h (HH:mm)' : 'Precio de entrada en USD · escala ampliada en precios bajos'}</small>
     </div></div>`;
 }
 
@@ -132,7 +141,11 @@ class TradeFilterPanel {
     for (const bound of ['min', 'max']) {
       const input = this.bound(kind, bound), slider = this.slider(kind, bound);
       let value;
-      if (isTime) { const [hour, minute] = (input.value || (bound === 'min' ? '00:00' : '23:59')).split(':').map(Number); value = hour * 60 + minute; }
+      if (isTime) {
+        if (input.value && !/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(input.value)) continue;
+        const [hour, minute] = (input.value || (bound === 'min' ? '00:00' : '23:59')).split(':').map(Number);
+        value = hour * 60 + minute;
+      }
       else value = input.value === '' ? (bound === 'max' ? maximum : 0) : Math.log1p(Number(input.value)) / Math.log1p(this.priceCeiling) * maximum;
       slider.value = Math.max(0, Math.min(maximum, value));
       slider.setAttribute('aria-valuetext', isTime ? input.value : input.value === '' ? 'Sin límite' : `$${input.value}`);
@@ -175,7 +188,7 @@ class TradeFilterPanel {
     const invalid = [...this.host.querySelectorAll('input')].some(input => !input.validity.valid) ||
       (criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax;
     if (invalid) {
-      this.validationMessage = 'Revisa los rangos: el mínimo debe ser menor o igual al máximo.';
+      this.validationMessage = 'Revisa los rangos y las horas (HH:mm, de 00:00 a 23:59). El mínimo debe ser menor o igual al máximo.';
       this.updateStatus();
       return;
     }
@@ -219,5 +232,99 @@ class TradeFilterPanel {
 
 function initializeTradeFilters() {
   tradeFilterPanels.set('general', new TradeFilterPanel('general', $('global-filters'), applyFilters));
-  for (const key of ['a', 'b']) tradeFilterPanels.set(key, new TradeFilterPanel(key, $(`compare-${key}-filters`), renderComparisons, key === 'a' ? 'BUY' : 'SELL'));
+  addComparisonGroup('BUY');
+  addComparisonGroup('SELL');
+  $('compare-add-group').addEventListener('click', () => addComparisonGroup('all', true));
+  $('comparison-groups').addEventListener('click', event => {
+    const color = event.target.closest('[data-group-color]');
+    if (color) {
+      setComparisonGroupColor(color.dataset.group, color.dataset.groupColor);
+      const picker = color.closest('details');
+      picker.open = false;
+      picker.querySelector('summary').focus();
+    }
+    const remove = event.target.closest('[data-remove-group]');
+    if (remove) removeComparisonGroup(remove.dataset.removeGroup);
+  });
+  $('comparison-groups').addEventListener('toggle', event => {
+    if (!event.target.matches('.group-color-picker') || !event.target.open) return;
+    document.querySelectorAll('.group-color-picker[open]').forEach(picker => { if (picker !== event.target) picker.open = false; });
+  }, true);
+  document.addEventListener('click', event => {
+    document.querySelectorAll('.group-color-picker[open]').forEach(picker => { if (!picker.contains(event.target)) picker.open = false; });
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('.group-color-picker[open]').forEach(picker => {
+      picker.open = false;
+      picker.querySelector('summary').focus();
+    });
+  });
+}
+
+function comparisonGroupList() {
+  return [...comparisonGroups.values()].sort((a, b) => a.key.localeCompare(b.key));
+}
+
+function nextComparisonGroup() {
+  const key = ['a', 'b', 'c', 'd', 'e', 'f'].find(value => !comparisonGroups.has(value));
+  const color = COMPARISON_COLORS.find(option => !comparisonGroupList().some(group => group.color === option.value));
+  return key && color ? { key, name: `Grupo ${key.toUpperCase()}`, color: color.value } : null;
+}
+
+function addComparisonGroup(defaultSide = 'all', focus = false) {
+  const group = nextComparisonGroup();
+  if (!group) return null;
+  const fieldset = document.createElement('fieldset');
+  fieldset.className = 'comparison-group';
+  fieldset.id = `comparison-group-${group.key}`;
+  fieldset.innerHTML = `<legend>${group.name}</legend><div class="comparison-group-toolbar"><details class="group-color-picker"><summary aria-label="Elegir color de ${group.name}"><span class="group-color-dot" aria-hidden="true"></span>Color <span aria-hidden="true">▾</span></summary><div class="group-color-options" role="group" aria-label="Colores de ${group.name}">${COMPARISON_COLORS.map(color => `<button type="button" data-group="${group.key}" data-group-color="${color.value}" style="--swatch-color:${color.value}" aria-label="${color.name}" title="${color.name}"><span aria-hidden="true">✓</span></button>`).join('')}<small>Los colores en uso por otros grupos no están disponibles.</small></div></details><button type="button" class="secondary group-remove" data-remove-group="${group.key}" aria-label="Eliminar ${group.name}">Eliminar</button></div><div id="compare-${group.key}-filters"></div>`;
+  const following = comparisonGroupList().find(existing => existing.key > group.key);
+  $('comparison-groups').insertBefore(fieldset, following ? $(`comparison-group-${following.key}`) : null);
+  comparisonGroups.set(group.key, group);
+  const panel = new TradeFilterPanel(group.key, $(`compare-${group.key}-filters`), renderComparisons, defaultSide);
+  tradeFilterPanels.set(group.key, panel);
+  if (dataset) panel.populate(dataset.trades, dataset.tickerProfiles, false);
+  initializeFilterControlHelp(fieldset);
+  updateComparisonGroupControls();
+  if (typeof tableSortStates !== 'undefined') tableSortStates.delete('compare-table');
+  renderComparisons();
+  if (focus) panel.field('symbol').focus();
+  return group;
+}
+
+function removeComparisonGroup(key) {
+  if (comparisonGroups.size <= 2 || !comparisonGroups.has(key)) return false;
+  comparisonGroups.delete(key);
+  tradeFilterPanels.delete(key);
+  $(`comparison-group-${key}`).remove();
+  if (typeof tableSortStates !== 'undefined') tableSortStates.delete('compare-table');
+  updateComparisonGroupControls();
+  renderComparisons();
+  $('compare-add-group').focus();
+  return true;
+}
+
+function setComparisonGroupColor(key, color) {
+  const group = comparisonGroups.get(key);
+  if (!group || !COMPARISON_COLORS.some(option => option.value === color) || comparisonGroupList().some(other => other.key !== key && other.color === color)) return false;
+  group.color = color;
+  updateComparisonGroupControls();
+  renderComparisons();
+  return true;
+}
+
+function updateComparisonGroupControls() {
+  $('compare-add-group').disabled = comparisonGroups.size >= COMPARISON_COLORS.length;
+  $('compare-group-count').textContent = `${comparisonGroups.size} de 6 grupos`;
+  for (const group of comparisonGroupList()) {
+    const fieldset = $(`comparison-group-${group.key}`);
+    fieldset.style.setProperty('--group-color', group.color);
+    fieldset.querySelector('[data-remove-group]').hidden = comparisonGroups.size <= 2;
+    fieldset.querySelectorAll('[data-group-color]').forEach(button => {
+      const color = button.dataset.groupColor;
+      button.disabled = comparisonGroupList().some(other => other.key !== group.key && other.color === color);
+      button.setAttribute('aria-pressed', String(color === group.color));
+    });
+  }
 }

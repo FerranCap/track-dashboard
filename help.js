@@ -208,15 +208,19 @@ function initializeHelp() {
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'
   };
   for (const [id, text] of Object.entries(controls)) $(id).setAttribute('data-help', text);
-  const filterHelp = {
-    period: 'Selecciona todo el historial, un a?o, un mes o un rango personalizado de fechas de cierre en Nueva York.',
-    from: 'Incluye operaciones cerradas desde esta fecha, inclusive. Cada grupo usa sus propios filtros.',
-    to: 'Incluye operaciones cerradas hasta esta fecha, inclusive. Cada grupo usa sus propios filtros.',
-    symbol: 'Escribe el ticker completo. Se aceptan mayúsculas o minúsculas. Deja el campo vacío para incluir todos.',
-    side: 'Filtra por direcci?n: todas, Long (BUY) o Short (SELL).'
-  };
-  document.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));
+  initializeFilterControlHelp();
   document.querySelectorAll('th').forEach(header => {
     header.setAttribute('data-help', helpText(header.textContent)); header.tabIndex = 0;
   });
+}
+
+function initializeFilterControlHelp(root = document) {
+  const filterHelp = {
+    period: 'Selecciona todo el historial, un año, un mes o un rango personalizado de fechas de cierre en Nueva York.',
+    from: 'Incluye operaciones cerradas desde esta fecha, inclusive. Cada grupo usa sus propios filtros.',
+    to: 'Incluye operaciones cerradas hasta esta fecha, inclusive. Cada grupo usa sus propios filtros.',
+    symbol: 'Escribe el ticker completo. Se aceptan mayúsculas o minúsculas. Deja el campo vacío para incluir todos.',
+    side: 'Filtra por dirección: todas, Long (BUY) o Short (SELL).'
+  };
+  root.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));
 }

@@ -3,7 +3,7 @@
 const VIEW_DETAILS = {
   general: ['General', 'Tu actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
-  compare: ['Comparativas', 'Contrasta dos grupos de operaciones con los mismos criterios.'],
+  compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
   analysis: ['Análisis', 'Explora los factores que explican tus resultados.'],
   growth: ['Crecimiento', 'Evolución del beneficio y del movimiento del PnL por operación.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
@@ -26,7 +26,7 @@ function activateView() {
   $('page-title').textContent = VIEW_DETAILS[active][0];
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
-  $('global-filters').hidden = active === 'data' || active === 'compare';
+  $('data-selection').hidden = active === 'data' || active === 'compare';
   refreshCharts();
 }
 
@@ -362,9 +362,9 @@ function comparisonRows(key) {
 
 function renderComparisons() {
   if (!dataset) return;
-  const a = comparisonRows('a'), b = comparisonRows('b');
-  $('compare-status').textContent = `Grupo A: ${a.length} operaciones · Grupo B: ${b.length} operaciones. Los grupos pueden contener operaciones comunes.`;
-  const summaries = [a, b].map(rows => statistics(rows));
+  const groups = comparisonGroupList().map(group => ({ ...group, rows: comparisonRows(group.key) }));
+  $('compare-status').textContent = `${groups.map(group => `${group.name}: ${group.rows.length} operaciones`).join(' · ')}. Los grupos pueden contener operaciones comunes.`;
+  const summaries = groups.map(group => statistics(group.rows));
   const measures = [
     ['Operaciones', (_, rows) => rows.length], ['PnL', s => signed(s.pnl)],
     ['Win rate', (s, rows) => pct(s.wins.length, rows.length)], ['Profit factor', s => ratioValue(s.pf)],
@@ -372,13 +372,33 @@ function renderComparisons() {
     ['Esperanza / operación', (s, rows) => rows.length ? money(s.expectancy) : '—'],
     ['Drawdown máximo', s => money(s.tradeStats.biggest)], ['Días operados', s => s.daily.length]
   ];
-  $('compare-table').innerHTML = tableMarkup(['Métrica', 'Grupo A', 'Grupo B'], measures.map(([label, fn]) => [label, fn(summaries[0], a), fn(summaries[1], b)]));
-  const axis = dates([...a, ...b]);
-  renderChart('compare-chart',[{ values: alignedEquity(a, axis), color: '#20d07a' }, { values: alignedEquity(b, axis), color: '#ff4e62' }], { currency: true, title: 'Comparación de capital por fecha' });
+  $('compare-table').innerHTML = tableMarkup(['Métrica', ...groups.map(group => group.name)], measures.map(([label, fn]) => [label, ...groups.map((group, index) => fn(summaries[index], group.rows))]));
+  $('compare-table').querySelectorAll('thead th').forEach((header, index) => {
+    if (index) header.style.color = groups[index - 1].color;
+  });
+  $('compare-table').querySelectorAll('tbody tr').forEach((row, index) => {
+    row.querySelectorAll('td').forEach((cell, column) => {
+      cell.classList.remove('positive', 'negative');
+      if (index === 1 && column) {
+        const sign = cssSign(summaries[column - 1].pnl);
+        if (sign) cell.classList.add(sign);
+      }
+    });
+  });
+  const axis = dates(groups.flatMap(group => group.rows));
+  renderChart('compare-chart', groups.map(group => ({ values: alignedEquity(group.rows, axis), color: group.color })), { currency: true, title: 'Comparación de capital por fecha' });
+  $('compare-legend').innerHTML = groups.map(group => `<span style="color:${group.color}"><span class="group-color-dot" aria-hidden="true"></span>${group.name}</span>`).join('');
 }
 
 function initializeWorkspace() {
   activateView();
+  $('data-selection-toggle').addEventListener('click', () => {
+    const button = $('data-selection-toggle');
+    const expanded = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(expanded));
+    $('global-filters').hidden = !expanded;
+    refreshCharts();
+  });
   window.addEventListener('hashchange', () => {
     activateView();
     window.scrollTo({ top: 0, behavior: 'instant' });

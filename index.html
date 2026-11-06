@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-apply-filters-24">
+  <link rel="stylesheet" href="styles.css?v=20261106-data-selection-27">
 </head>
 <body>
 <aside class="sidebar">
@@ -94,16 +94,19 @@
 </div>
 </header>
 <main class="container">
+<section id="data-selection" class="data-selection" aria-label="Selección de datos">
+<button id="data-selection-toggle" class="eyebrow data-selection-toggle" type="button" aria-expanded="true" aria-controls="global-filters">DATA SELECTION<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<section id="global-filters" class="filters" aria-label="Filtros generales"></section>
+</section>
 <div class="intro">
 <div>
-<div class="eyebrow">TRADING ANALYTICS</div>
 <h1 id="page-title">General</h1>
 <p id="page-description">
 </p>
 </div>
 <div id="last-updated" class="updated">
 </div>
-</div>    <section id="global-filters" class="filters" aria-label="Filtros generales"></section>
+</div>
     <div id="error" class="error" role="alert" hidden>
 </div>
 <div id="view-general" class="view" aria-labelledby="page-title" hidden>
@@ -501,10 +504,8 @@
 <section class="section panel">
 <h2>Selecciona los grupos</h2>
 <p>Filtra cada grupo de forma independiente sobre todo el historial de operaciones.</p>
-<div class="two-col comparison-controls">
-<fieldset><legend>Grupo A</legend><div id="compare-a-filters"></div></fieldset>
-<fieldset><legend>Grupo B</legend><div id="compare-b-filters"></div></fieldset>
-</div>
+<div id="comparison-groups" class="two-col comparison-controls"></div>
+<div class="comparison-group-actions"><button id="compare-add-group" type="button">+ Añadir grupo</button><span id="compare-group-count" class="mini-caption" role="status"></span></div>
 <p id="compare-status" role="status" class="mini-caption">
 </p>
 </section>
@@ -517,28 +518,25 @@
 <h2>Curvas de capital · Fechas compartidas</h2>
 <div id="compare-chart" class="chart">
 </div>
-<div class="legend">
-<span class="legend-long">Grupo A</span>
-<span class="legend-short">Grupo B</span>
-</div>
+<div id="compare-legend" class="legend comparison-legend"></div>
 </section>
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261106-apply-filters-24</span>
+<span>Versión: 20261106-data-selection-27</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261106-apply-filters-24" defer></script>
-<script src="consistency.js?v=20261106-apply-filters-24" defer></script>
-<script src="table-sort.js?v=20261106-apply-filters-24" defer></script>
-<script src="help.js?v=20261106-apply-filters-24" defer></script>
-<script src="filters.js?v=20261106-apply-filters-24" defer></script>
-<script src="workspace.js?v=20261106-apply-filters-24" defer>
+<script src="calendar.js?v=20261106-data-selection-27" defer></script>
+<script src="consistency.js?v=20261106-data-selection-27" defer></script>
+<script src="table-sort.js?v=20261106-data-selection-27" defer></script>
+<script src="help.js?v=20261106-data-selection-27" defer></script>
+<script src="filters.js?v=20261106-data-selection-27" defer></script>
+<script src="workspace.js?v=20261106-data-selection-27" defer>
 </script>
-<script src="dashboard.js?v=20261106-apply-filters-24" defer>
+<script src="dashboard.js?v=20261106-data-selection-27" defer>
 </script>
 </body>
 </html>

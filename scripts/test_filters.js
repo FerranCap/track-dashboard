@@ -55,12 +55,12 @@ assert.deepEqual(selectFilteredTrades(rows, profiles, b).map(trade => trade.id),
 a.countries.clear();
 assert.equal(selectFilteredTrades(rows, profiles, b).length, 1);
 assert.equal(selectFilteredTrades(rows, profiles, a).length, rows.length);
-function deferredPanel() {
+function deferredPanel(prototype = TradeFilterPanel.prototype) {
   const draft = { period: { value: 'all' }, from: { value: '' }, to: { value: '' }, symbol: { value: '' }, side: { value: 'all' } };
   const bounds = { time: { min: { value: '00:00' }, max: { value: '23:59' } }, price: { min: { value: '0' }, max: { value: '' } } };
   const sliders = { time: { min: { value: '0' }, max: { value: '1439' } } };
   const status = { textContent: '', classList: { toggle() {} } };
-  const instance = Object.create(TradeFilterPanel.prototype);
+  const instance = Object.create(prototype);
   let scans = 0, renders = 0;
   instance.rows = rows.slice();
   instance.rows.filter = callback => { scans++; return rows.filter(callback); };
@@ -116,4 +116,57 @@ assert.deepEqual(general.instance.matchingRows().map(trade => trade.id), ['a']);
 general.instance.apply();
 assert.equal(general.renders(), 2);
 assert.equal(general.instance.matchingRows().length, rows.length);
-console.log('Trade filter checks passed, including deferred edits, slider performance, validation and independent Apply actions.');
+// Isolate the group lifecycle from DOM layout; filter draft behavior is tested above.
+const originalPanelClass = TradeFilterPanel, originalComparisonRender = renderComparisons;
+const groupNodes = new Map();
+const groupNode = id => {
+  if (!groupNodes.has(id)) groupNodes.set(id, {
+    id, style: { setProperty(name, value) { this[name] = value; } },
+    focus() {}, remove() { groupNodes.delete(this.id); }, insertBefore() {},
+    querySelector() { return this.removeButton ||= {}; },
+    querySelectorAll() { return this.swatches ||= COMPARISON_COLORS.map(color => ({ dataset: { groupColor: color.value }, setAttribute(name, value) { this[name] = value; } })); }
+  });
+  return groupNodes.get(id);
+};
+globalThis.$ = groupNode;
+globalThis.document = { createElement: () => groupNode(`node-${groupNodes.size}`) };
+globalThis.initializeFilterControlHelp = () => {};
+globalThis.dataset = { trades: rows, tickerProfiles: profiles };
+globalThis.tableSortStates = new Map();
+let comparisonRenders = 0;
+renderComparisons = () => { comparisonRenders++; };
+TradeFilterPanel = class {
+  constructor(key, host, callback, side) {
+    const view = deferredPanel(originalPanelClass.prototype);
+    view.draft.side.value = side;
+    view.instance.key = key;
+    view.instance.appliedCriteria = view.instance.snapshot();
+    view.instance.onChange = callback;
+    view.instance.populate = () => {};
+    return view.instance;
+  }
+};
+assert.equal(addComparisonGroup('BUY').key, 'a');
+assert.equal(addComparisonGroup('SELL').key, 'b');
+assert.equal(removeComparisonGroup('a'), false, 'At least two groups remain');
+assert.equal(setComparisonGroupColor('a', '#B79AFF'), true);
+assert.equal(setComparisonGroupColor('b', '#B79AFF'), false, 'Colors cannot be duplicated');
+assert.equal(setComparisonGroupColor('a', '#ffffff'), false, 'Only the approved palette is accepted');
+for (let index = 0; index < 4; index++) assert.ok(addComparisonGroup());
+assert.equal(addComparisonGroup(), null, 'A seventh group must not be created');
+assert.equal(groupNode('compare-add-group').disabled, true);
+assert.equal(new Set(comparisonGroupList().map(group => group.color)).size, 6);
+const pendingGroup = tradeFilterPanels.get('b');
+pendingGroup.countries.add('Cayman Islands'); pendingGroup.changed();
+assert.equal(removeComparisonGroup('d'), true);
+assert.equal(tradeFilterPanels.has('d'), false);
+assert.equal(groupNode('compare-add-group').disabled, false);
+assert.equal(addComparisonGroup().key, 'd', 'Deleted group slots can be reused');
+assert.deepEqual(comparisonGroupList().map(group => group.key), ['a', 'b', 'c', 'd', 'e', 'f']);
+assert.equal(tradeFilterPanels.get('b'), pendingGroup, 'Adding or deleting groups must preserve other filter panels');
+assert.equal(pendingGroup.pending, true);
+assert.equal(pendingGroup.appliedCriteria.countries.size, 0, 'Group management must not apply pending filters');
+assert.ok(comparisonRenders > 0);
+TradeFilterPanel = originalPanelClass;
+renderComparisons = originalComparisonRender;
+console.log('Trade filter checks passed, including deferred edits and six-group lifecycle, palette uniqueness and preserved pending filters.');
