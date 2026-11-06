@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-data-selection-27">
+  <link rel="stylesheet" href="styles.css?v=20261106-issuer-complete-29">
 </head>
 <body>
 <aside class="sidebar">
@@ -358,12 +358,12 @@
 </div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
-<div class="panel-head"><div><h2>Calidad de la base de datos</h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
+<div class="panel-head"><div><h2 class="data-audit-heading">Calidad de la base de datos <span id="data-audit-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % identificados</span></h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
 <p>Se contrasta el historial publicado con la base de emisores. Solo se cuentan como sin identificar los tickers que no tienen país de constitución. Los demás campos son informativos y no afectan a los resultados por país.</p>
 <div id="data-audit-stats" class="metrics four"></div>
 <p id="data-audit-status" role="status" class="mini-caption">Esperando a que se carguen los datos.</p>
 </section>
-<section class="section panel">
+<section id="data-pending-panel" class="section panel" hidden>
 <div class="panel-head"><h2>Tickers sin país de constitución</h2><span id="data-pending-count" class="mini-caption"></span></div>
 <div class="data-audit-filters"><label>Buscar ticker o empresa<input id="data-pending-search" type="search" placeholder="Símbolo o empresa"></label><label>Tipo de pendiente<select id="data-pending-kind"><option value="country">País de constitución sin identificar</option><option value="new">Ticker sin ficha</option></select></label></div>
 <div id="data-pending-table" class="table-wrap issuer-table"></div>
@@ -523,20 +523,20 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261106-data-selection-27</span>
+<span>Versión: 20261106-issuer-complete-29</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261106-data-selection-27" defer></script>
-<script src="consistency.js?v=20261106-data-selection-27" defer></script>
-<script src="table-sort.js?v=20261106-data-selection-27" defer></script>
-<script src="help.js?v=20261106-data-selection-27" defer></script>
-<script src="filters.js?v=20261106-data-selection-27" defer></script>
-<script src="workspace.js?v=20261106-data-selection-27" defer>
+<script src="calendar.js?v=20261106-issuer-complete-29" defer></script>
+<script src="consistency.js?v=20261106-issuer-complete-29" defer></script>
+<script src="table-sort.js?v=20261106-issuer-complete-29" defer></script>
+<script src="help.js?v=20261106-issuer-complete-29" defer></script>
+<script src="filters.js?v=20261106-issuer-complete-29" defer></script>
+<script src="workspace.js?v=20261106-issuer-complete-29" defer>
 </script>
-<script src="dashboard.js?v=20261106-data-selection-27" defer>
+<script src="dashboard.js?v=20261106-issuer-complete-29" defer>
 </script>
 </body>
 </html>

@@ -155,4 +155,19 @@ checkConsistency(calendarElements.get('compare-legend').innerHTML.includes('Grup
 comparisonHeaders.pop(); comparisonRows.forEach(row => row.cells.pop());
 calendarVm.runInContext("comparisonGroups.delete('f'); tradeFilterPanels.delete('f'); renderComparisons();", calendarContext);
 checkConsistency(calendarVm.runInContext("renderedCalendarCharts.get('compare-chart').length", calendarContext) === 5 && !calendarElements.get('compare-legend').innerHTML.includes('Grupo F'), 'Removing a group removes its curve, table column and legend entry');
-console.log('Consistency calculations, calendar detail and six-group comparison rendering checks passed.');
+calendarElements.set('data-pending-search', { value: '' });
+calendarElements.set('data-pending-kind', { value: 'country' });
+calendarVm.runInContext(`
+  issuerAudit = auditIssuerData({ trades: [{ symbol: 'KNOWN', date: '2026-11-06' }], tickerProfiles: { KNOWN: { incorporation_country: 'Canada' } } });
+  renderPendingIssuers();
+`, calendarContext);
+checkConsistency(calendarElements.get('data-pending-panel').hidden && !calendarElements.get('data-audit-complete').hidden, 'Fully identified incorporation countries hide the pending panel and show the completion badge even with other fields unknown');
+calendarElements.get('data-pending-search').value = 'NO_MATCH';
+calendarVm.runInContext(`
+  issuerAudit = auditIssuerData({ trades: [{ symbol: 'UNKNOWN', date: '2026-11-06' }], tickerProfiles: {} });
+  renderPendingIssuers();
+`, calendarContext);
+checkConsistency(!calendarElements.get('data-pending-panel').hidden && calendarElements.get('data-audit-complete').hidden, 'Unidentified tickers restore the panel even when the search has no matches');
+calendarVm.runInContext('issuerAudit = []; renderPendingIssuers();', calendarContext);
+checkConsistency(calendarElements.get('data-pending-panel').hidden && calendarElements.get('data-audit-complete').hidden, 'Empty history does not claim complete identification');
+console.log('Consistency, calendar, comparison groups and issuer completion checks passed.');

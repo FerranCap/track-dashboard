@@ -240,6 +240,8 @@ function renderPendingIssuers() {
   const query = $('data-pending-search').value.trim().toLowerCase();
   const kind = $('data-pending-kind').value;
   const pending = issuerAudit.filter(entry => entry.country);
+  $('data-pending-panel').hidden = pending.length === 0;
+  $('data-audit-complete').hidden = issuerAudit.length === 0 || pending.length > 0;
   const matches = pending.filter(entry => {
     const typeMatch = kind === 'new' ? entry.missingProfile : entry.country;
     return typeMatch && (!query || `${entry.symbol} ${entry.profile?.issuer_name || ''}`.toLowerCase().includes(query));
