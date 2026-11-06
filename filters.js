@@ -21,7 +21,8 @@ function entryMinute(trade) {
 }
 
 function selectFilteredTrades(rows, profiles, criteria) {
-  if ((criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax) return [];
+  const durationMin = criteria.durationMin ?? 0, durationMax = criteria.durationMax ?? Infinity;
+  if ((criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax || durationMin > durationMax) return [];
   return rows.filter(trade => {
     if ((criteria.from && trade.date < criteria.from) || (criteria.to && trade.date > criteria.to)) return false;
     if (criteria.symbol && trade.symbol !== criteria.symbol) return false;
@@ -32,6 +33,9 @@ function selectFilteredTrades(rows, profiles, criteria) {
     }
     if (criteria.priceMin > 0 || criteria.priceMax < Infinity) {
       if (!Number.isFinite(trade.entryPrice) || trade.entryPrice < criteria.priceMin || trade.entryPrice > criteria.priceMax) return false;
+    }
+    if (durationMin > 0 || durationMax < Infinity) {
+      if (!Number.isFinite(trade.holdMinutes) || trade.holdMinutes < 0 || trade.holdMinutes < durationMin || trade.holdMinutes > durationMax) return false;
     }
     const country = incorporationCountry(profiles?.[trade.symbol]) || UNKNOWN_FILTER_COUNTRY;
     return !criteria.countries.size || criteria.countries.has(country);
@@ -70,6 +74,11 @@ class TradeFilterPanel {
       <div class="filter-row"><label class="filter-label" for="${prefix}-symbol">Símbolo</label><input id="${prefix}-symbol" type="text" data-field="symbol" placeholder="Escribe el ticker · vacío: todos" autocomplete="off" spellcheck="false" autocapitalize="characters"></div>
       <div class="filter-row"><label class="filter-label" for="${prefix}-side">Dirección</label><select id="${prefix}-side" data-field="side"><option value="all">Todas</option><option value="BUY">Long</option><option value="SELL">Short</option></select></div>
       ${filterRangeMarkup(prefix, 'price', 'Precio de entrada')}
+      <div class="filter-row"><span class="filter-label" id="${prefix}-duration-label">Duración (min)</span>
+        <div class="filter-range" role="group" aria-labelledby="${prefix}-duration-label">
+          <div class="range-values"><label><span class="sr-only">Duración mínima en minutos</span><input type="number" min="0" step="any" value="0" data-kind="duration" data-bound="min"></label><span>—</span><label><span class="sr-only">Duración máxima en minutos</span><input type="number" min="0" step="any" placeholder="Sin límite" data-kind="duration" data-bound="max"></label></div>
+          <small>Minutos entre apertura y cierre · límites incluidos</small>
+        </div></div>
       <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Sin selección: todos los países. Puedes activar varios.</small></div></div>
       <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;
     this.field('side').value = defaultSide;
@@ -167,7 +176,7 @@ class TradeFilterPanel {
       const value = Number(input.value);
       this.bound(kind, bound).value = kind === 'time' ? `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}` : bound === 'max' && value === 1000 ? '' : (Math.expm1(value / 1000 * Math.log1p(this.priceCeiling))).toFixed(2);
       this.syncRange(kind);
-    } else if (input.dataset.kind) this.syncRange(input.dataset.kind);
+    } else if (input.dataset.kind && input.dataset.kind !== 'duration') this.syncRange(input.dataset.kind);
     this.changed();
   }
 
@@ -175,6 +184,7 @@ class TradeFilterPanel {
     const minutes = value => { const [hour, minute] = value.split(':').map(Number); return hour * 60 + minute; };
     return { from: this.field('from').value, to: this.field('to').value, symbol: this.field('symbol').value.trim().toUpperCase(), side: this.field('side').value,
       timeMin: minutes(this.bound('time', 'min').value || '00:00'), timeMax: minutes(this.bound('time', 'max').value || '23:59'),
+      durationMin: Number(this.bound('duration', 'min').value || 0), durationMax: this.bound('duration', 'max').value === '' ? Infinity : Number(this.bound('duration', 'max').value),
       priceMin: Number(this.bound('price', 'min').value || 0), priceMax: this.bound('price', 'max').value === '' ? Infinity : Number(this.bound('price', 'max').value), countries: this.countries };
   }
 
@@ -186,7 +196,7 @@ class TradeFilterPanel {
   apply() {
     const criteria = this.snapshot();
     const invalid = [...this.host.querySelectorAll('input')].some(input => !input.validity.valid) ||
-      (criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax;
+      (criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax || criteria.durationMin > criteria.durationMax;
     if (invalid) {
       this.validationMessage = 'Revisa los rangos y las horas (HH:mm, de 00:00 a 23:59). El mínimo debe ser menor o igual al máximo.';
       this.updateStatus();
@@ -222,6 +232,7 @@ class TradeFilterPanel {
     this.field('symbol').value = ''; this.field('side').value = 'all';
     this.bound('time', 'min').value = '00:00'; this.bound('time', 'max').value = '23:59';
     this.bound('price', 'min').value = '0'; this.bound('price', 'max').value = '';
+    this.bound('duration', 'min').value = '0'; this.bound('duration', 'max').value = '';
     this.countries.clear();
     this.host.querySelectorAll('[data-country]').forEach(button => button.setAttribute('aria-pressed', 'false'));
     this.syncRange('time'); this.syncRange('price');

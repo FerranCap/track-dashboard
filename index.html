@@ -36,18 +36,6 @@
 </svg>
 <span>Calendario</span>
 </a>
-<a href="#price" data-view="price">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18m5-14H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H6"/></svg>
-<span>Precio</span>
-</a>
-<a href="#duration" data-view="duration">
-<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-<span>Duración</span>
-</a>
-<a href="#growth" data-view="growth">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M6 16l5-5 4 3 6-9m-6 0h6v6"/></svg>
-<span>Relativo</span>
-</a>
 <a href="#ratios" data-view="ratios">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M5 19L19 5"/>
@@ -62,6 +50,10 @@
 </svg>
 <span>Consistencia</span>
 </a>
+<a href="#growth" data-view="growth">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M6 16l5-5 4 3 6-9m-6 0h6v6"/></svg>
+<span>Relativo</span>
+</a>
 <a href="#country" data-view="country">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <circle cx="12" cy="12" r="9"/>
@@ -69,6 +61,14 @@
 <path d="M3 12h18"/>
 </svg>
 <span>País</span>
+</a>
+<a href="#duration" data-view="duration">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+<span>Duración</span>
+</a>
+<a href="#price" data-view="price">
+<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v5m5-5v3m5-3v5"/></svg>
+<span>Precio</span>
 </a>
 </div>
 <div class="nav-group" role="group" aria-labelledby="nav-comparison">
@@ -241,7 +241,20 @@
 </div>
 <div id="view-price" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
+<div class="panel-head">
 <h2>PnL por precio de entrada</h2>
+<div class="best-controls"><label for="price-range-width">Ancho del rango
+<select id="price-range-width">
+<option value="0.1">$0.10</option>
+<option value="0.25">$0.25</option>
+<option value="0.5">$0.50</option>
+<option value="1" selected>$1</option>
+<option value="2">$2</option>
+<option value="5">$5</option>
+<option value="10">$10</option>
+</select>
+</label></div>
+</div>
 <div id="price-chart" class="chart">
 </div>
 <div id="price-caption" class="mini-caption">
@@ -446,12 +459,12 @@
 <script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
 <script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-trades-panel-37" defer></script>
-<script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="help.js?v=20261106-duration-filter-44" defer></script>
+<script src="filters.js?v=20261106-duration-filter-44" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-price-duration-41" defer>
+<script src="workspace.js?v=20261106-price-ranges-42" defer>
 </script>
-<script src="dashboard.js?v=20261106-price-duration-41" defer>
+<script src="dashboard.js?v=20261106-price-ranges-43" defer>
 </script>
 </body>
 </html>

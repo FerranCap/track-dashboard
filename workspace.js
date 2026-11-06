@@ -397,6 +397,7 @@ function initializeWorkspace() {
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
   $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));
   $('recent-session-count').addEventListener('change', () => renderRecentSessions(statistics(filtered).daily));
+  $('price-range-width').addEventListener('change', () => renderPrice(filtered));
   $('issuer-search').addEventListener('input', () => renderIssuerProfiles(dataset?.trades || []));
   for (const id of ['ratio-time-interval', 'ratio-min-trades']) $(id).addEventListener('change', () => renderRatioStudies(filtered));
   $('calendar-month').addEventListener('change', () => { selectedCalendarDay = ''; calendarOverviewEndMonth = ''; renderCalendar(filtered); });

@@ -220,4 +220,5 @@ function initializeFilterControlHelp(root = document) {
     side: 'Filtra por dirección: todas, Long (BUY) o Short (SELL).'
   };
   root.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));
+  root.querySelectorAll('.trade-filter-panel [data-kind="duration"]').forEach(control => control.setAttribute('data-help', 'Duración entre apertura y cierre, en minutos. Ambos límites son inclusivos y admiten decimales. Máximo vacío: sin límite. Al restringir el rango se excluyen duraciones desconocidas. Pulsa Aplicar filtros para actualizar los resultados.'));
 }

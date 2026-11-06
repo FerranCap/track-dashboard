@@ -206,16 +206,30 @@ function timeBand(trade, interval = 5) {
   const format = value => `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
   return `${format(start)}–${format(start + interval)}`;
 }
-const PRICE_BANDS=[['$0–2',0,2],['$2–5',2,5],['$5–10',5,10],['$10–20',10,20],['$20+',20,Infinity]];
-function priceGroups(rows){return PRICE_BANDS.map(([name,min,max])=>({name,rows:rows.filter(t=>Number.isFinite(t.entryPrice)&&t.entryPrice>=min&&t.entryPrice<max)}));}
+function priceGroups(rows, width = 1) {
+  const groups = new Map();
+  for (const trade of rows) {
+    if (!Number.isFinite(trade.entryPrice) || trade.entryPrice < 0) continue;
+    const position = trade.entryPrice / width;
+    const index = Math.floor(position + Number.EPSILON * Math.max(1, Math.abs(position)) * 4);
+    if (!groups.has(index)) groups.set(index, []);
+    groups.get(index).push(trade);
+  }
+  return [...groups].sort(([left], [right]) => left - right).map(([index, trades]) => ({
+    name: `${money(index * width)} – ${money((index + 1) * width)}`, rows: trades
+  }));
+}
 function renderPrice(rows){
-  const bands=priceGroups(rows);const values=bands.map(x=>[x.name,sum(x.rows)]);
-  renderChart('price-chart',[{values,color:'#a68afb'}],{bar:true,currency:true});
+  const width = Number($('price-range-width').value);
+  const bands=priceGroups(rows, width);const values=bands.map(x=>[x.name,sum(x.rows)]);
+  const omitted = rows.length - bands.reduce((count, band) => count + band.rows.length, 0);
+  const explanation = `Rangos de ${money(width)} desde $0, según el precio medio de entrada. El límite inferior se incluye y el superior se excluye. Solo se muestran rangos con operaciones, con los filtros actuales. ${omitted} operaciones sin precio válido quedan fuera. ${HELP_PNL}`;
+  renderChart('price-chart',[{values,color:'#a68afb'}],{bar:true,currency:true,title:'PnL por precio de entrada',explanation});
   const populated=bands.filter(x=>x.rows.length);
   const best=populated.length?[...populated].sort((a,b)=>sum(b.rows)-sum(a.rows))[0]:null;
   const worst=populated.length?[...populated].sort((a,b)=>sum(a.rows)-sum(b.rows))[0]:null;
-  $('price-caption').textContent=best&&worst?`Mejor: ${best.name} (${money(sum(best.rows))}) · Peor: ${worst.name} (${money(sum(worst.rows))})`:'Sin precios de entrada disponibles';
-  $('price-table').innerHTML=tableMarkup(['Rango','Trades','Win Rate','PnL Total','PnL Medio'],bands.map(b=>[b.name,b.rows.length,pct(b.rows.filter(t=>classify(t)==='win').length,b.rows.length),signed(sum(b.rows)),b.rows.length?money(sum(b.rows)/b.rows.length):'—']));
+  $('price-caption').textContent = `${best&&worst?`Mejor: ${best.name} (${money(sum(best.rows))}) · Peor: ${worst.name} (${money(sum(worst.rows))}).`:'Sin precios de entrada disponibles.'} Rangos de ${money(width)}: límite inferior incluido y superior excluido. Se omiten rangos vacíos.${omitted ? ` ${omitted} operaciones sin precio válido.` : ''}`;
+  $('price-table').innerHTML = bands.length ? tableMarkup(['Rango','Trades','Win Rate','PnL Total','PnL Medio'],bands.map(b=>[b.name,b.rows.length,pct(b.rows.filter(t=>classify(t)==='win').length,b.rows.length),signed(sum(b.rows)),b.rows.length?money(sum(b.rows)/b.rows.length):'—'])) : '<p class="muted">Sin precios de entrada disponibles para estos filtros.</p>';
 }
 function tableMarkup(headers,rows){return `<table><thead><tr>${headers.map(x=>`<th tabindex="0" ${helpAttributes(helpText(x))}>${esc(x)}<span class="help-mark" aria-hidden="true">ⓘ</span></th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((v,i)=>`<td ${helpAttributes(`${headers[i]}: ${v}. ${helpText(headers[0]==='Métrica'?row[0]:headers[i])}`)} class="${i>=3&&String(v).startsWith('-')?'negative':i>=3&&String(v).startsWith('+')?'positive':''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
 function populateFilters(rows, preserve = false){
