@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-table-disclosure-38">
+  <link rel="stylesheet" href="styles.css?v=20261106-nav-groups-40">
 </head>
 <body>
 <aside class="sidebar">
@@ -17,8 +17,9 @@
 <small>Trading analytics</small>
 </div>
 </a>
-<div class="nav-caption">ESTUDIO DE DATOS</div>
 <nav aria-label="Apartados">
+<div class="nav-group" role="group" aria-labelledby="nav-studies">
+<div id="nav-studies" class="nav-caption">ESTUDIOS</div>
 <a href="#general" data-view="general">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <rect x="3" y="3" width="7" height="7"/>
@@ -34,12 +35,6 @@
 <path d="M7 3v4m10-4v4M3 11h18"/>
 </svg>
 <span>Calendario</span>
-</a>
-<a href="#compare" data-view="compare">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M3 7h18l-4-4m4 14H3l4 4M21 7l-4 4M3 17l4-4"/>
-</svg>
-<span>Comparativas</span>
 </a>
 <a href="#analysis" data-view="analysis">
 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -73,6 +68,18 @@
 </svg>
 <span>País</span>
 </a>
+</div>
+<div class="nav-group" role="group" aria-labelledby="nav-comparison">
+<div id="nav-comparison" class="nav-caption">COMPARACIÓN</div>
+<a href="#compare" data-view="compare">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M3 7h18l-4-4m4 14H3l4 4M21 7l-4 4M3 17l4-4"/>
+</svg>
+<span>Comparativas</span>
+</a>
+</div>
+<div class="nav-group" role="group" aria-labelledby="nav-data">
+<div id="nav-data" class="nav-caption">DATOS</div>
 <a href="#data" data-view="data">
 <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></svg>
 <span>Tickers</span>
@@ -83,6 +90,7 @@
 </svg>
 <span>Operaciones</span>
 </a>
+</div>
 </nav>
 <div class="sidebar-note">Tu operativa, en perspectiva.<small>Horario de Nueva York · USD</small>
 </div>
@@ -125,10 +133,10 @@
 <h2>Últimas sesiones</h2>
 <div class="best-controls"><label for="recent-session-count">Sesiones
 <select id="recent-session-count">
-<option value="10" selected>10</option>
+<option value="10">10</option>
 <option value="25">25</option>
 <option value="100">100</option>
-<option value="all">Todas</option>
+<option value="all" selected>Todas</option>
 </select>
 </label></div>
 </div>
@@ -203,7 +211,7 @@
 <div id="calendar-mini-months" class="calendar-mini-months"></div>
 </aside>
 </div>
-<section class="section panel">
+<section id="calendar-day-summary" class="section panel" hidden>
 <div class="panel-head"><h2>Resumen del día</h2><strong id="calendar-day-pnl"></strong></div>
 <p id="calendar-selection">Selecciona un día operado para ver sus operaciones.</p>
 <div id="calendar-day-detail" class="calendar-day-detail" hidden>
@@ -520,13 +528,13 @@
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261106-calendar-results-35" defer></script>
+<script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
 <script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
 <script src="help.js?v=20261106-trades-panel-37" defer></script>
 <script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
 <script src="news.js?v=20261106-news-date-fallback-31" defer></script>
-<script src="workspace.js?v=20261106-country-panel-36" defer>
+<script src="workspace.js?v=20261106-calendar-layout-39" defer>
 </script>
 <script src="dashboard.js?v=20261106-trades-panel-37" defer>
 </script>

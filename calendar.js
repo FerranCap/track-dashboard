@@ -89,6 +89,7 @@ function renderCalendarPnlChart(id, rows, scope) {
 function renderCalendarDay(rows) {
   for (const id of chartConfigs.keys()) if (id.startsWith('calendar-ticker-chart-')) chartConfigs.delete(id);
   const hasTrades = rows.length > 0;
+  $('calendar-day-summary').hidden = !hasTrades;
   $('calendar-day-preview').hidden = !hasTrades;
   $('calendar-day-detail').hidden = !hasTrades;
   $('calendar-day-pnl').textContent = hasTrades ? `PnL ${signed(sum(rows))}` : '';

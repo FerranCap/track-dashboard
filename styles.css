@@ -22,6 +22,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .study-scroll th{position:sticky;top:0;background:#192333;z-index:1}
 .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:18px;align-items:start}
 .calendar-main,.calendar-overview{min-width:0}
+.calendar-main{align-self:stretch}
 .calendar-main .calendar-day{min-height:84px;padding:10px;gap:8px}
 .calendar-main .calendar-day strong{font-size:14px}
 .calendar-overview{padding:14px}
@@ -198,3 +199,9 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .table-disclosure>summary:focus-visible{outline:2px solid #8abbff;outline-offset:3px}
 .table-disclosure[open]>.table-wrap{margin-top:12px}
 .table-disclosure:not([open])+.table-footer{display:none}
+.sidebar nav{gap:0}
+.nav-group{display:grid;gap:7px;min-width:0}
+.nav-group+.nav-group{margin-top:14px;padding-top:12px;border-top:1px solid #263247}
+.nav-group>.nav-caption{padding:5px 13px 8px}
+@media(min-width:761px){.sidebar{overflow-y:auto}}
+@media(max-width:760px){.nav-group{display:flex;gap:5px;flex-shrink:0}.nav-group+.nav-group{margin:0 0 0 10px;padding:0 0 0 10px;border-top:0;border-left:1px solid #263247}}

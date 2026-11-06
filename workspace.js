@@ -1,7 +1,7 @@
 'use strict';
 
 const VIEW_DETAILS = {
-  general: ['General', 'Tu actividad y resultados, de un vistazo.'],
+  general: ['General', 'Actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
   compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
   analysis: ['Análisis', 'Explora los factores que explican tus resultados.'],
