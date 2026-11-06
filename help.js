@@ -212,7 +212,7 @@ function initializeHelp() {
     period: 'Selecciona todo el historial, un a?o, un mes o un rango personalizado de fechas de cierre en Nueva York.',
     from: 'Incluye operaciones cerradas desde esta fecha, inclusive. Cada grupo usa sus propios filtros.',
     to: 'Incluye operaciones cerradas hasta esta fecha, inclusive. Cada grupo usa sus propios filtros.',
-    symbol: 'Escribe o selecciona un s?mbolo. Deja el campo vac?o para incluir todos.',
+    symbol: 'Escribe el ticker completo. Se aceptan mayúsculas o minúsculas. Deja el campo vacío para incluir todos.',
     side: 'Filtra por direcci?n: todas, Long (BUY) o Short (SELL).'
   };
   document.querySelectorAll('.trade-filter-panel [data-field]').forEach(control => control.setAttribute('data-help', filterHelp[control.dataset.field]));

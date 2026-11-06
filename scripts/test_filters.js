@@ -55,4 +55,65 @@ assert.deepEqual(selectFilteredTrades(rows, profiles, b).map(trade => trade.id),
 a.countries.clear();
 assert.equal(selectFilteredTrades(rows, profiles, b).length, 1);
 assert.equal(selectFilteredTrades(rows, profiles, a).length, rows.length);
-console.log('Trade filter checks passed: combined ranges, NY daylight saving, country identity, unknown values, dates and independent groups.');
+function deferredPanel() {
+  const draft = { period: { value: 'all' }, from: { value: '' }, to: { value: '' }, symbol: { value: '' }, side: { value: 'all' } };
+  const bounds = { time: { min: { value: '00:00' }, max: { value: '23:59' } }, price: { min: { value: '0' }, max: { value: '' } } };
+  const sliders = { time: { min: { value: '0' }, max: { value: '1439' } } };
+  const status = { textContent: '', classList: { toggle() {} } };
+  const instance = Object.create(TradeFilterPanel.prototype);
+  let scans = 0, renders = 0;
+  instance.rows = rows.slice();
+  instance.rows.filter = callback => { scans++; return rows.filter(callback); };
+  Object.assign(instance, { profiles, countries: new Set(), initialSide: 'all', pending: false, validationMessage: '', appliedCount: 0,
+    host: { querySelector: selector => selector === '.filter-count' ? status : { hidden: true }, querySelectorAll: selector => selector === 'input' ? [{ validity: { valid: true } }] : [] },
+    field: key => draft[key], bound: (kind, bound) => bounds[kind][bound], slider: (kind, bound) => sliders[kind][bound], syncRange() {},
+    onChange() { renders++; instance.matchingRows(); }
+  });
+  instance.appliedCriteria = instance.snapshot();
+  instance.matchingRows();
+  return { instance, draft, bounds, sliders, status, scans: () => scans, renders: () => renders };
+}
+
+globalThis.integerFormat = new Intl.NumberFormat('es-ES');
+const general = deferredPanel(), groupA = deferredPanel(), groupB = deferredPanel();
+general.draft.symbol.value = 'us';
+general.instance.handleInput({ target: { dataset: { field: 'symbol' } } });
+for (let index = 0; index < 100; index++) {
+  general.sliders.time.min.value = String(index);
+  general.instance.handleInput({ target: { ...general.sliders.time.min, dataset: { slider: 'time', bound: 'min' } } });
+}
+assert.equal(general.scans(), 1, 'Draft edits and slider dragging must not scan trades');
+assert.equal(general.renders(), 0, 'Draft edits must not rerender the dashboard');
+assert.match(general.status.textContent, /Cambios sin aplicar/);
+assert.equal(general.instance.matchingRows().length, rows.length, 'Unrelated renders must keep applied criteria');
+general.instance.apply();
+assert.equal(general.renders(), 1);
+assert.deepEqual(general.instance.matchingRows().map(trade => trade.id), ['a']);
+
+groupA.instance.countries.add('Cayman Islands');
+groupA.instance.changed();
+groupA.instance.apply();
+assert.deepEqual(groupA.instance.matchingRows().map(trade => trade.id), ['b']);
+groupA.instance.countries.clear();
+groupA.instance.changed();
+groupB.draft.side.value = 'BUY';
+groupB.instance.changed();
+groupB.instance.apply();
+assert.deepEqual(groupA.instance.matchingRows().map(trade => trade.id), ['b'], 'Applying B must not apply pending A edits');
+assert.deepEqual(groupB.instance.matchingRows().map(trade => trade.id), ['a', 'c', 'd']);
+assert.deepEqual(general.instance.matchingRows().map(trade => trade.id), ['a']);
+
+general.bounds.price.min.value = '10';
+general.bounds.price.max.value = '1';
+general.instance.changed();
+general.instance.apply();
+assert.equal(general.renders(), 1, 'Invalid drafts must not update results');
+assert.match(general.status.textContent, /Revisa los rangos/);
+assert.deepEqual(general.instance.matchingRows().map(trade => trade.id), ['a']);
+general.instance.reset();
+assert.equal(general.renders(), 1, 'Clearing fields must wait for Apply');
+assert.deepEqual(general.instance.matchingRows().map(trade => trade.id), ['a']);
+general.instance.apply();
+assert.equal(general.renders(), 2);
+assert.equal(general.instance.matchingRows().length, rows.length);
+console.log('Trade filter checks passed, including deferred edits, slider performance, validation and independent Apply actions.');

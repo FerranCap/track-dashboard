@@ -51,16 +51,20 @@ class TradeFilterPanel {
     this.rows = [];
     this.profiles = {};
     this.initialSide = defaultSide;
+    this.pending = false;
+    this.validationMessage = '';
+    this.appliedCount = 0;
     const prefix = `filter-${key}`;
     host.classList.add('trade-filter-panel');
     host.innerHTML = `<div class="filter-row"><label class="filter-label" for="${prefix}-period">Fechas</label><div class="filter-date-controls"><select id="${prefix}-period" data-field="period" aria-label="Periodo"><option value="all">Todo el historial</option><option value="custom">Rango personalizado</option></select><div class="filter-date-range" hidden><label>Desde<input type="date" data-field="from"></label><label>Hasta<input type="date" data-field="to"></label></div></div></div>
       ${filterRangeMarkup(prefix, 'time', 'Hora de entrada', true)}
-      <div class="filter-row"><label class="filter-label" for="${prefix}-symbol">Símbolo</label><input id="${prefix}-symbol" type="search" data-field="symbol" list="${prefix}-symbols" placeholder="Todos · buscar símbolo" autocomplete="off"><datalist id="${prefix}-symbols"></datalist></div>
+      <div class="filter-row"><label class="filter-label" for="${prefix}-symbol">Símbolo</label><input id="${prefix}-symbol" type="text" data-field="symbol" placeholder="Escribe el ticker · vacío: todos" autocomplete="off" spellcheck="false" autocapitalize="characters"></div>
       <div class="filter-row"><label class="filter-label" for="${prefix}-side">Dirección</label><select id="${prefix}-side" data-field="side"><option value="all">Todas</option><option value="BUY">Long</option><option value="SELL">Short</option></select></div>
       ${filterRangeMarkup(prefix, 'price', 'Precio de entrada')}
       <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Sin selección: todos los países. Puedes activar varios.</small></div></div>
-      <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><button type="button" class="secondary" data-clear>Limpiar filtros</button></div>`;
+      <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;
     this.field('side').value = defaultSide;
+    this.appliedCriteria = this.snapshot();
     host.addEventListener('input', event => this.handleInput(event));
     host.addEventListener('change', event => {
       if (event.target.dataset.field === 'period') {
@@ -77,6 +81,7 @@ class TradeFilterPanel {
         this.changed();
       }
       if (event.target.closest('[data-clear]')) this.reset();
+      if (event.target.closest('[data-apply]')) this.apply();
     });
   }
 
@@ -95,12 +100,16 @@ class TradeFilterPanel {
       `<optgroup label="Años">${years.map(year => `<option value="year:${year}">${year}</option>`).join('')}</optgroup>` +
       `<optgroup label="Meses">${months.map(month => `<option value="month:${month}">${esc(new Date(`${month}-01T12:00:00Z`).toLocaleDateString('es-ES', { month: 'long', year: 'numeric', timeZone: 'UTC' }))}</option>`).join('')}</optgroup>`;
     period.value = [...period.options].some(option => option.value === previous) ? previous : 'all';
-    this.host.querySelector('datalist').innerHTML = [...new Set(rows.map(trade => trade.symbol))].sort().map(symbol => `<option value="${esc(symbol)}"></option>`).join('');
     const countries = [...new Set(rows.map(trade => incorporationCountry(profiles?.[trade.symbol])).filter(Boolean))].sort((a, b) => a.localeCompare(b));
     const available = new Set([...countries, UNKNOWN_FILTER_COUNTRY]);
     this.countries = new Set([...this.countries].filter(country => available.has(country)));
     this.host.querySelector('.country-toggles').innerHTML = [...countries, UNKNOWN_FILTER_COUNTRY].map(country => `<button type="button" data-country="${esc(country)}" aria-pressed="${this.countries.has(country)}">${esc(country === UNKNOWN_FILTER_COUNTRY ? 'Sin identificar' : country)}</button>`).join('');
-    if (!preserve) this.reset(false);
+    if (!preserve) {
+      this.reset(false);
+      this.appliedCriteria = this.snapshot();
+      this.pending = false;
+      this.validationMessage = '';
+    }
     this.syncRange('price');
   }
 
@@ -156,17 +165,44 @@ class TradeFilterPanel {
       priceMin: Number(this.bound('price', 'min').value || 0), priceMax: this.bound('price', 'max').value === '' ? Infinity : Number(this.bound('price', 'max').value), countries: this.countries };
   }
 
-  matchingRows() {
+  snapshot() {
     const criteria = this.criteria();
+    return { ...criteria, countries: new Set(criteria.countries) };
+  }
+
+  apply() {
+    const criteria = this.snapshot();
     const invalid = [...this.host.querySelectorAll('input')].some(input => !input.validity.valid) ||
       (criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax;
-    const rows = invalid ? [] : selectFilteredTrades(this.rows, this.profiles, criteria);
-    this.host.querySelector('.filter-count').textContent = invalid ? 'Revisa los rangos: el mínimo debe ser menor o igual al máximo.' : `${integerFormat.format(rows.length)} operaciones`;
-    this.host.querySelector('.filter-count').classList.toggle('warning', Boolean(invalid));
+    if (invalid) {
+      this.validationMessage = 'Revisa los rangos: el mínimo debe ser menor o igual al máximo.';
+      this.updateStatus();
+      return;
+    }
+    this.appliedCriteria = criteria;
+    this.pending = false;
+    this.validationMessage = '';
+    this.onChange();
+  }
+
+  matchingRows() {
+    const rows = selectFilteredTrades(this.rows, this.profiles, this.appliedCriteria);
+    this.appliedCount = rows.length;
+    this.updateStatus();
     return rows;
   }
 
-  changed() { this.matchingRows(); this.onChange(); }
+  updateStatus() {
+    const status = this.host.querySelector('.filter-count');
+    status.textContent = this.validationMessage || `${integerFormat.format(this.appliedCount)} operaciones${this.pending ? ' · Cambios sin aplicar' : ''}`;
+    status.classList.toggle('warning', this.pending || Boolean(this.validationMessage));
+  }
+
+  changed() {
+    this.pending = true;
+    this.validationMessage = '';
+    this.updateStatus();
+  }
 
   reset(notify = true) {
     this.field('period').value = 'all'; this.setPeriod();
