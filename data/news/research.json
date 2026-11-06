@@ -7,7 +7,7 @@
       "windowHours": 48,
       "checkedOn": "2026-11-06",
       "coverage": "partial",
-      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Syndications are merged; publications on the same topic share an eventId. This pilot does not archive every ticker mention, automatic price alert or sector roundup.",
+      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Only publications without a confirmed hour or timezone may use their verified date in either of the two preceding calendar days. Same-day date-only articles remain uncertain. Syndications are merged; publications on the same topic share an eventId.",
       "tradeEntries": {
         "cmrz3qek64f57okc2v8sww3st": "2026-07-24T10:27:29-04:00",
         "cms6b3gfd0rf58bs65n86gs2v": "2026-07-29T08:21:49-04:00",
@@ -18,18 +18,47 @@
         "broker-0da47892a6b23c1717fc4ea9": "2026-11-06T09:06:58-05:00"
       },
       "sources": [
-        {"url": "https://finviz.com/stock?t=VIVK", "access": "page_and_linked_issuer_releases", "note": "Used the displayed historical list and individually opened reproduced releases; Finviz is the host, not the author of issuer statements."},
-        {"url": "https://finance.yahoo.com/quote/VIVK/news/", "access": "search_index", "note": "Indexed syndicated articles provide explicit UTC offsets. Direct page requests returned HTTP 429. Relative quote-page ages were not used for matching."},
-        {"url": "https://www.benzinga.com/quote/VIVK/news", "access": "page_and_linked_reporting", "note": "Opened public issuer reporting and compared it with indexed Yahoo syndication. Premium snippets and automatic sector/price headlines were not treated as verified full articles."},
-        {"url": "https://marketchameleon.com/Overview/VIVK/PressReleases/", "access": "search_index", "note": "Corroborates Eastern-time publication labels for reproduced issuer releases."}
+        {
+          "url": "https://finviz.com/stock?t=VIVK",
+          "access": "page_and_linked_issuer_releases",
+          "note": "Used the displayed historical list and individually opened reproduced releases; Finviz is the host, not the author of issuer statements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/VIVK/news/",
+          "access": "search_index",
+          "note": "Indexed syndicated articles provide explicit UTC offsets. Direct page requests returned HTTP 429. Relative quote-page ages were not used for matching."
+        },
+        {
+          "url": "https://www.benzinga.com/quote/VIVK/news",
+          "access": "page_and_linked_reporting",
+          "note": "Opened public issuer reporting and compared it with indexed Yahoo syndication. Premium snippets and automatic sector/price headlines were not treated as verified full articles."
+        },
+        {
+          "url": "https://marketchameleon.com/Overview/VIVK/PressReleases/",
+          "access": "search_index",
+          "note": "Corroborates Eastern-time publication labels for reproduced issuer releases."
+        }
       ],
-      "unresolvedCandidates": [
+      "unresolvedCandidates": [],
+      "limitations": [
+        "This is evidence of publications found, not a complete historical news feed or proof of a price catalyst.",
+        "Issuer releases were reviewed as syndicated primary statements. Direct issuer-site access timed out and GlobeNewswire's searchable archive did not expose usable article pages in this review.",
+        "Displayed publication timestamps do not prove that the currently served article text is identical to its pre-entry version. No archived pre-entry text or first-seen capture was obtained.",
+        "The early July 29 Benzinga report and the later official release share an eventId but retain different publication times and summaries. Do not expose the 09:15 release as known before the 08:21 or 08:30 entries.",
+        "Additional issuer-specific articles or filings may exist in the windows. Unknown fields and inaccessible sources remain explicit rather than becoming a no-news label.",
+        "Date-only matching is explicitly a fallback, not a claim of an exact 48-hour age. Known timestamps always retain exact elapsed-hour matching, including same-day publications before entry."
+      ],
+      "dateFallbackDays": 2,
+      "resolvedCandidates": [
         {
           "id": "vivk-20260722-report-time-unknown",
           "url": "https://ticker.report/news/vivk-vivakor-signs-new-crude-oil-contracts-adding-289m-in-annual-activity-2026-07-22",
           "reportedDate": "2026-07-22",
           "reason": "Only a publication date was established. The July 24 window begins July 22 at 10:27:29 ET, so eligibility cannot be confirmed. The underlying SEC filing was published July 21 and must not be re-dated to July 22.",
-          "candidateTradeIds": ["cmrz3qek64f57okc2v8sww3st"]
+          "candidateTradeIds": [
+            "cmrz3qek64f57okc2v8sww3st"
+          ],
+          "resolution": "Included using the verified publication date under the user-authorized two-day fallback; exact hour remains unknown."
         },
         {
           "id": "vivk-20260728-report-timezone-unknown",
@@ -37,15 +66,13 @@
           "reportedDate": "2026-07-28",
           "reportedTime": "12:38",
           "reason": "The article reports on the July 27 commissioning announcement. The page displays 12:38 but an explicit timezone was not independently established for this publication. It is excluded from confirmed article links; its displayed clock is not silently assigned a timezone.",
-          "candidateTradeIds": ["cms6b3gfd0rf58bs65n86gs2v", "cms6b3gfd0rf68bs6y0dzg04t", "cms6b3gfd0rf78bs6lp6x9awh"]
+          "candidateTradeIds": [
+            "cms6b3gfd0rf58bs65n86gs2v",
+            "cms6b3gfd0rf68bs6y0dzg04t",
+            "cms6b3gfd0rf78bs6lp6x9awh"
+          ],
+          "resolution": "Included using the verified publication date under the user-authorized two-day fallback; exact hour remains unknown."
         }
-      ],
-      "limitations": [
-        "This is evidence of publications found, not a complete historical news feed or proof of a price catalyst.",
-        "Issuer releases were reviewed as syndicated primary statements. Direct issuer-site access timed out and GlobeNewswire's searchable archive did not expose usable article pages in this review.",
-        "Displayed publication timestamps do not prove that the currently served article text is identical to its pre-entry version. No archived pre-entry text or first-seen capture was obtained.",
-        "The early July 29 Benzinga report and the later official release share an eventId but retain different publication times and summaries. Do not expose the 09:15 release as known before the 08:21 or 08:30 entries.",
-        "Additional issuer-specific articles or filings may exist in the windows. Unknown fields and inaccessible sources remain explicit rather than becoming a no-news label."
       ]
     }
   ]

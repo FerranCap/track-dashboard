@@ -40,7 +40,9 @@
       "category": "operational_update",
       "summary": "The issuer reports completion of joint-venture funding commitments and the start of commissioning activities at its Houston-area remediation facility. Commissioning does not establish that commercial operations have started.",
       "url": "https://finviz.com/news/372852/vivakor-advances-houston-oil-remediation-processing-center-toward-commercial-operations",
-      "sourceUrls": ["https://marketchameleon.com/Overview/VIVK/PressReleases/"],
+      "sourceUrls": [
+        "https://marketchameleon.com/Overview/VIVK/PressReleases/"
+      ],
       "timestampEvidence": "The reproduced issuer release in Finviz states July 27, 09:15. Market Chameleon's GlobeNewswire release listing explicitly states 09:15 AM ET for July 27.",
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
@@ -61,7 +63,9 @@
       "category": "commercial_guidance",
       "summary": "Benzinga reports an expansion of the crude marketing platform to approximately $1.5 billion in annualized commercial activity. Reported activity is not equivalent to gross profit.",
       "url": "https://www.benzinga.com/markets/small-cap/26/07/60756438/exclusive-vivakor-expands-crude-oil-business-again-targets-1-5-billion-annual-platform",
-      "sourceUrls": ["https://uk.finance.yahoo.com/news/vivakor-expands-crude-oil-business-115958522.html"],
+      "sourceUrls": [
+        "https://uk.finance.yahoo.com/news/vivakor-expands-crude-oil-business-115958522.html"
+      ],
       "timestampEvidence": "Yahoo's indexed Benzinga syndication explicitly states July 29, 07:59 GMT-4. Benzinga's ticker listing agrees at 07:59, while its current article header rounds to 08:00. Minute precision is retained; no seconds are inferred from the URL.",
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
@@ -106,7 +110,9 @@
       "category": "proposed_acquisition",
       "summary": "Vivakor announces a nonbinding letter of intent for Direct Midstream, with a proposed $40 million gross purchase price. Funding, definitive agreements and other conditions remain outstanding; this is not a completed acquisition.",
       "url": "https://finviz.com/news/400869/vivakor-signs-loi-for-proposed-40-million-acquisition-of-direct-midstream",
-      "sourceUrls": ["https://finance.yahoo.com/energy/articles/vivakor-signs-loi-proposed-40-130000449.html"],
+      "sourceUrls": [
+        "https://finance.yahoo.com/energy/articles/vivakor-signs-loi-proposed-40-130000449.html"
+      ],
       "timestampEvidence": "Finviz reproduces the issuer release at October 9, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 AM EDT.",
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
@@ -127,7 +133,9 @@
       "category": "conditional_commercial_agreement",
       "summary": "Acquisition target Direct Midstream has a conditional agreement to operate 52 New Mexico wells. Vivakor has not completed the acquisition, and the operating agreement remains subject to conditions.",
       "url": "https://finviz.com/news/415478/vivakor-highlights-direct-midstreams-new-mexico-operating-agreement-as-proposed-acquisition-advances",
-      "sourceUrls": ["https://sg.finance.yahoo.com/news/vivakor-highlights-direct-midstream-mexico-140000960.html"],
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/vivakor-highlights-direct-midstream-mexico-140000960.html"
+      ],
       "timestampEvidence": "Finviz reproduces the issuer release at November 4, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 GMT-5.",
       "verificationStatus": "verified_publication",
       "contentAsOfEntryVerified": false,
@@ -148,9 +156,59 @@
       "category": "project_adviser",
       "summary": "Vivakor engages Bernard Brown to support technical planning and development of a proposed Texas airport hydrogen and CNG project. The announcement does not establish project approval, financing or commercial launch.",
       "url": "https://finviz.com/news/417059/vivakor-engages-energy-infrastructure-executive-bernard-brown-to-advance-airport-hydrogen-project",
-      "sourceUrls": ["https://sg.finance.yahoo.com/news/vivakor-engages-energy-infrastructure-executive-140000490.html"],
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/vivakor-engages-energy-infrastructure-executive-140000490.html"
+      ],
       "timestampEvidence": "Finviz reproduces the issuer release at November 5, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 GMT-5.",
       "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260722-crude-contracts-report",
+      "eventId": "vivk-20260721-crude-contracts",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Signs New Crude Oil Contracts Adding ~$289M in Annual Activity",
+      "publishedAt": null,
+      "publicationDate": "2026-07-22",
+      "timePrecision": "day",
+      "publisher": "Ticker Report",
+      "kind": "issuer_reporting",
+      "category": "commercial_agreements",
+      "summary": "The report discusses new physical crude transactions and a financing update disclosed in an earlier SEC filing. Its own publication date is July 22; the filing is a separate source and is not assigned that date.",
+      "url": "https://ticker.report/news/vivk-vivakor-signs-new-crude-oil-contracts-adding-289m-in-annual-activity-2026-07-22",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/0001450704/000182912626007719/vivakorinc_8k.htm"
+      ],
+      "timestampEvidence": "The indexed report states July 22, 2026 without a publication hour. Accepted under the user's date fallback for the two preceding calendar days. No midnight timestamp is invented.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260728-houston-commissioning-report",
+      "eventId": "vivk-20260727-houston-commissioning",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "What's Going On With Vivakor Shares On Tuesday?",
+      "publishedAt": null,
+      "publicationDate": "2026-07-28",
+      "reportedLocalTime": "12:38",
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "author": "Lekha Gupta",
+      "kind": "issuer_reporting",
+      "category": "operational_update",
+      "summary": "Benzinga discusses the Houston remediation facility's commissioning and completed funding commitments announced the previous day. It is a separate report on the same commissioning topic.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/26/07/60735063/whats-going-on-with-vivakor-shares-on-tuesday",
+      "sourceUrls": [
+        "https://daytraders.com/news/2026/07/28/whats-going-on-with-vivakor-shares-on-tuesday"
+      ],
+      "timestampEvidence": "The public article states July 28, 2026 at 12:38; its timezone was not independently established. The reported clock is preserved separately, while matching uses the verified date under the user's fallback.",
+      "verificationStatus": "verified_date",
       "contentAsOfEntryVerified": false,
       "checkedOn": "2026-11-06"
     }

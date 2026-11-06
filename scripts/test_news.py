@@ -51,6 +51,28 @@ class NewsContextTests(unittest.TestCase):
         self.article['publishedAt'] = '2026-10-31T08:59:59-04:00'
         self.assertEqual(len(self.build()['trades'][0]['articles']), 0)
 
+    def test_date_fallback_only_for_unknown_time_and_previous_days(self):
+        self.article.update(publishedAt=None, timePrecision='day', verificationStatus='verified_date')
+        for day, expected in [('2026-11-03', 0), ('2026-11-04', 1), ('2026-11-05', 1), ('2026-11-06', 0), ('2026-11-07', 0)]:
+            with self.subTest(day=day):
+                self.article['publicationDate'] = day
+                result = self.build()
+                self.assertEqual(len(result['trades'][0]['articles']), expected)
+                if expected:
+                    link = result['trades'][0]['articles'][0]
+                    self.assertEqual(link['matchingBasis'], 'publication_date')
+                    self.assertIsNone(link['ageSecondsMin'])
+                    self.assertIsNone(link['ageSecondsMax'])
+                if day == '2026-11-06':
+                    self.assertEqual(result['trades'][0]['status'], 'pending_verification')
+
+    def test_date_fallback_uses_new_york_entry_day(self):
+        self.trade['opened'] = '2026-11-06T02:00:00Z'
+        self.article.update(publishedAt=None, publicationDate='2026-11-03', timePrecision='day', verificationStatus='verified_date')
+        self.assertEqual(len(self.build()['trades'][0]['articles']), 1)
+        self.article['publicationDate'] = '2026-11-05'
+        self.assertEqual(len(self.build()['trades'][0]['articles']), 0)
+
     def test_missing_review_is_not_no_news(self):
         self.assertEqual(self.build([], [])['trades'][0]['status'], 'pending_verification')
         self.assertEqual(self.build([])['trades'][0]['status'], 'none_found_in_reviewed_sources')
@@ -89,8 +111,8 @@ class NewsContextTests(unittest.TestCase):
                                read(ROOT / 'data/news/research.json')['reviews'], {'VIVK'})
         self.assertEqual(dataset, before)
         self.assertEqual(result, read(ROOT / 'data/news/trade-context.json'))
-        self.assertEqual(result['counts'], {'trades': 7, 'articles': 7, 'events': 6,
-                                           'tradeArticleLinks': 11, 'tradesWithNews': 7})
+        self.assertEqual(result['counts'], {'trades': 7, 'articles': 9, 'events': 7,
+                                           'tradeArticleLinks': 15, 'dateFallbackLinks': 4, 'tradesWithNews': 7})
         by_entry = {trade['entryAt']: trade for trade in result['trades']}
         early = by_entry['2026-07-29T08:21:49-04:00']['articles']
         self.assertNotIn('vivk-20260729-crude-guidance-release', [article['articleId'] for article in early])

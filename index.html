@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261106-ticker-news-30">
+  <link rel="stylesheet" href="styles.css?v=20261106-news-date-fallback-31">
 </head>
 <body>
 <aside class="sidebar">
@@ -370,7 +370,7 @@
 </section>
 <section class="section panel">
 <div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
-<p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias muestra las publicaciones verificadas durante las 48 horas anteriores a las entradas de cada ticker; «Sin revisar» indica que aún no se ha investigado.</p>
+<p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias usa las 48 horas exactas antes de cada entrada; solo si falta hora o zona horaria admite las fechas de los dos días anteriores. «Sin revisar» indica que aún no se ha investigado.</p>
 <label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
 <div id="issuer-table" class="table-wrap issuer-table"></div>
 </section>
@@ -523,21 +523,21 @@
 </div>    <footer>
 <span id="dataset-info">
 </span>
-<span>Versión: 20261106-ticker-news-30</span>
+<span>Versión: 20261106-news-date-fallback-31</span>
 <span>Los costes no se descuentan dos veces</span>
 </footer>
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261106-ticker-news-30" defer></script>
-<script src="consistency.js?v=20261106-ticker-news-30" defer></script>
-<script src="table-sort.js?v=20261106-ticker-news-30" defer></script>
-<script src="help.js?v=20261106-ticker-news-30" defer></script>
-<script src="filters.js?v=20261106-ticker-news-30" defer></script>
-<script src="news.js?v=20261106-ticker-news-30" defer></script>
-<script src="workspace.js?v=20261106-ticker-news-30" defer>
+<script src="calendar.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="consistency.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="table-sort.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="help.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="filters.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="news.js?v=20261106-news-date-fallback-31" defer></script>
+<script src="workspace.js?v=20261106-news-date-fallback-31" defer>
 </script>
-<script src="dashboard.js?v=20261106-ticker-news-30" defer>
+<script src="dashboard.js?v=20261106-news-date-fallback-31" defer>
 </script>
 </body>
 </html>

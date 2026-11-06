@@ -2,12 +2,37 @@
   "schemaVersion": 1,
   "windowHours": 48,
   "windowRule": "entry_minus_hours_inclusive_to_entry_exclusive",
+  "dateFallbackDays": 2,
+  "dateFallbackRule": "previous_calendar_days_only_when_time_unknown",
   "timezone": "America/New_York",
   "scopedSymbols": [
     "VIVK"
   ],
   "tradeAccountingSha256": "fe35e4a7c17d4bcff631ffc28f3e8cb45d7391fe309847daf2bac867f74c2e4b",
   "articles": [
+    {
+      "id": "vivk-20260722-crude-contracts-report",
+      "eventId": "vivk-20260721-crude-contracts",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Signs New Crude Oil Contracts Adding ~$289M in Annual Activity",
+      "publishedAt": null,
+      "publicationDate": "2026-07-22",
+      "timePrecision": "day",
+      "publisher": "Ticker Report",
+      "kind": "issuer_reporting",
+      "category": "commercial_agreements",
+      "summary": "The report discusses new physical crude transactions and a financing update disclosed in an earlier SEC filing. Its own publication date is July 22; the filing is a separate source and is not assigned that date.",
+      "url": "https://ticker.report/news/vivk-vivakor-signs-new-crude-oil-contracts-adding-289m-in-annual-activity-2026-07-22",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/0001450704/000182912626007719/vivakorinc_8k.htm"
+      ],
+      "timestampEvidence": "The indexed report states July 22, 2026 without a publication hour. Accepted under the user's date fallback for the two preceding calendar days. No midnight timestamp is invented.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
     {
       "id": "vivk-20260724-crude-programs-release",
       "eventId": "vivk-20260724-crude-programs",
@@ -52,6 +77,31 @@
       ],
       "timestampEvidence": "The reproduced issuer release in Finviz states July 27, 09:15. Market Chameleon's GlobeNewswire release listing explicitly states 09:15 AM ET for July 27.",
       "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260728-houston-commissioning-report",
+      "eventId": "vivk-20260727-houston-commissioning",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "What's Going On With Vivakor Shares On Tuesday?",
+      "publishedAt": null,
+      "publicationDate": "2026-07-28",
+      "reportedLocalTime": "12:38",
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "author": "Lekha Gupta",
+      "kind": "issuer_reporting",
+      "category": "operational_update",
+      "summary": "Benzinga discusses the Houston remediation facility's commissioning and completed funding commitments announced the previous day. It is a separate report on the same commissioning topic.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/26/07/60735063/whats-going-on-with-vivakor-shares-on-tuesday",
+      "sourceUrls": [
+        "https://daytraders.com/news/2026/07/28/whats-going-on-with-vivakor-shares-on-tuesday"
+      ],
+      "timestampEvidence": "The public article states July 28, 2026 at 12:38; its timezone was not independently established. The reported clock is preserved separately, while matching uses the verified date under the user's fallback.",
+      "verificationStatus": "verified_date",
       "contentAsOfEntryVerified": false,
       "checkedOn": "2026-11-06"
     },
@@ -184,17 +234,24 @@
       "reviewedOn": "2026-11-06",
       "articles": [
         {
+          "articleId": "vivk-20260722-crude-contracts-report",
+          "eventId": "vivk-20260721-crude-contracts",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 2,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
           "articleId": "vivk-20260724-crude-programs-release",
           "eventId": "vivk-20260724-crude-programs",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 4289.0,
           "ageSecondsMax": 4349.0
         }
       ],
-      "eventCount": 1,
+      "eventCount": 2,
       "uncertainArticleIds": [],
-      "unresolvedCandidateIds": [
-        "vivk-20260722-report-time-unknown"
-      ]
+      "unresolvedCandidateIds": []
     },
     {
       "tradeId": "cms6b3gfd0rf58bs65n86gs2v",
@@ -209,21 +266,29 @@
         {
           "articleId": "vivk-20260727-houston-commissioning-release",
           "eventId": "vivk-20260727-houston-commissioning",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 169549.0,
           "ageSecondsMax": 169609.0
         },
         {
+          "articleId": "vivk-20260728-houston-commissioning-report",
+          "eventId": "vivk-20260727-houston-commissioning",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
           "articleId": "vivk-20260729-crude-guidance-benzinga",
           "eventId": "vivk-20260729-crude-guidance",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 1309.0,
           "ageSecondsMax": 1369.0
         }
       ],
       "eventCount": 2,
       "uncertainArticleIds": [],
-      "unresolvedCandidateIds": [
-        "vivk-20260728-report-timezone-unknown"
-      ]
+      "unresolvedCandidateIds": []
     },
     {
       "tradeId": "cms6b3gfd0rf68bs6y0dzg04t",
@@ -238,21 +303,29 @@
         {
           "articleId": "vivk-20260727-houston-commissioning-release",
           "eventId": "vivk-20260727-houston-commissioning",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 170095.0,
           "ageSecondsMax": 170155.0
         },
         {
+          "articleId": "vivk-20260728-houston-commissioning-report",
+          "eventId": "vivk-20260727-houston-commissioning",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
           "articleId": "vivk-20260729-crude-guidance-benzinga",
           "eventId": "vivk-20260729-crude-guidance",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 1855.0,
           "ageSecondsMax": 1915.0
         }
       ],
       "eventCount": 2,
       "uncertainArticleIds": [],
-      "unresolvedCandidateIds": [
-        "vivk-20260728-report-timezone-unknown"
-      ]
+      "unresolvedCandidateIds": []
     },
     {
       "tradeId": "cms6b3gfd0rf78bs6lp6x9awh",
@@ -265,23 +338,31 @@
       "reviewedOn": "2026-11-06",
       "articles": [
         {
+          "articleId": "vivk-20260728-houston-commissioning-report",
+          "eventId": "vivk-20260727-houston-commissioning",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
           "articleId": "vivk-20260729-crude-guidance-benzinga",
           "eventId": "vivk-20260729-crude-guidance",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 4962.0,
           "ageSecondsMax": 5022.0
         },
         {
           "articleId": "vivk-20260729-crude-guidance-release",
           "eventId": "vivk-20260729-crude-guidance",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 402.0,
           "ageSecondsMax": 462.0
         }
       ],
-      "eventCount": 1,
+      "eventCount": 2,
       "uncertainArticleIds": [],
-      "unresolvedCandidateIds": [
-        "vivk-20260728-report-timezone-unknown"
-      ]
+      "unresolvedCandidateIds": []
     },
     {
       "tradeId": "cmv10b2m602meyd47tor1q5f0",
@@ -296,6 +377,7 @@
         {
           "articleId": "vivk-20261009-direct-midstream-loi-release",
           "eventId": "vivk-20261009-direct-midstream-loi",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 1001.0,
           "ageSecondsMax": 1061.0
         }
@@ -317,12 +399,14 @@
         {
           "articleId": "vivk-20261104-direct-midstream-wells-release",
           "eventId": "vivk-20261104-direct-midstream-wells",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 172043.0,
           "ageSecondsMax": 172103.0
         },
         {
           "articleId": "vivk-20261105-bernard-brown-release",
           "eventId": "vivk-20261105-bernard-brown",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 85643.0,
           "ageSecondsMax": 85703.0
         }
@@ -344,6 +428,7 @@
         {
           "articleId": "vivk-20261105-bernard-brown-release",
           "eventId": "vivk-20261105-bernard-brown",
+          "matchingBasis": "timestamp",
           "ageSecondsMin": 86758.0,
           "ageSecondsMax": 86818.0
         }
@@ -360,7 +445,7 @@
       "windowHours": 48,
       "checkedOn": "2026-11-06",
       "coverage": "partial",
-      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Syndications are merged; publications on the same topic share an eventId. This pilot does not archive every ticker mention, automatic price alert or sector roundup.",
+      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Only publications without a confirmed hour or timezone may use their verified date in either of the two preceding calendar days. Same-day date-only articles remain uncertain. Syndications are merged; publications on the same topic share an eventId.",
       "tradeEntries": {
         "cmrz3qek64f57okc2v8sww3st": "2026-07-24T10:27:29-04:00",
         "cms6b3gfd0rf58bs65n86gs2v": "2026-07-29T08:21:49-04:00",
@@ -392,7 +477,17 @@
           "note": "Corroborates Eastern-time publication labels for reproduced issuer releases."
         }
       ],
-      "unresolvedCandidates": [
+      "unresolvedCandidates": [],
+      "limitations": [
+        "This is evidence of publications found, not a complete historical news feed or proof of a price catalyst.",
+        "Issuer releases were reviewed as syndicated primary statements. Direct issuer-site access timed out and GlobeNewswire's searchable archive did not expose usable article pages in this review.",
+        "Displayed publication timestamps do not prove that the currently served article text is identical to its pre-entry version. No archived pre-entry text or first-seen capture was obtained.",
+        "The early July 29 Benzinga report and the later official release share an eventId but retain different publication times and summaries. Do not expose the 09:15 release as known before the 08:21 or 08:30 entries.",
+        "Additional issuer-specific articles or filings may exist in the windows. Unknown fields and inaccessible sources remain explicit rather than becoming a no-news label.",
+        "Date-only matching is explicitly a fallback, not a claim of an exact 48-hour age. Known timestamps always retain exact elapsed-hour matching, including same-day publications before entry."
+      ],
+      "dateFallbackDays": 2,
+      "resolvedCandidates": [
         {
           "id": "vivk-20260722-report-time-unknown",
           "url": "https://ticker.report/news/vivk-vivakor-signs-new-crude-oil-contracts-adding-289m-in-annual-activity-2026-07-22",
@@ -400,7 +495,8 @@
           "reason": "Only a publication date was established. The July 24 window begins July 22 at 10:27:29 ET, so eligibility cannot be confirmed. The underlying SEC filing was published July 21 and must not be re-dated to July 22.",
           "candidateTradeIds": [
             "cmrz3qek64f57okc2v8sww3st"
-          ]
+          ],
+          "resolution": "Included using the verified publication date under the user-authorized two-day fallback; exact hour remains unknown."
         },
         {
           "id": "vivk-20260728-report-timezone-unknown",
@@ -412,23 +508,18 @@
             "cms6b3gfd0rf58bs65n86gs2v",
             "cms6b3gfd0rf68bs6y0dzg04t",
             "cms6b3gfd0rf78bs6lp6x9awh"
-          ]
+          ],
+          "resolution": "Included using the verified publication date under the user-authorized two-day fallback; exact hour remains unknown."
         }
-      ],
-      "limitations": [
-        "This is evidence of publications found, not a complete historical news feed or proof of a price catalyst.",
-        "Issuer releases were reviewed as syndicated primary statements. Direct issuer-site access timed out and GlobeNewswire's searchable archive did not expose usable article pages in this review.",
-        "Displayed publication timestamps do not prove that the currently served article text is identical to its pre-entry version. No archived pre-entry text or first-seen capture was obtained.",
-        "The early July 29 Benzinga report and the later official release share an eventId but retain different publication times and summaries. Do not expose the 09:15 release as known before the 08:21 or 08:30 entries.",
-        "Additional issuer-specific articles or filings may exist in the windows. Unknown fields and inaccessible sources remain explicit rather than becoming a no-news label."
       ]
     }
   ],
   "counts": {
     "trades": 7,
-    "articles": 7,
-    "events": 6,
-    "tradeArticleLinks": 11,
+    "articles": 9,
+    "events": 7,
+    "tradeArticleLinks": 15,
+    "dateFallbackLinks": 4,
     "tradesWithNews": 7
   }
 }

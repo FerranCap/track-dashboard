@@ -45,7 +45,7 @@ jobs:
       - name: Generate consolidated data
         run: python scripts/build_data.py
       - name: Generate trade news context
-        run: python scripts/build_news.py --symbols VIVK --hours 48
+        run: python scripts/build_news.py --hours 48
       - name: Validate generated dataset
         run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Assemble website
