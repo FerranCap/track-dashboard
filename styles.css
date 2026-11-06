@@ -175,3 +175,20 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 
 .data-audit-heading{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
 .data-audit-complete{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border:1px solid #28554d;border-radius:20px;background:#112d2d;color:#35ebb3;font-size:11px;font-weight:600;white-space:nowrap}
+
+/* News context in the issuer registry. */
+.issuer-news{min-width:155px;white-space:normal}
+.issuer-table .issuer-news-details{min-width:155px;max-width:390px}
+.issuer-news-details[open]{width:390px;max-width:calc(100vw - 70px)}
+.news-detail-content{margin-top:10px;padding:12px;border:1px solid #344b68;border-radius:8px;background:#101b2b}
+.issuer-table .news-coverage{margin:0 0 12px;color:#a5bbd6;font-size:11px}
+.issuer-news-list{list-style:none;margin:0;padding:0;display:grid;gap:15px}
+.issuer-news-list>li+li{border-top:1px solid #2d405b;padding-top:14px}
+.news-headline{font-size:12px;font-weight:650;line-height:1.6;overflow-wrap:anywhere}
+.issuer-table .news-detail-content small{max-width:none;font-size:10px;line-height:1.6}
+.issuer-table .news-detail-content p{font-size:11px;line-height:1.6}
+.news-linked-trades,.news-sources{margin-top:9px;color:#9db4d1;font-size:10px;line-height:1.7;overflow-wrap:anywhere}
+.news-linked-trades ul{margin:4px 0 0;padding-left:16px}
+.issuer-table .news-pending{margin:14px 0;max-width:none}
+.news-pending ul{padding-left:16px;line-height:1.6}
+.news-detail-content>small{margin-top:12px}

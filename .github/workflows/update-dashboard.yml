@@ -10,6 +10,7 @@ on:
       - 'index.html'
       - 'dashboard.js'
       - 'workspace.js'
+      - 'news.js'
       - 'filters.js'
       - 'help.js'
       - 'table-sort.js'
@@ -43,13 +44,16 @@ jobs:
           python-version: '3.12'
       - name: Generate consolidated data
         run: python scripts/build_data.py
+      - name: Generate trade news context
+        run: python scripts/build_news.py --symbols VIVK --hours 48
       - name: Validate generated dataset
         run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Assemble website
         run: |
-          mkdir -p site/data/reference
-          cp index.html dashboard.js workspace.js filters.js help.js table-sort.js consistency.js calendar.js styles.css site/
+          mkdir -p site/data/reference site/data/news
+          cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js styles.css site/
           cp data/trades.json site/data/trades.json
+          cp data/news/trade-context.json site/data/news/trade-context.json
           cp data/reference/ticker-profiles.csv data/reference/research-summary.json site/data/reference/
           touch site/.nojekyll
       - name: Configure GitHub Pages

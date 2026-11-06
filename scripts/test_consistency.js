@@ -102,13 +102,13 @@ checkConsistency(miniCalendarCells('2026-11').filter(cell => !cell.outside).leng
 // Exercise ticker cards with the production calculations and a minimal render target.
 const calendarFs = require('node:fs'), calendarVm = require('node:vm'), calendarPath = require('node:path');
 const calendarElements = new Map();
-const calendarContext = calendarVm.createContext({ document: { getElementById(id) {
+const calendarContext = calendarVm.createContext({ URL, document: { getElementById(id) {
   if (!calendarElements.has(id)) calendarElements.set(id, { innerHTML: '', textContent: '', hidden: false });
   return calendarElements.get(id);
 } } });
 const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'dashboard.js'), 'utf8');
 calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
-for (const file of ['workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
+for (const file of ['news.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
 calendarVm.runInContext('const renderedCalendarCharts = new Map(); renderChart = (id, series) => renderedCalendarCharts.set(id, series);', calendarContext);
 calendarContext.sampleRows = [10, -2, 5].map((pnl, index) => ({ id: String(index), symbol: 'MIX', side: index === 2 ? 'SELL' : 'BUY', pnl, fees: 0.1 * (index + 1), date: '2026-11-06', opened: `2026-11-06T09:0${index}:00-05:00`, closed: `2026-11-06T09:1${index}:00-05:00` }));
 calendarVm.runInContext('renderCalendarDay(sampleRows)', calendarContext);
@@ -170,4 +170,22 @@ calendarVm.runInContext(`
 checkConsistency(!calendarElements.get('data-pending-panel').hidden && calendarElements.get('data-audit-complete').hidden, 'Unidentified tickers restore the panel even when the search has no matches');
 calendarVm.runInContext('issuerAudit = []; renderPendingIssuers();', calendarContext);
 checkConsistency(calendarElements.get('data-pending-panel').hidden && calendarElements.get('data-audit-complete').hidden, 'Empty history does not claim complete identification');
-console.log('Consistency, calendar, comparison groups and issuer completion checks passed.');
+calendarContext.realNewsDataset = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'trades.json'), 'utf8'));
+calendarContext.realNewsPayload = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'news', 'trade-context.json'), 'utf8'));
+calendarElements.set('issuer-search', { value: 'VIVK' });
+calendarVm.runInContext('dataset = realNewsDataset; updateIssuerNews(realNewsPayload, dataset); renderIssuerProfiles(dataset.trades);', calendarContext);
+const issuerMarkup = calendarElements.get('issuer-table').innerHTML;
+checkConsistency(issuerMarkup.includes('>Noticias<') && !issuerMarkup.includes('>VIE<'), 'Issuer table replaces VIE with the News column');
+checkConsistency(issuerMarkup.includes('7 noticias') && issuerMarkup.includes('6 temas'), 'News counts deduplicate publications across linked trades');
+checkConsistency(issuerMarkup.includes('<summary>Detalle</summary>') && issuerMarkup.includes('news-linked-trades') && issuerMarkup.includes('https://finviz.com/news/'), 'Expanded news includes publication details, source links and matched entries');
+checkConsistency(issuerMarkup.includes('2 publicaciones pendientes') && issuerMarkup.includes('7 de 7 operaciones revisadas'), 'Uncertain candidates remain separate from confirmed news counts');
+checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.ABTS)", calendarContext).includes('Sin revisar'), 'Unresearched tickers do not show zero news');
+checkConsistency(calendarVm.runInContext("dataset.tickerProfiles.VIVK.vie_status", calendarContext) === 'unknown', 'Hiding VIE does not alter the canonical issuer profile');
+const stalePayload = JSON.parse(JSON.stringify(calendarContext.realNewsPayload));
+stalePayload.trades.forEach(trade => { trade.entryAt = '2000-01-01T00:00:00Z'; });
+calendarContext.staleNewsPayload = stalePayload;
+checkConsistency(calendarVm.runInContext("updateIssuerNews(staleNewsPayload, dataset); issuerNewsCell(dataset.tickerProfiles.VIVK)", calendarContext).includes('Sin revisar'), 'Stale entry links do not inherit reviewed news');
+calendarVm.runInContext('updateIssuerNews(null, dataset);', calendarContext);
+checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VIVK)", calendarContext).includes('No disponibles'), 'Unavailable news does not claim no news');
+checkConsistency(calendarVm.runInContext("newsSourceLink('javascript:alert(1)', '<script>')", calendarContext) === '&lt;script&gt;', 'News source links reject unsafe protocols and escape labels');
+console.log('Consistency, calendar, comparison groups, issuer completion and ticker news rendering checks passed.');

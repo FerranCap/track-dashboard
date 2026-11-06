@@ -1,0 +1,434 @@
+{
+  "schemaVersion": 1,
+  "windowHours": 48,
+  "windowRule": "entry_minus_hours_inclusive_to_entry_exclusive",
+  "timezone": "America/New_York",
+  "scopedSymbols": [
+    "VIVK"
+  ],
+  "tradeAccountingSha256": "fe35e4a7c17d4bcff631ffc28f3e8cb45d7391fe309847daf2bac867f74c2e4b",
+  "articles": [
+    {
+      "id": "vivk-20260724-crude-programs-release",
+      "eventId": "vivk-20260724-crude-programs",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Surpasses $1 Billion in Annualized Physical Crude Transactions",
+      "publishedAt": "2026-07-24T09:15:00-04:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "commercial_agreements",
+      "summary": "Two recurring physical crude programs add an estimated $384 million in annualized commercial activity. This is transaction activity, not gross profit or guaranteed revenue.",
+      "url": "https://finviz.com/news/372412/vivakor-surpasses-1-billion-in-annualized-physical-crude-transactions",
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/vivakor-surpasses-1-billion-annualized-131500139.html",
+        "https://www.stockwatch.com/News/Item/U-z9767650-U!VIVK-20260724/U/VIVK"
+      ],
+      "timestampEvidence": "Finviz reproduces the issuer release at July 24, 09:15. Yahoo's indexed syndication states 09:15 GMT-4; Stockwatch states 09:15 ET.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260727-houston-commissioning-release",
+      "eventId": "vivk-20260727-houston-commissioning",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Advances Houston Oil Remediation Processing Center Toward Commercial Operations",
+      "publishedAt": "2026-07-27T09:15:00-04:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "operational_update",
+      "summary": "The issuer reports completion of joint-venture funding commitments and the start of commissioning activities at its Houston-area remediation facility. Commissioning does not establish that commercial operations have started.",
+      "url": "https://finviz.com/news/372852/vivakor-advances-houston-oil-remediation-processing-center-toward-commercial-operations",
+      "sourceUrls": [
+        "https://marketchameleon.com/Overview/VIVK/PressReleases/"
+      ],
+      "timestampEvidence": "The reproduced issuer release in Finviz states July 27, 09:15. Market Chameleon's GlobeNewswire release listing explicitly states 09:15 AM ET for July 27.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260729-crude-guidance-benzinga",
+      "eventId": "vivk-20260729-crude-guidance",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Expands Crude Oil Business Again, Targets $1.5 Billion Annual Platform",
+      "publishedAt": "2026-07-29T07:59:00-04:00",
+      "timePrecision": "minute",
+      "publisher": "Benzinga",
+      "author": "Akanksha Bakshi",
+      "kind": "issuer_reporting",
+      "category": "commercial_guidance",
+      "summary": "Benzinga reports an expansion of the crude marketing platform to approximately $1.5 billion in annualized commercial activity. Reported activity is not equivalent to gross profit.",
+      "url": "https://www.benzinga.com/markets/small-cap/26/07/60756438/exclusive-vivakor-expands-crude-oil-business-again-targets-1-5-billion-annual-platform",
+      "sourceUrls": [
+        "https://uk.finance.yahoo.com/news/vivakor-expands-crude-oil-business-115958522.html"
+      ],
+      "timestampEvidence": "Yahoo's indexed Benzinga syndication explicitly states July 29, 07:59 GMT-4. Benzinga's ticker listing agrees at 07:59, while its current article header rounds to 08:00. Minute precision is retained; no seconds are inferred from the URL.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20260729-crude-guidance-release",
+      "eventId": "vivk-20260729-crude-guidance",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Updates Guidance of Crude Oil Marketing Platform to Approximately $1.5 Billion Annually",
+      "publishedAt": "2026-07-29T09:15:00-04:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "commercial_guidance",
+      "summary": "Two additional recurring programs expand projected annualized crude marketing activity to about $1.5 billion. The estimate depends on pricing and delivered volumes; only part of activity is recognized as gross profit.",
+      "url": "https://finviz.com/news/374234/vivakor-updates-guidance-of-crude-oil-marketing-platform-to-approximately-15-billion-annually",
+      "sourceUrls": [
+        "https://www.fidelity.com/news/article/default/202607290915PRIMZONEFULLFEED9800181",
+        "https://www.streetinsider.com/related.php?id=26831826&type=pr"
+      ],
+      "timestampEvidence": "Finviz reproduces the release at July 29, 09:15. Indexed Fidelity syndication states 09:15 AM ET and StreetInsider's reproduced release states 09:15 AM EDT. The earlier Benzinga report is a separate publication, not an earlier timestamp for this release.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20261009-direct-midstream-loi-release",
+      "eventId": "vivk-20261009-direct-midstream-loi",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Signs LOI for Proposed $40 Million Acquisition of Direct Midstream",
+      "publishedAt": "2026-10-09T09:00:00-04:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "proposed_acquisition",
+      "summary": "Vivakor announces a nonbinding letter of intent for Direct Midstream, with a proposed $40 million gross purchase price. Funding, definitive agreements and other conditions remain outstanding; this is not a completed acquisition.",
+      "url": "https://finviz.com/news/400869/vivakor-signs-loi-for-proposed-40-million-acquisition-of-direct-midstream",
+      "sourceUrls": [
+        "https://finance.yahoo.com/energy/articles/vivakor-signs-loi-proposed-40-130000449.html"
+      ],
+      "timestampEvidence": "Finviz reproduces the issuer release at October 9, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 AM EDT.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20261104-direct-midstream-wells-release",
+      "eventId": "vivk-20261104-direct-midstream-wells",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Highlights Direct Midstream's New Mexico Operating Agreement as Proposed Acquisition Advances",
+      "publishedAt": "2026-11-04T09:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "conditional_commercial_agreement",
+      "summary": "Acquisition target Direct Midstream has a conditional agreement to operate 52 New Mexico wells. Vivakor has not completed the acquisition, and the operating agreement remains subject to conditions.",
+      "url": "https://finviz.com/news/415478/vivakor-highlights-direct-midstreams-new-mexico-operating-agreement-as-proposed-acquisition-advances",
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/vivakor-highlights-direct-midstream-mexico-140000960.html"
+      ],
+      "timestampEvidence": "Finviz reproduces the issuer release at November 4, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 GMT-5.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    },
+    {
+      "id": "vivk-20261105-bernard-brown-release",
+      "eventId": "vivk-20261105-bernard-brown",
+      "symbol": "VIVK",
+      "issuerName": "Vivakor, Inc.",
+      "issuerCik": "1450704",
+      "headline": "Vivakor Engages Energy Infrastructure Executive Bernard Brown to Advance Airport Hydrogen Project",
+      "publishedAt": "2026-11-05T09:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "Vivakor, Inc.",
+      "kind": "issuer_release",
+      "category": "project_adviser",
+      "summary": "Vivakor engages Bernard Brown to support technical planning and development of a proposed Texas airport hydrogen and CNG project. The announcement does not establish project approval, financing or commercial launch.",
+      "url": "https://finviz.com/news/417059/vivakor-engages-energy-infrastructure-executive-bernard-brown-to-advance-airport-hydrogen-project",
+      "sourceUrls": [
+        "https://sg.finance.yahoo.com/news/vivakor-engages-energy-infrastructure-executive-140000490.html"
+      ],
+      "timestampEvidence": "Finviz reproduces the issuer release at November 5, 09:00. Yahoo's indexed issuer syndication explicitly states 09:00 GMT-5.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-06"
+    }
+  ],
+  "trades": [
+    {
+      "tradeId": "cmrz3qek64f57okc2v8sww3st",
+      "symbol": "VIVK",
+      "entryAt": "2026-07-24T10:27:29-04:00",
+      "windowStartAt": "2026-07-22T14:27:29+00:00",
+      "windowEndAt": "2026-07-24T14:27:29+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20260724-crude-programs-release",
+          "eventId": "vivk-20260724-crude-programs",
+          "ageSecondsMin": 4289.0,
+          "ageSecondsMax": 4349.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "vivk-20260722-report-time-unknown"
+      ]
+    },
+    {
+      "tradeId": "cms6b3gfd0rf58bs65n86gs2v",
+      "symbol": "VIVK",
+      "entryAt": "2026-07-29T08:21:49-04:00",
+      "windowStartAt": "2026-07-27T12:21:49+00:00",
+      "windowEndAt": "2026-07-29T12:21:49+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20260727-houston-commissioning-release",
+          "eventId": "vivk-20260727-houston-commissioning",
+          "ageSecondsMin": 169549.0,
+          "ageSecondsMax": 169609.0
+        },
+        {
+          "articleId": "vivk-20260729-crude-guidance-benzinga",
+          "eventId": "vivk-20260729-crude-guidance",
+          "ageSecondsMin": 1309.0,
+          "ageSecondsMax": 1369.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "vivk-20260728-report-timezone-unknown"
+      ]
+    },
+    {
+      "tradeId": "cms6b3gfd0rf68bs6y0dzg04t",
+      "symbol": "VIVK",
+      "entryAt": "2026-07-29T08:30:55-04:00",
+      "windowStartAt": "2026-07-27T12:30:55+00:00",
+      "windowEndAt": "2026-07-29T12:30:55+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20260727-houston-commissioning-release",
+          "eventId": "vivk-20260727-houston-commissioning",
+          "ageSecondsMin": 170095.0,
+          "ageSecondsMax": 170155.0
+        },
+        {
+          "articleId": "vivk-20260729-crude-guidance-benzinga",
+          "eventId": "vivk-20260729-crude-guidance",
+          "ageSecondsMin": 1855.0,
+          "ageSecondsMax": 1915.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "vivk-20260728-report-timezone-unknown"
+      ]
+    },
+    {
+      "tradeId": "cms6b3gfd0rf78bs6lp6x9awh",
+      "symbol": "VIVK",
+      "entryAt": "2026-07-29T09:22:42-04:00",
+      "windowStartAt": "2026-07-27T13:22:42+00:00",
+      "windowEndAt": "2026-07-29T13:22:42+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20260729-crude-guidance-benzinga",
+          "eventId": "vivk-20260729-crude-guidance",
+          "ageSecondsMin": 4962.0,
+          "ageSecondsMax": 5022.0
+        },
+        {
+          "articleId": "vivk-20260729-crude-guidance-release",
+          "eventId": "vivk-20260729-crude-guidance",
+          "ageSecondsMin": 402.0,
+          "ageSecondsMax": 462.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": [
+        "vivk-20260728-report-timezone-unknown"
+      ]
+    },
+    {
+      "tradeId": "cmv10b2m602meyd47tor1q5f0",
+      "symbol": "VIVK",
+      "entryAt": "2026-10-09T09:17:41-04:00",
+      "windowStartAt": "2026-10-07T13:17:41+00:00",
+      "windowEndAt": "2026-10-09T13:17:41+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20261009-direct-midstream-loi-release",
+          "eventId": "vivk-20261009-direct-midstream-loi",
+          "ageSecondsMin": 1001.0,
+          "ageSecondsMax": 1061.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-c6b04e5f5ef4c1ad25e29082",
+      "symbol": "VIVK",
+      "entryAt": "2026-11-06T08:48:23-05:00",
+      "windowStartAt": "2026-11-04T13:48:23+00:00",
+      "windowEndAt": "2026-11-06T13:48:23+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20261104-direct-midstream-wells-release",
+          "eventId": "vivk-20261104-direct-midstream-wells",
+          "ageSecondsMin": 172043.0,
+          "ageSecondsMax": 172103.0
+        },
+        {
+          "articleId": "vivk-20261105-bernard-brown-release",
+          "eventId": "vivk-20261105-bernard-brown",
+          "ageSecondsMin": 85643.0,
+          "ageSecondsMax": 85703.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-0da47892a6b23c1717fc4ea9",
+      "symbol": "VIVK",
+      "entryAt": "2026-11-06T09:06:58-05:00",
+      "windowStartAt": "2026-11-04T14:06:58+00:00",
+      "windowEndAt": "2026-11-06T14:06:58+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-06",
+      "articles": [
+        {
+          "articleId": "vivk-20261105-bernard-brown-release",
+          "eventId": "vivk-20261105-bernard-brown",
+          "ageSecondsMin": 86758.0,
+          "ageSecondsMax": 86818.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    }
+  ],
+  "reviews": [
+    {
+      "symbol": "VIVK",
+      "issuerCik": "1450704",
+      "windowHours": 48,
+      "checkedOn": "2026-11-06",
+      "coverage": "partial",
+      "scope": "Issuer releases and issuer-specific reporting in the 48 elapsed hours before each first entry. Syndications are merged; publications on the same topic share an eventId. This pilot does not archive every ticker mention, automatic price alert or sector roundup.",
+      "tradeEntries": {
+        "cmrz3qek64f57okc2v8sww3st": "2026-07-24T10:27:29-04:00",
+        "cms6b3gfd0rf58bs65n86gs2v": "2026-07-29T08:21:49-04:00",
+        "cms6b3gfd0rf68bs6y0dzg04t": "2026-07-29T08:30:55-04:00",
+        "cms6b3gfd0rf78bs6lp6x9awh": "2026-07-29T09:22:42-04:00",
+        "cmv10b2m602meyd47tor1q5f0": "2026-10-09T09:17:41-04:00",
+        "broker-c6b04e5f5ef4c1ad25e29082": "2026-11-06T08:48:23-05:00",
+        "broker-0da47892a6b23c1717fc4ea9": "2026-11-06T09:06:58-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=VIVK",
+          "access": "page_and_linked_issuer_releases",
+          "note": "Used the displayed historical list and individually opened reproduced releases; Finviz is the host, not the author of issuer statements."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/VIVK/news/",
+          "access": "search_index",
+          "note": "Indexed syndicated articles provide explicit UTC offsets. Direct page requests returned HTTP 429. Relative quote-page ages were not used for matching."
+        },
+        {
+          "url": "https://www.benzinga.com/quote/VIVK/news",
+          "access": "page_and_linked_reporting",
+          "note": "Opened public issuer reporting and compared it with indexed Yahoo syndication. Premium snippets and automatic sector/price headlines were not treated as verified full articles."
+        },
+        {
+          "url": "https://marketchameleon.com/Overview/VIVK/PressReleases/",
+          "access": "search_index",
+          "note": "Corroborates Eastern-time publication labels for reproduced issuer releases."
+        }
+      ],
+      "unresolvedCandidates": [
+        {
+          "id": "vivk-20260722-report-time-unknown",
+          "url": "https://ticker.report/news/vivk-vivakor-signs-new-crude-oil-contracts-adding-289m-in-annual-activity-2026-07-22",
+          "reportedDate": "2026-07-22",
+          "reason": "Only a publication date was established. The July 24 window begins July 22 at 10:27:29 ET, so eligibility cannot be confirmed. The underlying SEC filing was published July 21 and must not be re-dated to July 22.",
+          "candidateTradeIds": [
+            "cmrz3qek64f57okc2v8sww3st"
+          ]
+        },
+        {
+          "id": "vivk-20260728-report-timezone-unknown",
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/07/60735063/whats-going-on-with-vivakor-shares-on-tuesday",
+          "reportedDate": "2026-07-28",
+          "reportedTime": "12:38",
+          "reason": "The article reports on the July 27 commissioning announcement. The page displays 12:38 but an explicit timezone was not independently established for this publication. It is excluded from confirmed article links; its displayed clock is not silently assigned a timezone.",
+          "candidateTradeIds": [
+            "cms6b3gfd0rf58bs65n86gs2v",
+            "cms6b3gfd0rf68bs6y0dzg04t",
+            "cms6b3gfd0rf78bs6lp6x9awh"
+          ]
+        }
+      ],
+      "limitations": [
+        "This is evidence of publications found, not a complete historical news feed or proof of a price catalyst.",
+        "Issuer releases were reviewed as syndicated primary statements. Direct issuer-site access timed out and GlobeNewswire's searchable archive did not expose usable article pages in this review.",
+        "Displayed publication timestamps do not prove that the currently served article text is identical to its pre-entry version. No archived pre-entry text or first-seen capture was obtained.",
+        "The early July 29 Benzinga report and the later official release share an eventId but retain different publication times and summaries. Do not expose the 09:15 release as known before the 08:21 or 08:30 entries.",
+        "Additional issuer-specific articles or filings may exist in the windows. Unknown fields and inaccessible sources remain explicit rather than becoming a no-news label."
+      ]
+    }
+  ],
+  "counts": {
+    "trades": 7,
+    "articles": 7,
+    "events": 6,
+    "tradeArticleLinks": 11,
+    "tradesWithNews": 7
+  }
+}

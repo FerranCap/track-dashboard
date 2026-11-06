@@ -301,10 +301,11 @@ async function loadData(options = {}){
   const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
-    const response=await fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'});
+    const [response, newsPayload] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews()]);
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
+    updateIssuerNews(newsPayload, next);
     dataset=next;populateFilters(dataset.trades, Boolean(options.preserveFilters));
     $('search').value=previousSearch;
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;
