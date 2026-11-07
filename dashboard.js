@@ -145,7 +145,9 @@ function svgChart(series,opts={}){
   if(Number.isFinite(opts.max))high=Math.max(high,opts.max);
   if(high===low){high+=1;low-=1;}
   const count=Math.max(...series.map(s=>s.values.length));
-  const X=i=>opts.bar?l+(i+.5)*plotW/count:l+(count===1?.5:i/(count-1))*plotW;
+  const axis=series.find(s=>s.values.length===count).values;
+  const firstTime=Date.parse(axis[0][0]),lastTime=Date.parse(axis.at(-1)[0]);
+  const X=i=>opts.bar?l+(i+.5)*plotW/count:l+(opts.timeAxis&&lastTime>firstTime?(Date.parse(axis[i][0])-firstTime)/(lastTime-firstTime):count===1?.5:i/(count-1))*plotW;
   const Y=v=>t+(high-v)/(high-low)*plotH;
   const pad=v=>Number(v.toFixed(2)).toLocaleString('en-US');
   const valueLabel=v=>opts.currency?moneyFormat.format(v):`${pad(v)}${opts.unit||''}`;
@@ -168,7 +170,7 @@ function svgChart(series,opts={}){
       const segments=[];
       for(let i=0;i<arr.length;i++){
         const v=arr[i][1];
-        segments.push(`${i?'L':'M'}${X(i).toFixed(2)},${Y(v).toFixed(2)}`);
+        segments.push(i&&opts.step?`H${X(i).toFixed(2)} V${Y(v).toFixed(2)}`:`${i?'L':'M'}${X(i).toFixed(2)},${Y(v).toFixed(2)}`);
       }
       shapes+=`<path d="${segments.join(' ')}" stroke="${s.color||'#29d17e'}" stroke-width="1.3" vector-effect="non-scaling-stroke" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
       if(arr.length===1)shapes+=`<circle cx="${X(0)}" cy="${Y(arr[0][1])}" r="4" fill="${s.color||'#29d17e'}"/>`;
@@ -263,12 +265,12 @@ async function loadData(options = {}){
   const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
-    const [response, newsPayload] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews()]);
+    const [response, newsPayload, riskHistory] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews(), fetchSessionRisk()]);
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
     updateIssuerNews(newsPayload, next);
-    dataset=next;populateFilters(dataset.trades, Boolean(options.preserveFilters));
+    dataset=next;sessionRiskHistory=riskHistory;populateFilters(dataset.trades, Boolean(options.preserveFilters));
     $('search').value=previousSearch;
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;
     $('dataset-info').textContent=`${next.tradeCount} trades · ${next.uniqueExecutionRows} ejecuciones únicas · ${next.sourceFiles.length} CSV Quant compatibles`;

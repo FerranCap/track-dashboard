@@ -404,12 +404,11 @@
 <div id="growth-stats" class="metrics four"></div>
 </section>
 <section class="section panel">
-<h2>Beneficio acumulado por mes</h2>
-<div id="growth-cumulative-chart" class="chart"></div>
-</section>
-<section class="section panel">
-<h2>Beneficio de cada mes</h2>
-<div id="growth-monthly-chart" class="chart"></div>
+<div class="panel-head"><h2>Evolución de R · riesgo máximo por sesión</h2><a class="download-link" href="data/session-risk.json" download>Descargar historial</a></div>
+<p>R es la pérdida máxima que asumes por sesión, en USD. Cada valor entra en vigor en la fecha indicada y se mantiene hasta el siguiente cambio. Se muestra el historial completo, independiente de los filtros de operaciones.</p>
+<p id="growth-risk-current" class="mini-caption" role="status"></p>
+<div id="growth-risk-chart" class="chart"></div>
+<div id="growth-risk-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
 <div class="panel-head"><h2>Valor absoluto del PnL de cada trade · USD</h2><label class="study-control">Operaciones visibles<select id="growth-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
@@ -418,8 +417,8 @@
 <div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto por trade, con desplazamiento horizontal"><div id="growth-absolute-pnl-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
-<h2>PnL medio por trade · con signo</h2>
-<p>PnL total del mes dividido entre el número de operaciones. Se mantiene el signo para comprobar si una mayor magnitud va acompañada de mejores resultados. En el ejemplo de +$10 y −$6, el PnL medio es +$2.</p>
+<div class="panel-head"><h2>PnL absoluto medio por trade</h2><label class="study-control" for="growth-average-period">Agrupar por<select id="growth-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
+<p>Media del valor absoluto del PnL de cada operación del período seleccionado, según su fecha de cierre en Nueva York. Las semanas van de lunes a domingo. Ganancias y pérdidas no se compensan: +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Incluye las operaciones a cero.</p>
 <div id="growth-average-pnl-chart" class="chart"></div>
 </section>
 <section class="section panel">
@@ -504,7 +503,7 @@
 <div id="monthly-consistency-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country">País de constitución</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
+<div class="panel-head"><h2>Concentración de resultados</h2><label class="study-control">Agrupar por<select id="consistency-concentration"><option value="symbol">Ticker</option><option value="country" selected>País de constitución</option><option value="time">Horario · 5 minutos</option><option value="weekday">Día de la semana</option></select></label></div>
 <p>Peso de cada grupo sobre la suma de los PnL positivos de los grupos, y resultado al quitarlo. En país se utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar.</p>
 <p>Las barras muestran todos los grupos, ordenados por PnL. Desplázate dentro de cada gráfico para ver la lista completa; al pasar el cursor verás también el número de operaciones.</p>
 <div class="concentration-layout">
@@ -564,9 +563,9 @@
 <script src="help.js?v=20261106-news-policy-51" defer></script>
 <script src="filters.js?v=20261106-news-policy-51" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
-<script src="workspace.js?v=20261106-news-policy-51" defer>
+<script src="workspace.js?v=20261107-session-risk-52" defer>
 </script>
-<script src="dashboard.js?v=20261106-consistency-views-47" defer>
+<script src="dashboard.js?v=20261107-session-risk-52" defer>
 </script>
 </body>
 </html>

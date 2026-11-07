@@ -6,7 +6,7 @@ const VIEW_DETAILS = {
   compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
   price: ['Precio', 'Resultados por rango de precio de entrada.'],
   duration: ['Duración', 'Resultados según el tiempo de permanencia en cada operación.'],
-  growth: ['Relativo', 'Evolución del beneficio y del movimiento del PnL por operación.'],
+  growth: ['Relativo', 'Evolución de R y de la magnitud del PnL por operación.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
   country: ['Localidad', 'Estudia tu operativa por país de la empresa emisora.'],
@@ -15,6 +15,50 @@ const VIEW_DETAILS = {
 };
 let selectedCalendarDay = '';
 let issuerAudit = null;
+let sessionRiskHistory = [];
+
+async function fetchSessionRisk() {
+  const response = await fetch(`data/session-risk.json?v=${Date.now()}`, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Session risk history: HTTP ${response.status}`);
+  const history = await response.json();
+  if (!Array.isArray(history) || !history.length) throw new Error('Invalid session risk history.');
+  const seen = new Set();
+  for (const entry of history) {
+    const date = entry.effectiveDate;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(`${date}T00:00:00Z`))
+      || new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date
+      || !Number.isFinite(entry.risk) || entry.risk <= 0 || seen.has(date)) {
+      throw new Error('Invalid or duplicate session risk entry.');
+    }
+    seen.add(date);
+  }
+  return history.slice().sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
+}
+
+function sessionRiskAt(date, history = sessionRiskHistory) {
+  return history.filter(entry => entry.effectiveDate <= date).at(-1) || null;
+}
+
+function sessionRiskPoints(history, endDate) {
+  const active = history.filter(entry => entry.effectiveDate <= endDate);
+  const points = active.map(entry => [entry.effectiveDate, entry.risk]);
+  const last = active.at(-1);
+  if (last && last.effectiveDate < endDate) points.push([endDate, last.risk]);
+  return points;
+}
+
+function renderSessionRisk() {
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  const current = sessionRiskAt(today);
+  $('growth-risk-current').textContent = current
+    ? `R vigente: ${money(current.risk)} por sesión · desde ${current.effectiveDate}.`
+    : 'Sin R definida para la fecha actual.';
+  renderChart('growth-risk-chart', [{ values: sessionRiskPoints(sessionRiskHistory, today), color: '#5c9bff' }], {
+    currency: true, step: true, timeAxis: true, title: 'Evolución de R por sesión', empty: 'Sin R definida para este período.',
+    explanation: 'R en USD: pérdida máxima asumida por sesión, según los valores indicados por el usuario. Cada cambio se aplica desde su fecha de activación hasta el siguiente. La línea se mantiene hasta hoy en Nueva York. Historial completo, independiente de los filtros de operaciones.'
+  });
+  $('growth-risk-table').innerHTML = tableMarkup(['Fecha de activación', 'R · USD por sesión'], sessionRiskHistory.map(entry => [entry.effectiveDate, money(entry.risk)]));
+}
 
 function activateView() {
   const key = location.hash.slice(1);
@@ -88,17 +132,17 @@ function renderWorkspace(rows) {
   renderGrowth(rows);
 }
 
-function growthPeriods(rows) {
-  const valuesByMonth = new Map();
+function growthPeriods(rows, unit = 'month') {
+  const valuesByPeriod = new Map();
   for (const trade of rows) {
-    const month = trade.date.slice(0, 7);
-    if (!valuesByMonth.has(month)) valuesByMonth.set(month, []);
-    if (Number.isFinite(trade.pnl)) valuesByMonth.get(month).push(Math.abs(trade.pnl));
+    const period = consistencyPeriod(trade.date, unit);
+    if (!valuesByPeriod.has(period)) valuesByPeriod.set(period, []);
+    if (Number.isFinite(trade.pnl)) valuesByPeriod.get(period).push(Math.abs(trade.pnl));
   }
   let cumulative = 0;
-  return periodConsistency(rows, 'month').map(period => {
+  return periodConsistency(rows, unit).map(period => {
     cumulative += period.pnl;
-    const values = valuesByMonth.get(period.period);
+    const values = valuesByPeriod.get(period.period);
     return { ...period, cumulative,
       meanAbsolutePnl: values.length ? mean(values) : null,
       medianAbsolutePnl: sampleQuantile(values, 0.5) };
@@ -124,6 +168,13 @@ function renderGrowthTradeChart(rows) {
   ]), color: '#5c9bff' }], { currency: true, bar: true, labels: points.map(point => `#${point.number}`), title: 'Valor absoluto del PnL de cada trade', explanation });
 }
 
+function renderGrowthAverageChart(rows) {
+  const selected = $('growth-average-period').value;
+  const unit = ['day', 'week', 'month'].includes(selected) ? selected : 'week';
+  const periods = growthPeriods(rows, unit);
+  renderChart('growth-average-pnl-chart', [{ values: periods.map(period => [period.period, period.meanAbsolutePnl]), color: '#5c9bff' }], { currency: true, bar: true, explanation: 'Suma de |PnL| de cada trade cerrado del período ÷ número de trades del período. Agrupa por fecha de cierre en Nueva York; las semanas van de lunes a domingo y se etiquetan por su lunes. Se omiten períodos sin operaciones y se respetan los filtros generales. Se toma el valor absoluto antes de promediar, incluyendo las operaciones a cero: +$10 y −$6 dan $8.' });
+}
+
 function renderGrowth(rows) {
   const periods = growthPeriods(rows);
   const pnls = rows.map(trade => trade.pnl).filter(Number.isFinite);
@@ -134,10 +185,9 @@ function renderGrowth(rows) {
     ['PnL absoluto medio por trade', absolutePnls.length ? money(mean(absolutePnls)) : '—', 'Media de |PnL|, tomando primero el valor absoluto de cada trade. Ejemplo: +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Ganancias y pérdidas no se cancelan. Una magnitud mayor también puede proceder de pérdidas mayores.'],
     ['PnL absoluto mediano por trade', absolutePnls.length ? money(sampleQuantile(absolutePnls, 0.5)) : '—', 'Mediana de los valores |PnL| de cada trade, en dólares. Reduce la influencia de operaciones excepcionalmente grandes. No utiliza precio de la acción ni cantidad de shares.']
   ].map(args => consistencyMetric(...args)).join('');
-  renderChart('growth-cumulative-chart', [{ values: periods.map(period => [period.period, period.cumulative]), color: '#5c9bff' }], { currency: true, explanation: 'Suma acumulada del PnL de los meses observados, desde $0 al comienzo de los filtros. No incluye saldo inicial, depósitos ni retiradas y no representa una rentabilidad sobre capital.' });
-  renderChart('growth-monthly-chart', [{ values: periods.map(period => [period.period, period.pnl]) }], { bar: true, currency: true, explanation: 'Suma del PnL de las operaciones cerradas en cada mes según Nueva York. Los meses sin operaciones se omiten; el primer y último mes pueden ser parciales.' });
+  renderSessionRisk();
   renderGrowthTradeChart(rows);
-  renderChart('growth-average-pnl-chart', [{ values: periods.map(period => [period.period, period.average]), color: '#5c9bff' }], { currency: true, bar: true, explanation: 'PnL total del mes ÷ número de trades cerrados del mes. Se conserva el signo: ganancias y pérdidas pueden cancelarse. No utiliza precio de entrada ni cantidad de shares.' });
+  renderGrowthAverageChart(rows);
   $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio por trade', 'PnL absoluto medio por trade', 'PnL absoluto mediano por trade', 'Variación PnL absoluto medio · USD'], periods.map((period, index) => {
     const previous = periods[index - 1];
     const movementChange = previous && previous.meanAbsolutePnl !== null && period.meanAbsolutePnl !== null ? period.meanAbsolutePnl - previous.meanAbsolutePnl : null;
@@ -393,6 +443,7 @@ function initializeWorkspace() {
   $('data-pending-search').addEventListener('input', renderPendingIssuers);
   $('data-pending-kind').addEventListener('change', renderPendingIssuers);
   $('growth-trade-window').addEventListener('change', () => renderGrowthTradeChart(filtered));
+  $('growth-average-period').addEventListener('change', () => renderGrowthAverageChart(filtered));
   $('recent-session-count').addEventListener('change', () => renderRecentSessions(statistics(filtered).daily));
   $('price-range-width').addEventListener('change', () => renderPrice(filtered));
   $('duration-range-width').addEventListener('change', () => renderDurationStudies(filtered));

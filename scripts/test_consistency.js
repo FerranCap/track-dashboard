@@ -111,6 +111,15 @@ const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..
 calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
 for (const file of ['news.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
 calendarVm.runInContext('const renderedCalendarCharts = new Map(); renderChart = (id, series) => renderedCalendarCharts.set(id, series);', calendarContext);
+calendarContext.riskFixture = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'session-risk.json'), 'utf8'));
+checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-06-30', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');
+checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-08-31', riskFixture).risk", calendarContext) === 20, 'Risk remains active until the next change');
+checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-09-01', riskFixture).risk", calendarContext) === 50, 'New risk applies on its activation date');
+checkConsistency(calendarVm.runInContext("sessionRiskAt('2026-11-07', riskFixture).risk", calendarContext) === 300, 'Last risk stays active without an end date');
+checkConsistency(calendarVm.runInContext("sessionRiskPoints(riskFixture, '2025-06-30').length", calendarContext) === 0, 'Risk chart does not backfill unknown dates');
+checkConsistency(calendarVm.runInContext("JSON.stringify(sessionRiskPoints(riskFixture, '2025-08-01'))", calendarContext) === JSON.stringify([['2025-07-01', 20], ['2025-08-01', 20]]), 'Risk chart extends the active level and excludes future changes');
+const riskSvg = calendarVm.runInContext("svgChart([{values: sessionRiskPoints(riskFixture, '2026-11-07')}], {step: true, timeAxis: true, currency: true})", calendarContext);
+checkConsistency(/H[\d.]+ V[\d.]+/.test(riskSvg) && !/NaN|Infinity|undefined/.test(riskSvg), 'Risk chart renders discrete steps on the time axis');
 calendarContext.sampleRows = [10, -2, 5].map((pnl, index) => ({ id: String(index), symbol: 'MIX', side: index === 2 ? 'SELL' : 'BUY', pnl, fees: 0.1 * (index + 1), date: '2026-11-06', opened: `2026-11-06T09:0${index}:00-05:00`, closed: `2026-11-06T09:1${index}:00-05:00` }));
 calendarVm.runInContext('renderCalendarDay(sampleRows)', calendarContext);
 let tickerMarkup = calendarElements.get('calendar-symbol-cards').innerHTML;
