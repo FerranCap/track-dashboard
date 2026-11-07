@@ -166,7 +166,7 @@ function svgChart(series,opts={}){
   for(const s of series){
     const arr=s.values;if(!arr.length)continue;
     if(opts.bar){
-      const step=plotW/count,width=Math.max(.75,Math.min(45,step*.73));
+      const step=plotW/count,width=Math.min(45,step*.73);
       shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}" ${helpAttributes(pointHelp(p))}></rect>`;}).join('');
     }else{
       const segments=[];

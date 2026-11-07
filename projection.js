@@ -94,7 +94,6 @@ function renderGrowthProjection(rows) {
   $('growth-projection-trade-count').textContent = points.length
     ? `Trades proyectados ${points[0].number}–${points.at(-1).number} de ${trades.length}. Una barra por operación simulada.`
     : 'Sin operaciones proyectadas.';
-  $('growth-projection-absolute-pnl-chart').style.minWidth = points.length ? `${Math.max(300, points.length * 9 + 100)}px` : '0';
   renderChart('growth-projection-absolute-pnl-chart', [{ color: '#b398ff', values: points.map(({ trade, number, absolute }) => [
     `Trade proyectado #${number} · ${trade.symbol} · ${trade.date}`, absolute,
     `R proyectada: ${money(trade.projectedRisk)}. Base histórica: ${trade.sourceDate}, PnL ${signed(trade.sourcePnl)}, R ${money(trade.sourceRisk)}.`

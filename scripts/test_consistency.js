@@ -110,7 +110,7 @@ const calendarContext = calendarVm.createContext({ URL, document: { getElementBy
 const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'dashboard.js'), 'utf8');
 calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
 for (const file of ['news.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
-calendarVm.runInContext('const renderedCalendarCharts = new Map(); renderChart = (id, series) => renderedCalendarCharts.set(id, series);', calendarContext);
+calendarVm.runInContext('const renderedCalendarCharts = new Map(), renderedCalendarOptions = new Map(); renderChart = (id, series, opts) => { renderedCalendarCharts.set(id, series); renderedCalendarOptions.set(id, opts); };', calendarContext);
 calendarContext.riskFixture = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'session-risk.json'), 'utf8'));
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-06-30', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-08-31', riskFixture).risk", calendarContext) === 20, 'Risk remains active until the next change');
@@ -268,6 +268,7 @@ for (const dimension of ['symbol', 'country', 'time', 'weekday']) {
   calendarElements.set('consistency-concentration', { value: dimension });
   calendarVm.runInContext('renderConsistencyConcentration(concentrationRows)', calendarContext);
   const series = calendarVm.runInContext("renderedCalendarCharts.get('consistency-concentration-pnl')[0].values", calendarContext);
+  checkConsistency(calendarVm.runInContext("renderedCalendarOptions.get('consistency-concentration-pnl').bar === true", calendarContext), 'Concentration uses columns that fit the available width');
   checkConsistency(series.reduce((total, point) => total + point[1], 0) === 6, 'Each concentration dimension reconciles total PnL');
   if (dimension === 'country') checkConsistency(series.some(point => point[0] === 'Cayman Islands') && series.some(point => point[0] === 'Sin clasificar') && !series.some(point => point[0] === 'China'), 'Concentration uses incorporation country exclusively');
 }
@@ -280,4 +281,14 @@ for (const value of [0, -1, 1]) {
 }
 calendarVm.runInContext('renderConsistencyConcentration([])', calendarContext);
 checkConsistency(calendarVm.runInContext("renderedCalendarCharts.get('consistency-concentration-weight')[0].values.length", calendarContext) === 0, 'Empty concentration filters clear every chart');
+calendarContext.denseBars = Array.from({ length: 1500 }, (_, index) => [String(index), index % 2 ? -1 : 1]);
+const denseBars = calendarVm.runInContext('svgChart([{values:denseBars}],{bar:true,width:320,height:300})', calendarContext);
+const denseRects = [...denseBars.matchAll(/<rect x="([^"]+)" y="([^"]+)" width="([^"]+)"/g)];
+checkConsistency(denseRects.length === 1500, 'Fitting dense bars preserves every data point');
+let lastBarEnd = 78;
+for (const rect of denseRects) {
+  const x = Number(rect[1]), width = Number(rect[3]);
+  checkConsistency(width > 0 && x >= lastBarEnd - 1e-8 && x + width <= 298 + 1e-8, 'Dense bars stay inside the panel without overlapping');
+  lastBarEnd = x + width;
+}
 console.log('Consistency, stability periods, graphical concentration, calendar, comparisons and ticker news checks passed.');

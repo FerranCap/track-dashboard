@@ -66,12 +66,13 @@ function sessionSwingSvg(sessions, opts = {}) {
   const stops = sessions.map((session, index) => `${index ? 'H' : 'M'}${x(index).toFixed(2)}${index ? ' V' : ','}${y(normalized ? -1 : -session.risk).toFixed(2)}`);
   const stopPath = sessions.length === 1 ? `M${left},${y(normalized ? -1 : -sessions[0].risk)} H${width - right}` : stops.join(' ');
   shapes += `<path d="${stopPath}" fill="none" stroke="#fb4f61" stroke-width="2" stroke-dasharray="5 4"/>`;
-  const barWidth = Math.max(2, Math.min(14, plotWidth / sessions.length * 0.65));
+  const step = plotWidth / sessions.length;
+  const barWidth = Math.min(14, step * 0.65);
   sessions.forEach((session, index) => {
     const minimum = value(session, 'minimum'), maximum = value(session, 'maximum'), final = value(session, 'pnl');
     const detail = `${session.date}. R: ${money(session.risk)}. Mínimo acumulado: ${signed(session.minimum)} (${num(session.minimum / session.risk)} R). Máximo: ${signed(session.maximum)} (${num(session.maximum / session.risk)} R). Cierre: ${signed(session.pnl)} (${num(session.pnl / session.risk)} R). Swing: ${money(session.swing)} (${num(session.swing / session.risk)} R). ${session.count} trades. ${session.reachedStop ? 'Alcanza o supera −R.' : 'No alcanza −R.'} ${opts.explanation || ''}`;
     const color = session.reachedStop ? '#ffb454' : '#5c9bff';
-    shapes += `<g ${helpAttributes(detail)}><rect x="${x(index) - barWidth / 2}" y="${y(maximum)}" width="${barWidth}" height="${Math.max(1, y(minimum) - y(maximum))}" rx="1" fill="${color}" opacity=".65"/><circle cx="${x(index)}" cy="${y(final)}" r="3" fill="${session.pnl < 0 ? '#fb4f61' : '#35ebb3'}"/><rect x="${x(index) - Math.max(5, barWidth / 2)}" y="${top}" width="${Math.max(10, barWidth)}" height="${plotHeight}" fill="transparent"/></g>`;
+    shapes += `<g ${helpAttributes(detail)}><rect x="${x(index) - barWidth / 2}" y="${y(maximum)}" width="${barWidth}" height="${Math.max(1, y(minimum) - y(maximum))}" rx="${Math.min(1, barWidth / 2)}" fill="${color}" opacity=".65"/><circle cx="${x(index)}" cy="${y(final)}" r="${Math.min(3, step * 0.25)}" fill="${session.pnl < 0 ? '#fb4f61' : '#35ebb3'}"/><rect x="${left + index * step}" y="${top}" width="${step}" height="${plotHeight}" fill="transparent"/></g>`;
   });
   const tickCount = Math.min(8, sessions.length, Math.max(1, Math.floor(plotWidth / 120)));
   for (let tick = 0; tick < tickCount; tick++) {
@@ -90,7 +91,6 @@ function renderSessionSwings(rows, projected = false, error = '') {
     ['Sesiones que alcanzan −R', result.reachedPercent === null ? '—' : `${num(result.reachedPercent, 1)} %`, `${result.reached} de ${result.sessions.length} sesiones con R conocida. Se comparan mínimos realizados con −R; no se simula la ejecución de un stop.`]
   ].map(args => consistencyMetric(...args)).join('');
   $(`${prefix}-note`).textContent = error || `${result.sessions.length} sesiones con R conocida; ${result.excludedSessions} excluidas por falta de R o datos válidos. Muestra los trades de los filtros actuales; filtrar símbolos, dirección o noticias puede mostrar solo una parte de cada sesión.`;
-  $(`${prefix}-chart`).style.minWidth = result.sessions.length ? `${Math.max(300, result.sessions.length * 10 + 120)}px` : '0';
   renderChart(`${prefix}-chart`, [{ values: result.sessions.map(session => [session.date, session.pnl]) }], {
     sessionSwing: result.sessions, swingUnit: $(`${prefix}-unit`).value,
     title: projected ? 'Oscilación proyectada del PnL frente al stop' : 'Oscilación histórica del PnL frente al stop',

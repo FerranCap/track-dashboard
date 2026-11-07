@@ -164,8 +164,7 @@ function renderGrowthTradeChart(rows) {
   const points = growthTradePoints(rows, $('growth-trade-window').value);
   const count = rows.filter(trade => Number.isFinite(trade.pnl)).length;
   const explanation = 'Cada barra representa un trade individual en orden de cierre y su altura es |PnL final registrado| en USD. No se promedia ni se agrupa por meses. Un trade de −$25 se muestra con altura $25; su resultado con signo aparece en la ayuda. No representa máximos, mínimos ni recorrido intratrade.';
-  $('growth-trade-count').textContent = points.length ? `Trades ${points[0].number}–${points.at(-1).number} de ${count} con los filtros actuales. Una barra por operación; desplaza horizontalmente para recorrerlas.` : 'Sin operaciones para estos filtros.';
-  $('growth-absolute-pnl-chart').style.minWidth = points.length ? `${Math.max(300, points.length * 9 + 100)}px` : '0';
+  $('growth-trade-count').textContent = points.length ? `Trades ${points[0].number}–${points.at(-1).number} de ${count} con los filtros actuales. Una barra por operación, ajustada al ancho disponible.` : 'Sin operaciones para estos filtros.';
   renderChart('growth-absolute-pnl-chart', [{ values: points.map(({ trade, number, absolute }) => [
     `Trade #${number} · ${trade.symbol} · ${trade.closed}`, absolute,
     `PnL original: ${signed(trade.pnl)}. Valor absoluto: ${money(absolute)}. Cierre: ${trade.closed}. Identificador: ${trade.id}.`

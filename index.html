@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261107-optimal-compact-59">
+  <link rel="stylesheet" href="styles.css?v=20261107-fit-charts-61">
 </head>
 <body>
 <aside class="sidebar">
@@ -415,7 +415,7 @@
 <div class="panel-head"><h2>Valor absoluto del PnL de cada trade · USD</h2><label class="study-control">Operaciones visibles<select id="growth-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
 <p>Cada barra es una operación individual: +$10 se muestra como $10 y −$6 como $6. Ordenadas por cierre, sin promedios mensuales. Al pasar el ratón verás el ticker, fecha, PnL original y valor absoluto. Se usa el resultado final registrado de cada trade.</p>
 <p id="growth-trade-count" class="mini-caption" role="status"></p>
-<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto por trade, con desplazamiento horizontal"><div id="growth-absolute-pnl-chart" class="chart"></div></div>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto por trade"><div id="growth-absolute-pnl-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
 <div class="panel-head"><h2>PnL absoluto medio por trade</h2><label class="study-control" for="growth-average-period">Agrupar por<select id="growth-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
@@ -427,7 +427,7 @@
 <p>Cada barra muestra el mínimo y máximo del PnL acumulado de la sesión desde cero, calculado al cerrar trades. El punto indica el resultado final; la línea roja, −R vigente ese día. Las barras naranjas alcanzan o superan −R. No incluye las oscilaciones de las posiciones abiertas.</p>
 <div id="growth-swing-stats" class="metrics two-col"></div>
 <p id="growth-swing-note" class="mini-caption" role="status"></p>
-<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación histórica por sesión, con desplazamiento horizontal"><div id="growth-swing-chart" class="chart"></div></div>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación histórica por sesión"><div id="growth-swing-chart" class="chart"></div></div>
 </section>
 </div>
 <div id="view-optimal" class="view" aria-labelledby="page-title" hidden>
@@ -599,7 +599,7 @@
 <p>Barra: mínimo y máximo acumulados por sesión simulada. Punto: resultado final. Línea roja: −R proyectada. Naranja: alcanza o supera −R. Las sesiones se muestran completas, incluso después de alcanzar el límite; no se simula detener la operativa.</p>
 <div id="growth-projection-swing-stats" class="metrics two-col"></div>
 <p id="growth-projection-swing-note" class="mini-caption" role="status"></p>
-<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación proyectada por sesión, con desplazamiento horizontal"><div id="growth-projection-swing-chart" class="chart"></div></div>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación proyectada por sesión"><div id="growth-projection-swing-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
 <h2>Evolución proyectada de R</h2>
@@ -608,7 +608,7 @@
 <section class="section panel">
 <div class="panel-head"><h2>PnL absoluto proyectado de cada trade · USD</h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
 <p id="growth-projection-trade-count" class="mini-caption" role="status"></p>
-<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto proyectado por trade, con desplazamiento horizontal"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto proyectado por trade"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
 <div class="panel-head"><h2>PnL absoluto medio proyectado por trade</h2><label class="study-control" for="growth-projection-average-period">Agrupar por<select id="growth-projection-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
@@ -625,19 +625,19 @@
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
 <script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
-<script src="consistency.js?v=20261106-consistency-views-47" defer></script>
+<script src="consistency.js?v=20261107-fit-charts-61" defer></script>
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
 <script src="studies.js?v=20261107-country-ranking-53" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261107-optimal-average-r-58" defer></script>
+<script src="help.js?v=20261107-fit-charts-61" defer></script>
 <script src="filters.js?v=20261106-news-policy-51" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
-<script src="swing.js?v=20261107-session-swing-55" defer></script>
-<script src="projection.js?v=20261107-session-swing-55" defer></script>
+<script src="swing.js?v=20261107-fit-charts-61" defer></script>
+<script src="projection.js?v=20261107-fit-charts-61" defer></script>
 <script src="optimal.js?v=20261107-optimal-kelly-card-60" defer></script>
-<script src="workspace.js?v=20261107-optimal-risk-57" defer>
+<script src="workspace.js?v=20261107-fit-charts-61" defer>
 </script>
-<script src="dashboard.js?v=20261107-optimal-average-r-58" defer>
+<script src="dashboard.js?v=20261107-fit-charts-61" defer>
 </script>
 </body>
 </html>

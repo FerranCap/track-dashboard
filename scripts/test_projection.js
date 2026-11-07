@@ -60,6 +60,19 @@ for (const unit of ['r', 'usd']) {
   assert.ok(svg.includes('<circle') && svg.includes('stroke-dasharray="5 4"'), 'Range chart includes the final point and stop line');
   assert.ok(!/NaN|Infinity|undefined/.test(svg), 'Range chart has finite coordinates in both units');
 }
+context.denseSessions = Array.from({ length: 1500 }, (_, index) => ({ ...context.historicalSwing.sessions[0], date: String(index) }));
+const denseSwing = evaluate('sessionSwingSvg(denseSessions,{width:320,height:300})');
+const swingGroups = [...denseSwing.matchAll(/<g [\s\S]*?<\/g>/g)];
+assert.equal(swingGroups.length, 1500, 'Fitting the chart must preserve every session');
+let previousHitEnd = 88;
+for (const [group] of swingGroups) {
+  const rects = [...group.matchAll(/<rect x="([^"]+)" y="([^"]+)" width="([^"]+)"/g)];
+  const barWidth = Number(rects[0][3]), hitX = Number(rects[1][1]), hitWidth = Number(rects[1][3]);
+  assert.ok(barWidth > 0 && barWidth < hitWidth, 'Dense session bars must fit their own column');
+  assert.ok(Math.abs(hitX - previousHitEnd) < 1e-8, 'Dense hit areas must cover adjacent sessions without overlap');
+  previousHitEnd = hitX + hitWidth;
+}
+assert.ok(Math.abs(previousHitEnd - 298) < 1e-8, 'Every session must stay inside the available plot width');
 assert.ok(result.trades.every(trade => ![0, 6].includes(new Date(trade.date).getUTCDay())));
 assert.ok(result.trades.every(trade => trade.date > '2026-11-06' && trade.date <= '2027-11-06'));
 assert.equal(evaluate("growthProjection(rows, history, '2026-11-06', 1, 'session', 0).finalRisk"), 300);

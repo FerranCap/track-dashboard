@@ -234,14 +234,14 @@ function renderConsistencyConcentration(rows) {
   const dimension = $('consistency-concentration').value;
   const [, key] = keys[dimension] || keys.symbol;
   const groups = concentrationGroups(rows, key);
-  const explanation = `Se usa el PnL neto de cada grupo. Peso = máximo entre 0 y PnL del grupo ÷ suma de los PnL netos positivos de los grupos × 100. PnL sin grupo = PnL total filtrado − PnL del grupo. Se muestran todos los grupos, ordenados por PnL; puedes desplazarte para verlos. País utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar. ${HELP_PNL}`;
+  const explanation = `Se usa el PnL neto de cada grupo. Peso = máximo entre 0 y PnL del grupo ÷ suma de los PnL netos positivos de los grupos × 100. PnL sin grupo = PnL total filtrado − PnL del grupo. Se muestran todos los grupos, ordenados por PnL, con columnas ajustadas al ancho disponible. País utiliza exclusivamente la constitución legal; solo su ausencia genera Sin clasificar. ${HELP_PNL}`;
   for (const [id, field, title, options] of [
     ['pnl', 'pnl', 'PnL por grupo', { currency: true }],
     ['weight', 'weight', 'Peso en los beneficios de grupos', { unit: '%', max: 100, empty: 'Sin grupos con PnL positivo: el peso porcentual no se puede calcular.' }],
     ['without', 'without', 'PnL restante al excluir cada grupo', { currency: true }]
   ]) {
     renderChart(`consistency-concentration-${id}`, [{ values: groups.filter(group => Number.isFinite(group[field])).map(group => [group.name, group[field], `${group.count} operaciones; PnL del grupo ${signed(group.pnl)}; PnL sin este grupo ${signed(group.without)}.`]) }],
-      { horizontal: true, ...options, title, explanation });
+      { bar: true, ...options, title, explanation });
   }
 }
 

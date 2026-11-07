@@ -15,7 +15,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .metric-label{line-height:1.45;margin-bottom:10px}
 .metric-value{line-height:1.25}
 .study-control{display:grid;gap:7px;color:#a6b9ce;font-size:12px;min-width:175px}
-.growth-trade-plot{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;margin-top:14px;padding-bottom:8px}
+.growth-trade-plot{width:100%;max-width:100%;min-width:0;margin-top:14px}
 .growth-trade-plot:focus-visible{outline:2px solid #8abbff;outline-offset:3px}
 .growth-trade-plot .chart{height:310px}
 .study-scroll{max-height:480px}
@@ -208,8 +208,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .table-disclosure>summary:focus-visible{outline:2px solid #8abbff;outline-offset:3px}
 .table-disclosure[open]>.table-wrap{margin-top:12px}
 .table-disclosure:not([open])+.table-footer{display:none}
-.concentration-chart{height:420px;display:block;overflow:auto;scrollbar-gutter:stable}
-.concentration-chart svg{height:auto}
+.concentration-chart{height:420px}
 .news-range-heading,.news-range-endpoints{display:flex;justify-content:space-between;gap:12px;color:#a8bbd2;font-size:11px}
 .news-range-heading{margin-bottom:12px}
 .news-range-heading output{color:#80b1ff;font-weight:650}
