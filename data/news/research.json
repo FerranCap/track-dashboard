@@ -10166,6 +10166,1654 @@
         "No archived pre-entry text version was verified. Publications are not evidence of price causation."
       ],
       "notes": "OriginalBusinessWire09:00EDTandStocksToTradeconservativeupdated10:12ETbeforebothentries. SeparateBenzinga11:31unknownzoneandFinvizdatedInvestorsHubheadlinecountdateonlywithlimitations. Quiver14:52UTC=10:52ETafterbothentriesexcludedwithoutfallback."
+    },
+    {
+      "symbol": "PBM",
+      "issuerCik": "1985062",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo49rh8i04421014qylf15uu": "2026-04-17T10:06:21-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=PBM",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PBM/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.nasdaq.com/press-release/psyence-biomed-welcomes-us-executive-action-advance-research-ibogaine-2026-04-17",
+          "access": "page_or_search_index",
+          "note": "Nasdaq GlobeNewswire reproduction explicitlyApr17 2026 9:15amEDT; Finviz and distributor issuer archive agree."
+        },
+        {
+          "url": "https://cdn2.benzinga.com/insights/movers/26/04/51866539/12-health-care-stocks-moving-in-thursdays-intraday-session",
+          "access": "page_or_search_index",
+          "note": "Original Benzinga bylineApril16 2026 1:06pm and body explicitlynames PsyenceBiomedical PBM."
+        },
+        {
+          "url": "https://www.theglobeandmail.com/investing/markets/stocks/PBM/pressreleases/1340006/psyence-biomedical-expands-australian-psilocybin-trial-network-to-five-sites/",
+          "access": "page_or_search_index",
+          "note": "MarketBeat PBM dated news list explicitlyApril16 2026 and links this distinct GlobeandMail article; not a date inferred from URL."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original issuer release at09:15EDT precedes entry10:06; issuer speaks of anticipated executive action, not an executed order or treatment approval. Separate April16 market table and GlobeandMail dated report serve both April16/17 windows. April7 original trial expansion is too old and not backdated; April16 reporting is independently dated."
+    },
+    {
+      "symbol": "ICG",
+      "issuerCik": "1895597",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo49rh8i04411014x4cs4k3m": "2026-04-17T07:27:28-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ICG",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ICG/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://rss.globenewswire.com/news-release/2026/04/17/3276057/0/en/intchains-group-limited-provides-staking-activities-update-advances-strategic-transformation-with-ai-enabled-operating-model-to-enhance-efficiency-and-productivity.html",
+          "access": "page_or_search_index",
+          "note": "Original GlobeNewswire indexed headerApril17 2026 07:00ET; Finviz matches; SEC filing reproduction corroborates issuer and contents."
+        },
+        {
+          "url": "https://www.kucoin.com/news/flash/intchains-group-limited-icg-surges-11-21-to-1-29-on-april-17",
+          "access": "page_or_search_index",
+          "note": "Original KuCoin headerReleaseTime04/17/2026 14:12:00; actualIntchains named; UTC+8 inbody not explicitlyattachedtopublicationclock."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Actual issuer Intchains CIK1895597. Original staking update07:00ET before07:27entry; later SEC receipt08:01 not substituted. Finviz April15 ICG Silver and Gold item is a different issuer and excluded. KuCoin publication date verified; body UTC+8 refers to market data, publication header zone unconfirmed, so date-only."
+    },
+    {
+      "symbol": "PBM",
+      "issuerCik": "1985062",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvz1bor2ilon743wkva": "2026-04-16T12:49:42-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=PBM",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PBM/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Exact April16 entry reviewed against independently dated market table and GlobeandMail report already curated in this batch. April17 release is future and excluded; April7 primary trial announcement is outside48h. Same-day date-only links do not establish pre-entry availability."
+    },
+    {
+      "symbol": "ONFO",
+      "issuerCik": "1825452",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvz1boq2ilo6sb7w4ai": "2026-04-16T11:26:01-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ONFO",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ONFO/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.nasdaq.com/press-release/onfolio-holdings-inc-secures-100-million-equity-facility-accelerate-acquisition",
+          "access": "page_or_search_index",
+          "note": "Nasdaq original distributor reproductionApr16 2026 8:30amEDT; Finvizsameclock."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:30EDT release before11:26entry. $100m discretionary equity facility is potential financing capacity, not cash received; late19:59SEC filing not backdated."
+    },
+    {
+      "symbol": "BTOG",
+      "issuerCik": "1735556",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvz1bop2ilo540vvram": "2026-04-16T10:16:01-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=BTOG",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BTOG/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/16/3275435/0/en/bit-origin-ltd-announces-strategic-financing-to-explore-expansion-into-ai-computing-and-data-center-services.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril16 2026 09:00ET; FinvizhistoricalBTOGredirectSGRXconfirms."
+        },
+        {
+          "url": "https://www.kucoin.com/news/flash/bit-origin-limited-btog-drops-12-03-to-3-40",
+          "access": "page_or_search_index",
+          "note": "OriginalindexedKuCoinheaderReleaseTime04/16/2026 13:40:52; actualBitOriginBTOG named. BodyUTC+8 not establishedforpublicationclock."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Historical BitOrigin/currentSangrix sameCIK1735556; Finvizredirect retained. Original09:00ETbefore10:16entry. Financing exploration isnot completed AI infrastructure deployment. KuCoin datesactualissuerbutpublicationclockzoneunconfirmed."
+    },
+    {
+      "symbol": "MYSE",
+      "issuerCik": "1648960",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvy1bof2ilo65yn3glm": "2026-04-16T07:18:56-04:00",
+        "cmo2lvsvy1bog2ilo5lmz1w46": "2026-04-16T07:23:51-04:00",
+        "cmo2lvsvy1boh2ilocd0jazrc": "2026-04-16T07:35:06-04:00",
+        "cmo2lvsvy1bok2iloapbrglr6": "2026-04-16T08:05:36-04:00",
+        "cmo2lvsvy1boo2ilo8ded6j94": "2026-04-16T09:47:18-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=MYSE",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/MYSE/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/15/3274900/0/en/myseum-rebrands-as-myseum-ai-to-align-with-full-suite-of-technology-and-social-media-platforms.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApr15 16:15ET; Nasdaq4:15pmEDT; SECaccepted17:01:35Easterncorroborateslater."
+        },
+        {
+          "url": "https://www.marketwatch.com/livecoverage/s-p-500-dow-jones-nasdaq-iran-war-cease-fire-extension-netflix-tsmc-results/card/another-small-cap-stock-is-rebranding-as-an-ai-play-and-the-shares-are-spiking-300--Uhj4zHJTKIswB50ie91T?mod=mw_FV",
+          "access": "page_or_search_index",
+          "note": "FinvizMYSEApr16 2026 07:23AMlinksdistinctMarketWatchcard; clockzoneunconfirmed."
+        },
+        {
+          "url": "https://seekingalpha.com/news/4575674-myseum-explodes-higher-as-it-rebrands-itself-with-an-ai-label-echoing-dot-com-vibes",
+          "access": "page_or_search_index",
+          "note": "MarketBeatMYSEApril16 2026linksarticle; originalSeekingAlphaheadlineandbodyidentifyMyseum."
+        },
+        {
+          "url": "https://cdn4.benzinga.com/insights/movers/26/04/51854229/12-information-technology-stocks-moving-in-thursdays-pre-market-session",
+          "access": "page_or_search_index",
+          "note": "OriginalindexedBenzingaApril16 2026 8:06am; bodyexplicitMyseumMYSE."
+        },
+        {
+          "url": "https://finance.yahoo.com/video/myseum-takes-flight-allbirds-fresh-190512953.html",
+          "access": "page_or_search_index",
+          "note": "FinvizMYSEApr16 2026 03:05PMidentifiesReutersVideosandlinksuniqueYahoovideo; nozoneconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "OriginalApril15 16:15ETrebrandrelease beforeallfiveentries; laterSEC17:01corroboratesandismerged. April17AMDprogramnewsfutureexcluded. MarketWatch, SeekingAlpha, BenzingaandReutersseparatelypublishedreportsdateverifiedbutzonesnotconfirmed, so retainauditclocksandexplicitpreentrywarnings."
+    },
+    {
+      "symbol": "CTNT",
+      "issuerCik": "1951667",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvy1bom2ilo9y9u8wx4": "2026-04-16T09:09:58-04:00",
+        "cmo2lvsvy1bon2iloykeas35f": "2026-04-16T09:23:09-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CTNT",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CTNT/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/16/3275390/0/en/Cheetah-Net-Supply-Chain-Service-Inc-enters-Agreement-to-Acquire-Super-International-Trading-Limited.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril16 2026 09:00ET; FinvizsameclockandissuerIRcorroborates."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original09:00ETrelease before09:09/09:23entries. Acquisitionagreementnotclosing; $4.98mconsideration notcurrentrevenue."
+    },
+    {
+      "symbol": "WSHP",
+      "issuerCik": "2048271",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvy1bol2ilo7v2kndmt": "2026-04-16T08:10:23-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=WSHP",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/WSHP/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/14/3273933/0/en/weshop-schedules-fourth-quarter-and-full-year-2025-earnings-conference-call-and-webcast.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril14 2026 16:30ET; Nasdaq4:30pmEDTconfirms."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51854320/whats-going-on-with-interactive-media-company-weshop-stock-today",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril16 2026 8:08AMandexpliciteditorcorrection."
+        },
+        {
+          "url": "https://cdn6.benzinga.com/news/26/04/51857536/dow-surges-over-100-points-us-initial-jobless-claims-fall",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril16 2026 9:41am; bodyexplicitWeShopHoldingsWSHP."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "OriginalApril14 16:30ET earningscall scheduling qualifies48h; April28futureeventnotpublicationdate. SeparateBenzinga08:08and09:41clocksunconfirmedzonescountbydate; later09:41couldfollow08:10entry. Correctedcompanydescriptionretained."
+    },
+    {
+      "symbol": "CAPS",
+      "issuerCik": "887151",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo2lvsvy1boi2iloutudvj1y": "2026-04-16T07:55:12-04:00",
+        "cmo2lvsvy1boj2ilo52j58xy3": "2026-04-16T08:03:28-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CAPS",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CAPS/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.businesswire.com/news/home/20260416616990/en/",
+          "access": "page_or_search_index",
+          "note": "BusinessWireoriginalidentified; MarketMinuteandStreetInsidersyndicationsApril16 7:30AMEDT; Finvizmatches."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "ConfirmedBusinessWire07:30EDTbeforebothentries. GuruFocus07:00unconfirmedzoneisnotusedasearliestclock. SEC19:59conversionnoticeafterentriesexcluded; 2026guidancekeptasforecast."
+    },
+    {
+      "symbol": "BIRD",
+      "issuerCik": "1653909",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo169vzvcdkm8ihtaht35y8a": "2026-04-15T08:31:02-04:00",
+        "cmo169vzvcdkn8ihtr499it88": "2026-04-15T08:44:11-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=BIRD",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BIRD/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://techcrunch.com/2026/04/15/after-sale-of-its-shoe-business-allbirds-pivots-to-ai/",
+          "access": "page_or_search_index",
+          "note": "Explicit07:24PDT=10:24EDTafterbothentries; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.pcgamer.com/software/ai/an-american-shoe-company-has-taken-a-usd50-million-investment-to-pivot-to-of-all-things-ai-infrastructure/",
+          "access": "page_or_search_index",
+          "note": "Confirmed16:26:50UTCafterbothentries; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/15/3274362/0/en/allbirds-inc-executes-50m-convertible-financing-facility-agreement-announces-expansion-into-ai-compute-infrastructure.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril15 2026 08:00ET."
+        },
+        {
+          "url": "https://www.investing.com/news/stock-market-news/allbirds-shares-jump-over-400-on-plans-to-pivot-to-ai-from-sneakers-4615946?ampMode=1",
+          "access": "page_or_search_index",
+          "note": "OriginalReutersreproductiononInvestingexplicitApril15 2026andactualAllbirds; publicationclockzoneunconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "HistoricalAllbirds/currentSmartbirdsameCIK1653909. Original08:00ETbeforeboth08:31/08:44entries. ProposedNewBirdAIbrandingnotassumedcompleted; financingandassetsaleconditional. Reuters separatelydatedreportclocknotconfirmedsoexplicitdatefallback. TechCrunch07:24PDT=10:24EDTandPCGamer16:26UTCafterentriesexcluded."
+    },
+    {
+      "symbol": "SNAL",
+      "issuerCik": "1886894",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo04qk2h22888ihtomiugr2t": "2026-04-14T07:32:52-04:00",
+        "cmo04qk2h22898ihtukiwhydn": "2026-04-14T07:57:37-04:00",
+        "cmo04qk2h228a8ihtf8i2dtbm": "2026-04-14T08:23:35-04:00",
+        "cmo04qk2h228f8iht0455voee": "2026-04-14T10:49:26-04:00",
+        "cmo04qk2h228j8ihtndj2kz8o": "2026-04-14T12:11:11-04:00",
+        "cmo04qk2h228k8ihtbmz4q6lt": "2026-04-14T12:29:30-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SNAL",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SNAL/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.proactiveinvestors.com/companies/news/1090455/snail-usa-expands-beyond-ark-franchise-with-focus-on-original-game-development.html",
+          "access": "page_or_search_index",
+          "note": "OriginalFirstpublished16:05Apr13 2026EDT, updated17:05EDT; originalusedoverFinviz14:16."
+        },
+        {
+          "url": "https://www.channelchek.com/news-channel/snail-snal-licensing-agreement-raises-cash-flow-raise-price-target",
+          "access": "page_or_search_index",
+          "note": "OriginalChannelchekdated4/14/2026andreportID28196confirms."
+        },
+        {
+          "url": "https://stockstotrade.com/news/snail-inc-snal-news-2026_04_14/",
+          "access": "page_or_search_index",
+          "note": "OriginalupdatedApr14 10:08AMET; internal10:05:18EDTearlier."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51816262/why-gaming-company-snail-shares-jumping-on-tuesday",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril14 2026 2:47PMactualSnailSNAL."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Six exact entries reviewed. Proactive firstpublishedApr13 16:05EDT, updated17:05EDT, supersedes Finviz14:16. Commercialrelationship disclosed. Channelchek and Benzinga publicationdates confirmed; clocks unknown. StocksToTrade10:08ET qualifies only later entries."
+    },
+    {
+      "symbol": "ROLR",
+      "issuerCik": "1947210",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo04qk2h228b8ihtjah4ssa2": "2026-04-14T08:26:06-04:00",
+        "cmo04qk2h228e8ihtvwxiyp9f": "2026-04-14T10:13:44-04:00",
+        "cmo04qk2h228g8ihtmbu3a1m2": "2026-04-14T11:10:38-04:00",
+        "cmo04qk2h228h8iht4c85ftv1": "2026-04-14T11:39:49-04:00",
+        "cmo04qk2h228i8ihtbn6m5k2n": "2026-04-14T12:04:26-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ROLR",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ROLR/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/de/news-release/2026/04/14/3273266/0/en/High-Roller-Technologies-Executes-Definitive-Agreement-with-Crypto-com-to-Enter-Over-1-Trillion-U-S-Prediction-Markets-Opportunity.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApr14 2026 08:00ET; Finvizmatches."
+        },
+        {
+          "url": "https://stockstotrade.com/news/high-roller-technologies-inc-rolr-news-2026_04_14/",
+          "access": "page_or_search_index",
+          "note": "OriginalupdatedApr14 2026 10:07AMET/internal10:07:28EDT."
+        },
+        {
+          "url": "https://www.casino.org/news/high-roller-stock-goes-ballistic-on-prediction-markets-deal/",
+          "access": "page_or_search_index",
+          "note": "OriginalPostedApr14 2026 04:03h; updatedApr15 04:21h; publicationzoneunconfirmed."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/crypto/articles/high-roller-signs-deal-crypto-000800492.html",
+          "access": "page_or_search_index",
+          "note": "YahooindexedApril14 2026actualissuer; FinvizApr14 08:08PMzoneunconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:00ETagreementbeforeallfiveentries. April20SECfilingnotbackdated. StocksToTrade10:07ETonlylaterentries; CasinoandCryptoProwlknownpublicationdatesunknownzonesuseexplicitfallback. Trillionmarketestimateisnotissuerrevenue."
+    },
+    {
+      "symbol": "HOTH",
+      "issuerCik": "1711786",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmo04qk2h228c8iht4ocf9uqj": "2026-04-14T09:35:38-04:00",
+        "cmo04qk2h228d8ihtcbit0zqj": "2026-04-14T09:45:14-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=HOTH",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/HOTH/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/hoth-therapeutics-hoth-reports-positive-ht-va-crada-data-gdnf-reprograms-liver-fat-metabolism-shuts-down-fat-creation-gene-and-activates-fat-burning-pathways-outperforming-semaglutide-302740965.html",
+          "access": "page_or_search_index",
+          "note": "OriginalPRNewswireApr13 2026 17:23ET."
+        },
+        {
+          "url": "https://www.rttnews.com/3638779/hoth-therapeutics-soars-on-positive-ht-va-study-data-of-gdnf-in-obesity-and-fatty-liver-disease.aspx",
+          "access": "page_or_search_index",
+          "note": "OriginalRTTNewsPublished4/14/2026 6:27AMET."
+        },
+        {
+          "url": "https://www.rttnews.com/3638854/hoth-therapeutics-announces-positive-data-from-ht-va-study-stock-soars-in-pre-market.aspx",
+          "access": "page_or_search_index",
+          "note": "OriginalRTTNewsPublished4/14/2026 7:42AMET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "HistoricalHoth/currentRocketOne sameCIK1711786. Primarypreviousday17:23ETandtwoRTTreportsthisday06:27/07:42ETprecedebothentries. Preclinicalgeneexpressioncomparisonnotclinicalsuperiorityorapproval."
+    },
+    {
+      "symbol": "RCT",
+      "issuerCik": "2027360",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnzlmeao1a7c8iht6p47cq5g": "2026-04-13T08:27:25-04:00",
+        "cmnzlmeao1a7j8ihtqosp6rfp": "2026-04-13T13:52:08-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RCT",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RCT/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/13/3272480/0/en/redcloud-signs-up-to-30m-saudi-licensing-agreement-to-deploy-its-raid-engine-across-68bn-fmcg-market.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril13 2026 08:15ET; Finvizmatches."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:15ET Saudi licensing announcement before08:27and13:52entries. Five-year up-to$30m amount depends on RAID revenue; not guaranteed cash. Shared Chartmill publications explicitly identify RCT and are linked through validated additionalIssuers."
+    },
+    {
+      "symbol": "DLXY",
+      "issuerCik": "2025218",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnzlmeao1a7g8ihtvhuogmxe": "2026-04-13T11:36:54-04:00",
+        "cmnzlmeao1a7i8ihtvy9wseyr": "2026-04-13T12:23:49-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=DLXY",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/DLXY/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.chartmill.com/news/GV/Chartmill-45290-Whats-going-on-in-todays-session",
+          "access": "page_or_search_index",
+          "note": "FinancialContentissuerfeedsdatedApril13 2026; originalChartmill45290LastupdateApr13andactualDLXYRCTCMCTmentionsverified. No clock/zone confirmed."
+        },
+        {
+          "url": "https://www.chartmill.com/news/GV/Chartmill-45295-Which-stocks-are-moving-on-Monday",
+          "access": "page_or_search_index",
+          "note": "FinancialContentDLXYandCMCTfeedsApril13 2026; originalChartmill45295LastupdateApr13andissuermentionsverified."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Two distinct Chartmill market publications datedApril13 identify Delixy, RedCloud and CMCT. One canonical record per publication with additional verified issuer identities avoids duplicate publications. No publication clock/zone established; current quote widgets not treated as historical evidence."
+    },
+    {
+      "symbol": "RMSG",
+      "issuerCik": "1983324",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnzlmeao1a7h8iht83ye0vsb": "2026-04-13T12:00:56-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RMSG",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RMSG/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://stockstotrade.com/news/real-messenger-corporation-rmsg-news-2026_04_13/",
+          "access": "page_or_search_index",
+          "note": "OriginalbylineUPDATEDAPR13 2026 10:04AMET; internal10:03:40EDT."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/Real%2BMessenger%2B%28RMSG%29%2Brockets%2B178%25%2Bas%2Bmicro-cap%2Bmomentum%2Btrading%2Bcollides%2Bwith%2Brecent%2BNasdaq%2Bnotices",
+          "access": "page_or_search_index",
+          "note": "OriginalQuiverPostedApril13 2026 2:49p.m.UTCbefore16:00UTCentry."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "StocksToTradeupdated10:04ETandQuiver14:49UTC=10:49ET precede12:00entry. April8Nasdaqreleaseoutside48h and later22:59ETTheNewsStrikeafterentryexcluded. Publisher speculationsnotcausation."
+    },
+    {
+      "symbol": "CMCT",
+      "issuerCik": "908311",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnzlmeao1a7f8ihtu5epvtph": "2026-04-13T10:47:12-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CMCT",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CMCT/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Exact10:47entryreviewed. Two independently dated Chartmill publications identify CMCT and are represented once each with this issuer CIK908311. April15reverse-split announcement is future and not backdated; March27dividendsoutsidewindow. Date-only links do not establish pre-entry availability."
+    },
+    {
+      "symbol": "RECT",
+      "issuerCik": "1995116",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnzlmeao1a7d8iht6qlpoxwe": "2026-04-13T10:00:10-04:00",
+        "cmnzlmeao1a7e8iht3vtrpizx": "2026-04-13T10:41:07-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RECT",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RECT/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/Rectitude%2BHoldings%2Bsoars%2B66.7%25%2Bon%2Bupbeat%2Bupdate%2Bfor%2BAIMS%2Bmicro-grid%2Borders",
+          "access": "page_or_search_index",
+          "note": "KnownApril13 21:20UTCafterbothentries; excludedwithoutdatefallback."
+        },
+        {
+          "url": "https://ir.rectitude.com.sg/rectitude-holdings-secures-over-s10-million-in-aims-contract-orders-amid-surging-demand-for-green-energy-solutions/",
+          "access": "page_or_search_index",
+          "note": "IssueroriginalApril13; GlobeNewswireissuerarchiveApril13 2026 08:00ET."
+        },
+        {
+          "url": "https://app.deepvalue.tech/news/10623-rect-nasdaq-rectitude-secures-s-10m-in-green-energy-contracts-progressing-pi",
+          "access": "page_or_search_index",
+          "note": "OriginalindexedDeepValueheaderRECTApril13 2026 at12:00PMUTC."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51786292/whats-powering-the-jump-in-rectitude-holdings-stock-today",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril13 2026 12:52PMactualRectitude; nozoneconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:00ETorderreleasebeforebothentries. DeepValue12:00UTC=08:00ETalsoqualifies. Benzinga12:52unknownzonecountsdateonlywithpostentrywarning. Quiver21:20UTCafterentriesexcludedwithoutfallback. Ordersnotrecognizedrevenue."
+    },
+    {
+      "symbol": "CREG",
+      "issuerCik": "721693",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnxm5m4s0kfkcgudoa20kvoc": "2026-04-10T09:35:19-04:00",
+        "cmnxm5m4s0kflcgud9ht9rwyf": "2026-04-10T10:01:02-04:00",
+        "cmnxm5m4s0kfncgudyjwezdgh": "2026-04-10T10:12:18-04:00",
+        "cmnxm5m4s0kfocgudomwp3paz": "2026-04-10T10:19:37-04:00",
+        "cmnxm5m4s0kfqcgudqnnh4eme": "2026-04-10T10:29:18-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CREG",
+          "access": "not_found",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CREG/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/721693/0001213900-26-044619-index.html",
+          "access": "page_or_search_index",
+          "note": "April10underlyingnoteagreementfiledApril16, outsideentries; notbackdated."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/bc-most-active-stocks-143019536.html",
+          "access": "page_or_search_index",
+          "note": "YahooAPindexedheaderApril10 2026; actualSmartPowerrCorpnamedinStockNametable."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "ActualSmartPowerr identified in AP market table datedApril10; no confirmed publicationzone, datefallback explicit. April10financingevent was not publicly filed untilApril16andisnotbackdated. CurrentFinviz404limitscoverage. ProTicker trading-signal recap not used as proof of issuer announcement or price cause."
+    },
+    {
+      "symbol": "RAYA",
+      "issuerCik": "1825875",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnxm5m4s0kfjcgudy4lmc1dk": "2026-04-10T08:41:21-04:00",
+        "cmnxm5m4s0kfmcgud8x9p708k": "2026-04-10T09:57:40-04:00",
+        "cmnxm5m4s0kfpcgudojhu93yp": "2026-04-10T10:22:40-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RAYA",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RAYA/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.nasdaq.com/press-release/erayak-announces-strategic-evolution-us-centric-energy-solutions-leader-unveils-tri",
+          "access": "page_or_search_index",
+          "note": "NasdaqPRNewswireApr10 2026 8:00amEDT; Finvizsameclock."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:00EDT strategic update beforeallthreeentries. ProductroadmapandUSexpansionnotrealizedsales; laterApril16reverse-splitnewsfutureexcluded."
+    },
+    {
+      "symbol": "ONCO",
+      "issuerCik": "1782107",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnsjle0o9bef4h5jzvtvvt52": "2026-04-09T09:32:13-04:00",
+        "cmnsjle0o9beg4h5j3uc3g2nc": "2026-04-09T09:46:08-04:00",
+        "cmnsjle0o9bei4h5jo09ymwep": "2026-04-09T10:25:35-04:00",
+        "cmnsjle0o9bej4h5jgxr4t5j4": "2026-04-09T11:09:04-04:00",
+        "cmnsjle0o9bek4h5jl35tzcs7": "2026-04-09T11:17:15-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ONCO",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ONCO/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/Onconetix%2B%28ONCO%29%2Bjumps%2B59%25%2Bas%2Breverse-split%2Bdynamics%2Band%2BRealbotix%2Bdeal%2Bkeep%2Bspeculation%2Belevated",
+          "access": "page_or_search_index",
+          "note": "OriginalApril9 17:38UTC=13:38ETafterallentries; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/09/3270956/0/en/onconetix-highlights-realbotix-s-launch-of-vinci-ai-vision-system-with-delivery-of-first-vinci-equipped-humanoid-robot-to-ericsson.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril9 2026 08:30ET; SEC425actualissuerandpendingacquisitioncorroborate."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51739158/onconetix-stock-skyrockets-after-realbotix-ships-vinci-equipped-robot-to-ericsson",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril9 2026 1:20PM; actualOnconetixnamed; publicationzoneunconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:30ETreleasebeforeallfiveentries; reportsApril8deliverybyRealbotix, whoseacquisitionremainedpending. SEC425latercorroboratesandismerged. Benzinga13:20unknownzonecountsdateonlywithpostentrywarning; Quiver17:38UTCafterallentriesexcluded."
+    },
+    {
+      "symbol": "ARAI",
+      "issuerCik": "1818274",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnsjle0o9bee4h5ji0wwea6g": "2026-04-09T08:19:28-04:00",
+        "cmnsjle0o9beh4h5jme4bqgb5": "2026-04-09T10:02:46-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ARAI",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ARAI/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/equities/26/04/51722554/arai-stock-33-percent-jump-patent-oversold-bounce",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril9 2026 1:32AMactualArriveAI."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51729573/why-is-arrive-ai-stock-up-today-new-patent-boosts-arai-shares",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril9 2026 9:27AM; actualArriveAI."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "April6primarypatentreleaseolderthan48helapsedhours, notbackdatedtoApril9commentary. TwoindependentlydatedBenzingareportsactualissuer; clocksunconfirmedzonesuseuserdatefallbackwithpotentiallaterfirstentrywarning. Patentdoesnotprovecommercialdeployment."
+    },
+    {
+      "symbol": "ELAB",
+      "issuerCik": "1840563",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnrae7y802h74h5j62tn7thu": "2026-04-08T09:46:48-04:00",
+        "cmnrae7y902h84h5jgiedw1ki": "2026-04-08T10:42:57-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ELAB",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ELAB/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1840563/000121390026041258/ea028547501ex99-1.htm",
+          "access": "page_or_search_index",
+          "note": "PrimaryEDGARindexAccepted2026-04-08 07:31:25Eastern; exactfilingtimeusedforattachedrelease."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "SECacceptance07:31:25ETconfirmsfundingreleasebeforebothentries. Earlier07:30distributionnotrequiredforeligibilityandmergedcontent. April6 07:30optionreleaseolderthan48hatbothentriesexcluded, notdatefallback. ActualissuerPMGCCIK1840563."
+    },
+    {
+      "symbol": "SMX",
+      "issuerCik": "1940674",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnq4yjbo03zbve9k3wm1ndxm": "2026-04-06T11:20:02-04:00",
+        "cmnq4yjbo03zcve9kdmjmhxlw": "2026-04-06T11:38:25-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SMX",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SMX/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/SMX%2Bshares%2Bsoar%2B63.9%25%2Bas%2Bcompany%2Blaunches%2BDigital%2BMaterial%2BPassport%2BPlatform",
+          "access": "page_or_search_index",
+          "note": "OriginalApril6 15:48UTC=11:48ETafterbothentries; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1940674/000149315226015231/form6-k.htm",
+          "access": "page_or_search_index",
+          "note": "PrimarySECindexAccepted2026-04-06 07:30:12Eastern; ACCESS08:00EDTlaterdistributionmerged."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51660826/smx-security-matters-stock-skyrockets-whats-driving-the-action",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril6 2026 11:09AMactualSMX."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "PrimarySECfiled07:30:12ETearlierthan08:00ACCESSdistribution; samecontentmergedonepublication. Beforeboth11:20/11:38entries. Quiver15:48UTC=11:48ETafterbothexcluded. SeparateBenzinga11:09unknownzoneusesdatefallback; platformclaimsnotverifiedadoption."
+    },
+    {
+      "symbol": "PRFX",
+      "issuerCik": "1801834",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnq4yjbo03z9ve9ktyde4v22": "2026-04-06T07:44:32-04:00",
+        "cmnq4yjbo03zave9k3qlh3nco": "2026-04-06T09:38:48-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=PRFX",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PRFX/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/top-premarket-gainers-111754235.html",
+          "access": "page_or_search_index",
+          "note": "YahooMTNewswiresindexedheaderApril6 2026; bodyexplicitPRFTechnologiesPRFX."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "ActualPRFTechnologies/formerPainReformsameCIK1801834. MTNewswiresdatedApril6pre-marketpublicationnamesissuer; no publicationzoneconfirmedfromYahooindexedheader. Countasmarketmentionwithdatefallback, notcorporatecatalyst."
+    },
+    {
+      "symbol": "VSA",
+      "issuerCik": "1592560",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmniyhsuw3m35726130myhhq0": "2026-04-02T11:41:17-04:00",
+        "cmniyhsuw3m36726172jrouot": "2026-04-02T12:52:18-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=VSA",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/VSA/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.stocktitan.net/sec-filings/VSA/6-k-vision-sys-ai-inc-current-report-foreign-issuer-759f36c58388.html",
+          "access": "page_or_search_index",
+          "note": "April2 17:18EDTfilingafterbothentries; excludedwithoutfallback."
+        },
+        {
+          "url": "https://stockregion.app/p/stock-region-signal-report-164",
+          "access": "page_or_search_index",
+          "note": "NamesVisionSensingAcquisitionCorp, a different issuer than canonicalVisionSys; notacceptedsolelyontickerstring."
+        },
+        {
+          "url": "https://www.streetinsider.com/SEC%2BFilings/Form%2B424B5%2BVisionSys%2BAI%2BInc/26249996.html",
+          "access": "page_or_search_index",
+          "note": "StreetInsiderfilingreproductionMarch31 2026 2:53PMEDT; OTCfilingreceipt14:53:11confirmsdate/minute."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "ActualVisionSysCIK1592560, notVisionSensingAcquisition. March31prospectus14:53EDT qualifiesboth11:41/12:52entries. April2 6Kaccepted17:18afterbothexcluded, notbackdatedtoMarch27agreementdate. Reject differentlyidentifiedStockRegionVSA item."
+    },
+    {
+      "symbol": "GV",
+      "issuerCik": "1892274",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmniyhsuw3m32726176oiylnf": "2026-04-02T10:40:36-04:00",
+        "cmniyhsuw3m347261kikyjxsa": "2026-04-02T10:56:15-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=GV",
+          "access": "access_limited",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/GV/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/31/3265706/0/en/visionary-holdings-signs-cooperation-agreement-with-strategic-investment-partner-for-proposed-us-20-million-investment-in-qingdao-anti-aging-project.html",
+          "access": "page_or_search_index",
+          "note": "KnownMarch31 10:01ETearlierthanApril2entry-minus48h; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.nasdaq.com/press-release/visionary-holdings-inc-announces-receipt-nasdaq-continued-listing-deficiency-letter",
+          "access": "page_or_search_index",
+          "note": "April2letterannouncedApril7 09:31EDT; publicationnotbackdated."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/long-ideas/26/04/51618703/acuity-lindsay-and-3-stocks-to-watch-heading-into-thursday",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaApril2 2026 4:44AMwithVisionaryHoldingsGVinbody; no publicationzoneconfirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "BenzingaApril2datedreportnamesactualVisionaryandproposedinvestment. March31original10:01ETisolderthan48hatboth10:40/10:56entriesandisexcludedwithoutfallback. April2NasdaqletterwaspublishedApril7andnotbackdated. No completedinvestmentorapprovalinferred."
+    },
+    {
+      "symbol": "SKYQ",
+      "issuerCik": "1812447",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmniyhsuw3m2v7261tdj3e4qp": "2026-04-02T07:40:30-04:00",
+        "cmniyhsuw3m3072610qsne26o": "2026-04-02T10:02:07-04:00",
+        "cmniyhsuw3m33726137descdc": "2026-04-02T10:51:41-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SKYQ",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SKYQ/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://markets.chroniclejournal.com/chroniclejournal/article/barchart-2026-4-2-sky-quarry-stock-is-surging-as-crude-oil-prices-spike-past-110-is-it-too-late-to-buy",
+          "access": "page_or_search_index",
+          "note": "ConfirmedApril2 14:44EDTafterallentries; Yahoo date-onlyheadernotusedtobypassknownclock."
+        },
+        {
+          "url": "https://www.stockwatch.com/News/Item/U-by1154503-U%21SKYQ-20260402/U/SKYQ",
+          "access": "page_or_search_index",
+          "note": "StockwatchACCESSoriginalreproduction2026-04-02 07:00ET; Finvizmatches."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original07:00ETrefineryreleasebeforeallthreeentries. Barchart14:44EDTknownafterallentriesisexcludedwithoutdatefallback despiteYahooonlydateheader. Capacityandreservesestimatesnotcurrentproductionorrevenue."
+    },
+    {
+      "symbol": "BDRX",
+      "issuerCik": "1643918",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmniyhsuw3m2z72612djwp6df": "2026-04-02T09:56:59-04:00",
+        "cmniyhsuw3m317261tit1o5hd": "2026-04-02T10:34:13-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=BDRX",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BDRX/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://rss.globenewswire.com/news-release/2026/04/02/3267351/0/en/biodexa-announces-partnership-with-syngene-to-manufacture-mtx240-gmp-clinical-trial-supplies.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril2 2026 08:30ET; issuerarchiveandFinvizconfirm."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:30ETmanufacturingpartnershipbeforebothentries; clinicaltrialGMPsuppliesnotmarketingapprovalorpositiveefficacyresults."
+    },
+    {
+      "symbol": "COCP",
+      "issuerCik": "1412486",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmniyhsuw3m2w7261o60f4zyy": "2026-04-02T09:01:25-04:00",
+        "cmniyhsuw3m2x7261mlofzm1h": "2026-04-02T09:05:55-04:00",
+        "cmniyhsuw3m2y72615lt3coul": "2026-04-02T09:37:00-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=COCP",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/COCP/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.cocrystalpharma.com/news/press-releases/detail/226/cocrystal-pharma-receives-fda-fast-track-designation-for",
+          "access": "page_or_search_index",
+          "note": "IssueroriginalApril2; GlobeNewswireCDI988archiveApril2 2026 08:00ET; Finvizmatches."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original08:00ETFastTrackreleasebeforeallthreeentries. March31results08:00ETolderthan48hatApril2 09:01firstentryandexcludedwithoutfallback. FastTrackdesignationnotproductapproval."
+    },
+    {
+      "symbol": "AGPU",
+      "issuerCik": "1446159",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnh4pk530tzh7cifqbo59qxw": "2026-04-01T11:49:26-04:00",
+        "cmnh4pk530tzi7cifg09xsykb": "2026-04-01T11:56:20-04:00",
+        "cmnh4pk530tzj7cifazoz4kt2": "2026-04-01T12:01:05-04:00",
+        "cmnh4pk530tzk7cifsephwjff": "2026-04-01T12:08:42-04:00",
+        "cmnh4pk530tzl7cif3o170871": "2026-04-01T12:17:28-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=AGPU",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/AGPU/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/31/3266074/37244/en/Axe-Compute-Inc-Reports-Full-Year-2025-Financial-Results.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireMarch31 2026 16:30ET; issuerIRandDowJonesreproductionconfirm."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/04/01/3266572/37244/en/Axe-Compute-Reports-12-Million-in-Executed-Agreements-Providing-835-Thousand-in-Estimated-Monthly-Income-Entering-Q2-2026.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireApril1 2026 08:00ET; issuerIRreleaseconfirmsconditionalincome."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "March31results16:30ETandApril1contracts08:00ETbeforeallfiveentries. ForecastincomeupondeploymentdistinctfromFY2025actuallegacyrevenue; April1presidentappointmentnotbackdatedfromApril6release."
+    },
+    {
+      "symbol": "CYCN",
+      "issuerCik": "1755237",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnh4pk530tz67cifgezcm176": "2026-04-01T07:32:13-04:00",
+        "cmnh4pk530tz77cifkr3a8bph": "2026-04-01T07:40:52-04:00",
+        "cmnh4pk530tz87cifa9dsqmui": "2026-04-01T07:49:41-04:00",
+        "cmnh4pk530tz97ciffpct1pcc": "2026-04-01T08:55:28-04:00",
+        "cmnh4pk530tza7cifkz5a0qvx": "2026-04-01T09:00:14-04:00",
+        "cmnh4pk530tzb7cifoorqu4ck": "2026-04-01T09:55:01-04:00",
+        "cmnh4pk530tzc7cifw1iamvqu": "2026-04-01T10:09:10-04:00",
+        "cmnh4pk530tzd7cifgk9332h3": "2026-04-01T10:12:08-04:00",
+        "cmnh4pk530tze7cifmud03hna": "2026-04-01T10:14:42-04:00",
+        "cmnh4pk530tzf7cif08syei5j": "2026-04-01T11:28:28-04:00",
+        "cmnh4pk530tzg7cifvrzf0o5a": "2026-04-01T11:30:31-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=CYCN",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/CYCN/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://ir.cyclerion.com/news-releases/news-release-details/cyclerion-therapeutics-and-korsana-biosciences-announce-merger",
+          "access": "page_or_search_index",
+          "note": "OriginalCyclerionIRApril1 2026 at7:05AMEDT; BusinessWire20260401287952andcounterpartyconfirm."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "HistoricalCyclerion/currentKorsanasameCIK1755237. Original07:05EDTmergeragreementbeforeall11entries; laterSEC20:13UTCnotusedasfirstpublication. Approx$380mfinancing,ownershipsplitandnamechangeconditionalonclosing,notcompletedatentry."
+    },
+    {
+      "symbol": "POLA",
+      "issuerCik": "1622345",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnfydhbd01ft7cifivk39vyw": "2026-03-31T11:23:43-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=POLA",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/POLA/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.tipranks.com/news/company-announcements/polar-power-delays-annual-10-k-filing",
+          "access": "page_or_search_index",
+          "note": "MarketBeatPOLAnewslistMarch31 2026linksdistinctTipRanksreport; originalheadlineverifiedbutbodylimited. No publicationclockzoneestablished."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "TipRanks publication dateMarch31verifiedinMarketBeat; articlebodyunavailable, no publicationclockconfirmed. UnderlyingNT10Kfiled17:10after11:23entrycannotbeusedaspreentryfiling. Date-onlyreportretainedwithprominentchronologywarning, notproofpreentryavailability."
+    },
+    {
+      "symbol": "VRAX",
+      "issuerCik": "1885827",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnfydhbd01fn7cif84orgloj": "2026-03-31T08:14:19-04:00",
+        "cmnfydhbd01fo7cifysq2536l": "2026-03-31T09:32:18-04:00",
+        "cmnfydhbd01fs7cif1fzvgca6": "2026-03-31T11:13:06-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=VRAX",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/VRAX/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/virax-biolabs-achieves-iso-certifications-laying-foundation-for-regulated-ivd-development-and-us-clinical-validation-302727405.html",
+          "access": "page_or_search_index",
+          "note": "OriginalPRNewswireMar31 2026 07:34ET; FinvizandissuerPDFconfirm."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "OriginalPRNewswire07:34ETbeforeallthreeentries. ISOissueFebruary18isunderlyingeventdate, publicationMarch31. QualitymanagementcertificationnotFDAproductapproval."
+    },
+    {
+      "symbol": "MASK",
+      "issuerCik": "1993097",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnfydhbd01fp7cifo2v2awld": "2026-03-31T10:08:41-04:00",
+        "cmnfydhbd01fq7cifhz6air3i": "2026-03-31T10:17:41-04:00",
+        "cmnfydhbd01fr7cif7dwqu5mo": "2026-03-31T10:29:20-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=MASK",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/MASK/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/03/51576204/why-3-e-network-technology-shares-are-skyrocketing-tuesday",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaMarch31 2026 12:52PMactual3ENetworkMASK."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Actual3ENetworkCIK1993097. BenzingaMarch31publicationverified, no publicationzoneconfirmed;12:52potentialafterallthree10:08-10:29entries. March24appointmentandMarch16splitareolderunderlyingevents, notnewMarch31announcements."
+    },
+    {
+      "symbol": "ELAB",
+      "issuerCik": "1840563",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnemsbn21510oqcpbchojhty": "2026-03-30T08:43:46-04:00",
+        "cmnemsbn21511oqcpf4ough35": "2026-03-30T08:50:40-04:00",
+        "cmnemsbn21512oqcph4u7gdf9": "2026-03-30T09:01:18-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ELAB",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ELAB/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/30/3264501/0/en/pmgc-holdings-inc-nasdaq-elab-reports-2025-annual-results-and-files-form-10-k-company-expands-asset-base-to-13-8m-a-43-increase-from-2024.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireMarch30 2026 07:03ET; FinancialContent07:03AMEDTconfirmsclockandbothassetfigures."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original07:03ETannualreleasebeforeallthreeentries. Explicitheadline13.8mvsbody12.87massetdiscrepancyretained; notreconciledagainstfiling. PriorFridayMar27 16:05licenseamendmentolderthan48helapsedhforMondayentriesexcluded, notcalendarfallback."
+    },
+    {
+      "symbol": "ASTC",
+      "issuerCik": "1001907",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnemsbn21514oqcp1nwfv0ze": "2026-03-30T10:59:10-04:00",
+        "cmnemsbn21515oqcpb7majn5x": "2026-03-30T11:08:52-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ASTC",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ASTC/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://cdn2.benzinga.com/insights/movers/26/03/51546924/12-information-technology-stocks-moving-in-mondays-intraday-session",
+          "access": "page_or_search_index",
+          "note": "OriginalBenzingaMarch30 2026 1:05pmexplicitAstrotechASTCinbody."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "ActualAstrotechnotASTSpaceMobile. OriginalBenzingamarkettableMarch30namesissuer;13:05clockunknownzonecouldfollowboth10:59/11:08entries. Datefallback explicit, no company-specificcatalystestablished."
+    },
+    {
+      "symbol": "BFRG",
+      "issuerCik": "1829247",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnemsbn21513oqcpwan84h39": "2026-03-30T10:43:24-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=BFRG",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BFRG/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/BullFrog%2BAI%2B%28BFRG%29%2Bsurges%2B122%25%2Bon%2Bnew%2Bcommercial%2Bagreement%2Bwith%2Btop-5%2Bglobal%2Bpharma",
+          "access": "page",
+          "note": "March30 14:51UTCafter10:43entry; excludedwithoutfallback."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/30/3264523/0/en/bullfrog-ai-announces-commercial-agreement-with-top-5-global-pharmaceutical-company-to-identify-and-prioritize-therapeutic-target-in-major-depressive-disorder.html",
+          "access": "page_or_search_index",
+          "note": "OriginalGlobeNewswireissuerarchiveMarch30 2026 07:30ET; SEC8Kcorroboratesfeasibilityagreement."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "Original07:30ETcommercialfeasibilityannouncementbefore10:43entry; counterpartyanonymous top5by2025revenuenotindependentlyidentified. Quiver14:51UTC=10:51ETafterentryexcludedwithoutfallback. Agreementnotdrugapprovalorrealizedsuccessfees."
+    },
+    {
+      "symbol": "SST",
+      "issuerCik": "1805833",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnc32opq0dekctgzpd3jcv7w": "2026-03-27T13:14:03-04:00",
+        "cmnc32opq0delctgzreso19ia": "2026-03-27T13:30:18-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SST",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SST/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://tickerdaily.com/article/why-is-system1-sst-stock-up-540percent-today",
+          "access": "page_or_search_index",
+          "note": "OriginalPublishedMarch27 2026; bodyexplicitSystem1SSTandJuly2024purchases."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "TickerDailyownpublicationMarch27verified. ArticlelabelsJuly2024insiderbuyingasrecent; datedexistencecountsbutstaleunderlyingeventsandunreconciledmarketnumberswarned. No new2026insiderpurchasesorpricecauseinferred."
+    },
+    {
+      "symbol": "ARTL",
+      "issuerCik": "1621221",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-07",
+      "coverage": "partial",
+      "scope": "Second one-hour historical backfill on November 7, starting 11:51:46 UTC. Only the exact listed trade IDs and entry timestamps were reviewed; this is not exhaustive archive coverage.",
+      "tradeEntries": {
+        "cmnc32opq0dejctgzpee8wc26": "2026-03-27T10:08:51-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=ARTL",
+          "access": "page",
+          "note": "Checked issuer news source for these exact entry windows; any access limitation is retained."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ARTL/news/",
+          "access": "access_limited",
+          "note": "Direct retrieval was unavailable; indexed evidence is identified separately when used."
+        },
+        {
+          "url": "https://ir.artelobio.com/sec-filings/all-sec-filings/content/0001640334-26-000558/0001640334-26-000558.pdf",
+          "access": "page_or_search_index",
+          "note": "PrimarySECindexAccepted2026-03-27 08:00:24Eastern; issuerRWPDFdatedMarch27."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source review; absence in consulted sources is not proof that no publication existed.",
+        "No archived pre-entry text version was verified. Publications are not evidence of price causation."
+      ],
+      "notes": "PrimaryRWaccepted08:00:24ETbefore10:08entry. Withdrawnregistrationdoesnotmeanallfuturefinancingcancelled; separateMarch27purchaseagreementfiledMarch30notbackdated."
     }
   ],
   "matchingPolicy": {

@@ -256,6 +256,17 @@ assert.equal(tradeHasNewsWithin(midnightTrade, 24), true, 'Calendar-day bands fo
 const dstTrade = { ...newsTrades[0], opened: '2026-11-02T00:30:00-05:00' };
 updateIssuerNews({ ...newsPayload, articles: [{ ...newsArticles[0], publishedAt: '2026-10-31T01:00:00-04:00' }], trades: [{ tradeId: dstTrade.id, symbol: 'US', entryAt: dstTrade.opened, articles: [{ articleId: 'timed' }] }] }, { ...newsSource, trades: [dstTrade] });
 assert.equal(tradeHasNewsWithin(dstTrade, 48), false, 'Known timestamps use elapsed hours across daylight-saving changes');
+const sharedTrade = { ...newsTrades[0], id: 'shared-publication', symbol: 'OTHER' };
+const sharedSource = { trades: [sharedTrade], tickerProfiles: { OTHER: { cik: '2' } } };
+const sharedArticle = { ...newsArticles[0], additionalIssuers: [{ symbol: 'OTHER', issuerCik: '2' }] };
+const sharedPayload = { ...newsPayload, scopedSymbols: ['OTHER'], articles: [sharedArticle], trades: [
+  { tradeId: sharedTrade.id, symbol: 'OTHER', entryAt: sharedTrade.opened, articles: [{ articleId: sharedArticle.id }] }
+] };
+updateIssuerNews(sharedPayload, sharedSource);
+assert.equal(tradeHasNewsWithin(sharedTrade, 48), true, 'One publication can link an additional issuer with its own verified CIK');
+sharedArticle.additionalIssuers[0].issuerCik = '3';
+updateIssuerNews(sharedPayload, sharedSource);
+assert.equal(tradeHasNewsWithin(sharedTrade, 48), false, 'Additional issuers cannot bypass identity validation');
 updateIssuerNews(null, newsSource);
 assert.equal(tradeNewsAgeIndex.size, 0, 'Unavailable or refreshed news clears stale matches');
 assert.equal(filterNews(48).length, 0);

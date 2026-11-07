@@ -63,9 +63,12 @@ function updateIssuerNews(payload, source) {
     if (!Number.isFinite(opened)) continue;
     for (const link of Array.isArray(entry.articles) ? entry.articles : []) {
       const article = articles.get(link.articleId);
-      if (!article || article.symbol !== trade.symbol) continue;
+      if (!article) continue;
+      const issuer = [{ symbol: article.symbol, issuerCik: article.issuerCik }, ...(Array.isArray(article.additionalIssuers) ? article.additionalIssuers : [])]
+        .find(item => item?.symbol === trade.symbol);
+      if (!issuer) continue;
       const profileCik = source.tickerProfiles?.[trade.symbol]?.cik;
-      if (!profileCik || String(profileCik).replace(/^0+/, '') !== String(article.issuerCik).replace(/^0+/, '')) continue;
+      if (!profileCik || String(profileCik).replace(/^0+/, '') !== String(issuer.issuerCik).replace(/^0+/, '')) continue;
       if (article.timePrecision === 'day') {
         if (article.publishedAt != null || article.verificationStatus !== 'verified_date' || !newsDateFallbackMatches(article, trade.opened, payload.dateFallbackDays)) continue;
       } else {

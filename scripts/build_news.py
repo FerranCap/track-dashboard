@@ -10,6 +10,11 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def article_issuers(article):
+    return [{'symbol': article['symbol'], 'issuerCik': article['issuerCik']},
+            *article.get('additionalIssuers', [])]
+
+
 def timestamp(value):
     result = datetime.fromisoformat(value.replace('Z', '+00:00'))
     if result.utcoffset() is None:
@@ -28,7 +33,8 @@ def build_context(dataset, articles, reviews, symbols, hours=48, date_fallback_d
         raise ValueError('Duplicate trade IDs')
     trade_ids = {trade['id'] for trade in trades}
     profiles = dataset.get('tickerProfiles', {})
-    selected = [article for article in articles if article['symbol'] in symbols]
+    selected = [article for article in articles
+                if any(issuer['symbol'] in symbols for issuer in article_issuers(article))]
     if len({article['id'] for article in selected}) != len(selected):
         raise ValueError('Duplicate news IDs')
     urls = set()
@@ -37,9 +43,13 @@ def build_context(dataset, articles, reviews, symbols, hours=48, date_fallback_d
         if article['url'] in urls:
             raise ValueError('Duplicate canonical news URL; merge syndications first')
         urls.add(article['url'])
-        profile_cik = profiles.get(article['symbol'], {}).get('cik')
-        if not profile_cik or int(profile_cik) != int(article['issuerCik']):
-            raise ValueError('News issuer does not match the reviewed ticker profile')
+        issuers = article_issuers(article)
+        if len({issuer['symbol'] for issuer in issuers}) != len(issuers):
+            raise ValueError('Duplicate news issuer')
+        for issuer in issuers:
+            profile_cik = profiles.get(issuer['symbol'], {}).get('cik')
+            if not profile_cik or int(profile_cik) != int(issuer['issuerCik']):
+                raise ValueError('News issuer does not match the reviewed ticker profile')
         precision = article['timePrecision']
         if precision == 'day':
             if article.get('publishedAt') is not None or article['verificationStatus'] != 'verified_date':
@@ -67,7 +77,7 @@ def build_context(dataset, articles, reviews, symbols, hours=48, date_fallback_d
         entry_day = entry.astimezone(ny).date()
         matched, uncertain = [], []
         for article, start, end, publication_day in parsed:
-            if article['symbol'] != trade['symbol']:
+            if not any(issuer['symbol'] == trade['symbol'] for issuer in article_issuers(article)):
                 continue
             if start is None:
                 days_before = (entry_day - publication_day).days
@@ -126,7 +136,8 @@ def main():
     articles = read(folder / 'articles.json')['articles']
     reviews = read(folder / 'research.json')['reviews']
     symbols = ({symbol.strip().upper() for symbol in args.symbols.split(',') if symbol.strip()} if args.symbols
-               else {record['symbol'] for record in articles + reviews})
+               else ({review['symbol'] for review in reviews}
+                     | {issuer['symbol'] for article in articles for issuer in article_issuers(article)}))
     result = build_context(dataset, articles, reviews, symbols, args.hours)
     (folder / 'trade-context.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     print(json.dumps(result['counts'], indent=2))

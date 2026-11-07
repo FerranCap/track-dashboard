@@ -105,6 +105,30 @@ class NewsContextTests(unittest.TestCase):
         self.assertEqual(len(result['trades'][0]['articles']), 2)
         self.assertEqual(result['trades'][0]['eventCount'], 1)
 
+    def test_one_publication_can_match_two_verified_issuers(self):
+        other = {'id': 'trade-2', 'symbol': 'OTHER', 'opened': self.trade['opened']}
+        self.dataset['trades'].append(other)
+        self.dataset['tickerProfiles']['OTHER'] = {'cik': '123'}
+        self.article['additionalIssuers'] = [{'symbol': 'OTHER', 'issuerCik': '123'}]
+        result = build_context(self.dataset, [self.article], [], {'VIVK', 'OTHER'})
+        self.assertEqual(result['counts']['articles'], 1)
+        self.assertEqual(result['counts']['tradeArticleLinks'], 2)
+        self.assertEqual(result['counts']['events'], 1)
+        other_only = build_context(self.dataset, [self.article], [], {'OTHER'})
+        self.assertEqual(other_only['counts']['articles'], 1)
+        self.assertEqual(other_only['trades'][0]['articles'][0]['articleId'], 'news-1')
+        other['opened'] = '2026-11-05T08:00:00-05:00'
+        self.assertEqual(build_context(self.dataset, [self.article], [], {'OTHER'})['counts']['articles'], 0)
+
+    def test_additional_issuer_identity_is_validated(self):
+        self.dataset['tickerProfiles']['OTHER'] = {'cik': '123'}
+        self.article['additionalIssuers'] = [{'symbol': 'OTHER', 'issuerCik': '456'}]
+        with self.assertRaisesRegex(ValueError, 'issuer'):
+            self.build()
+        self.article['additionalIssuers'] = [{'symbol': 'VIVK', 'issuerCik': '1450704'}]
+        with self.assertRaisesRegex(ValueError, 'Duplicate news issuer'):
+            self.build()
+
     def test_actual_pilot_and_unchanged_accounting(self):
         read = lambda path: json.loads(path.read_text(encoding='utf-8'))
         dataset = read(ROOT / 'data/trades.json')
@@ -132,14 +156,14 @@ class NewsContextTests(unittest.TestCase):
         generated = read(ROOT / 'data/news/trade-context.json')
         articles = read(ROOT / 'data/news/articles.json')['articles']
         reviews = read(ROOT / 'data/news/research.json')['reviews']
-        self.assertEqual(generated['counts'], {'trades': 738, 'articles': 311, 'events': 275,
-                                              'tradeArticleLinks': 625, 'dateFallbackLinks': 143,
-                                              'tradesWithNews': 478})
+        self.assertEqual(generated['counts'], {'trades': 849, 'articles': 376, 'events': 328,
+                                              'tradeArticleLinks': 816, 'dateFallbackLinks': 235,
+                                              'tradesWithNews': 581})
         entries = {trade['id']: trade for trade in dataset['trades']}
         reviewed = {trade_id for review in reviews for trade_id, opened in review['tradeEntries'].items()
                     if trade_id in entries and entries[trade_id]['opened'] == opened}
-        self.assertEqual(len(reviewed), 531)
-        self.assertEqual(len(reviews), 243)
+        self.assertEqual(len(reviewed), 634)
+        self.assertEqual(len(reviews), 283)
         recent = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and trade['entryAt'].startswith('2026-11-05')]
         self.assertEqual(len(recent), 7)
         self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['labt-20261105-series-c-redemption-release'] for trade in recent))
@@ -152,7 +176,7 @@ class NewsContextTests(unittest.TestCase):
         self.assertIn('omh-20260721-agm-report-date', {article['id'] for article in articles})
         november_inlf = [trade for trade in generated['trades'] if trade['symbol'] == 'INLF' and trade['entryAt'].startswith('2026-11')]
         self.assertTrue(all(not trade['articles'] for trade in november_inlf))
-        self.assertEqual(sum(link['matchingBasis'] == 'publication_date' for trade in generated['trades'] for link in trade['articles']), 143)
+        self.assertEqual(sum(link['matchingBasis'] == 'publication_date' for trade in generated['trades'] for link in trade['articles']), 235)
         dki = next(article for article in articles if article['id'] == 'dki-20261104-charter-report-date')
         self.assertIsNone(dki['publishedAt'])
         self.assertEqual(dki['timePrecision'], 'day')

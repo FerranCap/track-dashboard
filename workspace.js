@@ -7,6 +7,8 @@ const VIEW_DETAILS = {
   price: ['Precio', 'Resultados por rango de precio de entrada.'],
   duration: ['Duración', 'Resultados según el tiempo de permanencia en cada operación.'],
   growth: ['Relativo', 'Evolución de R y de la magnitud del PnL por operación.'],
+  optimal: ['Óptimo', 'Estudio de riesgo y tamaño de posición sobre las operaciones filtradas.'],
+  projection: ['Proyección', 'Escenarios a 12 meses basados en la R vigente y las operaciones filtradas.'],
   ratios: ['Ratios', 'Acierto, beneficio medio y relación entre ganancias y pérdidas.'],
   risk: ['Consistencia', 'Caídas de capital, rachas y estabilidad de los resultados.'],
   country: ['Localidad', 'Estudia tu operativa por país de la empresa emisora.'],
@@ -130,6 +132,8 @@ function renderWorkspace(rows) {
   renderComparisons();
   renderConsistencyStudies(rows);
   renderGrowth(rows);
+  renderGrowthProjection(rows);
+  renderOptimal(rows);
 }
 
 function growthPeriods(rows, unit = 'month') {
@@ -188,7 +192,6 @@ function renderGrowth(rows) {
   renderGrowthTradeChart(rows);
   renderGrowthAverageChart(rows);
   renderSessionSwings(rows);
-  renderGrowthProjection(rows);
 }
 
 function incorporationCountry(profile) {
@@ -420,6 +423,7 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
+  initializeOptimal();
   initializeGrowthProjection();
   activateView();
   $('data-selection-toggle').addEventListener('click', () => {
