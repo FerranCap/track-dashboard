@@ -232,7 +232,6 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 #view-optimal details{font-size:13px;line-height:1.7;color:#a8bbd2}
 #view-optimal summary{cursor:pointer;color:#bfd1e9;font-weight:650;margin-bottom:12px}
 #view-optimal details p+p{margin-top:12px}
-#optimal-size-table table{min-width:750px}
 #optimal-kelly-chart{height:360px;margin-top:18px}
 #optimal-kelly-legend{gap:12px 22px;margin:14px 0}
 #optimal-result-stats{margin:18px 0}

@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261107-optimal-average-r-58">
+  <link rel="stylesheet" href="styles.css?v=20261107-optimal-compact-59">
 </head>
 <body>
 <aside class="sidebar">
@@ -442,7 +442,7 @@
 <section class="section panel">
 <h2>Tamaño óptimo</h2>
 <p id="optimal-result-status" role="status" aria-live="polite"></p>
-<div id="optimal-result-stats" class="metrics three"></div>
+<div id="optimal-result-stats" class="metrics four"></div>
 <p class="mini-caption">Size = pérdida media elegida / pérdida media histórica, ambas como % de R. Por ejemplo, pasar del 2% al 10% de R implica ×5 sobre el tamaño histórico. El objetivo es una media entre pérdidas, no un límite para cada trade.</p>
 </section>
 <section class="section panel">
@@ -452,11 +452,6 @@
 <div id="optimal-kelly-legend" class="legend"></div>
 <p id="optimal-kelly-note" class="mini-caption" role="status"></p>
 <p class="mini-caption">Para comparar en una escala de R, el modelo toma 1 R como unidad hipotética de referencia. Kelly se define sobre capital: este máximo expresado en R es una referencia teórica, no una rentabilidad de cuenta ni un límite de pérdidas.</p>
-</section>
-<section class="section panel">
-<h2>Comparación de tamaños</h2>
-<p>Se muestran los niveles histórico, elegido y de Kelly, con valores intermedios entre el histórico y el óptimo teórico. Las medias proyectadas escalan el mismo conjunto de trades por el multiplicador de cada fila.</p>
-<div id="optimal-size-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
 <details><summary>Cómo se calcula</summary>
@@ -639,7 +634,7 @@
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261107-session-swing-55" defer></script>
 <script src="projection.js?v=20261107-session-swing-55" defer></script>
-<script src="optimal.js?v=20261107-optimal-average-r-58" defer></script>
+<script src="optimal.js?v=20261107-optimal-kelly-card-60" defer></script>
 <script src="workspace.js?v=20261107-optimal-risk-57" defer>
 </script>
 <script src="dashboard.js?v=20261107-optimal-average-r-58" defer>

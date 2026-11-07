@@ -122,18 +122,18 @@ function renderOptimal(rows) {
   catch (error) { result = { selected: null, candidates: [], reason: error.message }; }
   const selected = result.selected;
   const percentLabel = value => Number.isFinite(value) ? `${num(value, 2)}% de R` : '—';
-  const rLabel = value => Number.isFinite(value) ? `${value > 0 ? '+' : ''}${num(value, 4)} R` : '—';
   const sizeLabel = value => Number.isFinite(value) ? `×${num(value, 3)}` : '—';
   $('optimal-data-note').textContent = `${sample.trades.length} trades filtrados utilizados · ${sample.losses} perdedores para calcular la media · ${sample.excluded} excluidos por falta de R, PnL o fecha de entrada válida.`;
   $('optimal-result-status').textContent = selected
     ? `Para pasar de una pérdida media histórica del ${num(sample.averageLoss * 100)}% de R al ${num(targetPercent)}% elegido, el tamaño se multiplica por ${sizeLabel(selected.size)}. Se escala el conjunto de trades filtrados por el mismo factor.`
     : result.reason;
+  const kellyPercent = sample.kelly === null ? null : sample.kelly * 100;
   $('optimal-result-stats').innerHTML = [
     ['Pérdida media histórica', percentLabel(sample.averageLoss === null ? null : sample.averageLoss * 100), 'Media de |PnL/R de entrada| solo entre los trades perdedores filtrados.'],
     ['Pérdida media elegida', selected ? percentLabel(targetPercent) : '—', 'Objetivo medio entre trades perdedores; una pérdida individual puede superar este porcentaje.'],
-    ['Tamaño óptimo', selected ? sizeLabel(selected.size) : '—', 'Porcentaje elegido / porcentaje histórico de pérdida media. Multiplica el tamaño histórico; no representa un número de shares.']
+    ['Tamaño óptimo', selected ? sizeLabel(selected.size) : '—', 'Porcentaje elegido / porcentaje histórico de pérdida media. Multiplica el tamaño histórico; no representa un número de shares.'],
+    ['Kelly óptimo teórico', percentLabel(kellyPercent), 'Porcentaje de R que maximiza la curva binaria de Kelly de la muestra filtrada, usando 1 R como unidad hipotética de referencia.']
   ].map(args => consistencyMetric(...args)).join('');
-  const kellyPercent = sample.kelly === null ? null : sample.kelly * 100;
   $('optimal-kelly-legend').innerHTML = [
     ['Histórico', sample.averageLoss === null ? null : sample.averageLoss * 100, 'accent'],
     ['Elegido', selected ? targetPercent : null, 'warning'],
@@ -147,16 +147,6 @@ function renderOptimal(rows) {
   renderChart('optimal-kelly-chart', [], { optimalKelly: { sample, targetPercent: selected ? targetPercent : null },
     title: 'Curva de Kelly en relación con R', height: 340, empty: result.reason,
     explanation: 'Eje horizontal: pérdida media por trade perdedor como % de R. Eje vertical: crecimiento logarítmico teórico del modelo binario que toma 1 R como unidad hipotética de referencia. Azul: histórico. Naranja: elegido. Verde: máximo de Kelly. La banda sombreada une el histórico y el máximo teórico. No es una rentabilidad de cuenta.' });
-  const same = (a, b) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) < 1e-8;
-  $('optimal-size-table').innerHTML = tableMarkup(
-    ['Referencia', 'Pérdida media · % de R', 'Size vs. histórico', 'Ganancia media proyectada · R', 'PnL medio proyectado · R'],
-    result.candidates.map(item => {
-      const labels = [];
-      if (same(item.percent, sample.averageLoss * 100)) labels.push('Histórico');
-      if (selected && same(item.percent, targetPercent)) labels.push('Elegido');
-      if (same(item.percent, kellyPercent)) labels.push('Kelly teórico');
-      return [labels.join(' · ') || 'Intermedio', percentLabel(item.percent), sizeLabel(item.size), rLabel(item.averageWin), rLabel(item.expectancy)];
-    }));
 }
 
 function initializeOptimal() {
