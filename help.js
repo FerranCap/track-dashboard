@@ -14,6 +14,10 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/^perdida media · % de r$/, 'Pérdida media entre trades perdedores, como porcentaje de la R vigente en la entrada. No es una pérdida máxima individual.'],
+    [/^size vs\. historico$/, 'Multiplicador común respecto al tamaño histórico filtrado: porcentaje de pérdida media del escenario dividido por el porcentaje histórico.'],
+    [/^ganancia media proyectada · r$/, 'Media de PnL/R de entrada entre ganadoras, multiplicada por el tamaño del escenario. Se expresa en R.'],
+    [/^pnl medio proyectado · r$/, 'Media de PnL/R de entrada de todos los trades, incluidos los ceros, multiplicada por el tamaño del escenario. Se expresa en R por trade.'],
     [/^pnl mediano$/, 'Mediana del PnL registrado por operación del grupo, con su signo y con los trades a cero incluidos. No es la mediana del PnL absoluto.'],
     [/^precio medio$|^precio medio de entrada$/, 'Media de los precios de entrada por operación, sin ponderar por número de acciones. Solo precios conocidos, finitos y no negativos.'],
     [/^precio mediano$|^precio mediano de entrada$/, 'Mediana de los precios de entrada por operación, con interpolación lineal. Solo precios conocidos, finitos y no negativos; no se pondera por acciones.'],

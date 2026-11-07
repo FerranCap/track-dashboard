@@ -1,184 +1,164 @@
 'use strict';
 
-let optimalSimulationCache = null;
-
-function optimalPath(sessions) {
-  let pnl = 0, peak = 0, drawdown = 0, minimum = 0;
-  for (const session of sessions) {
-    drawdown = Math.max(drawdown, session.drawdown, peak - pnl - session.minimum);
-    minimum = Math.min(minimum, pnl + session.minimum);
-    peak = Math.max(peak, pnl + session.maximum);
-    pnl += session.pnl;
-  }
-  return { pnl, drawdown, minimum };
-}
-
 function optimalSample(rows, history) {
   const formatter = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
-  const groups = new Map(), trades = [];
+  const trades = [], sessions = new Set();
   let excluded = 0;
   for (const trade of rows) {
-    const opened = Date.parse(trade.opened), closed = Date.parse(trade.closed);
-    if (!Number.isFinite(opened) || !Number.isFinite(closed) || closed < opened || !Number.isFinite(trade.pnl)) { excluded++; continue; }
+    const opened = Date.parse(trade.opened);
+    if (!Number.isFinite(opened) || !Number.isFinite(trade.pnl)) { excluded++; continue; }
     const date = formatter.format(new Date(opened));
     const risk = sessionRiskAt(date, history)?.risk;
-    if (!Number.isFinite(risk) || risk <= 0) { excluded++; continue; }
-    const normalized = { id: trade.id, closed, value: trade.pnl / risk };
-    if (!groups.has(date)) groups.set(date, []);
-    groups.get(date).push(normalized);
-    trades.push(normalized);
+    const value = trade.pnl / risk;
+    if (!Number.isFinite(risk) || risk <= 0 || !Number.isFinite(value)) { excluded++; continue; }
+    trades.push({ id: trade.id, value });
+    sessions.add(date);
   }
-  const sessions = [...groups].sort(([a], [b]) => a.localeCompare(b)).map(([date, values]) => {
-    const closes = new Map();
-    for (const trade of values) closes.set(trade.closed, (closes.get(trade.closed) || 0) + trade.value);
-    let pnl = 0, minimum = 0, maximum = 0, drawdown = 0;
-    for (const [, value] of [...closes].sort(([a], [b]) => a - b)) {
-      pnl += value;
-      minimum = Math.min(minimum, pnl);
-      maximum = Math.max(maximum, pnl);
-      drawdown = Math.max(drawdown, maximum - pnl);
-    }
-    return { date, pnl, minimum, maximum, drawdown };
-  });
-  const overlapping = sessions.some(session => groups.get(session.date)
-    .some(trade => formatter.format(new Date(trade.closed)) > session.date));
-  return { trades, sessions, excluded, overlapping, historical: optimalPath(sessions) };
+  const wins = trades.filter(trade => trade.value > 0), losses = trades.filter(trade => trade.value < 0);
+  const average = values => values.length ? values.reduce((sum, trade) => sum + trade.value, 0) / values.length : null;
+  const averageLoss = losses.length ? -average(losses) : null;
+  const averageWin = wins.length ? average(wins) : 0;
+  const payoff = averageLoss ? averageWin / averageLoss : null;
+  const decisive = wins.length + losses.length;
+  const kelly = averageLoss ? (wins.length && payoff > 0
+    ? Math.max(0, wins.length / decisive - losses.length / decisive / payoff) : 0) : null;
+  return { trades, sessions: sessions.size, excluded, wins: wins.length, losses: losses.length,
+    averageLoss, averageWin, payoff, expectancy: average(trades), kelly };
 }
 
-function optimalSimulations(sample, horizon, simulations = 1000, blockSize = 5) {
-  if (!Number.isInteger(horizon) || horizon < 1 || horizon > 1000
-    || !Number.isInteger(simulations) || simulations < 1 || simulations > 10000
-    || !Number.isInteger(blockSize) || blockSize < 1) throw new Error('Invalid simulation settings');
-  if (!sample.sessions.length) return null;
-  let seed = 2166136261;
-  for (const session of sample.sessions) {
-    for (const value of [session.pnl, session.minimum, session.maximum, session.drawdown]) seed = Math.imul(seed ^ Math.round(value * 1e6), 16777619) >>> 0;
+function optimalSizing(sample, targetPercent) {
+  if (!Number.isFinite(targetPercent) || targetPercent < 0 || targetPercent > 100) {
+    throw new Error('Indica una pérdida media entre el 0% y el 100% de R por trade perdedor.');
   }
-  const random = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
-  const paths = [];
-  for (let run = 0; run < simulations; run++) {
-    const sessions = [];
-    while (sessions.length < horizon) {
-      const start = Math.floor(random() * sample.sessions.length);
-      for (let offset = 0; offset < Math.min(blockSize, sample.sessions.length) && sessions.length < horizon; offset++) {
-        sessions.push(sample.sessions[(start + offset) % sample.sessions.length]);
-      }
-    }
-    paths.push(optimalPath(sessions));
+  if (!sample.trades.length) return { selected: null, candidates: [], reason: 'Sin trades filtrados con PnL válido y R conocida en su entrada.' };
+  if (!sample.averageLoss) return { selected: null, candidates: [], reason: 'Se necesita al menos un trade perdedor para calcular la pérdida media histórica.' };
+  const historicalPercent = sample.averageLoss * 100;
+  const scenario = percent => {
+    const size = percent / historicalPercent;
+    return { percent, size, averageLoss: percent / 100, averageWin: sample.averageWin * size,
+      expectancy: sample.expectancy * size };
+  };
+  const selected = scenario(targetPercent), percentages = [historicalPercent, targetPercent];
+  if (sample.kelly !== null) {
+    const optimalPercent = sample.kelly * 100;
+    for (let index = 0; index <= 5; index++) percentages.push(historicalPercent + (optimalPercent - historicalPercent) * index / 5);
   }
-  return { paths, horizon, simulations, blockSize,
-    median: sampleQuantile(paths.map(path => path.pnl), 0.5),
-    lower: sampleQuantile(paths.map(path => path.pnl), 0.05),
-    upper: sampleQuantile(paths.map(path => path.pnl), 0.95),
-    drawdown95: sampleQuantile(paths.map(path => path.drawdown), 0.95),
-    minimum: Math.min(...paths.map(path => path.minimum)) };
+  const unique = [];
+  for (const percent of percentages.sort((a, b) => a - b)) {
+    if (!unique.some(value => Math.abs(value - percent) < 1e-9)) unique.push(percent);
+  }
+  const candidates = unique.map(scenario);
+  if (candidates.some(item => ![item.size, item.averageWin, item.expectancy].every(Number.isFinite))) {
+    throw new Error('La muestra produce un multiplicador fuera del rango calculable.');
+  }
+  return { selected, candidates, reason: '' };
 }
 
-function optimalSizing(sample, simulation, capital, limit, risk, maximum) {
-  if (![capital, limit, risk, maximum].every(value => Number.isFinite(value) && value > 0)
-    || limit >= capital || maximum > 20) throw new Error('Indica capital y R positivos, un drawdown inferior al capital y un tamaño máximo de hasta ×20.');
-  if (!simulation) return { candidates: [], selected: null, reason: 'Sin operaciones con R conocida para simular.' };
-  const values = sample.trades.map(trade => trade.value);
-  let reason = '';
-  if (sample.overlapping) reason = 'Hay posiciones que continúan en sesiones posteriores. Esta versión requiere sesiones sin posiciones abiertas de días anteriores.';
-  else if (sample.trades.length < 30 || sample.sessions.length < 20) reason = 'Muestra insuficiente: se requieren al menos 30 trades y 20 sesiones con R conocida.';
-  else if (!values.some(value => value < 0)) reason = 'La muestra no contiene pérdidas para estimar el riesgo adverso.';
-  else if (values.reduce((total, value) => total + value, 0) <= 0 || simulation.median <= 0) reason = 'La muestra no muestra una ventaja positiva suficiente: esperanza o resultado mediano no positivos.';
-  const worstDrawdown = Math.max(sample.historical.drawdown, simulation.drawdown95);
-  const worstMinimum = -Math.min(sample.historical.minimum, simulation.minimum, 0);
-  const bound = Math.min(maximum, worstDrawdown > 0 ? limit / (risk * worstDrawdown) : maximum,
-    worstMinimum > 0 ? capital * 0.999 / (risk * worstMinimum) : maximum);
-  const selected = reason ? null : Math.floor(bound * 100) / 100;
-  if (!reason && selected < 0.01) reason = 'Ningún tamaño desde ×0,01 cumple los límites indicados.';
-  const sizes = new Set([0, Math.min(1, maximum), maximum]);
-  for (let index = 1; index < 20; index++) sizes.add(Number((maximum * index / 20).toFixed(4)));
-  if (selected >= 0.01) { sizes.add(selected); sizes.add(selected / 2); }
-  const candidates = [...sizes].sort((a, b) => a - b).map(size => {
-    const scale = risk * size;
-    const bankrupt = simulation.paths.filter(path => capital + path.minimum * scale <= 0).length;
-    const exceeded = simulation.paths.filter(path => path.drawdown * scale > limit + 1e-8).length;
-    const historicalDrawdown = sample.historical.drawdown * scale, adverseDrawdown = simulation.drawdown95 * scale;
-    return { size, risk: scale, historicalPnl: sample.historical.pnl * scale, historicalDrawdown,
-      median: simulation.median * scale, lower: simulation.lower * scale, upper: simulation.upper * scale,
-      adverseDrawdown, bankruptPercent: bankrupt / simulation.simulations * 100,
-      exceededPercent: exceeded / simulation.simulations * 100,
-      acceptable: historicalDrawdown <= limit + 1e-8 && adverseDrawdown <= limit + 1e-8 && !bankrupt
-        && capital + sample.historical.minimum * scale > 0 };
+function optimalKellyGrowth(sample, percent) {
+  if (!sample.averageLoss || !Number.isFinite(percent) || percent < 0 || percent >= 100) return null;
+  const fraction = percent / 100, total = sample.trades.length;
+  return (sample.wins / total * Math.log1p(sample.payoff * fraction)
+    + sample.losses / total * Math.log1p(-fraction)) * 100;
+}
+
+function optimalKellySvg(model, opts = {}) {
+  const { sample, targetPercent } = model;
+  if (!sample.averageLoss) return `<span>${esc(opts.empty || 'Se necesita una pérdida media histórica para construir la curva.')}</span>`;
+  const width = Math.max(280, opts.width || 800), height = Math.max(250, opts.height || 340);
+  const left = 68, right = 20, top = 24, bottom = 55, plotWidth = width - left - right, plotHeight = height - top - bottom;
+  const markers = [
+    { name: 'Histórico', percent: sample.averageLoss * 100, color: '#5c9bff' },
+    { name: 'Kelly óptimo teórico', percent: sample.kelly * 100, color: '#29d17e' }
+  ];
+  if (Number.isFinite(targetPercent)) markers.push({ name: 'Elegido', percent: targetPercent, color: '#f2ad66' });
+  const upperPercent = Math.max(1, ...markers.map(marker => marker.percent)) * 1.15;
+  const curveEnd = Math.min(upperPercent, 99.5);
+  const percentages = Array.from({ length: 181 }, (_, index) => curveEnd * index / 180);
+  for (const marker of markers) if (marker.percent < 100) percentages.push(marker.percent);
+  percentages.sort((a, b) => a - b);
+  const points = percentages.map(percent => [percent, optimalKellyGrowth(sample, percent)]);
+  let low = Math.min(0, ...points.map(point => point[1])), high = Math.max(0, ...points.map(point => point[1]));
+  if (high === low) { high += 1; low -= 1; }
+  const padding = (high - low) * 0.12;
+  high += padding; low -= padding;
+  const x = percent => left + percent / upperPercent * plotWidth;
+  const y = growth => top + (high - growth) / (high - low) * plotHeight;
+  const label = value => Number(value.toFixed(2)).toLocaleString('es-ES');
+  const guide = marker => `${marker.name}: ${label(marker.percent)}% de R de pérdida media por trade perdedor. ${marker.percent < 100 ? `Crecimiento logarítmico teórico: ${label(optimalKellyGrowth(sample, marker.percent))}%.` : 'Fuera del dominio logarítmico del modelo (100% o más).'}`;
+  let shapes = '';
+  const start = Math.min(markers[0].percent, markers[1].percent), end = Math.max(markers[0].percent, markers[1].percent);
+  shapes += `<rect x="${x(start)}" y="${top}" width="${x(end) - x(start)}" height="${plotHeight}" fill="#29d17e" opacity=".07"/>`;
+  if (upperPercent >= 100) shapes += `<rect x="${x(100)}" y="${top}" width="${x(upperPercent) - x(100)}" height="${plotHeight}" fill="#ef6b7b" opacity=".1"/>`;
+  for (let index = 0; index <= 4; index++) {
+    const growth = low + (high - low) * index / 4;
+    shapes += `<line x1="${left}" x2="${width - right}" y1="${y(growth)}" y2="${y(growth)}" stroke="#304058" stroke-dasharray="3 5"/><text x="${left - 8}" y="${y(growth) + 4}" fill="#9bb3cd" font-size="11" text-anchor="end">${esc(label(growth))}%</text>`;
+  }
+  const ticks = width < 500 ? 4 : 6;
+  for (let index = 0; index <= ticks; index++) {
+    const percent = upperPercent * index / ticks;
+    shapes += `<text x="${x(percent)}" y="${height - 31}" fill="#9bb3cd" font-size="11" text-anchor="${index === 0 ? 'start' : index === ticks ? 'end' : 'middle'}">${esc(label(percent))}%</text>`;
+  }
+  shapes += `<line x1="${left}" x2="${width - right}" y1="${y(0)}" y2="${y(0)}" stroke="#688099" stroke-dasharray="4 4"/>`;
+  shapes += `<path d="${points.map(([percent, growth], index) => `${index ? 'L' : 'M'}${x(percent).toFixed(2)},${y(growth).toFixed(2)}`).join(' ')}" fill="none" stroke="#a8bbd2" stroke-width="2"/>`;
+  points.forEach(([percent, growth], index) => {
+    if (index % 3 === 0) shapes += `<circle cx="${x(percent)}" cy="${y(growth)}" r="6" fill="transparent" ${helpAttributes(`${label(percent)}% de R · crecimiento logarítmico teórico ${label(growth)}%.`)}><title>${esc(`${label(percent)}% de R · ${label(growth)}% teórico`)}</title></circle>`;
   });
-  return { candidates, selected: reason ? null : candidates.find(item => item.size === selected), reason };
+  for (const marker of markers) {
+    const attributes = helpAttributes(guide(marker));
+    shapes += `<line x1="${x(marker.percent)}" x2="${x(marker.percent)}" y1="${top}" y2="${height - bottom}" stroke="${marker.color}" stroke-width="1.5" stroke-dasharray="5 4" ${attributes}><title>${esc(guide(marker))}</title></line>`;
+    const growth = optimalKellyGrowth(sample, marker.percent);
+    if (growth !== null) shapes += `<circle cx="${x(marker.percent)}" cy="${y(growth)}" r="5" fill="${marker.color}" stroke="#101827" stroke-width="2" ${attributes}><title>${esc(guide(marker))}</title></circle>`;
+  }
+  shapes += `<text x="${left}" y="14" fill="#a8bbd2" font-size="10">Crecimiento logarítmico teórico · %</text><text x="${left + plotWidth / 2}" y="${height - 7}" text-anchor="middle" fill="#a8bbd2" font-size="11">Pérdida media por trade perdedor · % de R</text>`;
+  return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Curva de Kelly: porcentaje histórico, elegido y óptimo teórico">${shapes}</svg>`;
 }
 
 function renderOptimal(rows) {
-  const inputs = ['optimal-capital', 'optimal-drawdown', 'optimal-horizon', 'optimal-maximum'];
-  const [capital, drawdown, horizon, maximum] = inputs.map(id => $(id).value.trim() ? Number($(id).value) : NaN);
-  const unit = $('optimal-drawdown-unit').value;
-  const limit = unit === 'percent' ? capital * drawdown / 100 : drawdown;
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
-  const risk = sessionRiskAt(today)?.risk;
+  const input = $('optimal-target-risk');
+  const targetPercent = input.value.trim() ? Number(input.value) : NaN;
   const sample = optimalSample(rows, sessionRiskHistory);
-  const values = sample.trades.map(trade => trade.value), wins = values.filter(value => value > 0), losses = values.filter(value => value < 0);
-  const averageWin = wins.length ? mean(wins) : null, averageLoss = losses.length ? -mean(losses) : null;
-  const winningSum = wins.reduce((a, b) => a + b, 0), losingSum = -losses.reduce((a, b) => a + b, 0);
-  const decisive = wins.length + losses.length;
-  const payoff = averageWin && averageLoss ? averageWin / averageLoss : null;
-  const kelly = payoff ? (wins.length / decisive - losses.length / decisive / payoff) * 100 : null;
-  $('optimal-kelly-note').textContent = kelly === null
-    ? 'No calculable: se necesitan ganancias y pérdidas observadas.'
-    : `Kelly binario aproximado: ${num(kelly)}%. Usa solo trades con resultado distinto de cero y resultados normalizados por R. Es una referencia teórica de apuesta con pérdida fija, no un porcentaje de riesgo aplicable a tus trades.`;
-  const rValue = value => Number.isFinite(value) ? `${num(value, 3)} R` : '—';
-  const metrics = [
-    ['Trades utilizados', String(values.length), 'Operaciones filtradas con PnL válido y R conocida en su entrada.'],
-    ['Sesiones utilizadas', String(sample.sessions.length), 'Sesiones agrupadas por el día de entrada en Nueva York.'],
-    ['Win rate', pct(wins.length, values.length), 'Ganadoras / total; incluye trades a cero.'],
-    ['Ganancia media', rValue(averageWin), 'Media de PnL/R histórica de las ganadoras. R es el presupuesto de la sesión.'],
-    ['Pérdida media', rValue(averageLoss), 'Media absoluta de PnL/R histórica de las perdedoras; no es el riesgo inicial de un trade.'],
-    ['RR realizado', averageLoss ? num(averageWin / averageLoss) : '—', 'Ganancia media / pérdida media, con resultados normalizados por R histórica.'],
-    ['Esperanza por trade', values.length ? rValue(mean(values)) : '—', 'Promedio de todos los PnL/R históricos, incluidos ceros.'],
-    ['Profit factor', losingSum ? num(winningSum / losingSum) : winningSum ? '∞' : '—', 'Suma de ganancias / suma absoluta de pérdidas, normalizadas por R.'],
-    ['Peor trade', values.length ? rValue(Math.min(...values)) : '—', 'Peor resultado cerrado dividido por la R vigente en su entrada.'],
-    ['Drawdown histórico', values.length ? rValue(sample.historical.drawdown) : '—', 'Mayor caída desde un máximo del PnL normalizado, incluyendo los cierres dentro de cada sesión.']
-  ];
-  $('optimal-sample-stats').innerHTML = metrics.map(args => consistencyMetric(...args)).join('');
-  $('optimal-sample-note').textContent = `${rows.length} trades filtrados · ${sample.excluded} excluidos por falta de R, PnL o fechas válidas. Cada resultado se divide por la R vigente en su entrada. R representa riesgo máximo por sesión; no riesgo inicial por trade.`;
-  let result = { candidates: [], selected: null, reason: '' }, simulation = null;
-  try {
-    if (!Number.isInteger(horizon) || horizon < 1 || horizon > 1000) throw new Error('El horizonte debe ser un número entero entre 1 y 1.000 sesiones.');
-    if (!['percent', 'usd'].includes(unit)) throw new Error('Selecciona una unidad de drawdown válida.');
-    const key = JSON.stringify([horizon, sample.sessions]);
-    if (optimalSimulationCache?.key !== key) optimalSimulationCache = { key, value: optimalSimulations(sample, horizon) };
-    simulation = optimalSimulationCache.value;
-    result = optimalSizing(sample, simulation, capital, limit, risk, maximum);
-  } catch (error) { result.reason = error.message; }
-  const chosen = result.selected;
-  $('optimal-result-status').textContent = chosen
-    ? `Mayor tamaño que cumple el criterio: ×${num(chosen.size)}. Drawdown histórico y P95 simulado ≤ ${money(limit)} (${num(limit / capital * 100)}% del capital inicial), sin agotamiento del capital en los escenarios simulados.${chosen.size >= maximum ? ' Se alcanza el máximo de tamaño explorado; no se ha establecido un óptimo por encima de ese límite.' : ''}`
+  let result;
+  try { result = optimalSizing(sample, targetPercent); }
+  catch (error) { result = { selected: null, candidates: [], reason: error.message }; }
+  const selected = result.selected;
+  const percentLabel = value => Number.isFinite(value) ? `${num(value, 2)}% de R` : '—';
+  const rLabel = value => Number.isFinite(value) ? `${value > 0 ? '+' : ''}${num(value, 4)} R` : '—';
+  const sizeLabel = value => Number.isFinite(value) ? `×${num(value, 3)}` : '—';
+  $('optimal-data-note').textContent = `${sample.trades.length} trades filtrados utilizados · ${sample.losses} perdedores para calcular la media · ${sample.excluded} excluidos por falta de R, PnL o fecha de entrada válida.`;
+  $('optimal-result-status').textContent = selected
+    ? `Para pasar de una pérdida media histórica del ${num(sample.averageLoss * 100)}% de R al ${num(targetPercent)}% elegido, el tamaño se multiplica por ${sizeLabel(selected.size)}. Se escala el conjunto de trades filtrados por el mismo factor.`
     : result.reason;
-  const conservative = chosen ? result.candidates.find(item => item.size === chosen.size / 2) : null;
   $('optimal-result-stats').innerHTML = [
-    ['Tamaño según el criterio', chosen ? `×${num(chosen.size)}` : '—', 'Máximo multiplicador, redondeado hacia abajo a centésimas, que satisface las restricciones bajo este modelo.'],
-    ['R equivalente por sesión', chosen ? money(chosen.risk) : '—', 'R vigente × multiplicador de tamaño. No cambia tu historial de R ni implica un stop ejecutable.'],
-    ['Alternativa de menor exposición', conservative ? `×${num(conservative.size, 3)} · ${money(conservative.risk)}/sesión` : '—', 'La mitad del tamaño seleccionado; sus ganancias y pérdidas simuladas también se reducen a la mitad.'],
-    ['Resultado mediano simulado', chosen ? signed(chosen.median) : '—', `PnL mediano al final de ${horizon} sesiones con un importe fijo por sesión, sin capitalización.`]
+    ['Pérdida media histórica', percentLabel(sample.averageLoss === null ? null : sample.averageLoss * 100), 'Media de |PnL/R de entrada| solo entre los trades perdedores filtrados.'],
+    ['Pérdida media elegida', selected ? percentLabel(targetPercent) : '—', 'Objetivo medio entre trades perdedores; una pérdida individual puede superar este porcentaje.'],
+    ['Tamaño óptimo', selected ? sizeLabel(selected.size) : '—', 'Porcentaje elegido / porcentaje histórico de pérdida media. Multiplica el tamaño histórico; no representa un número de shares.']
   ].map(args => consistencyMetric(...args)).join('');
-  $('optimal-simulation-note').textContent = simulation
-    ? `${simulation.simulations.toLocaleString('es-ES')} simulaciones de ${horizon} sesiones. Bloques consecutivos de hasta ${simulation.blockSize} sesiones, con inicio aleatorio y continuidad circular; se conservan los cierres y su orden dentro de cada sesión. P5–P95 describe escenarios del modelo, no una garantía. Drawdown medido en USD y como porcentaje del capital inicial. La muestra debe tener al menos 30 trades, 20 sesiones y pérdidas observadas para seleccionar un tamaño.`
-    : 'Corrige los parámetros para calcular los escenarios.';
-  const candidates = result.candidates;
+  const kellyPercent = sample.kelly === null ? null : sample.kelly * 100;
+  $('optimal-kelly-legend').innerHTML = [
+    ['Histórico', sample.averageLoss === null ? null : sample.averageLoss * 100, 'accent'],
+    ['Elegido', selected ? targetPercent : null, 'warning'],
+    ['Kelly óptimo teórico', kellyPercent, 'positive']
+  ].map(([name, value, kind]) => `<span class="${kind}">${esc(name)} · ${esc(percentLabel(value))}</span>`).join('');
+  const notes = [];
+  if (sample.kelly === 0) notes.push('Kelly no identifica ventaja positiva en esta muestra: su óptimo teórico es 0% de R.');
+  if (sample.averageLoss && (sample.averageLoss * 100 >= 100 || (selected && targetPercent >= 100))) notes.push('Las marcas de 100% de R o más quedan fuera del dominio logarítmico de la curva.');
+  if (sample.averageLoss && (sample.trades.length < 30 || sample.losses < 10)) notes.push('Muestra reducida: el porcentaje de Kelly y el multiplicador pueden ser inestables.');
+  $('optimal-kelly-note').textContent = notes.join(' ');
+  renderChart('optimal-kelly-chart', [], { optimalKelly: { sample, targetPercent: selected ? targetPercent : null },
+    title: 'Curva de Kelly en relación con R', height: 340, empty: result.reason,
+    explanation: 'Eje horizontal: pérdida media por trade perdedor como % de R. Eje vertical: crecimiento logarítmico teórico del modelo binario que toma 1 R como unidad hipotética de referencia. Azul: histórico. Naranja: elegido. Verde: máximo de Kelly. La banda sombreada une el histórico y el máximo teórico. No es una rentabilidad de cuenta.' });
+  const same = (a, b) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) < 1e-8;
   $('optimal-size-table').innerHTML = tableMarkup(
-    ['Tamaño', 'R equivalente / sesión', 'PnL histórico reescalado', 'DD histórico reescalado', 'PnL P5', 'PnL mediano', 'PnL P95', 'DD P95', 'Supera límite DD', 'Agota capital', 'Cumple límites'],
-    candidates.map(item => [`×${num(item.size, 3)}${chosen === item ? ' · seleccionado' : ''}`, money(item.risk), signed(item.historicalPnl), money(item.historicalDrawdown), signed(item.lower), signed(item.median), signed(item.upper), money(item.adverseDrawdown), `${num(item.exceededPercent, 1)}%`, `${num(item.bankruptPercent, 1)}%`, item.acceptable ? 'Sí' : 'No']));
-  const points = field => candidates.map(item => [`×${num(item.size, 3)}`, item[field]]);
-  renderChart('optimal-return-chart', [
-    { values: points('lower'), color: '#ef6b7b' }, { values: points('median'), color: '#5c9bff' }, { values: points('upper'), color: '#29d17e' }
-  ], { currency: true, title: 'Resultado simulado por tamaño', explanation: `P5, mediana y P95 del PnL final a ${horizon} sesiones. Se escala PnL/R histórica por R vigente y tamaño, con presupuesto fijo y costes registrados ya incluidos.`, empty: result.reason });
-  renderChart('optimal-drawdown-chart', [
-    { values: points('historicalDrawdown'), color: '#5c9bff' }, { values: points('adverseDrawdown'), color: '#f2ad66' },
-    { values: candidates.map(item => [`×${num(item.size, 3)}`, limit]), color: '#ef6b7b' }
-  ], { currency: true, title: 'Drawdown por tamaño', explanation: 'Azul: drawdown del historial normalizado. Naranja: percentil 95 del drawdown máximo simulado. Rojo: límite elegido en USD, equivalente al porcentaje indicado del capital inicial. Incluye cierres intrasesión; no incluye pérdidas latentes.', empty: result.reason });
+    ['Referencia', 'Pérdida media · % de R', 'Size vs. histórico', 'Ganancia media proyectada · R', 'PnL medio proyectado · R'],
+    result.candidates.map(item => {
+      const labels = [];
+      if (same(item.percent, sample.averageLoss * 100)) labels.push('Histórico');
+      if (selected && same(item.percent, targetPercent)) labels.push('Elegido');
+      if (same(item.percent, kellyPercent)) labels.push('Kelly teórico');
+      return [labels.join(' · ') || 'Intermedio', percentLabel(item.percent), sizeLabel(item.size), rLabel(item.averageWin), rLabel(item.expectancy)];
+    }));
 }
 
 function initializeOptimal() {
-  for (const id of ['optimal-capital', 'optimal-drawdown', 'optimal-horizon', 'optimal-maximum', 'optimal-drawdown-unit']) {
-    $(id).addEventListener('change', () => renderOptimal(filtered));
-  }
+  $('optimal-target-risk').addEventListener('input', () => renderOptimal(filtered));
 }

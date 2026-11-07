@@ -6,17 +6,10 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261107-optimal-risk-57">
+  <link rel="stylesheet" href="styles.css?v=20261107-optimal-average-r-58">
 </head>
 <body>
 <aside class="sidebar">
-<a class="brand" href="#general">
-<span class="brand-mark">T</span>
-<div>
-<strong>TRACK</strong>
-<small>Trading analytics</small>
-</div>
-</a>
 <nav aria-label="Apartados">
 <div class="nav-group" role="group" aria-labelledby="nav-studies">
 <div id="nav-studies" class="nav-caption">ESTUDIOS</div>
@@ -440,48 +433,37 @@
 <div id="view-optimal" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Riesgo óptimo</h2>
-<p>Compara tamaños de posición y busca el mayor que respete el drawdown que aceptas, usando los trades de los filtros generales. El capital es una referencia editable para el escenario.</p>
+<p>Elige qué porcentaje de R quieres perder de media cuando un trade sale perdedor. El tamaño se calcula comparando ese objetivo con la pérdida media de los trades filtrados.</p>
 <div class="ratio-controls">
-<label for="optimal-capital">Capital de referencia · USD<input id="optimal-capital" type="number" min="1" max="1000000000000" step="100" value="10000"></label>
-<label for="optimal-drawdown">Drawdown máximo aceptado<input id="optimal-drawdown" type="number" min="0.01" step="0.1" value="10"></label>
-<label for="optimal-drawdown-unit">Unidad del límite<select id="optimal-drawdown-unit"><option value="percent">% del capital inicial</option><option value="usd">USD</option></select></label>
-<label for="optimal-horizon">Horizonte · sesiones<input id="optimal-horizon" type="number" min="1" max="1000" step="1" value="100"></label>
-<label for="optimal-maximum">Tamaño máximo a explorar · ×<input id="optimal-maximum" type="number" min="0.01" max="20" step="0.25" value="5"></label>
+<label for="optimal-target-risk">Pérdida media por trade perdedor · % de R<input id="optimal-target-risk" type="number" min="0" max="100" step="0.1" value="10"></label>
 </div>
-<p class="mini-caption">Se conserva PnL/R histórica y se aplica R vigente × tamaño a cada sesión. El presupuesto es fijo, sin capitalización. El historial contiene R por sesión; para calcular riesgo inicial por trade hacen falta los stops o el riesgo registrado de cada operación.</p>
+<p id="optimal-data-note" class="mini-caption" role="status"></p>
 </section>
 <section class="section panel">
-<h2>Muestra filtrada</h2>
-<p id="optimal-sample-note" class="mini-caption" role="status"></p>
-<div id="optimal-sample-stats" class="metrics four"></div>
-</section>
-<section class="section panel">
-<h2>Tamaño según tu límite de caída</h2>
+<h2>Tamaño óptimo</h2>
 <p id="optimal-result-status" role="status" aria-live="polite"></p>
-<div id="optimal-result-stats" class="metrics four"></div>
-<p id="optimal-simulation-note" class="mini-caption"></p>
+<div id="optimal-result-stats" class="metrics three"></div>
+<p class="mini-caption">Size = pérdida media elegida / pérdida media histórica, ambas como % de R. Por ejemplo, pasar del 2% al 10% de R implica ×5 sobre el tamaño histórico. El objetivo es una media entre pérdidas, no un límite para cada trade.</p>
 </section>
 <section class="section panel">
-<h2>Resultado simulado por tamaño</h2>
-<div id="optimal-return-chart" class="chart"></div>
-<div class="legend"><span class="negative">P5</span><span class="accent">Mediana · P50</span><span class="positive">P95</span></div>
-</section>
-<section class="section panel">
-<h2>Drawdown histórico y adverso</h2>
-<div id="optimal-drawdown-chart" class="chart"></div>
-<div class="legend"><span class="accent">Histórico</span><span class="warning">Simulado · P95</span><span class="negative">Límite elegido</span></div>
+<h2>Kelly · histórico y óptimo teórico</h2>
+<p>La curva usa el porcentaje de acierto y la relación entre ganancia y pérdida medias de la muestra filtrada. La zona sombreada conecta el riesgo medio histórico con el máximo teórico; las marcas identifican ambos niveles y el porcentaje elegido.</p>
+<div id="optimal-kelly-chart" class="chart"></div>
+<div id="optimal-kelly-legend" class="legend"></div>
+<p id="optimal-kelly-note" class="mini-caption" role="status"></p>
+<p class="mini-caption">Para comparar en una escala de R, el modelo toma 1 R como unidad hipotética de referencia. Kelly se define sobre capital: este máximo expresado en R es una referencia teórica, no una rentabilidad de cuenta ni un límite de pérdidas.</p>
 </section>
 <section class="section panel">
 <h2>Comparación de tamaños</h2>
-<p class="mini-caption">PnL y drawdown históricos reescalan toda la muestra a R vigente × tamaño; P5, mediana y P95 usan el horizonte simulado. «Supera límite DD» y «Agota capital» son frecuencias entre las simulaciones. ×0 es la referencia sin exposición. Cumplir los límites no demuestra una ventaja positiva.</p>
+<p>Se muestran los niveles histórico, elegido y de Kelly, con valores intermedios entre el histórico y el óptimo teórico. Las medias proyectadas escalan el mismo conjunto de trades por el multiplicador de cada fila.</p>
 <div id="optimal-size-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
-<h2>Cómo interpretar el estudio</h2>
-<p>«Óptimo» es el máximo tamaño dentro de las restricciones y del rango explorado. Se exige ventaja positiva en la muestra, drawdown histórico y P95 simulado dentro del límite, y capital positivo en el historial y en todas las simulaciones. La alternativa de menor exposición usa la mitad de ese tamaño.</p>
-<p>Las simulaciones remuestrean bloques de sesiones del historial seleccionado. Las rachas futuras, la liquidez y los costes pueden diferir. Se conservan los costes incluidos en el PnL; no se descuentan de nuevo. No se aplica un stop automático de sesión y no se observan las oscilaciones de posiciones abiertas. Los escenarios se calculan completos aunque agoten el capital.</p>
-<p>Los filtros pueden dejar solo una parte de las operaciones de una sesión. Las sesiones con posiciones que continúan en días posteriores impiden seleccionar un tamaño en esta versión.</p>
-<details><summary>Kelly como referencia teórica</summary><p id="optimal-kelly-note"></p><p>Kelly maximiza crecimiento logarítmico bajo sus supuestos; aquí la aproximación binaria usa win rate y RR medios y omite la distribución real de pérdidas. No se usa para seleccionar tamaño ni se convierte a riesgo por trade. <a href="https://web.stanford.edu/~boyd/papers/kelly.html" target="_blank" rel="noopener noreferrer">Referencia: crecimiento y restricciones de drawdown</a>.</p></details>
+<details><summary>Cómo se calcula</summary>
+<p>Primero se divide el PnL de cada trade por la R vigente en su entrada, según el día de Nueva York. Después se calcula la media absoluta solo entre los trades perdedores. Ganancias y trades a cero no diluyen esa pérdida media. El multiplicador aplica el mismo factor a todos los resultados; se conservan los costes ya incluidos y no se descuentan de nuevo.</p>
+<p>El cálculo usa medias, sin emplear la peor pérdida ni imponer restricciones de drawdown o capital. Un trade individual puede perder más que la media elegida. Los filtros pueden dejar muestras pequeñas y los resultados futuros pueden diferir. El tamaño calculado no modifica tus trades ni tu historial de R.</p>
+<p>Kelly aproxima los resultados por una ganancia media y una pérdida media. Los trades a cero aportan crecimiento cero. La curva es g(f) = p × ln(1 + b × f) + q × ln(1 − f), donde f es el porcentaje de R dividido por 100, b es el RR medio y p y q son las frecuencias de ganancias y pérdidas. El máximo se calcula con las frecuencias condicionadas a trades distintos de cero. Los porcentajes de 100% o más no tienen crecimiento logarítmico finito cuando hay pérdidas. <a href="https://theory.stanford.edu/~blynn/pr/kelly.html" target="_blank" rel="noopener noreferrer">Referencia del criterio de Kelly</a>.</p>
+</details>
 </section>
 </div>
 <div id="view-ratios" class="view" aria-labelledby="page-title" hidden>
@@ -652,15 +634,15 @@
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
 <script src="studies.js?v=20261107-country-ranking-53" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261107-session-swing-55" defer></script>
+<script src="help.js?v=20261107-optimal-average-r-58" defer></script>
 <script src="filters.js?v=20261106-news-policy-51" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261107-session-swing-55" defer></script>
 <script src="projection.js?v=20261107-session-swing-55" defer></script>
-<script src="optimal.js?v=20261107-optimal-risk-57" defer></script>
+<script src="optimal.js?v=20261107-optimal-average-r-58" defer></script>
 <script src="workspace.js?v=20261107-optimal-risk-57" defer>
 </script>
-<script src="dashboard.js?v=20261107-session-swing-55" defer>
+<script src="dashboard.js?v=20261107-optimal-average-r-58" defer>
 </script>
 </body>
 </html>

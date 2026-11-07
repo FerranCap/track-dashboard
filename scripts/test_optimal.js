@@ -5,103 +5,105 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
-const context = vm.createContext({ Intl, console });
-for (const file of ['consistency.js', 'workspace.js', 'optimal.js']) {
-  vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
-}
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const nodes = new Map();
+const context = vm.createContext({ Intl, console, document: { getElementById(id) {
+  assert.ok(html.includes(`id="${id}"`), `Missing HTML target ${id}`);
+  if (!nodes.has(id)) nodes.set(id, {
+    value: id === 'optimal-target-risk' ? '10' : '', innerHTML: '', textContent: '',
+    clientWidth: 800, clientHeight: 340, setAttribute() {}, addEventListener(event, handler) { this[event] = handler; }
+  });
+  return nodes.get(id);
+} } });
+vm.runInContext(fs.readFileSync(path.join(root, 'dashboard.js'), 'utf8').split("$('search').addEventListener")[0], context);
+for (const file of ['help.js', 'consistency.js', 'workspace.js', 'optimal.js']) vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
 const evaluate = source => vm.runInContext(source, context);
 const plain = value => JSON.parse(JSON.stringify(value));
-assert.deepEqual(plain(evaluate(`optimalPath([
-  {pnl:1,minimum:-2,maximum:6,drawdown:5},
-  {pnl:-2,minimum:-4,maximum:0,drawdown:4},
-  {pnl:12,minimum:0,maximum:12,drawdown:0}
-])`)), { pnl: 11, drawdown: 9, minimum: -3 }, 'Drawdowns must carry previous peaks across sessions');
-context.history = [{ effectiveDate: '2026-01-01', risk: 10 }];
-context.rows = Array.from({ length: 20 }, (_, index) => {
-  const date = `2026-03-${String(index + 1).padStart(2, '0')}`;
-  return [
-    { id: `win-${index}`, pnl: 20, opened: `${date}T09:00:00-04:00`, closed: `${date}T09:01:00-04:00` },
-    { id: `loss-${index}`, pnl: -10, opened: `${date}T09:02:00-04:00`, closed: `${date}T09:03:00-04:00` }
-  ];
-}).flat();
-const baseline = JSON.stringify(context.rows);
-evaluate('globalThis.sample = optimalSample(rows, history); globalThis.simulation = optimalSimulations(sample, 20);');
-assert.equal(context.sample.trades.length, 40);
-assert.equal(context.sample.sessions.length, 20);
-assert.deepEqual(plain(context.sample.historical), { pnl: 20, drawdown: 1, minimum: 0 });
-assert.equal(JSON.stringify(context.rows), baseline, 'Normalization must not change source trades');
-assert.equal(evaluate('optimalSample(rows, []).excluded'), 40);
-assert.equal(evaluate("optimalSample([{id:'invalid',pnl:1,opened:'invalid',closed:'invalid'}],history).excluded"), 1);
-assert.equal(evaluate("optimalSample([{id:'utc',pnl:10,opened:'2026-03-02T02:00:00Z',closed:'2026-03-02T02:01:00Z'}],history).sessions[0].date"), '2026-03-01');
-assert.equal(evaluate("optimalSample([{id:'overnight',pnl:10,opened:'2026-03-01T09:00:00-05:00',closed:'2026-03-02T09:00:00-05:00'}],history).overlapping"), true);
-assert.equal(evaluate("optimalSample([{...rows[0],pnl:20},{...rows[0],id:'same-close',pnl:-20}],history).historical.drawdown"), 0, 'Simultaneous closes must be grouped');
-assert.deepEqual(plain(evaluate('optimalSimulations(sample,20)')), plain(context.simulation), 'Identical filters must give reproducible simulations');
-assert.equal(context.simulation.paths.length, 1000);
-assert.equal(context.simulation.median, 20);
-assert.equal(context.simulation.drawdown95, 1, 'Intra-session drawdowns must survive resampling');
-evaluate('globalThis.sizing = optimalSizing(sample,simulation,1000,25,10,5)');
-assert.equal(context.sizing.selected.size, 2.5);
-assert.equal(context.sizing.selected.adverseDrawdown, 25);
-assert.equal(context.sizing.selected.acceptable, true);
-assert.equal(context.sizing.candidates.find(item => item.size === 2.75).acceptable, false);
-assert.equal(context.sizing.candidates.find(item => item.size === 1.25).median, 250);
-assert.equal(context.sizing.candidates.find(item => item.size === 0).adverseDrawdown, 0);
-assert.equal(evaluate('optimalSizing({...sample,trades:sample.trades.slice(0,29)},simulation,1000,25,10,5).selected'), null);
-assert.equal(evaluate('optimalSizing({...sample,overlapping:true},simulation,1000,25,10,5).selected'), null);
-assert.equal(evaluate('optimalSizing({...sample,trades:sample.trades.map(t=>({...t,value:1}))},simulation,1000,25,10,5).selected'), null);
-assert.equal(evaluate('optimalSizing(sample,{...simulation,median:-1},1000,25,10,5).selected'), null);
-assert.equal(evaluate('optimalSizing(sample,simulation,1000,0.01,10,5).selected'), null);
-assert.equal(evaluate('optimalSizing(sample,simulation,1000,25,10,0.5).selected.size'), 0.5);
-evaluate('globalThis.depleted = {...simulation,minimum:-100,paths:simulation.paths.map(p=>({...p,minimum:-100}))}');
-assert.equal(evaluate('optimalSizing(sample,depleted,1000,25,10,5).selected.size'), 0.99);
-assert.equal(evaluate('optimalSizing(sample,depleted,1000,25,10,5).candidates.find(c=>c.size===1).bankruptPercent'), 100);
-for (const expression of [
-  'optimalSimulations(sample,0)', 'optimalSimulations(sample,1.5)', 'optimalSimulations(sample,1001)',
-  'optimalSizing(sample,simulation,1000,1000,10,5)', 'optimalSizing(sample,simulation,NaN,25,10,5)',
-  'optimalSizing(sample,simulation,1000,25,0,5)', 'optimalSizing(sample,simulation,1000,25,10,21)'
-]) assert.throws(() => evaluate(expression));
-const inputs = { 'optimal-capital': '10000', 'optimal-drawdown': '10', 'optimal-drawdown-unit': 'percent', 'optimal-horizon': '100', 'optimal-maximum': '5' };
-const nodes = new Map();
-context.$ = id => {
-  if (!nodes.has(id)) nodes.set(id, { value: inputs[id] || '', innerHTML: '', textContent: '', addEventListener() {} });
-  return nodes.get(id);
-};
-context.mean = values => values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0;
-context.num = (value, digits = 2) => Number.isFinite(value) ? value.toFixed(digits) : '—';
-context.money = context.signed = value => Number.isFinite(value) ? value.toFixed(2) : '—';
-context.pct = (a, b) => b ? `${a / b * 100}%` : '—';
-context.consistencyMetric = (label, value) => `${label}:${value}`;
-context.tableMarkup = (headers, rows) => JSON.stringify([headers, rows]);
-const charts = new Map();
-context.renderChart = (id, series) => charts.set(id, series);
+const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-10, `${actual} != ${expected}`);
+context.history = [{ effectiveDate: '2026-01-01', risk: 100 }, { effectiveDate: '2026-03-03', risk: 200 }];
+context.rows = [
+  { id: 'win-a', pnl: 4, opened: '2026-03-01T09:00:00-05:00' },
+  { id: 'loss-a', pnl: -1, opened: '2026-03-01T09:01:00-05:00' },
+  { id: 'win-b', pnl: 8, opened: '2026-03-03T09:00:00-05:00' },
+  { id: 'loss-b', pnl: -6, opened: '2026-03-03T09:01:00-05:00' },
+  { id: 'zero', pnl: 0, opened: '2026-03-03T09:02:00-05:00' }
+];
+const original = JSON.stringify({ rows: context.rows, history: context.history });
+evaluate('globalThis.sample = optimalSample(rows,history); globalThis.sizing = optimalSizing(sample,10);');
+assert.equal(context.sample.trades.length, 5);
+assert.equal(context.sample.sessions, 2);
+close(context.sample.averageLoss, 0.02);
+close(context.sample.averageWin, 0.04);
+close(context.sample.expectancy, 0.008);
+close(context.sample.kelly, 0.25);
+close(context.sizing.selected.size, 5);
+close(context.sizing.selected.averageLoss, 0.1);
+close(context.sizing.selected.averageWin, 0.2);
+close(context.sizing.selected.expectancy, 0.04);
+assert.equal(JSON.stringify({ rows: context.rows, history: context.history }), original);
+assert.equal(evaluate('optimalSample(rows,[]).excluded'), 5);
+assert.equal(evaluate("optimalSample([{id:'bad',pnl:1,opened:'invalid'}],history).excluded"), 1);
+assert.equal(evaluate("optimalSample([{id:'utc',pnl:-1,opened:'2026-03-03T02:00:00Z'}],history).averageLoss"), 0.01, 'Risk lookup must use the New York entry date');
+assert.equal(evaluate('optimalSizing(sample,0).selected.size'), 0);
+assert.equal(evaluate('optimalSizing(optimalSample([],history),10).selected'), null);
+assert.equal(evaluate('optimalSizing(optimalSample(rows.filter(t=>t.pnl>=0),history),10).selected'), null);
+context.sameAverageRows = context.rows.map(trade => ({ ...trade, pnl: trade.id === 'loss-a' ? -2 : trade.id === 'loss-b' ? -4 : trade.pnl }));
+close(evaluate('optimalSizing(optimalSample(sameAverageRows,history),10).selected.size'), 5, 'Extreme individual losses must not set sizing');
+assert.deepEqual(plain(evaluate('optimalSample(sameAverageRows,history).kelly')), plain(context.sample.kelly));
+close(evaluate('optimalSample(rows.filter(t=>t.pnl!==0),history).kelly'), 0.25, 'Zero trades must not be treated as losses by Kelly');
+close(evaluate('optimalKellyGrowth(sample,10)'), (0.4 * Math.log(1.2) + 0.4 * Math.log(0.9)) * 100);
+close(evaluate('optimalKellyGrowth(optimalSample(rows.filter(t=>t.pnl!==0),history),10) * 0.8'), evaluate('optimalKellyGrowth(sample,10)'));
+assert.equal(evaluate('optimalKellyGrowth(sample,100)'), null);
+assert.equal(evaluate('optimalKellyGrowth(sample,101)'), null);
+assert.equal(evaluate('optimalKellyGrowth(sample,0)'), 0);
+for (const percent of [0, 5, 10, 20, 24.9, 25.1, 30, 50, 90]) assert.ok(evaluate(`optimalKellyGrowth(sample,25) >= optimalKellyGrowth(sample,${percent})`), 'Kelly marker must maximize the mean-based curve');
+const interpolated = context.sizing.candidates.map(item => item.percent);
+assert.ok(interpolated.includes(2) && interpolated.includes(25) && interpolated.includes(10));
+assert.ok(context.sizing.candidates.some(item => item.percent > 2 && item.percent < 25));
+close(evaluate('optimalSample(rows.filter(t=>t.pnl<0),history).kelly'), 0);
+assert.equal(evaluate('optimalSizing(optimalSample(rows.filter(t=>t.pnl<0),history),10).selected.size'), 5, 'Loss-only samples can still calculate the mean-based size');
+assert.equal(evaluate('optimalSample(rows.filter(t=>t.pnl>=0),history).kelly'), null);
+for (const target of ['NaN', 'Infinity', '-1', '101']) assert.throws(() => evaluate(`optimalSizing(sample,${target})`));
 evaluate('sessionRiskHistory=history; renderOptimal(rows); initializeOptimal();');
-assert.ok(nodes.get('optimal-result-status').textContent.includes('Mayor tamaño'));
-assert.equal(charts.get('optimal-return-chart').length, 3);
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-for (const id of nodes.keys()) assert.ok(html.includes(`id="${id}"`), `Missing HTML node ${id}`);
-nodes.get('optimal-capital').value = '';
+assert.ok(nodes.get('optimal-result-status').textContent.includes('5.000'));
+assert.ok(nodes.get('optimal-kelly-legend').innerHTML.includes('25.00% de R'));
+assert.ok(nodes.get('optimal-kelly-chart').innerHTML.includes('<svg'));
+assert.ok(nodes.get('optimal-kelly-chart').innerHTML.includes('Histórico'));
+assert.ok(nodes.get('optimal-kelly-chart').innerHTML.includes('Kelly óptimo teórico'));
+assert.ok(!/NaN|Infinity|undefined|USD|\$/.test(nodes.get('optimal-kelly-chart').innerHTML));
+assert.ok(!/USD|\$/.test(nodes.get('optimal-size-table').innerHTML), 'Table values and tooltips must stay relative to R');
+for (const width of [280, 320, 800]) {
+  context.chartWidth = width;
+  const markup = evaluate('svgChart([],{optimalKelly:{sample,targetPercent:10},width:chartWidth,height:340})');
+  assert.ok(markup.includes('<svg') && !/NaN|Infinity|undefined/.test(markup));
+}
+const largeLoss = evaluate('optimalSample(rows.map(t=>({...t,pnl:t.pnl*100})),history)');
+context.largeLoss = largeLoss;
+assert.ok(evaluate('optimalKellySvg({sample:largeLoss,targetPercent:100})').includes('Fuera del dominio'));
+nodes.get('optimal-target-risk').value = '20';
+evaluate('filtered=rows');
+nodes.get('optimal-target-risk').input();
+assert.ok(nodes.get('optimal-result-status').textContent.includes('10.000'), 'The configured percentage must update the size immediately');
+nodes.get('optimal-target-risk').value = '';
 evaluate('renderOptimal(rows)');
-assert.ok(nodes.get('optimal-result-status').textContent.includes('Indica capital'));
-assert.ok(charts.get('optimal-return-chart').every(series => series.values.length === 0), 'Invalid input must clear previous charts');
-nodes.get('optimal-capital').value = '10000';
-nodes.get('optimal-drawdown-unit').value = 'usd';
-nodes.get('optimal-drawdown').value = '1000';
-evaluate('renderOptimal(rows)');
-const usdStatus = nodes.get('optimal-result-status').textContent;
-nodes.get('optimal-drawdown-unit').value = 'percent';
-nodes.get('optimal-drawdown').value = '10';
-evaluate('renderOptimal(rows)');
-assert.equal(nodes.get('optimal-result-status').textContent, usdStatus, 'USD and percent limits must agree');
+assert.ok(nodes.get('optimal-result-status').textContent.includes('Indica una pérdida media'));
+assert.ok(!nodes.get('optimal-kelly-legend').innerHTML.includes('20.00% de R'), 'Invalid input must clear the previous selected marker');
+assert.ok(!nodes.get('optimal-size-table').innerHTML.includes('<td'), 'Invalid input must clear the scenario rows');
+nodes.get('optimal-target-risk').value = '10';
+evaluate('renderOptimal(rows.filter(t=>t.pnl<0))');
+assert.ok(nodes.get('optimal-kelly-note').textContent.includes('0% de R'));
 evaluate('renderOptimal([])');
-assert.ok(nodes.get('optimal-result-status').textContent.includes('Sin operaciones'));
-evaluate('renderOptimal(rows.filter(trade => trade.pnl < 0))');
-assert.ok(!nodes.get('optimal-result-status').textContent.includes('Mayor tamaño'), 'Global filters must invalidate the previous selection');
-assert.ok(charts.get('optimal-return-chart')[1].values.some(point => point[1] < 0));
-context.dataset = JSON.parse(fs.readFileSync(path.join(root, 'data/trades.json'), 'utf8'));
+assert.ok(nodes.get('optimal-result-status').textContent.includes('Sin trades'));
+assert.ok(!nodes.get('optimal-kelly-chart').innerHTML.includes('<svg'), 'Empty filters must clear the curve');
+assert.ok(!nodes.get('optimal-size-table').innerHTML.includes('<td'));
+context.realDataset = JSON.parse(fs.readFileSync(path.join(root, 'data/trades.json'), 'utf8'));
 context.realHistory = JSON.parse(fs.readFileSync(path.join(root, 'data/session-risk.json'), 'utf8'));
-const actualBefore = JSON.stringify(context.dataset);
-evaluate('sessionRiskHistory=realHistory; renderOptimal(dataset.trades)');
-assert.equal(JSON.stringify(context.dataset), actualBefore, 'Actual accounting must remain immutable');
-assert.ok(charts.get('optimal-return-chart').every(series => series.values.every(point => Number.isFinite(point[1]))));
-console.log('Optimal risk: normalization, sessions, intraday drawdowns, reproducibility, constraints, empty states and real-data rendering verified.');
-console.log(nodes.get('optimal-result-status').textContent);
+const datasetBefore = JSON.stringify(context.realDataset);
+evaluate('sessionRiskHistory=realHistory; renderOptimal(realDataset.trades)');
+assert.equal(JSON.stringify(context.realDataset), datasetBefore);
+assert.ok(nodes.get('optimal-kelly-chart').innerHTML.includes('<svg'));
+assert.ok(!/NaN|Infinity|undefined|USD|\$/.test(nodes.get('optimal-kelly-chart').innerHTML));
+assert.ok(!/USD|\$/.test(nodes.get('optimal-size-table').innerHTML));
+evaluate('refreshCharts()');
+assert.ok(nodes.get('optimal-kelly-chart').innerHTML.includes('<svg'), 'The curve must survive navigation and resize refreshes');
+console.log('Optimal risk: loss-only averages, changing historical R, sizing, Kelly maxima, zeros, extremes, chart rendering, inputs, filters and immutable accounting verified.');
