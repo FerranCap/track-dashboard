@@ -11,7 +11,7 @@ function optimalSample(rows, history) {
     const risk = sessionRiskAt(date, history)?.risk;
     const value = trade.pnl / risk;
     if (!Number.isFinite(risk) || risk <= 0 || !Number.isFinite(value)) { excluded++; continue; }
-    trades.push({ id: trade.id, value });
+    trades.push({ id: trade.id, value, closed: trade.closed });
     sessions.add(date);
   }
   const wins = trades.filter(trade => trade.value > 0), losses = trades.filter(trade => trade.value < 0);
@@ -59,6 +59,35 @@ function optimalKellyGrowth(sample, percent) {
   const fraction = percent / 100, total = sample.trades.length;
   return (sample.wins / total * Math.log1p(sample.payoff * fraction)
     + sample.losses / total * Math.log1p(-fraction)) * 100;
+}
+
+function optimalEquityCurves(sample, selected) {
+  const closes = new Map();
+  let tradeCount = 0;
+  for (const trade of sample.trades) {
+    const closed = Date.parse(trade.closed);
+    if (!Number.isFinite(closed)) continue;
+    if (!closes.has(closed)) closes.set(closed, { value: 0, ids: [] });
+    const point = closes.get(closed);
+    point.value += trade.value;
+    point.ids.push(trade.id);
+    tradeCount++;
+  }
+  let total = 0;
+  const points = [...closes].sort(([left], [right]) => left - right).map(([closed, point], index) => {
+    total += point.value;
+    return [`Cierre #${index + 1}`, total, `${new Date(closed).toISOString()} · ${point.ids.join(', ')}`];
+  });
+  const series = [
+    { name: 'Histórico', size: 1, color: '#5c9bff' },
+    { name: 'Elegido', size: selected?.size ?? null, color: '#f2ad66' },
+    { name: 'Kelly teórico', size: sample.averageLoss && sample.kelly !== null ? sample.kelly / sample.averageLoss : null, color: '#29d17e' }
+  ].map(scenario => ({ ...scenario,
+    values: points.length && Number.isFinite(scenario.size)
+      ? [['Inicio', 0, `${scenario.name} · 0 R`], ...points.map(([label, value, detail]) =>
+        [label, value * scenario.size, `${scenario.name} · tamaño ×${num(scenario.size, 3)} · ${detail}`])]
+      : [] }));
+  return { series, tradeCount, closeCount: closes.size, excluded: sample.trades.length - tradeCount };
 }
 
 function optimalKellySvg(model, opts = {}) {
@@ -147,6 +176,16 @@ function renderOptimal(rows) {
   renderChart('optimal-kelly-chart', [], { optimalKelly: { sample, targetPercent: selected ? targetPercent : null },
     title: 'Curva de Kelly en relación con R', height: 340, empty: result.reason,
     explanation: 'Eje horizontal: pérdida media por trade perdedor como % de R. Eje vertical: crecimiento logarítmico teórico del modelo binario que toma 1 R como unidad hipotética de referencia. Azul: histórico. Naranja: elegido. Verde: máximo de Kelly. La banda sombreada une el histórico y el máximo teórico. No es una rentabilidad de cuenta.' });
+  const equity = optimalEquityCurves(sample, selected);
+  renderChart('optimal-equity-chart', equity.series, { unit: ' R', title: 'PnL acumulado en R · histórico, elegido y Kelly',
+    explanation: 'Resultados cerrados en orden cronológico, partiendo de 0 R. Cada PnL se divide por la R vigente en su entrada. Histórico: tamaño ×1. Elegido: porcentaje elegido / pérdida media histórica. Kelly: porcentaje teórico / pérdida media histórica. Se agregan los cierres simultáneos. Tamaños constantes, sin capitalización ni cambios en los datos reales.',
+    empty: 'Sin trades con R conocida y fecha de cierre válida para estos filtros.' });
+  $('optimal-equity-legend').innerHTML = equity.series.map(scenario => {
+    const final = scenario.values.at(-1)?.[1];
+    const detail = Number.isFinite(final) ? `×${num(scenario.size, 3)} · ${final > 0 ? '+' : ''}${num(final, 3)} R` : 'sin datos';
+    return `<span style="color:${scenario.color}">${esc(scenario.name)} · ${esc(detail)}</span>`;
+  }).join('');
+  $('optimal-equity-note').textContent = `${equity.tradeCount} trades representados en ${equity.closeCount} cierres · ${equity.excluded} excluidos por fecha de cierre no válida. Se usan los filtros generales y el porcentaje elegido arriba.`;
 }
 
 function initializeOptimal() {

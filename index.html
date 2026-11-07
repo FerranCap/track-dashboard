@@ -454,6 +454,13 @@
 <p class="mini-caption">Para comparar en una escala de R, el modelo toma 1 R como unidad hipotética de referencia. Kelly se define sobre capital: este máximo expresado en R es una referencia teórica, no una rentabilidad de cuenta ni un límite de pérdidas.</p>
 </section>
 <section class="section panel">
+<h2>PnL acumulado en R · histórico, elegido y Kelly</h2>
+<p>Las tres curvas recorren los mismos trades filtrados en orden de cierre y parten de 0 R. El histórico conserva su tamaño; elegido y Kelly escalan cada resultado por su multiplicador. Se suman juntos los cierres simultáneos.</p>
+<div id="optimal-equity-chart" class="chart"></div>
+<div id="optimal-equity-legend" class="legend"></div>
+<p id="optimal-equity-note" class="mini-caption" role="status"></p>
+</section>
+<section class="section panel">
 <details><summary>Cómo se calcula</summary>
 <p>Primero se divide el PnL de cada trade por la R vigente en su entrada, según el día de Nueva York. Después se calcula la media absoluta solo entre los trades perdedores. Ganancias y trades a cero no diluyen esa pérdida media. El multiplicador aplica el mismo factor a todos los resultados; se conservan los costes ya incluidos y no se descuentan de nuevo.</p>
 <p>El cálculo usa medias, sin emplear la peor pérdida ni imponer restricciones de drawdown o capital. Un trade individual puede perder más que la media elegida. Los filtros pueden dejar muestras pequeñas y los resultados futuros pueden diferir. El tamaño calculado no modifica tus trades ni tu historial de R.</p>
@@ -634,7 +641,7 @@
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261107-fit-charts-61" defer></script>
 <script src="projection.js?v=20261107-fit-charts-61" defer></script>
-<script src="optimal.js?v=20261107-optimal-kelly-card-60" defer></script>
+<script src="optimal.js?v=20261107-optimal-equity-62" defer></script>
 <script src="workspace.js?v=20261107-fit-charts-61" defer>
 </script>
 <script src="dashboard.js?v=20261107-fit-charts-61" defer>
