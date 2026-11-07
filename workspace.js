@@ -187,6 +187,7 @@ function renderGrowth(rows) {
   renderSessionRisk();
   renderGrowthTradeChart(rows);
   renderGrowthAverageChart(rows);
+  renderSessionSwings(rows);
   renderGrowthProjection(rows);
 }
 

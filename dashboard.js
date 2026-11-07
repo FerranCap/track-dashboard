@@ -135,6 +135,7 @@ function chartLabel(value) {
   return label.length > 19 ? `${label.slice(0,18)}…` : label;
 }
 function svgChart(series,opts={}){
+  if (opts.sessionSwing) return sessionSwingSvg(opts.sessionSwing, opts);
   if (opts.horizontal) return concentrationChartSvg(series, opts);
   if (opts.scatter) return durationScatterSvg(series, opts);
   series = series.map(s => ({ ...s, values: s.values.filter(p => Number.isFinite(p[1])) }));

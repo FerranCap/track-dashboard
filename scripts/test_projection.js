@@ -6,7 +6,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const context = vm.createContext({});
-for (const file of ['consistency.js', 'workspace.js', 'projection.js']) {
+for (const file of ['consistency.js', 'workspace.js', 'projection.js', 'swing.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
 }
 const evaluate = code => vm.runInContext(code, context);
@@ -31,6 +31,35 @@ assert.equal(result.trades[2].pnl, 0, 'Zero trades remain in the projected seque
 assert.equal(result.trades[3].date, '2026-11-11');
 assert.equal(result.trades[3].projectedRisk, 330, 'Risk increases before session N+1');
 assert.equal(result.trades[3].pnl, 165);
+evaluate("globalThis.doubled = growthProjection(rows, history, '2026-11-06', 2, 'session', 10, 2)");
+assert.deepEqual(Array.from(context.doubled.points, point => Array.from(point)), Array.from(result.points, point => Array.from(point)), 'Size does not change the configured risk');
+assert.deepEqual(Array.from(context.doubled.trades, trade => trade.pnl), Array.from(result.trades, trade => trade.pnl * 2), 'Size scales positive, negative and zero PnL');
+assert.equal(evaluate('sessionSwings(result.trades, history, true).sessions[0].maximum'), 150, 'Projected order preserves the within-session high');
+assert.equal(evaluate('sessionSwings(result.trades, history, true).sessions[0].pnl'), 60);
+context.swingRows = [-10, 4].map((pnl, index) => ({
+  id: String(index), symbol: 'S', date: '2025-07-08', opened: `2025-07-08T09:0${index}:00-04:00`, closed: `2025-07-08T09:0${index}:30-04:00`, pnl
+}));
+evaluate('globalThis.historicalSwing = sessionSwings(swingRows, history)');
+assert.equal(context.historicalSwing.sessions[0].minimum, -10);
+assert.equal(context.historicalSwing.sessions[0].maximum, 0, 'Session range includes the starting zero');
+assert.equal(context.historicalSwing.sessions[0].pnl, -6);
+assert.equal(context.historicalSwing.maximumLossR, 0.5);
+assert.equal(context.historicalSwing.reachedPercent, 0);
+assert.equal(evaluate("sessionSwings(growthProjection(swingRows, history, '2026-11-06', 20, 'session', 0, 2).trades, history, true).reachedPercent"), 100, 'A size of two reaches the stop exactly');
+assert.equal(evaluate("sessionSwings(growthProjection(swingRows, history, '2026-11-06', 20, 'session', 0, 3).trades, history, true).maximumLossR"), 1.5, 'Sessions are not truncated at the stop');
+assert.equal(evaluate("sessionSwings([{...swingRows[0], date: '2025-06-01'}], history).excludedSessions"), 1, 'Unknown risk sessions are excluded');
+assert.equal(evaluate("sessionSwings([{...swingRows[0], closed: 'invalid'}], history).excludedSessions"), 1, 'Invalid closure times cannot create partial session ranges');
+assert.equal(evaluate("sessionSwings([], history).reachedPercent"), null, 'Empty history does not claim zero stop hits');
+evaluate("globalThis.simultaneous = sessionSwings(swingRows.map(trade => ({...trade, closed: swingRows[0].closed})), history)");
+assert.equal(context.simultaneous.sessions[0].minimum, -6, 'Simultaneous closes are aggregated without inventing intermediate paths');
+evaluate(`globalThis.escapeSwing = text => String(text).replace(/[&<>\"]/g, '');`);
+vm.runInContext("const esc = escapeSwing, num = (value, digits = 2) => value.toFixed(digits), money = value => '$' + value.toFixed(2), signed = money, chartLabel = value => value; function helpAttributes(value) { return 'data-help=\"' + esc(value) + '\"'; }", context);
+for (const unit of ['r', 'usd']) {
+  context.swingUnit = unit;
+  const svg = evaluate("sessionSwingSvg(historicalSwing.sessions, {swingUnit, width: 500})");
+  assert.ok(svg.includes('<circle') && svg.includes('stroke-dasharray="5 4"'), 'Range chart includes the final point and stop line');
+  assert.ok(!/NaN|Infinity|undefined/.test(svg), 'Range chart has finite coordinates in both units');
+}
 assert.ok(result.trades.every(trade => ![0, 6].includes(new Date(trade.date).getUTCDay())));
 assert.ok(result.trades.every(trade => trade.date > '2026-11-06' && trade.date <= '2027-11-06'));
 assert.equal(evaluate("growthProjection(rows, history, '2026-11-06', 1, 'session', 0).finalRisk"), 300);
@@ -46,6 +75,8 @@ for (const expression of [
   "growthProjection(rows, history, '2026-11-06', 1.5, 'session', 10)",
   "growthProjection(rows, history, '2026-11-06', 20, 'session', NaN)",
   "growthProjection(rows, history, '2026-11-06', 20, 'session', -10)",
+  "growthProjection(rows, history, '2026-11-06', 20, 'session', 10, 0)",
+  "growthProjection(rows, history, '2026-11-06', 20, 'session', 10, NaN)",
   "growthProjection(rows, [], '2026-11-06', 20, 'session', 10)",
   "growthProjection(rows, history, '2026-11-06', 1, 'day', 1000)"
 ]) assert.throws(() => evaluate(expression));

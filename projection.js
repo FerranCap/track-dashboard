@@ -8,11 +8,14 @@ function projectionMonth(date, months) {
   return target.toISOString().slice(0, 10);
 }
 
-function growthProjection(rows, history, startDate, interval, unit, percent) {
+function growthProjection(rows, history, startDate, interval, unit, percent, sizeMultiplier = 1) {
   if (!Number.isInteger(interval) || interval < 1 || interval > 10000
     || !['session', 'day', 'week', 'month'].includes(unit)
     || !Number.isFinite(percent) || percent < 0 || percent > 1000) {
     throw new Error('Indica una frecuencia entera entre 1 y 10.000 y una subida entre 0 y 1.000 %.');
+  }
+  if (!Number.isFinite(sizeMultiplier) || sizeMultiplier <= 0 || sizeMultiplier > 1000) {
+    throw new Error('Indica un multiplicador de size mayor que 0 y hasta 1.000.');
   }
   const current = sessionRiskAt(startDate, history);
   if (!current) throw new Error('Falta una R vigente para iniciar la proyección.');
@@ -52,10 +55,10 @@ function growthProjection(rows, history, startDate, interval, unit, percent) {
     if (!tradingDay) continue;
     if (sample.length) {
       for (const source of sample[session % sample.length]) {
-        const pnl = source.trade.pnl / source.risk * risk;
+        const pnl = source.trade.pnl / source.risk * risk * sizeMultiplier;
         if (!Number.isFinite(pnl)) throw new Error('La proyección supera el rango calculable. Reduce la subida.');
         trades.push({ id: `projection-${date}-${source.trade.id}`, symbol: source.trade.symbol,
-          date, opened: date, closed: date, pnl, projectedRisk: risk,
+          date, opened: date, closed: date, pnl, projectedRisk: risk, projectionOrder: trades.length,
           sourceDate: source.trade.opened.slice(0, 10), sourcePnl: source.trade.pnl, sourceRisk: source.risk });
       }
     }
@@ -70,17 +73,20 @@ function renderGrowthProjection(rows) {
   const interval = intervalInput.value.trim() ? Number(intervalInput.value) : NaN;
   const percent = percentInput.value.trim() ? Number(percentInput.value) : NaN;
   const unit = $('growth-projection-unit').value;
+  const sizeInput = $('growth-projection-size');
+  const sizeMultiplier = sizeInput.value.trim() ? Number(sizeInput.value) : NaN;
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   let projection = null, message = '';
-  try { projection = growthProjection(rows, sessionRiskHistory, today, interval, unit, percent); }
+  try { projection = growthProjection(rows, sessionRiskHistory, today, interval, unit, percent, sizeMultiplier); }
   catch (error) { message = error.message; }
   const trades = projection?.trades || [];
-  const explanation = 'Escenario a 12 meses desde la R actual. Las subidas son compuestas. Cada trade proyectado conserva el PnL/R de su operación histórica y lo multiplica por la R proyectada de su sesión. Se repite en orden la secuencia de sesiones históricas filtradas. Las sesiones futuras se sitúan de lunes a viernes, sin descontar festivos bursátiles. Se excluyen trades sin R conocida en su fecha de entrada. No modifica los resultados reales.';
+  const explanation = `Escenario a 12 meses desde la R actual. Subidas de R compuestas. PnL proyectado = PnL histórico / R histórica × R proyectada × size ${num(sizeMultiplier)}. El multiplicador escala ganancias, pérdidas y costes ya incluidos en el PnL de forma proporcional; la ejecución y los costes reales pueden variar. Se repite la secuencia histórica filtrada. Sesiones de lunes a viernes sin descontar festivos bursátiles. Se excluyen trades sin R conocida en su entrada. Las sesiones continúan aunque alcancen −R; no se simula detener la operativa.`;
   const units = { session: 'sesiones', day: 'días', week: 'semanas', month: 'meses' };
   $('growth-projection-status').textContent = projection
-    ? `Desde ${today} hasta ${projection.endDate}. R inicial ${money(projection.initialRisk)} → R final ${money(projection.finalRisk)}. Subida del ${num(percent, 1)} % cada ${interval} ${units[unit]}. ${projection.sourceSessions} sesiones históricas como base; ${projection.sessions} sesiones futuras de lunes a viernes. ${projection.excluded} trades excluidos por falta de R o PnL válido.${!projection.sourceSessions ? ' Sin muestra disponible para proyectar el PnL.' : ''}`
+    ? `Desde ${today} hasta ${projection.endDate}. R inicial ${money(projection.initialRisk)} → R final ${money(projection.finalRisk)}. Subida del ${num(percent, 1)} % cada ${interval} ${units[unit]}. Size ×${num(sizeMultiplier)}. ${projection.sourceSessions} sesiones históricas como base; ${projection.sessions} sesiones futuras de lunes a viernes. ${projection.excluded} trades excluidos por falta de R o PnL válido.${!projection.sourceSessions ? ' Sin muestra disponible para proyectar el PnL.' : ''}`
     : message;
   const empty = message || 'Sin operaciones con R conocida para proyectar.';
+  renderSessionSwings(trades, true, message);
   renderChart('growth-projection-risk-chart', [{ values: projection?.points || [], color: '#b398ff' }], {
     currency: true, step: true, timeAxis: true, title: 'Evolución proyectada de R', explanation, empty
   });
@@ -101,10 +107,11 @@ function renderGrowthProjection(rows) {
 }
 
 function initializeGrowthProjection() {
-  for (const id of ['growth-projection-interval', 'growth-projection-percent']) {
+  for (const id of ['growth-projection-interval', 'growth-projection-percent', 'growth-projection-size']) {
     $(id).addEventListener('input', () => renderGrowthProjection(filtered));
   }
-  for (const id of ['growth-projection-unit', 'growth-projection-trade-window', 'growth-projection-average-period']) {
+  for (const id of ['growth-projection-unit', 'growth-projection-trade-window', 'growth-projection-average-period', 'growth-projection-swing-unit']) {
     $(id).addEventListener('change', () => renderGrowthProjection(filtered));
   }
+  $('growth-swing-unit').addEventListener('change', () => renderSessionSwings(filtered));
 }

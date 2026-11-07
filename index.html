@@ -422,14 +422,30 @@
 <div id="growth-average-pnl-chart" class="chart"></div>
 </section>
 <section class="section panel">
+<div class="panel-head"><h2>Oscilación histórica del PnL frente al stop</h2><label class="study-control" for="growth-swing-unit">Mostrar en<select id="growth-swing-unit"><option value="r" selected>Múltiplos de R</option><option value="usd">USD</option></select></label></div>
+<p>Cada barra muestra el mínimo y máximo del PnL acumulado de la sesión desde cero, calculado al cerrar trades. El punto indica el resultado final; la línea roja, −R vigente ese día. Las barras naranjas alcanzan o superan −R. No incluye las oscilaciones de las posiciones abiertas.</p>
+<div id="growth-swing-stats" class="metrics two-col"></div>
+<p id="growth-swing-note" class="mini-caption" role="status"></p>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación histórica por sesión, con desplazamiento horizontal"><div id="growth-swing-chart" class="chart"></div></div>
+</section>
+<section class="section panel">
 <h2>Proyección · próximos 12 meses</h2>
 <p>Parte de la R vigente y aplica subidas compuestas. Para proyectar el PnL, mantiene la relación PnL/R de los trades históricos filtrados y repite su secuencia de sesiones. Las sesiones futuras se distribuyen de lunes a viernes, sin descontar festivos bursátiles.</p>
 <div class="ratio-controls">
 <label for="growth-projection-interval">Subir el riesgo cada<input id="growth-projection-interval" type="number" min="1" max="10000" step="1" value="20"></label>
 <label for="growth-projection-unit">Unidad<select id="growth-projection-unit"><option value="session" selected>Sesiones operadas</option><option value="day">Días naturales</option><option value="week">Semanas</option><option value="month">Meses</option></select></label>
 <label for="growth-projection-percent">Subida de R (%)<input id="growth-projection-percent" type="number" min="0" max="1000" step="0.1" value="10"></label>
+<label for="growth-projection-size">Multiplicador de size (×)<input id="growth-projection-size" type="number" min="0.01" max="1000" step="0.1" value="1"></label>
 </div>
+<p class="mini-caption">Size ×1 conserva la escala original respecto a R; ×2 duplica ganancias y pérdidas simuladas con la misma R configurada. La ejecución y los costes reales pueden variar.</p>
 <p id="growth-projection-status" class="mini-caption" role="status"></p>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>Oscilación proyectada del PnL frente al stop</h2><label class="study-control" for="growth-projection-swing-unit">Mostrar en<select id="growth-projection-swing-unit"><option value="r" selected>Múltiplos de R</option><option value="usd">USD</option></select></label></div>
+<p>Barra: mínimo y máximo acumulados por sesión simulada. Punto: resultado final. Línea roja: −R proyectada. Naranja: alcanza o supera −R. Las sesiones se muestran completas, incluso después de alcanzar el límite; no se simula detener la operativa.</p>
+<div id="growth-projection-swing-stats" class="metrics two-col"></div>
+<p id="growth-projection-swing-note" class="mini-caption" role="status"></p>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Oscilación proyectada por sesión, con desplazamiento horizontal"><div id="growth-projection-swing-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
 <h2>Evolución proyectada de R</h2>
@@ -578,13 +594,14 @@
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
 <script src="studies.js?v=20261107-country-ranking-53" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261107-growth-projection-54" defer></script>
+<script src="help.js?v=20261107-session-swing-55" defer></script>
 <script src="filters.js?v=20261106-news-policy-51" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
-<script src="projection.js?v=20261107-growth-projection-54" defer></script>
-<script src="workspace.js?v=20261107-growth-projection-54" defer>
+<script src="swing.js?v=20261107-session-swing-55" defer></script>
+<script src="projection.js?v=20261107-session-swing-55" defer></script>
+<script src="workspace.js?v=20261107-session-swing-55" defer>
 </script>
-<script src="dashboard.js?v=20261107-session-risk-52" defer>
+<script src="dashboard.js?v=20261107-session-swing-55" defer>
 </script>
 </body>
 </html>
