@@ -176,7 +176,6 @@ function renderGrowthAverageChart(rows) {
 }
 
 function renderGrowth(rows) {
-  const periods = growthPeriods(rows);
   const pnls = rows.map(trade => trade.pnl).filter(Number.isFinite);
   const absolutePnls = pnls.map(Math.abs);
   $('growth-stats').innerHTML = [
@@ -188,11 +187,7 @@ function renderGrowth(rows) {
   renderSessionRisk();
   renderGrowthTradeChart(rows);
   renderGrowthAverageChart(rows);
-  $('growth-monthly-table').innerHTML = periods.length ? tableMarkup(['Mes', 'Operaciones', 'PnL', 'Beneficio acumulado', 'Variación del beneficio · USD', 'PnL medio por trade', 'PnL absoluto medio por trade', 'PnL absoluto mediano por trade', 'Variación PnL absoluto medio · USD'], periods.map((period, index) => {
-    const previous = periods[index - 1];
-    const movementChange = previous && previous.meanAbsolutePnl !== null && period.meanAbsolutePnl !== null ? period.meanAbsolutePnl - previous.meanAbsolutePnl : null;
-    return [period.period, period.count, signed(period.pnl), signed(period.cumulative), previous ? signed(period.pnl - previous.pnl) : '—', signed(period.average), money(period.meanAbsolutePnl), money(period.medianAbsolutePnl), movementChange === null ? '—' : signed(movementChange)];
-  })) : '<p class="muted">Sin operaciones para estos filtros.</p>';
+  renderGrowthProjection(rows);
 }
 
 function incorporationCountry(profile) {
@@ -424,6 +419,7 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
+  initializeGrowthProjection();
   activateView();
   $('data-selection-toggle').addEventListener('click', () => {
     const button = $('data-selection-toggle');

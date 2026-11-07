@@ -422,9 +422,27 @@
 <div id="growth-average-pnl-chart" class="chart"></div>
 </section>
 <section class="section panel">
-<h2>Detalle del crecimiento mensual</h2>
-<p>Las variaciones comparan con el mes anterior observado dentro de los filtros y se expresan en dólares. Los meses sin operaciones se omiten y los extremos pueden ser parciales. La media absoluta toma el valor absoluto antes de promediar; no es el valor absoluto del PnL medio.</p>
-<div id="growth-monthly-table" class="table-wrap"></div>
+<h2>Proyección · próximos 12 meses</h2>
+<p>Parte de la R vigente y aplica subidas compuestas. Para proyectar el PnL, mantiene la relación PnL/R de los trades históricos filtrados y repite su secuencia de sesiones. Las sesiones futuras se distribuyen de lunes a viernes, sin descontar festivos bursátiles.</p>
+<div class="ratio-controls">
+<label for="growth-projection-interval">Subir el riesgo cada<input id="growth-projection-interval" type="number" min="1" max="10000" step="1" value="20"></label>
+<label for="growth-projection-unit">Unidad<select id="growth-projection-unit"><option value="session" selected>Sesiones operadas</option><option value="day">Días naturales</option><option value="week">Semanas</option><option value="month">Meses</option></select></label>
+<label for="growth-projection-percent">Subida de R (%)<input id="growth-projection-percent" type="number" min="0" max="1000" step="0.1" value="10"></label>
+</div>
+<p id="growth-projection-status" class="mini-caption" role="status"></p>
+</section>
+<section class="section panel">
+<h2>Evolución proyectada de R</h2>
+<div id="growth-projection-risk-chart" class="chart"></div>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>PnL absoluto proyectado de cada trade · USD</h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<p id="growth-projection-trade-count" class="mini-caption" role="status"></p>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto proyectado por trade, con desplazamiento horizontal"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
+</section>
+<section class="section panel">
+<div class="panel-head"><h2>PnL absoluto medio proyectado por trade</h2><label class="study-control" for="growth-projection-average-period">Agrupar por<select id="growth-projection-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
+<div id="growth-projection-average-pnl-chart" class="chart"></div>
 </section>
 </div>
 <div id="view-ratios" class="view" aria-labelledby="page-title" hidden>
@@ -558,12 +576,13 @@
 <script src="calendar.js?v=20261106-calendar-layout-39" defer></script>
 <script src="consistency.js?v=20261106-consistency-views-47" defer></script>
 <script src="duration.js?v=20261106-price-country-studies-46" defer></script>
-<script src="studies.js?v=20261106-price-country-studies-46" defer></script>
+<script src="studies.js?v=20261107-country-ranking-53" defer></script>
 <script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261106-news-policy-51" defer></script>
+<script src="help.js?v=20261107-growth-projection-54" defer></script>
 <script src="filters.js?v=20261106-news-policy-51" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
-<script src="workspace.js?v=20261107-session-risk-52" defer>
+<script src="projection.js?v=20261107-growth-projection-54" defer></script>
+<script src="workspace.js?v=20261107-growth-projection-54" defer>
 </script>
 <script src="dashboard.js?v=20261107-session-risk-52" defer>
 </script>

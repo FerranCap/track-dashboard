@@ -38,9 +38,11 @@ function renderStudyCharts(prefix, groups, explanation) {
   if (prefix === 'country') charts.push(['price-median', 'priceMedian', 'Precio mediano de entrada', { currency: true }, 'Mediana del precio de entrada por operación. Solo precios conocidos y no negativos.']);
   for (const [id, field, title, options, meaning] of charts) {
     const chartId = id === 'pnl' ? `${prefix}-chart` : `${prefix}-${id}-chart`;
-    renderChart(chartId, [{ color: '#5c9bff', values: groups.filter(group => Number.isFinite(group[field])).map(group => [
+    const chartGroups = groups.filter(group => Number.isFinite(group[field]));
+    if (prefix === 'country') chartGroups.sort((left, right) => right[field] - left[field] || left.name.localeCompare(right.name));
+    renderChart(chartId, [{ color: '#5c9bff', values: chartGroups.map(group => [
       group.name, group[field], `${group.count} operaciones; ${group.quantityCount} con acciones, ${group.durationCount} con duración.${group.count < 20 ? ' Muestra reducida (<20).' : ''}`
-    ]) }], { bar: true, ...options, title, explanation: `${meaning} ${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta la tabla detallada.' });
+    ]) }], { bar: true, ...options, title, explanation: `${meaning} ${prefix === 'country' ? 'Países ordenados de mayor a menor valor, de izquierda a derecha. ' : ''}${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta la tabla detallada.' });
   }
 }
 
@@ -99,7 +101,7 @@ function renderPriceStudies(rows) {
 function renderCountryStudies(rows) {
   const groups = countryStudyGroups(rows);
   const explanation = `Agrupación exclusivamente por país de constitución (incorporation_country). Solo la ausencia de ese país genera Sin clasificar. No se utiliza país de operación, sede, ADR ni VIE para reasignar grupos. Filtros actuales; muestras menores de 20 trades indicadas. ${HELP_PNL}`;
-  $('country-study-note').textContent = 'Estudios por país de constitución, con los filtros actuales. Las operaciones sin ese país permanecen en Sin clasificar. Las cantidades, precios y duraciones desconocidas se excluyen únicamente de las métricas que los necesitan.';
+  $('country-study-note').textContent = 'Estudios por país de constitución, con los filtros actuales. Cada gráfico de barras ordena los países de mayor a menor según su propia métrica, de izquierda a derecha. Las operaciones sin ese país permanecen en Sin clasificar. Las cantidades, precios y duraciones desconocidas se excluyen únicamente de las métricas que los necesitan.';
   const summary = enrichedStudyGroup('Todos', rows);
   $('country-study-stats').innerHTML = [
     ['Operaciones', String(rows.length), 'Operaciones cerradas únicas dentro de los filtros actuales.'],
