@@ -377,7 +377,10 @@ function renderCalendar(rows) {
     const date = `${month}-${String(day).padStart(2, '0')}`;
     const trades = monthRows.filter(t => t.date === date);
     const pnl = daily.get(date);
-    html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}" data-day="${date}" ${helpAttributes(`${date}: ${trades.length} operaciones. Se suma el PnL de las operaciones cerradas este día en Nueva York. Selecciona el día para consultar sus operaciones. ${HELP_PNL}`)} aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} aria-label="${date}, ${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : '<small>—</small>'}</button>`;
+    const holiday = calendarHoliday(date);
+    const holidayLabel = holiday ? `Festivo bursátil: ${holiday}. Mercado cerrado.` : '';
+    const holidayMarkup = holiday ? `<small class="calendar-holiday-label">Festivo · ${esc(holiday)}</small>${trades.length ? '' : '<small class="calendar-market-closed">Mercado cerrado</small>'}` : '';
+    html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}${holiday ? ' holiday' : ''}" data-day="${date}" ${helpAttributes(`${date}: ${holidayLabel} ${trades.length} operaciones. Se suma el PnL de las operaciones cerradas este día en Nueva York. ${trades.length ? 'Selecciona el día para consultar sus operaciones.' : ''} ${HELP_PNL}`)} aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} ${holiday ? `title="${esc(holidayLabel)}"` : ''} aria-label="${date}, ${holiday ? `${esc(holidayLabel)} ` : ''}${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : holiday ? '' : '<small>—</small>'}${holidayMarkup}</button>`;
   }
   $('calendar-grid').innerHTML = html;
   renderCalendarOverview(rows, month);

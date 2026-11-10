@@ -2,6 +2,23 @@
 
 let calendarOverviewEndMonth = '';
 
+const marketHolidays = Object.freeze({
+  '2026-01-01': 'Año Nuevo',
+  '2026-01-19': 'Martin Luther King Jr.',
+  '2026-02-16': 'Cumpleaños de George Washington',
+  '2026-04-03': 'Viernes Santo',
+  '2026-05-25': 'Día de la Recordación',
+  '2026-06-19': 'Juneteenth',
+  '2026-07-03': 'Día de la Independencia (observado)',
+  '2026-09-07': 'Día del Trabajo',
+  '2026-11-26': 'Acción de Gracias',
+  '2026-12-25': 'Navidad'
+});
+
+function calendarHoliday(date) {
+  return marketHolidays[date] || '';
+}
+
 function renderCalendarResults(rows) {
   const period = $('calendar-results-period').value;
   const title = { month: 'Resultados mensuales', week: 'Resultados semanales', day: 'Resultados diarios' }[period];
@@ -49,7 +66,9 @@ function renderCalendarOverview(rows, month) {
     const cells = miniCalendarCells(value).map(cell => {
       const pnl = daily.get(cell.date);
       const active = !cell.outside && pnl !== undefined;
-      return `<button type="button" class="mini-calendar-day ${cell.outside ? 'outside' : active ? cssSign(pnl) : 'inactive'}" data-mini-day="${cell.date}" aria-pressed="${selectedCalendarDay === cell.date && !cell.outside}" ${active ? '' : 'disabled'} aria-label="${cell.date}${active ? `, PnL ${esc(signed(pnl))}` : ', sin operaciones en este mes'}" ${helpAttributes(active ? `${cell.date}: PnL ${signed(pnl)}. Suma de trades cerrados este día en Nueva York, con los filtros actuales. Pulsa para seleccionar el día.` : `${cell.date}: sin operaciones en este mes con los filtros actuales.`)}>${cell.day}</button>`;
+      const holiday = !cell.outside && calendarHoliday(cell.date);
+      const holidayLabel = holiday ? `Festivo bursátil: ${holiday}. Mercado cerrado.` : '';
+      return `<button type="button" class="mini-calendar-day ${cell.outside ? 'outside' : active ? cssSign(pnl) : 'inactive'}${holiday ? ' holiday' : ''}" data-mini-day="${cell.date}" aria-pressed="${selectedCalendarDay === cell.date && !cell.outside}" ${active ? '' : 'disabled'} ${holiday ? `title="${esc(holidayLabel)}"` : ''} aria-label="${cell.date}${holiday ? `, ${esc(holidayLabel)}` : ''}${active ? `, PnL ${esc(signed(pnl))}` : holiday ? '' : ', sin operaciones en este mes'}" ${helpAttributes(holiday ? `${cell.date}: ${holidayLabel}${active ? ` PnL registrado ${signed(pnl)} con los filtros actuales.` : ''}` : active ? `${cell.date}: PnL ${signed(pnl)}. Suma de trades cerrados este día en Nueva York, con los filtros actuales. Pulsa para seleccionar el día.` : `${cell.date}: sin operaciones en este mes con los filtros actuales.`)}>${cell.day}</button>`;
     }).join('');
     return `<section class="mini-calendar"><div class="mini-calendar-heading"><button type="button" data-mini-month="${value}" aria-label="Mostrar ${esc(calendarMonthTitle(value))}">${esc(calendarMonthTitle(value))}</button><strong class="${total === undefined ? 'muted' : cssSign(total)}" ${helpAttributes(`${calendarMonthTitle(value)}: ${total === undefined ? 'sin operaciones' : `PnL ${signed(total)}`}. Suma de trades cerrados en este mes, con los filtros actuales.`)}>${total === undefined ? '—' : esc(signed(total))}</strong></div><div class="mini-calendar-grid">${['L', 'M', 'X', 'J', 'V', 'S', 'D'].map(day => `<span class="mini-calendar-weekday">${day}</span>`).join('')}${cells}</div></section>`;
   }).join('');

@@ -39,7 +39,8 @@ function selectFilteredTrades(rows, profiles, criteria) {
     }
     if (criteria.newsHours > 0 && !tradeHasNewsWithin(trade, criteria.newsHours)) return false;
     const country = incorporationCountry(profiles?.[trade.symbol]) || UNKNOWN_FILTER_COUNTRY;
-    return !criteria.countries.size || criteria.countries.has(country);
+    if (!criteria.countries.size) return true;
+    return criteria.countryMode === 'exclude' ? !criteria.countries.has(country) : criteria.countries.has(country);
   });
 }
 
@@ -62,6 +63,7 @@ class TradeFilterPanel {
     this.onChange = onChange;
     this.priceCeiling = 1;
     this.countries = new Set();
+    this.countryMode = 'include';
     this.rows = [];
     this.profiles = {};
     this.initialSide = defaultSide;
@@ -86,7 +88,7 @@ class TradeFilterPanel {
           <div class="news-range-endpoints"><span>Sin filtro</span><span>48 h</span></div>
           <small>Solo operaciones con noticia en la ventana elegida. Sin hora: mismo día en cualquier valor positivo; día anterior = 24 h; dos días antes = 48 h, según Nueva York. Una coincidencia del mismo día no confirma que precediera a la entrada. Cobertura parcial.</small>
         </div></div>
-      <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Sin selección: todos los países. Puedes activar varios.</small></div></div>
+      <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Clic izquierdo: solo los seleccionados. Clic derecho o Mayús + clic: todos menos los seleccionados. Cambiar de modo sustituye la selección. Sin selección: todos.</small><small class="country-filter-state" aria-live="polite"></small></div></div>
       <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;
     this.field('side').value = defaultSide;
     this.appliedCriteria = this.snapshot();
@@ -100,19 +102,46 @@ class TradeFilterPanel {
     host.addEventListener('click', event => {
       const toggle = event.target.closest('[data-country]');
       if (toggle) {
-        const country = toggle.dataset.country;
-        if (this.countries.has(country)) this.countries.delete(country); else this.countries.add(country);
-        toggle.setAttribute('aria-pressed', String(this.countries.has(country)));
-        this.changed();
+        this.toggleCountry(toggle.dataset.country, event.shiftKey ? 'exclude' : 'include');
       }
       if (event.target.closest('[data-clear]')) this.reset();
       if (event.target.closest('[data-apply]')) this.apply();
+    });
+    host.addEventListener('contextmenu', event => {
+      const toggle = event.target.closest('[data-country]');
+      if (!toggle) return;
+      event.preventDefault();
+      this.toggleCountry(toggle.dataset.country, 'exclude');
     });
   }
 
   field(name) { return this.host.querySelector(`[data-field="${name}"]`); }
   bound(kind, bound) { return this.host.querySelector(`[data-kind="${kind}"][data-bound="${bound}"]`); }
   slider(kind, bound) { return this.host.querySelector(`[data-slider="${kind}"][data-bound="${bound}"]`); }
+
+  toggleCountry(country, mode) {
+    if (mode !== this.countryMode) this.countries.clear();
+    this.countryMode = mode;
+    if (this.countries.has(country)) this.countries.delete(country); else this.countries.add(country);
+    this.syncCountryToggles();
+    this.changed();
+  }
+
+  syncCountryToggles() {
+    this.host.querySelectorAll('[data-country]').forEach(button => {
+      const selected = this.countries.has(button.dataset.country);
+      const excluded = selected && this.countryMode === 'exclude';
+      const name = button.dataset.country === UNKNOWN_FILTER_COUNTRY ? 'Sin identificar' : button.dataset.country;
+      button.setAttribute('aria-pressed', String(selected));
+      button.classList.toggle('excluded', excluded);
+      button.setAttribute('aria-label', `${name}: ${selected ? excluded ? 'excluido' : 'incluido' : 'sin seleccionar'}`);
+      button.title = `${name}${selected ? excluded ? ' · Excluido' : ' · Incluido' : ''}. Clic izquierdo: incluir. Clic derecho o Mayús + clic: excluir.`;
+    });
+    const status = this.host.querySelector('.country-filter-state');
+    if (status) status.textContent = !this.countries.size ? '' : this.countryMode === 'exclude'
+      ? `Todos excepto ${this.countries.size} ${this.countries.size === 1 ? 'país marcado' : 'países marcados'} en rojo.`
+      : `Solo ${this.countries.size} ${this.countries.size === 1 ? 'país seleccionado' : 'países seleccionados'}.`;
+  }
 
   populate(rows, profiles, preserve = true) {
     this.rows = rows;
@@ -129,6 +158,7 @@ class TradeFilterPanel {
     const available = new Set([...countries, UNKNOWN_FILTER_COUNTRY]);
     this.countries = new Set([...this.countries].filter(country => available.has(country)));
     this.host.querySelector('.country-toggles').innerHTML = [...countries, UNKNOWN_FILTER_COUNTRY].map(country => `<button type="button" data-country="${esc(country)}" aria-pressed="${this.countries.has(country)}">${esc(country === UNKNOWN_FILTER_COUNTRY ? 'Sin identificar' : country)}</button>`).join('');
+    this.syncCountryToggles();
     if (!preserve) {
       this.reset(false);
       this.appliedCriteria = this.snapshot();
@@ -204,7 +234,7 @@ class TradeFilterPanel {
       timeMin: minutes(this.bound('time', 'min').value || '00:00'), timeMax: minutes(this.bound('time', 'max').value || '23:59'),
       durationMin: Number(this.bound('duration', 'min').value || 0), durationMax: this.bound('duration', 'max').value === '' ? Infinity : Number(this.bound('duration', 'max').value),
       newsHours: Number((Number(this.field('news').value || 0) * 0.48).toFixed(2)),
-      priceMin: Number(this.bound('price', 'min').value || 0), priceMax: this.bound('price', 'max').value === '' ? Infinity : Number(this.bound('price', 'max').value), countries: this.countries };
+      priceMin: Number(this.bound('price', 'min').value || 0), priceMax: this.bound('price', 'max').value === '' ? Infinity : Number(this.bound('price', 'max').value), countries: this.countries, countryMode: this.countryMode || 'include' };
   }
 
   snapshot() {
@@ -255,7 +285,8 @@ class TradeFilterPanel {
     this.bound('duration', 'min').value = '0'; this.bound('duration', 'max').value = '';
     this.field('news').value = '0'; this.syncNewsRange();
     this.countries.clear();
-    this.host.querySelectorAll('[data-country]').forEach(button => button.setAttribute('aria-pressed', 'false'));
+    this.countryMode = 'include';
+    this.syncCountryToggles();
     this.syncRange('time'); this.syncRange('price');
     if (!notify) this.field('side').value = this.initialSide;
     if (notify) this.changed();
