@@ -100,6 +100,25 @@ const leapCells = miniCalendarCells('2024-02');
 checkConsistency(leapCells.length === 42 && leapCells.filter(cell => !cell.outside).length === 29, 'Mini calendars preserve leap days in a fixed six-week grid');
 checkConsistency(leapCells[0].date === '2024-01-29' && leapCells[3].date === '2024-02-01', 'Mini calendars start weeks on Monday');
 checkConsistency(miniCalendarCells('2026-11').filter(cell => !cell.outside).length === 30, 'Mini calendar marks adjacent-month padding separately');
+const weeklyFixture = [
+  { date: '2026-10-30', pnl: 12 },
+  { date: '2026-11-02', pnl: 5 },
+  { date: '2026-11-02', pnl: -2 },
+  { date: '2026-11-08', pnl: 4 },
+  { date: '2026-11-09', pnl: -25.1094 },
+  { date: '2026-11-10', pnl: 17.445514 },
+  { date: '2026-12-01', pnl: 8 }
+];
+const novemberWeeks = calendarWeekSummaries('2026-11', weeklyFixture);
+checkConsistency(novemberWeeks.length === 6 && novemberWeeks[0].start === '2026-10-26' && novemberWeeks[0].end === '2026-11-01', 'Weekly summaries align with all visible Monday-to-Sunday rows');
+checkConsistency(novemberWeeks[0].pnl === 12 && novemberWeeks.at(-1).pnl === 8, 'Boundary weeks include filtered trades from adjacent months');
+checkConsistency(novemberWeeks[1].pnl === 7 && novemberWeeks[1].tradeCount === 3 && novemberWeeks[1].sessionCount === 2, 'Weekly PnL and sessions include Sunday trades without counting multiple trades as extra sessions');
+checkConsistency(Math.abs(novemberWeeks[2].pnl + 7.663886) < 0.000001, 'Weekly summaries sum full-precision recorded PnL before display rounding');
+checkConsistency(calendarWeekSummaries('2026-11', weeklyFixture.filter(trade => trade.pnl > 0))[2].pnl === 17.445514, 'Weekly summaries use the supplied filtered trades');
+checkConsistency(novemberWeeks[3].tradeCount === 0 && calendarWeekMarkup(novemberWeeks[3], '2026-11-10').includes('—'), 'Empty weeks show a dash instead of an invented result');
+checkConsistency(calendarWeekMarkup(novemberWeeks[2], '2026-11-10').includes('En curso') && !calendarWeekMarkup(novemberWeeks[1], '2026-11-10').includes('En curso'), 'Only the current New York calendar week has the in-progress label');
+checkConsistency(calendarWeekSummaries('2026-01', [{ date: '2025-12-31', pnl: 9 }])[0].pnl === 9, 'Weekly summaries handle year boundaries');
+checkConsistency(calendarWeekSummaries('2021-02', []).length === 4 && calendarWeekSummaries('2024-02', []).length === 5, 'Weekly rows cover four-week months and leap years without extra summaries');
 // Exercise ticker cards with the production calculations and a minimal render target.
 const calendarFs = require('node:fs'), calendarVm = require('node:vm'), calendarPath = require('node:path');
 const calendarElements = new Map();

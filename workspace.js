@@ -370,8 +370,12 @@ function renderCalendar(rows) {
   const offset = (new Date(Date.UTC(year, number - 1, 1)).getUTCDay() + 6) % 7;
   const monthRows = rows.filter(t => t.date.startsWith(month));
   const daily = new Map(group(monthRows, t => t.date));
+  const weeks = calendarWeekSummaries(month, rows);
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  let weekIndex = 0;
   $('calendar-summary').textContent = `${monthRows.length} operaciones · ${daily.size} sesiones · PnL ${signed(sum(monthRows))}`;
   let html = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(day => `<div class="calendar-weekday">${day}</div>`).join('');
+  html += '<div class="calendar-weekday calendar-weekly-heading">Semana</div>';
   html += '<div class="calendar-blank" aria-hidden="true"></div>'.repeat(offset);
   for (let day = 1; day <= count; day++) {
     const date = `${month}-${String(day).padStart(2, '0')}`;
@@ -381,7 +385,10 @@ function renderCalendar(rows) {
     const holidayLabel = holiday ? `Festivo bursátil: ${holiday}. Mercado cerrado.` : '';
     const holidayMarkup = holiday ? `<small class="calendar-holiday-label">Festivo · ${esc(holiday)}</small>${trades.length ? '' : '<small class="calendar-market-closed">Mercado cerrado</small>'}` : '';
     html += `<button type="button" class="calendar-day ${trades.length ? cssSign(pnl) : 'inactive'}${holiday ? ' holiday' : ''}" data-day="${date}" ${helpAttributes(`${date}: ${holidayLabel} ${trades.length} operaciones. Se suma el PnL de las operaciones cerradas este día en Nueva York. ${trades.length ? 'Selecciona el día para consultar sus operaciones.' : ''} ${HELP_PNL}`)} aria-pressed="${selectedCalendarDay === date}" ${trades.length ? '' : 'disabled'} ${holiday ? `title="${esc(holidayLabel)}"` : ''} aria-label="${date}, ${holiday ? `${esc(holidayLabel)} ` : ''}${trades.length} operaciones${trades.length ? `, ${esc(signed(pnl))}` : ''}"><span>${day}</span>${trades.length ? `<strong>${esc(signed(pnl))}</strong><small>${trades.length} trades</small>` : holiday ? '' : '<small>—</small>'}${holidayMarkup}</button>`;
+    if ((offset + day) % 7 === 0) html += calendarWeekMarkup(weeks[weekIndex++], today);
   }
+  const trailing = (7 - (offset + count) % 7) % 7;
+  if (trailing) html += '<div class="calendar-blank" aria-hidden="true"></div>'.repeat(trailing) + calendarWeekMarkup(weeks[weekIndex], today);
   $('calendar-grid').innerHTML = html;
   renderCalendarOverview(rows, month);
   const selected = rows.filter(t => t.date === selectedCalendarDay && t.date.startsWith(month));

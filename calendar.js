@@ -46,6 +46,27 @@ function calendarMonthTitle(month) {
   return new Intl.DateTimeFormat('es-ES', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month}-01T12:00:00Z`));
 }
 
+function calendarWeekSummaries(month, rows) {
+  const [year, number] = month.split('-').map(Number);
+  const count = new Date(Date.UTC(year, number, 0)).getUTCDate();
+  const offset = (new Date(Date.UTC(year, number - 1, 1)).getUTCDay() + 6) % 7;
+  return Array.from({ length: Math.ceil((offset + count) / 7) }, (_, index) => {
+    const start = new Date(Date.UTC(year, number - 1, 1 - offset + index * 7)).toISOString().slice(0, 10);
+    const end = new Date(Date.UTC(year, number - 1, 7 - offset + index * 7)).toISOString().slice(0, 10);
+    const trades = rows.filter(trade => trade.date >= start && trade.date <= end);
+    return { start, end, pnl: sum(trades), tradeCount: trades.length, sessionCount: new Set(trades.map(trade => trade.date)).size };
+  });
+}
+
+function calendarWeekMarkup(week, today) {
+  const format = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const range = `${format.format(new Date(`${week.start}T12:00:00Z`))} – ${format.format(new Date(`${week.end}T12:00:00Z`))}`;
+  const current = today >= week.start && today <= week.end;
+  const details = `${week.tradeCount} ${week.tradeCount === 1 ? 'trade' : 'trades'} · ${week.sessionCount} ${week.sessionCount === 1 ? 'sesión' : 'sesiones'}`;
+  const explanation = `Semana del ${week.start} al ${week.end}, de lunes a domingo. ${details}. ${week.tradeCount ? `PnL ${signed(week.pnl)}.` : 'Sin operaciones con los filtros actuales.'} Se aplican los filtros generales. Incluye los días de meses contiguos que pertenecen a esta semana. ${current ? 'Semana en curso.' : ''}`;
+  return `<div class="calendar-week-summary" data-week-start="${week.start}" tabindex="0" aria-label="${esc(explanation)}" ${helpAttributes(explanation)}><span class="calendar-week-range">${esc(range)}</span><strong class="${week.tradeCount ? cssSign(week.pnl) : 'muted'}">${week.tradeCount ? esc(signed(week.pnl)) : '—'}</strong><small>${details}</small>${current ? '<span class="calendar-week-current">En curso</span>' : ''}</div>`;
+}
+
 function miniCalendarCells(month) {
   const [year, number] = month.split('-').map(Number);
   const offset = (new Date(Date.UTC(year, number - 1, 1)).getUTCDay() + 6) % 7;
