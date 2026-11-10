@@ -102,7 +102,7 @@ function calendarMetricRows(rows, scope, pnlLabel = 'PnL', includeDirections = t
     ['Operaciones', String(rows.length), 'Número de trades cerrados únicos. Las ejecuciones parciales no se cuentan como trades adicionales.'],
     ['Win rate', pct(stats.wins.length, rows.length), `${stats.wins.length} ganadoras ÷ ${rows.length} trades × 100. Incluye ${stats.scratches.length} trades a cero en el denominador.`],
     [pnlLabel, signed(stats.pnl), 'Suma del PnL registrado. Se conservan los costes incluidos en el dato original y no se restan las comisiones de nuevo.'],
-    ['Comisiones', money(stats.fees), 'Suma de Commission de las ejecuciones únicas. Es un desglose informativo de los costes registrados; no se vuelve a descontar del PnL.'],
+    ['Comisiones', usdMoney(stats.fees), 'Suma de Commission de las ejecuciones únicas. Es un desglose informativo de los costes registrados; no se vuelve a descontar del PnL.'],
     ['Profit factor', ratioValue(stats.pf), 'Suma de PnL positivos ÷ valor absoluto de la suma de PnL negativos. Sin pérdidas y con ganancias se muestra ∞; sin resultados calculables se muestra —.'],
     ...(includeDirections ? [['Long', long.length ? signed(sum(long)) : '—', 'Suma del PnL de los trades BUY (Long).'],
     ['Short', short.length ? signed(sum(short)) : '—', 'Suma del PnL de los trades SELL (Short).']] : [])
@@ -115,7 +115,7 @@ function calendarPnlCurve(rows) {
   const firstOpen = ordered.reduce((earliest, trade) => Date.parse(trade.opened) < Date.parse(earliest) ? trade.opened : earliest, ordered[0].opened);
   const start = firstOpen.startsWith(date) ? firstOpen : `${date}T00:00:00${ordered[0].closed.slice(-6)}`;
   let equity = 0;
-  return [[start, 0, 'Inicio del PnL en $0.'], ...ordered.map(trade => {
+  return [[start, 0, `Inicio del PnL en ${money(0)}.`], ...ordered.map(trade => {
     equity += trade.pnl;
     return [trade.closed, equity, `${trade.symbol} ${trade.side === 'BUY' ? 'Long' : 'Short'}: trade ${signed(trade.pnl)}. PnL acumulado ${signed(equity)}.`];
   })];
@@ -123,7 +123,7 @@ function calendarPnlCurve(rows) {
 
 function renderCalendarPnlChart(id, rows, scope) {
   const points = calendarPnlCurve(rows);
-  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, labels: points.map(point => point[0].slice(11, 19)), explanation: `${scope}. Suma acumulada del PnL de los trades cerrados, empezando en $0 y ordenados por instante de cierre. El eje horizontal avanza por cierres, no proporcionalmente al tiempo. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
+  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, labels: points.map(point => point[0].slice(11, 19)), explanation: `${scope}. Suma acumulada del PnL de los trades cerrados, empezando en cero y ordenados por instante de cierre. El eje horizontal avanza por cierres, no proporcionalmente al tiempo. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
 }
 
 function renderCalendarDay(rows) {

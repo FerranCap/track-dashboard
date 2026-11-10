@@ -18,6 +18,38 @@ const VIEW_DETAILS = {
 let selectedCalendarDay = '';
 let issuerAudit = null;
 let sessionRiskHistory = [];
+let pnlDisplayUnit = 'usd';
+
+function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistory) {
+  if (unit === 'usd') return rows.map(trade => Object.hasOwn(trade, 'pnlUsd') ? { ...trade, pnl: trade.pnlUsd } : trade);
+  const formatter = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+  return rows.flatMap(trade => {
+    const opened = new Date(trade.opened);
+    const date = Number.isFinite(opened.getTime()) ? formatter.format(opened) : null;
+    const risk = trade.projectedRisk ?? (date ? sessionRiskAt(date, history)?.risk : null);
+    const pnlUsd = trade.pnlUsd ?? trade.pnl;
+    return Number.isFinite(risk) && risk > 0 && Number.isFinite(pnlUsd)
+      ? [{ ...trade, pnl: pnlUsd / risk, pnlUsd, pnlRisk: risk }] : [];
+  });
+}
+
+function initializePnlUnits() {
+  const toggle = $('pnl-unit-toggle');
+  try { if (localStorage.getItem('track-pnl-unit') === 'r') pnlDisplayUnit = 'r'; } catch {}
+  const sync = () => {
+    toggle.setAttribute('aria-checked', String(pnlDisplayUnit === 'r'));
+    toggle.querySelector('[data-pnl-unit]').textContent = pnlDisplayUnit === 'r' ? 'R' : 'USD';
+    document.querySelectorAll('[data-pnl-unit-label]').forEach(label => { label.textContent = pnlDisplayUnit === 'r' ? 'R' : 'USD'; });
+    for (const id of ['growth-swing-unit', 'growth-projection-swing-unit']) $(id).value = pnlDisplayUnit;
+  };
+  sync();
+  toggle.addEventListener('click', () => {
+    pnlDisplayUnit = pnlDisplayUnit === 'usd' ? 'r' : 'usd';
+    try { localStorage.setItem('track-pnl-unit', pnlDisplayUnit); } catch {}
+    sync();
+    applyFilters();
+  });
+}
 
 async function fetchSessionRisk() {
   const response = await fetch(`data/session-risk.json?v=${Date.now()}`, { cache: 'no-store' });
@@ -53,13 +85,13 @@ function renderSessionRisk() {
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   const current = sessionRiskAt(today);
   $('growth-risk-current').textContent = current
-    ? `R vigente: ${money(current.risk)} por sesión · desde ${current.effectiveDate}.`
+    ? `R vigente: ${usdMoney(current.risk)} por sesión · desde ${current.effectiveDate}.`
     : 'Sin R definida para la fecha actual.';
   renderChart('growth-risk-chart', [{ values: sessionRiskPoints(sessionRiskHistory, today), color: '#5c9bff' }], {
-    currency: true, step: true, timeAxis: true, title: 'Evolución de R por sesión', empty: 'Sin R definida para este período.',
+    currency: true, currencyUnit: 'usd', step: true, timeAxis: true, title: 'Evolución de R por sesión', empty: 'Sin R definida para este período.',
     explanation: 'R en USD: pérdida máxima asumida por sesión, según los valores indicados por el usuario. Cada cambio se aplica desde su fecha de activación hasta el siguiente. La línea se mantiene hasta hoy en Nueva York. Historial completo, independiente de los filtros de operaciones.'
   });
-  $('growth-risk-table').innerHTML = tableMarkup(['Fecha de activación', 'R · USD por sesión'], sessionRiskHistory.map(entry => [entry.effectiveDate, money(entry.risk)]));
+  $('growth-risk-table').innerHTML = tableMarkup(['Fecha de activación', 'R · USD por sesión'], sessionRiskHistory.map(entry => [entry.effectiveDate, usdMoney(entry.risk)]));
 }
 
 function activateView() {
@@ -116,7 +148,7 @@ function renderWorkspace(rows) {
     ['PnL total', signed(s.pnl), cssSign(s.pnl)], ['Operaciones', integerFormat.format(rows.length)],
     ['Días operados', s.daily.length], ['Símbolos', new Set(rows.map(t => t.symbol)).size],
     ['Win rate', pct(s.wins.length, rows.length)], ['Profit factor', ratioValue(s.pf)],
-    ['PnL medio / operación', rows.length ? money(s.expectancy) : '—'], ['Comisiones', money(s.fees), '', 'Incluidas en el resultado; no se descuentan de nuevo'],
+    ['PnL medio / operación', rows.length ? money(s.expectancy) : '—'], ['Comisiones · USD', usdMoney(s.fees), '', 'Incluidas en el resultado; no se descuentan de nuevo'],
     ['Volumen de entrada', integerFormat.format(s.entryVolumes), '', 'Acciones'],
     ['PnL medio / acción', s.entryVolumes ? money(s.pnl / s.entryVolumes) : '—'],
     ['Operaciones / día', s.daily.length ? num(rows.length / s.daily.length, 1) : '—'],
@@ -163,7 +195,7 @@ function growthTradePoints(rows, limit) {
 function renderGrowthTradeChart(rows) {
   const points = growthTradePoints(rows, $('growth-trade-window').value);
   const count = rows.filter(trade => Number.isFinite(trade.pnl)).length;
-  const explanation = 'Cada barra representa un trade individual en orden de cierre y su altura es |PnL final registrado| en USD. No se promedia ni se agrupa por meses. Un trade de −$25 se muestra con altura $25; su resultado con signo aparece en la ayuda. No representa máximos, mínimos ni recorrido intratrade.';
+  const explanation = 'Cada barra representa un trade individual en orden de cierre y su altura es |PnL| en la unidad seleccionada (USD o R histórica). No se promedia ni se agrupa por meses. Se toma el valor absoluto después de convertir cada trade; su resultado con signo aparece en la ayuda. No representa máximos, mínimos ni recorrido intratrade.';
   $('growth-trade-count').textContent = points.length ? `Trades ${points[0].number}–${points.at(-1).number} de ${count} con los filtros actuales. Una barra por operación, ajustada al ancho disponible.` : 'Sin operaciones para estos filtros.';
   renderChart('growth-absolute-pnl-chart', [{ values: points.map(({ trade, number, absolute }) => [
     `Trade #${number} · ${trade.symbol} · ${trade.closed}`, absolute,
@@ -183,9 +215,9 @@ function renderGrowth(rows) {
   const absolutePnls = pnls.map(Math.abs);
   $('growth-stats').innerHTML = [
     ['Beneficio acumulado', rows.length ? signed(sum(rows)) : '—', 'Suma del PnL de las operaciones cerradas filtradas, partiendo de cero. Las comisiones del CSV no se descuentan de nuevo; no es saldo de cuenta ni rentabilidad porcentual.'],
-    ['PnL medio por trade', pnls.length ? signed(mean(pnls)) : '—', 'Suma del PnL de los trades ÷ número de trades. Se mantiene el signo y se incluyen los trades a cero. Cada operación pesa igual. Se expresa en USD y no se divide por precio ni por shares.'],
+    ['PnL medio por trade', pnls.length ? signed(mean(pnls)) : '—', 'Suma del PnL de los trades ÷ número de trades. Se mantiene el signo y se incluyen los trades a cero. Cada operación pesa igual. Se expresa en la unidad seleccionada y no se divide por precio ni por shares.'],
     ['PnL absoluto medio por trade', absolutePnls.length ? money(mean(absolutePnls)) : '—', 'Media de |PnL|, tomando primero el valor absoluto de cada trade. Ejemplo: +$10 y −$6 dan ($10 + $6) ÷ 2 = $8. Ganancias y pérdidas no se cancelan. Una magnitud mayor también puede proceder de pérdidas mayores.'],
-    ['PnL absoluto mediano por trade', absolutePnls.length ? money(sampleQuantile(absolutePnls, 0.5)) : '—', 'Mediana de los valores |PnL| de cada trade, en dólares. Reduce la influencia de operaciones excepcionalmente grandes. No utiliza precio de la acción ni cantidad de shares.']
+    ['PnL absoluto mediano por trade', absolutePnls.length ? money(sampleQuantile(absolutePnls, 0.5)) : '—', 'Mediana de los valores |PnL| de cada trade, en la unidad seleccionada. Reduce la influencia de operaciones excepcionalmente grandes. No utiliza precio de la acción ni cantidad de shares.']
   ].map(args => consistencyMetric(...args)).join('');
   renderSessionRisk();
   renderGrowthTradeChart(rows);
@@ -398,7 +430,7 @@ function renderCalendar(rows) {
 }
 
 function comparisonRows(key) {
-  return tradeFilterPanels.get(key).matchingRows();
+  return displayPnlRows(tradeFilterPanels.get(key).matchingRows());
 }
 
 function renderComparisons() {

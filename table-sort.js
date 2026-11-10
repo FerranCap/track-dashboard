@@ -41,7 +41,7 @@ function tableSortValue(value, heading = '') {
   const text = String(value ?? '').trim();
   if (!text || /^(?:—|–|-|N\/A|Sin confirmar|Pendiente)$/i.test(text)) return null;
   if (/^[+-]?∞$/.test(text)) return text.startsWith('-') ? -Infinity : Infinity;
-  const numeric = text.replace(/[$€£\s]/g, '').replace(/(?:%|x|min)$/i, '');
+  const numeric = text.replace(/[$€£\s]/g, '').replace(/(?:%|x|min|R)$/i, '');
   if (/^[+-]?\d[\d.,]*$/.test(numeric)) {
     const normalized = /^(?:Operaciones|Shares)$/i.test(heading)
       ? numeric.replace(/[.,]/g, '') : numeric.replace(/,/g, '');

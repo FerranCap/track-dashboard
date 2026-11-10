@@ -8,7 +8,9 @@ const $ = id => {
 const moneyFormat = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
 const integerFormat = new Intl.NumberFormat('es-ES');
 const num = (v,d=2) => Number.isFinite(v) ? v.toFixed(d) : '—';
-const money = v => Number.isFinite(v) ? moneyFormat.format(v) : '—';
+const usdMoney = v => Number.isFinite(v) ? moneyFormat.format(v) : '—';
+const usdSigned = v => Number.isFinite(v) ? `${v>0?'+':''}${usdMoney(v)}` : '—';
+const money = v => !Number.isFinite(v) ? '—' : pnlDisplayUnit === 'r' ? `${v.toFixed(2)} R` : usdMoney(v);
 const signed = v => Number.isFinite(v) ? `${v>0?'+':''}${money(v)}` : '—';
 const sum = rows => rows.reduce((s,t)=>s+t.pnl,0);
 const cssSign = v => v>0?'positive':v<0?'negative':'';
@@ -20,7 +22,7 @@ let dataset=null, filtered=[], page=0;
 let tradeTableSort = null;
 const pageSize=50;
 const EPSILON=0.000001;
-function classify(t){return t.pnl>EPSILON?'win':t.pnl<-EPSILON?'loss':'scratch';}
+function classify(t){const pnl=t.pnlUsd??t.pnl;return pnl>EPSILON?'win':pnl<-EPSILON?'loss':'scratch';}
 function group(rows,fn){const m=new Map();for(const t of rows){const k=fn(t);m.set(k,(m.get(k)||0)+t.pnl);}return [...m].sort((a,b)=>String(a[0]).localeCompare(String(b[0])));}
 function dates(rows){return [...new Set(rows.map(t=>t.date))].sort();}
 function metric(label,value,kind='',detail=''){
@@ -119,7 +121,7 @@ const chartConfigs = new Map();
 function renderChart(id, series, opts = {}) {
   const element = $(id);
   chartConfigs.set(id, { series, opts });
-  const explanation = opts.explanation || chartHelp(id, opts);
+  const explanation = (opts.explanation || chartHelp(id, opts)) + (pnlDisplayUnit === 'r' && opts.currency && opts.currencyUnit !== 'usd' ? ' Valores en R: cada PnL se divide por la R vigente en su entrada en Nueva York antes de sumar o promediar.' : '');
   element.setAttribute('data-help', explanation);
   element.setAttribute('tabindex', '0');
   element.innerHTML = svgChart(series, { ...opts, explanation, width: element.clientWidth || 800, height: element.clientHeight || 265 });
@@ -152,9 +154,9 @@ function svgChart(series,opts={}){
   const X=i=>opts.bar?l+(i+.5)*plotW/count:l+(opts.timeAxis&&lastTime>firstTime?(Date.parse(axis[i][0])-firstTime)/(lastTime-firstTime):count===1?.5:i/(count-1))*plotW;
   const Y=v=>t+(high-v)/(high-low)*plotH;
   const pad=v=>Number(v.toFixed(2)).toLocaleString('en-US');
-  const valueLabel=v=>opts.currency?moneyFormat.format(v):`${pad(v)}${opts.unit||''}`;
+  const valueLabel=v=>opts.currency?(opts.currencyUnit === 'usd' ? usdMoney(v) : money(v)):`${pad(v)}${opts.unit||''}`;
   const pointHelp = point => {
-    const meaning = opts.unit === 'x' && !opts.suppressRatioMeaning ? ` Por cada $1 de pérdida media, la ganancia media fue de ${money(point[1])}.` : '';
+    const meaning = opts.unit === 'x' && !opts.suppressRatioMeaning ? ` Por cada ${pnlDisplayUnit === 'r' ? '1 R' : '$1'} de pérdida media, la ganancia media fue de ${money(point[1])}.` : '';
     return `${point[0]}: ${valueLabel(point[1])}.${meaning}${point[2] ? ` ${point[2]}` : ''}\n\n${opts.explanation || chartHelp('', opts)}`;
   };
   let shapes='';
@@ -222,7 +224,7 @@ function priceGroups(rows, width = 1) {
     groups.get(index).push(trade);
   }
   return [...groups].sort(([left], [right]) => left - right).map(([index, trades]) => ({
-    name: `${money(index * width)} – ${money((index + 1) * width)}`, rows: trades
+    name: `${usdMoney(index * width)} – ${usdMoney((index + 1) * width)}`, rows: trades
   }));
 }
 function renderPrice(rows) {
@@ -234,7 +236,11 @@ function populateFilters(rows, preserve = false){
 }
 function applyFilters(){
   if(!dataset)return;
-  filtered=tradeFilterPanels.get('general').matchingRows();
+  const sourceRows=tradeFilterPanels.get('general').matchingRows();
+  filtered=displayPnlRows(sourceRows);
+  const missing=sourceRows.length-filtered.length;
+  $('pnl-unit-status').hidden=pnlDisplayUnit!=='r';
+  $('pnl-unit-status').textContent=`P&L en R · Cada trade usa la R vigente en su entrada en Nueva York. Los días, semanas y totales suman las R individuales.${missing ? ` ${missing} trades sin R o PnL válido quedan fuera de estos estudios; siguen conservados en USD.` : ''} Precios, comisiones y valores monetarios de R siguen en USD.`;
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
 }
 function setTradeTableSort(state) {
@@ -256,7 +262,7 @@ function renderTable(){
   const current=sortedTradeRows(matches).slice(page*pageSize,(page+1)*pageSize);
   const columns=['Fecha','Símbolo','Dirección','Apertura NY','Cierre NY','Entrada','Shares','Duración','PnL'];
   $('trade-rows').innerHTML=current.length?current.map(t=>{
-    const cells=[esc(t.date),`<strong>${esc(t.symbol)}</strong>`,`<span class="pill ${t.side==='SELL'?'short':''}">${t.side==='BUY'?'Long':'Short'}</span>`,esc(t.opened.slice(11,19)),esc(t.closed.slice(11,19)),esc(t.entryPrice===null?'—':money(t.entryPrice)),esc(t.entryQty===null?'—':num(t.entryQty,0)),`${esc(num(t.holdMinutes,1))} min`,esc(signed(t.pnl))];
+    const cells=[esc(t.date),`<strong>${esc(t.symbol)}</strong>`,`<span class="pill ${t.side==='SELL'?'short':''}">${t.side==='BUY'?'Long':'Short'}</span>`,esc(t.opened.slice(11,19)),esc(t.closed.slice(11,19)),esc(t.entryPrice===null?'—':usdMoney(t.entryPrice)),esc(t.entryQty===null?'—':num(t.entryQty,0)),`${esc(num(t.holdMinutes,1))} min`,esc(signed(t.pnl))];
     return `<tr>${cells.map((content,index)=>`<td ${helpAttributes(helpText(columns[index]))} class="${index===8?`number ${cssSign(t.pnl)}`:''}">${content}</td>`).join('')}</tr>`;
   }).join(''):'<tr><td colspan="9">Sin operaciones</td></tr>';
   $('table-count').textContent=`${integerFormat.format(matches.length)} operaciones`;
@@ -297,6 +303,7 @@ $('prev').addEventListener('click',()=>{page--;renderTable();});
 $('next').addEventListener('click',()=>{page++;renderTable();});
 $('refresh').addEventListener('click',()=>loadData({preserveFilters:true}));
 initializeTradeFilters();
+initializePnlUnits();
 initializeHelp();
 initializeWorkspace();
 initializeCalendarOverview();

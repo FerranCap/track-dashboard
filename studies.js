@@ -35,7 +35,7 @@ function renderStudyCharts(prefix, groups, explanation) {
     ['duration-mean', 'mean', 'Duración media', { unit: ' min' }, 'Media de minutos entre apertura y cierre, solo con duración conocida y no negativa.'],
     ['duration-median', 'median', 'Duración mediana', { unit: ' min' }, 'Mediana de minutos entre apertura y cierre; excluye duraciones desconocidas o inválidas.']
   ];
-  if (prefix === 'country') charts.push(['price-median', 'priceMedian', 'Precio mediano de entrada', { currency: true }, 'Mediana del precio de entrada por operación. Solo precios conocidos y no negativos.']);
+  if (prefix === 'country') charts.push(['price-median', 'priceMedian', 'Precio mediano de entrada', { currency: true, currencyUnit: 'usd' }, 'Mediana del precio de entrada por operación. Solo precios conocidos y no negativos.']);
   for (const [id, field, title, options, meaning] of charts) {
     const chartId = id === 'pnl' ? `${prefix}-chart` : `${prefix}-${id}-chart`;
     const chartGroups = groups.filter(group => Number.isFinite(group[field]));
@@ -51,9 +51,9 @@ function renderStudyDetail(prefix, groups, label) {
     label, 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'PnL', 'PnL medio', 'PnL mediano', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor',
     'Comisiones', 'Acciones totales', 'Acciones medias', 'Trades con acciones', 'PnL / acción', 'Duración media (min)', 'Duración mediana (min)', 'Trades con duración', 'Precio mediano', 'Trades con precio', 'Muestra'
   ], groups.map(group => [group.name, group.count, group.wins, group.losses, group.scratches, `${num(group.winRate, 1)}%`, signed(group.pnl), money(group.average), money(group.pnlMedian),
-    money(group.winAverage), group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), money(group.fees),
+    money(group.winAverage), group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), usdMoney(group.fees),
     num(group.quantity, 0), num(group.averageQuantity, 1), group.quantityCount, money(group.pnlPerShare), num(group.mean, 2), num(group.median, 2), group.durationCount,
-    money(group.priceMedian), group.priceCount, group.count < 20 ? 'Reducida (<20)' : '20 o más'
+    usdMoney(group.priceMedian), group.priceCount, group.count < 20 ? 'Reducida (<20)' : '20 o más'
   ])) : '<p class="muted">Sin operaciones para estos filtros.</p>';
 }
 
@@ -61,7 +61,7 @@ function renderStudyScatter(id, rows, xValue, yField, title, explanation, option
   const available = rows.filter(trade => Number.isFinite(xValue(trade)) && Number.isFinite(trade[yField]) && (yField !== 'entryQty' || trade.entryQty > 0));
   renderChart(id, [['win', '#29d17e'], ['loss', '#fb4f61'], ['scratch', '#98adc8']].map(([kind, color]) => ({
     color, values: available.filter(trade => classify(trade) === kind).map(trade => [xValue(trade), trade[yField],
-      `${trade.symbol} · ${trade.date} · ${trade.id}: ${tradeCountry(trade) || 'Sin clasificar'}; precio ${money(trade.entryPrice)}; PnL ${signed(trade.pnl)}; acciones ${Number.isFinite(trade.entryQty) && trade.entryQty > 0 ? num(trade.entryQty, 0) : 'sin confirmar'}; duración ${Number.isFinite(trade.holdMinutes) && trade.holdMinutes >= 0 ? `${num(trade.holdMinutes, 2)} min` : 'sin confirmar'}.`
+      `${trade.symbol} · ${trade.date} · ${trade.id}: ${tradeCountry(trade) || 'Sin clasificar'}; precio ${usdMoney(trade.entryPrice)}; PnL ${signed(trade.pnl)}; acciones ${Number.isFinite(trade.entryQty) && trade.entryQty > 0 ? num(trade.entryQty, 0) : 'sin confirmar'}; duración ${Number.isFinite(trade.holdMinutes) && trade.holdMinutes >= 0 ? `${num(trade.holdMinutes, 2)} min` : 'sin confirmar'}.`
     ])
   })), { scatter: true, title, ...options, explanation: `Cada punto es una operación, sin muestreo. Verde: ganadora; rojo: perdedora; gris: a cero. ${available.length} puntos con ambos datos disponibles. ${explanation}` });
 }
@@ -72,24 +72,24 @@ function renderPriceStudies(rows) {
   const groups = priceStudyGroups(rows, width), known = groups.filter(group => !group.unknown);
   const available = rows.filter(trade => Number.isFinite(trade.entryPrice) && trade.entryPrice >= 0);
   const prices = available.map(trade => trade.entryPrice);
-  const explanation = `Precio medio de entrada por acción. Rangos de ${money(width)} desde $0, límite inferior incluido y superior excluido. Sin rangos vacíos. Filtros actuales; muestras menores de 20 trades indicadas. ${HELP_PNL}`;
-  $('price-caption').textContent = `${available.length} operaciones con precio válido; ${rows.length - available.length} sin precio, conservadas en la tabla. Rangos de ${money(width)}: límite inferior incluido y superior excluido. Se omiten rangos vacíos. Todos los estudios respetan los filtros actuales.`;
+  const explanation = `Precio medio de entrada por acción. Rangos de ${usdMoney(width)} desde $0, límite inferior incluido y superior excluido. Sin rangos vacíos. Filtros actuales; muestras menores de 20 trades indicadas. ${HELP_PNL}`;
+  $('price-caption').textContent = `${available.length} operaciones con precio válido; ${rows.length - available.length} sin precio, conservadas en la tabla. Rangos de ${usdMoney(width)}: límite inferior incluido y superior excluido. Se omiten rangos vacíos. Todos los estudios respetan los filtros actuales.`;
   const cards = [
-    ['Precio medio de entrada', money(prices.length ? mean(prices) : null), 'Media de los precios de entrada por operación, sin ponderar por cantidad de acciones. Solo precios válidos.'],
-    ['Precio mediano de entrada', money(sampleQuantile(prices, 0.5)), 'Mediana de los precios de entrada por operación. Solo precios conocidos y no negativos.'],
-    ['Precio · percentil 90', money(sampleQuantile(prices, 0.9)), 'Percentil 90 de los precios de entrada, con interpolación lineal.']
+    ['Precio medio de entrada', usdMoney(prices.length ? mean(prices) : null), 'Media de los precios de entrada por operación, sin ponderar por cantidad de acciones. Solo precios válidos.'],
+    ['Precio mediano de entrada', usdMoney(sampleQuantile(prices, 0.5)), 'Mediana de los precios de entrada por operación. Solo precios conocidos y no negativos.'],
+    ['Precio · percentil 90', usdMoney(sampleQuantile(prices, 0.9)), 'Percentil 90 de los precios de entrada, con interpolación lineal.']
   ];
   for (const [kind, label] of [['win', 'Ganadoras'], ['loss', 'Perdedoras'], ['scratch', 'A cero']]) {
     const sample = available.filter(trade => classify(trade) === kind).map(trade => trade.entryPrice);
-    cards.push([`Precio medio · ${label}`, money(sample.length ? mean(sample) : null), `Media del precio de entrada de ${sample.length} operaciones ${label.toLowerCase()}, sin ponderar por acciones.`],
-      [`Precio mediano · ${label}`, money(sampleQuantile(sample, 0.5)), `Mediana del precio de entrada de ${sample.length} operaciones ${label.toLowerCase()}.`]);
+    cards.push([`Precio medio · ${label}`, usdMoney(sample.length ? mean(sample) : null), `Media del precio de entrada de ${sample.length} operaciones ${label.toLowerCase()}, sin ponderar por acciones.`],
+      [`Precio mediano · ${label}`, usdMoney(sampleQuantile(sample, 0.5)), `Mediana del precio de entrada de ${sample.length} operaciones ${label.toLowerCase()}.`]);
   }
   $('price-stats').innerHTML = cards.map(args => consistencyMetric(...args)).join('');
   renderStudyCharts('price', known, explanation);
   $('price-distribution-table').innerHTML = tableMarkup(['Resultado', 'Operaciones', 'Precio medio', 'Precio P25', 'Precio mediano', 'Precio P75', 'Precio P90'],
     [['Todos', available], ['Ganadoras', available.filter(trade => classify(trade) === 'win')], ['Perdedoras', available.filter(trade => classify(trade) === 'loss')], ['A cero', available.filter(trade => classify(trade) === 'scratch')]].map(([label, sample]) => {
       const values = sample.map(trade => trade.entryPrice);
-      return [label, sample.length, money(values.length ? mean(values) : null), ...[0.25, 0.5, 0.75, 0.9].map(probability => money(sampleQuantile(values, probability)))];
+      return [label, sample.length, usdMoney(values.length ? mean(values) : null), ...[0.25, 0.5, 0.75, 0.9].map(probability => usdMoney(sampleQuantile(values, probability)))];
     }));
   const xValue = trade => trade.entryPrice;
   renderStudyScatter('price-scatter-pnl', available, xValue, 'pnl', 'Precio frente a PnL por operación', explanation, { currency: true, xCurrency: true, xLabel: 'Precio de entrada (USD)' });
@@ -109,7 +109,7 @@ function renderCountryStudies(rows) {
     ['Win rate', rows.length ? `${num(summary.winRate, 1)}%` : '—', HELP_WINRATE],
     ['Acciones medias', num(summary.averageQuantity, 1), `Media de cantidades de entrada de ${summary.quantityCount} operaciones con cantidad válida; las ausentes no se convierten en cero.`],
     ['Duración mediana', summary.median === null ? '—' : `${num(summary.median, 1)} min`, `Mediana de duración de ${summary.durationCount} operaciones con duración válida.`],
-    ['Precio mediano de entrada', money(summary.priceMedian), `Mediana del precio de entrada de ${summary.priceCount} operaciones con precio válido, sin ponderar por acciones.`]
+    ['Precio mediano de entrada', usdMoney(summary.priceMedian), `Mediana del precio de entrada de ${summary.priceCount} operaciones con precio válido, sin ponderar por acciones.`]
   ].map(args => consistencyMetric(...args)).join('');
   renderStudyCharts('country', groups, explanation);
   const categories = groups.map(group => group.name);

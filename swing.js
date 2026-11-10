@@ -20,7 +20,7 @@ function sessionSwings(rows, history, projected = false) {
     for (const trade of trades) {
       const key = projected ? trade.projectionOrder : Date.parse(trade.closed);
       if (!Number.isFinite(key)) { invalidClose = true; break; }
-      closes.set(key, (closes.get(key) || 0) + trade.pnl);
+      closes.set(key, (closes.get(key) || 0) + (trade.pnlUsd ?? trade.pnl));
     }
     if (invalidClose || !closes.size) { excludedSessions++; continue; }
     let pnl = 0, minimum = 0, maximum = 0;
@@ -47,7 +47,7 @@ function sessionSwingSvg(sessions, opts = {}) {
   if (!sessions.length) return `<span>${esc(opts.empty || 'Sin sesiones con R conocida para estos filtros.')}</span>`;
   const normalized = opts.swingUnit !== 'usd';
   const value = (session, field) => session[field] / (normalized ? session.risk : 1);
-  const label = amount => normalized ? `${num(amount, 2)} R` : money(amount);
+  const label = amount => normalized ? `${num(amount, 2)} R` : usdMoney(amount);
   const width = Math.max(300, opts.width || 800), height = Math.max(180, opts.height || 300);
   const left = 88, right = 22, top = 18, bottom = 40;
   const plotWidth = width - left - right, plotHeight = height - top - bottom;
@@ -70,7 +70,7 @@ function sessionSwingSvg(sessions, opts = {}) {
   const barWidth = Math.min(14, step * 0.65);
   sessions.forEach((session, index) => {
     const minimum = value(session, 'minimum'), maximum = value(session, 'maximum'), final = value(session, 'pnl');
-    const detail = `${session.date}. R: ${money(session.risk)}. Mínimo acumulado: ${signed(session.minimum)} (${num(session.minimum / session.risk)} R). Máximo: ${signed(session.maximum)} (${num(session.maximum / session.risk)} R). Cierre: ${signed(session.pnl)} (${num(session.pnl / session.risk)} R). Swing: ${money(session.swing)} (${num(session.swing / session.risk)} R). ${session.count} trades. ${session.reachedStop ? 'Alcanza o supera −R.' : 'No alcanza −R.'} ${opts.explanation || ''}`;
+    const detail = `${session.date}. R: ${usdMoney(session.risk)}. Mínimo acumulado: ${usdSigned(session.minimum)} (${num(session.minimum / session.risk)} R). Máximo: ${usdSigned(session.maximum)} (${num(session.maximum / session.risk)} R). Cierre: ${usdSigned(session.pnl)} (${num(session.pnl / session.risk)} R). Swing: ${usdMoney(session.swing)} (${num(session.swing / session.risk)} R). ${session.count} trades. ${session.reachedStop ? 'Alcanza o supera −R.' : 'No alcanza −R.'} ${opts.explanation || ''}`;
     const color = session.reachedStop ? '#ffb454' : '#5c9bff';
     shapes += `<g ${helpAttributes(detail)}><rect x="${x(index) - barWidth / 2}" y="${y(maximum)}" width="${barWidth}" height="${Math.max(1, y(minimum) - y(maximum))}" rx="${Math.min(1, barWidth / 2)}" fill="${color}" opacity=".65"/><circle cx="${x(index)}" cy="${y(final)}" r="${Math.min(3, step * 0.25)}" fill="${session.pnl < 0 ? '#fb4f61' : '#35ebb3'}"/><rect x="${left + index * step}" y="${top}" width="${step}" height="${plotHeight}" fill="transparent"/></g>`;
   });

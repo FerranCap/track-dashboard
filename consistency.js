@@ -253,7 +253,7 @@ function renderConsistencyScenarios(rows) {
   if (consistencyScenarioCache?.signature !== signature) consistencyScenarioCache = { signature, result: resampleConsistency(rows, horizon) };
   const result = consistencyScenarioCache.result;
   $('consistency-scenario-note').textContent = result
-    ? `500 escenarios de ${horizon} operaciones desde $0, remuestreando sesiones con reemplazo y conservando el orden dentro de cada sesión; el último bloque se recorta al horizonte. Base: ${result.sessions} sesiones. Los percentiles P5/P50/P95 se calculan por paso, no son tres trayectorias individuales ni intervalos de confianza. Se conserva el tamaño histórico; se ignoran cambios futuros y dependencia entre sesiones.${result.sessions < 20 ? ' Base reducida: menos de 20 sesiones.' : ''}`
+    ? `500 escenarios de ${horizon} operaciones desde cero, en la unidad seleccionada, remuestreando sesiones con reemplazo y conservando el orden dentro de cada sesión; el último bloque se recorta al horizonte. Base: ${result.sessions} sesiones. Los percentiles P5/P50/P95 se calculan por paso, no son tres trayectorias individuales ni intervalos de confianza. Se conserva el tamaño histórico; se ignoran cambios futuros y dependencia entre sesiones.${result.sessions < 20 ? ' Base reducida: menos de 20 sesiones.' : ''}`
     : 'Sin operaciones para generar escenarios.';
   $('consistency-scenario-table').innerHTML = result ? tableMarkup(['Resultado simulado', 'P5', 'Mediana · P50', 'P95'], [
     ['PnL final', ...[0.05, 0.5, 0.95].map(p => money(sampleQuantile(result.finals, p)))],

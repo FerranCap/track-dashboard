@@ -4,13 +4,8 @@ if (typeof require !== 'undefined') {
   const fs = require('fs');
   const vm = require('vm');
   const path = require('path');
-  vm.runInThisContext(`
-    const EPSILON = 0.000001;
-    const sum = rows => rows.reduce((total, trade) => total + trade.pnl, 0);
-    const mean = values => values.length ? values.reduce((total, value) => total + value, 0) / values.length : 0;
-    let dataset = null;
-    function classify(trade) { return trade.pnl > EPSILON ? 'win' : trade.pnl < -EPSILON ? 'loss' : 'scratch'; }
-  `);
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'dashboard.js'), 'utf8').split("$('search').addEventListener")[0]);
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'help.js'), 'utf8'));
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'consistency.js'), 'utf8'));
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'workspace.js'), 'utf8'));
   vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'calendar.js'), 'utf8'));
@@ -131,12 +126,12 @@ calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('sea
 for (const file of ['news.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
 calendarVm.runInContext('const renderedCalendarCharts = new Map(), renderedCalendarOptions = new Map(); renderChart = (id, series, opts) => { renderedCalendarCharts.set(id, series); renderedCalendarOptions.set(id, opts); };', calendarContext);
 calendarContext.riskFixture = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'session-risk.json'), 'utf8'));
-checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-06-30', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');
+checkConsistency(calendarVm.runInContext("sessionRiskAt('2024-12-31', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-08-31', riskFixture).risk", calendarContext) === 20, 'Risk remains active until the next change');
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-09-01', riskFixture).risk", calendarContext) === 50, 'New risk applies on its activation date');
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2026-11-07', riskFixture).risk", calendarContext) === 300, 'Last risk stays active without an end date');
-checkConsistency(calendarVm.runInContext("sessionRiskPoints(riskFixture, '2025-06-30').length", calendarContext) === 0, 'Risk chart does not backfill unknown dates');
-checkConsistency(calendarVm.runInContext("JSON.stringify(sessionRiskPoints(riskFixture, '2025-08-01'))", calendarContext) === JSON.stringify([['2025-07-01', 20], ['2025-08-01', 20]]), 'Risk chart extends the active level and excludes future changes');
+checkConsistency(calendarVm.runInContext("sessionRiskPoints(riskFixture, '2024-12-31').length", calendarContext) === 0, 'Risk chart does not backfill unknown dates');
+checkConsistency(calendarVm.runInContext("JSON.stringify(sessionRiskPoints(riskFixture, '2025-08-01'))", calendarContext) === JSON.stringify([['2025-01-01', 20], ['2025-08-01', 20]]), 'Risk chart extends the active level and excludes future changes');
 const riskSvg = calendarVm.runInContext("svgChart([{values: sessionRiskPoints(riskFixture, '2026-11-07')}], {step: true, timeAxis: true, currency: true})", calendarContext);
 checkConsistency(/H[\d.]+ V[\d.]+/.test(riskSvg) && !/NaN|Infinity|undefined/.test(riskSvg), 'Risk chart renders discrete steps on the time axis');
 calendarContext.sampleRows = [10, -2, 5].map((pnl, index) => ({ id: String(index), symbol: 'MIX', side: index === 2 ? 'SELL' : 'BUY', pnl, fees: 0.1 * (index + 1), date: '2026-11-06', opened: `2026-11-06T09:0${index}:00-05:00`, closed: `2026-11-06T09:1${index}:00-05:00` }));

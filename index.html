@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261110-weekly-calendar-65">
+  <link rel="stylesheet" href="styles.css?v=20261110-historical-r-66">
 </head>
 <body>
 <aside class="sidebar">
@@ -95,16 +95,17 @@
 </a>
 </div>
 </nav>
-<div class="sidebar-note">Tu operativa, en perspectiva.<small>Horario de Nueva York · USD</small>
+<div class="sidebar-note">Tu operativa, en perspectiva.<small>Horario de Nueva York · <span data-pnl-unit-label>USD</span></small>
 </div>
 </aside>
 <div class="app-shell">  <header class="topbar">
-<div class="header-title">Estudio de trading</div>    <div class="header-actions">
+<div class="header-brand"><div class="header-title">Estudio de trading</div><button id="pnl-unit-toggle" class="pnl-unit-toggle" type="button" role="switch" aria-checked="false" aria-label="Mostrar P&L en R" title="USD o R histórica: cada trade usa la R vigente en su fecha de entrada en Nueva York."><span>P&amp;L</span><span class="pnl-unit-track" aria-hidden="true"></span><strong data-pnl-unit>USD</strong></button></div><div class="header-actions">
 <span id="source-status" class="status">Cargando…</span>
 <button id="refresh" type="button">Actualizar</button>
 </div>
 </header>
 <main class="container">
+<p id="pnl-unit-status" class="pnl-unit-status" role="status" hidden></p>
 <section id="data-selection" class="data-selection" aria-label="Selección de datos">
 <button id="data-selection-toggle" class="eyebrow data-selection-toggle" type="button" aria-expanded="false" aria-controls="global-filters">DATA SELECTION<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <section id="global-filters" class="filters" aria-label="Filtros generales" hidden></section>
@@ -284,7 +285,7 @@
 <section class="section panel">
 <h2>Operaciones individuales frente a precio</h2>
 <p>Cada punto es una operación: verde, ganadora; rojo, perdedora; gris, a cero. Los ejes son lineales. Pasa el cursor para consultar sus datos. Las relaciones observadas no implican causalidad.</p>
-<div class="two-col chart-row"><div><h3>Precio frente a PnL (USD)</h3><div id="price-scatter-pnl" class="chart"></div></div><div><h3>Precio frente a cantidad de acciones</h3><div id="price-scatter-quantity" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>Precio frente a PnL (<span data-pnl-unit-label>USD</span>)</h3><div id="price-scatter-pnl" class="chart"></div></div><div><h3>Precio frente a cantidad de acciones</h3><div id="price-scatter-quantity" class="chart"></div></div></div>
 <h3>Precio frente a duración (min)</h3><div id="price-scatter-duration" class="chart"></div>
 </section>
 <section class="section panel">
@@ -321,7 +322,7 @@
 <section class="section panel">
 <h2>Operaciones individuales frente a duración</h2>
 <p>Cada punto representa una operación. Verde: ganadora; rojo: perdedora; gris: a cero. Pasa el cursor para ver ticker, fecha, duración, PnL y acciones.</p>
-<div class="two-col chart-row"><div><h3>Duración frente a PnL (USD)</h3><div id="duration-scatter-pnl" class="chart"></div></div><div><h3>Duración frente a cantidad de acciones</h3><div id="duration-scatter-quantity" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>Duración frente a PnL (<span data-pnl-unit-label>USD</span>)</h3><div id="duration-scatter-pnl" class="chart"></div></div><div><h3>Duración frente a cantidad de acciones</h3><div id="duration-scatter-quantity" class="chart"></div></div></div>
 </section>
 <section class="section panel">
 <h2>Detalle por duración</h2>
@@ -359,7 +360,7 @@
 <section class="section panel">
 <h2>Operaciones individuales por país</h2>
 <p>Cada punto es una operación, agrupada por país de constitución. Verde: ganadora; rojo: perdedora; gris: a cero. Pasa el cursor para consultar ticker y datos de la operación.</p>
-<div class="two-col chart-row"><div><h3>PnL por operación (USD)</h3><div id="country-scatter-pnl" class="chart"></div></div><div><h3>Acciones por operación</h3><div id="country-scatter-quantity" class="chart"></div></div></div>
+<div class="two-col chart-row"><div><h3>PnL por operación (<span data-pnl-unit-label>USD</span>)</h3><div id="country-scatter-pnl" class="chart"></div></div><div><h3>Acciones por operación</h3><div id="country-scatter-quantity" class="chart"></div></div></div>
 </section>
 <section class="section panel">
 <h2>Detalle por país</h2>
@@ -402,7 +403,7 @@
 <div id="view-growth" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <h2>Evolución del PnL por trade</h2>
-<p>Estudio del beneficio acumulado y de la magnitud del PnL de cada operación, en dólares. Se usa directamente el PnL registrado, con sus costes ya incluidos. Cada trade pesa igual; no se utiliza el precio de la acción ni la cantidad de shares.</p>
+<p>Estudio del beneficio acumulado y de la magnitud del PnL de cada operación, en USD o R histórica según el toggle superior. Cada trade conserva sus costes ya incluidos. Cada trade pesa igual; no se utiliza el precio de la acción ni la cantidad de shares.</p>
 <div id="growth-stats" class="metrics four"></div>
 </section>
 <section class="section panel">
@@ -413,7 +414,7 @@
 <div id="growth-risk-table" class="table-wrap"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>Valor absoluto del PnL de cada trade · USD</h2><label class="study-control">Operaciones visibles<select id="growth-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<div class="panel-head"><h2>Valor absoluto del PnL de cada trade · <span data-pnl-unit-label>USD</span></h2><label class="study-control">Operaciones visibles<select id="growth-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
 <p>Cada barra es una operación individual: +$10 se muestra como $10 y −$6 como $6. Ordenadas por cierre, sin promedios mensuales. Al pasar el ratón verás el ticker, fecha, PnL original y valor absoluto. Se usa el resultado final registrado de cada trade.</p>
 <p id="growth-trade-count" class="mini-caption" role="status"></p>
 <div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto por trade"><div id="growth-absolute-pnl-chart" class="chart"></div></div>
@@ -561,7 +562,7 @@
 </section>
 <section class="section panel">
 <div class="panel-head"><h2>Escenarios por remuestreo</h2><label class="study-control">Horizonte<select id="consistency-horizon"><option value="25">25 operaciones</option><option value="50">50 operaciones</option><option value="100" selected>100 operaciones</option><option value="250">250 operaciones</option></select></label></div>
-<p>Escenarios condicionados al historial seleccionado, sin garantía de repetición futura. Se usan los PnL históricos en dólares, sin capital inicial, interés compuesto ni cambios de tamaño.</p>
+<p>Escenarios condicionados al historial seleccionado, sin garantía de repetición futura. Se usan los PnL históricos en la unidad seleccionada, sin capital inicial, interés compuesto ni cambios de tamaño.</p>
 <p id="consistency-scenario-note" class="mini-caption"></p>
 <div id="consistency-scenario-chart" class="chart"></div>
 <div class="legend"><span class="negative">P5</span><span class="accent">Mediana · P50</span><span class="positive">P95</span></div>
@@ -614,7 +615,7 @@
 <div id="growth-projection-risk-chart" class="chart"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>PnL absoluto proyectado de cada trade · USD</h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<div class="panel-head"><h2>PnL absoluto proyectado de cada trade · <span data-pnl-unit-label>USD</span></h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
 <p id="growth-projection-trade-count" class="mini-caption" role="status"></p>
 <div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto proyectado por trade"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
 </section>
@@ -632,20 +633,20 @@
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261110-weekly-calendar-65" defer></script>
-<script src="consistency.js?v=20261107-fit-charts-61" defer></script>
-<script src="duration.js?v=20261106-price-country-studies-46" defer></script>
-<script src="studies.js?v=20261107-country-ranking-53" defer></script>
-<script src="table-sort.js?v=20261106-table-disclosure-38" defer></script>
-<script src="help.js?v=20261107-fit-charts-61" defer></script>
+<script src="calendar.js?v=20261110-historical-r-66" defer></script>
+<script src="consistency.js?v=20261110-historical-r-66" defer></script>
+<script src="duration.js?v=20261110-historical-r-66" defer></script>
+<script src="studies.js?v=20261110-historical-r-66" defer></script>
+<script src="table-sort.js?v=20261110-historical-r-66" defer></script>
+<script src="help.js?v=20261110-historical-r-66" defer></script>
 <script src="filters.js?v=20261110-country-exclusion-64" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
-<script src="swing.js?v=20261107-fit-charts-61" defer></script>
-<script src="projection.js?v=20261107-fit-charts-61" defer></script>
-<script src="optimal.js?v=20261107-optimal-equity-62" defer></script>
-<script src="workspace.js?v=20261110-weekly-calendar-65" defer>
+<script src="swing.js?v=20261110-historical-r-66" defer></script>
+<script src="projection.js?v=20261110-historical-r-66" defer></script>
+<script src="optimal.js?v=20261110-historical-r-66" defer></script>
+<script src="workspace.js?v=20261110-historical-r-66" defer>
 </script>
-<script src="dashboard.js?v=20261107-fit-charts-61" defer>
+<script src="dashboard.js?v=20261110-historical-r-66" defer>
 </script>
 </body>
 </html>

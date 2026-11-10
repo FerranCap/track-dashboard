@@ -55,11 +55,12 @@ function growthProjection(rows, history, startDate, interval, unit, percent, siz
     if (!tradingDay) continue;
     if (sample.length) {
       for (const source of sample[session % sample.length]) {
-        const pnl = source.trade.pnl / source.risk * risk * sizeMultiplier;
+        const sourcePnl = source.trade.pnlUsd ?? source.trade.pnl;
+        const pnl = sourcePnl / source.risk * risk * sizeMultiplier;
         if (!Number.isFinite(pnl)) throw new Error('La proyección supera el rango calculable. Reduce la subida.');
         trades.push({ id: `projection-${date}-${source.trade.id}`, symbol: source.trade.symbol,
           date, opened: date, closed: date, pnl, projectedRisk: risk, projectionOrder: trades.length,
-          sourceDate: source.trade.opened.slice(0, 10), sourcePnl: source.trade.pnl, sourceRisk: source.risk });
+          sourceDate: source.trade.opened.slice(0, 10), sourcePnl, sourceRisk: source.risk });
       }
     }
     session++;
@@ -80,26 +81,27 @@ function renderGrowthProjection(rows) {
   try { projection = growthProjection(rows, sessionRiskHistory, today, interval, unit, percent, sizeMultiplier); }
   catch (error) { message = error.message; }
   const trades = projection?.trades || [];
+  const displayTrades = displayPnlRows(trades);
   const explanation = `Escenario a 12 meses desde la R actual. Subidas de R compuestas. PnL proyectado = PnL histórico / R histórica × R proyectada × size ${num(sizeMultiplier)}. El multiplicador escala ganancias, pérdidas y costes ya incluidos en el PnL de forma proporcional; la ejecución y los costes reales pueden variar. Se repite la secuencia histórica filtrada. Sesiones de lunes a viernes sin descontar festivos bursátiles. Se excluyen trades sin R conocida en su entrada. Las sesiones continúan aunque alcancen −R; no se simula detener la operativa.`;
   const units = { session: 'sesiones', day: 'días', week: 'semanas', month: 'meses' };
   $('growth-projection-status').textContent = projection
-    ? `Desde ${today} hasta ${projection.endDate}. R inicial ${money(projection.initialRisk)} → R final ${money(projection.finalRisk)}. Subida del ${num(percent, 1)} % cada ${interval} ${units[unit]}. Size ×${num(sizeMultiplier)}. ${projection.sourceSessions} sesiones históricas como base; ${projection.sessions} sesiones futuras de lunes a viernes. ${projection.excluded} trades excluidos por falta de R o PnL válido.${!projection.sourceSessions ? ' Sin muestra disponible para proyectar el PnL.' : ''}`
+    ? `Desde ${today} hasta ${projection.endDate}. R inicial ${usdMoney(projection.initialRisk)} → R final ${usdMoney(projection.finalRisk)}. Subida del ${num(percent, 1)} % cada ${interval} ${units[unit]}. Size ×${num(sizeMultiplier)}. ${projection.sourceSessions} sesiones históricas como base; ${projection.sessions} sesiones futuras de lunes a viernes. ${projection.excluded} trades excluidos por falta de R o PnL válido.${!projection.sourceSessions ? ' Sin muestra disponible para proyectar el PnL.' : ''}`
     : message;
   const empty = message || 'Sin operaciones con R conocida para proyectar.';
   renderSessionSwings(trades, true, message);
   renderChart('growth-projection-risk-chart', [{ values: projection?.points || [], color: '#b398ff' }], {
-    currency: true, step: true, timeAxis: true, title: 'Evolución proyectada de R', explanation, empty
+    currency: true, currencyUnit: 'usd', step: true, timeAxis: true, title: 'Evolución proyectada de R', explanation, empty
   });
-  const points = growthTradePoints(trades, $('growth-projection-trade-window').value);
+  const points = growthTradePoints(displayTrades, $('growth-projection-trade-window').value);
   $('growth-projection-trade-count').textContent = points.length
     ? `Trades proyectados ${points[0].number}–${points.at(-1).number} de ${trades.length}. Una barra por operación simulada.`
     : 'Sin operaciones proyectadas.';
   renderChart('growth-projection-absolute-pnl-chart', [{ color: '#b398ff', values: points.map(({ trade, number, absolute }) => [
     `Trade proyectado #${number} · ${trade.symbol} · ${trade.date}`, absolute,
-    `R proyectada: ${money(trade.projectedRisk)}. Base histórica: ${trade.sourceDate}, PnL ${signed(trade.sourcePnl)}, R ${money(trade.sourceRisk)}.`
+    `R proyectada: ${usdMoney(trade.projectedRisk)}. Base histórica: ${trade.sourceDate}, PnL ${usdSigned(trade.sourcePnl)}, R ${usdMoney(trade.sourceRisk)}.`
   ]) }], { currency: true, bar: true, labels: points.map(point => `#${point.number}`), title: 'PnL absoluto proyectado por trade', explanation, empty });
   const selected = $('growth-projection-average-period').value;
-  const periods = growthPeriods(trades, ['day', 'week', 'month'].includes(selected) ? selected : 'week');
+  const periods = growthPeriods(displayTrades, ['day', 'week', 'month'].includes(selected) ? selected : 'week');
   renderChart('growth-projection-average-pnl-chart', [{ color: '#b398ff', values: periods.map(period => [period.period, period.meanAbsolutePnl]) }], {
     currency: true, bar: true, title: 'PnL absoluto medio proyectado por trade', explanation: `Media de |PnL proyectado| por período, incluidos los ceros. Semanas de lunes a domingo. ${explanation}`, empty
   });

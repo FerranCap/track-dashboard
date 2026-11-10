@@ -50,14 +50,14 @@ function durationScatterSvg(series, opts) {
   const yMax = Math.max(0, yMin + 1, ...points.map(point => point[1]));
   const x = value => left + (opts.xCategories?.length === 1 ? 0.5 : value / xMax) * (width - left - right);
   const y = value => top + (yMax - value) / (yMax - yMin) * (height - top - bottom);
-  const format = value => opts.currency ? money(value) : num(value, opts.yDecimals || 0);
+  const format = value => opts.currency ? (opts.currencyUnit === 'usd' ? usdMoney(value) : money(value)) : num(value, opts.yDecimals || 0);
   let shapes = '';
   for (let tick = 0; tick <= 4; tick++) {
     const value = yMin + (yMax - yMin) * tick / 4;
     shapes += `<line x1="${left}" x2="${width - right}" y1="${y(value)}" y2="${y(value)}" stroke="#304058" stroke-dasharray="3 5"/><text x="${left - 8}" y="${y(value) + 4}" text-anchor="end" fill="#9bb3cd" font-size="11">${esc(format(value))}</text>`;
     if (!opts.xCategories) {
       const value = xMax * tick / 4;
-      shapes += `<text x="${x(value)}" y="${height - 24}" text-anchor="${tick === 0 ? 'start' : tick === 4 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11">${esc(opts.xCurrency ? money(value) : num(value, 1))}</text>`;
+      shapes += `<text x="${x(value)}" y="${height - 24}" text-anchor="${tick === 0 ? 'start' : tick === 4 ? 'end' : 'middle'}" fill="#9bb3cd" font-size="11">${esc(opts.xCurrency ? usdMoney(value) : num(value, 1))}</text>`;
     }
   }
   if (opts.xCategories) {
@@ -131,7 +131,7 @@ function renderDurationStudies(rows) {
     'Duración', 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'PnL', 'PnL medio', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor',
     'Comisiones', 'Acciones totales', 'Acciones medias', 'Trades con acciones', 'PnL / acción', 'Duración mediana (min)', 'Muestra'
   ], groups.map(group => [group.name, group.count, group.wins, group.losses, group.scratches, `${num(group.winRate, 1)}%`, signed(group.pnl), money(group.average), money(group.winAverage),
-    group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), money(group.fees),
+    group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), usdMoney(group.fees),
     group.quantity === null ? '—' : num(group.quantity, 0), num(group.averageQuantity, 1), group.quantityCount, money(group.pnlPerShare), num(group.median, 2), group.count < 20 ? 'Reducida (<20)' : '20 o más'
   ])) : '<p class="muted">Sin operaciones para estos filtros.</p>';
 }

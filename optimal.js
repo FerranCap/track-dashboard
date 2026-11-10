@@ -9,7 +9,7 @@ function optimalSample(rows, history) {
     if (!Number.isFinite(opened) || !Number.isFinite(trade.pnl)) { excluded++; continue; }
     const date = formatter.format(new Date(opened));
     const risk = sessionRiskAt(date, history)?.risk;
-    const value = trade.pnl / risk;
+    const value = (trade.pnlUsd ?? trade.pnl) / risk;
     if (!Number.isFinite(risk) || risk <= 0 || !Number.isFinite(value)) { excluded++; continue; }
     trades.push({ id: trade.id, value, closed: trade.closed });
     sessions.add(date);

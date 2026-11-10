@@ -53,7 +53,7 @@ assert.equal(evaluate("sessionSwings([], history).reachedPercent"), null, 'Empty
 evaluate("globalThis.simultaneous = sessionSwings(swingRows.map(trade => ({...trade, closed: swingRows[0].closed})), history)");
 assert.equal(context.simultaneous.sessions[0].minimum, -6, 'Simultaneous closes are aggregated without inventing intermediate paths');
 evaluate(`globalThis.escapeSwing = text => String(text).replace(/[&<>\"]/g, '');`);
-vm.runInContext("const esc = escapeSwing, num = (value, digits = 2) => value.toFixed(digits), money = value => '$' + value.toFixed(2), signed = money, chartLabel = value => value; function helpAttributes(value) { return 'data-help=\"' + esc(value) + '\"'; }", context);
+vm.runInContext("const esc = escapeSwing, num = (value, digits = 2) => value.toFixed(digits), money = value => '$' + value.toFixed(2), signed = money, usdMoney = money, usdSigned = money, chartLabel = value => value; function helpAttributes(value) { return 'data-help=\"' + esc(value) + '\"'; }", context);
 for (const unit of ['r', 'usd']) {
   context.swingUnit = unit;
   const svg = evaluate("sessionSwingSvg(historicalSwing.sessions, {swingUnit, width: 500})");

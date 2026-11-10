@@ -3,8 +3,8 @@
 const HELP_SCOPE = ' Se calcula con las operaciones que cumplen los filtros actuales; en tablas y gráficos, solo con las del grupo indicado.';
 const HELP_RR = 'RR realizado = ganancia media de las operaciones ganadoras ÷ valor absoluto de la pérdida media de las perdedoras. La «x» significa «veces»: 0,57x equivale a ganar de media $0,57 por cada $1 perdido de media; por ejemplo, $57 ÷ $100 = 0,57x. No es un porcentaje ni el riesgo planificado de cada trade. Requiere al menos una ganadora y una perdedora.';
 const HELP_WINRATE = 'Win rate = operaciones con PnL positivo ÷ total de operaciones × 100. Las operaciones a cero cuentan en el total. Por ejemplo, 6 ganadoras de 10 operaciones = 60%.';
-const HELP_PNL = 'PnL = suma del TradePnL de cada operación cerrada, agrupada por QuantTradeId. Se expresa en dólares (USD), con el signo del resultado. Se usa el PnL del CSV; las comisiones no se restan otra vez.';
-const HELP_EQUITY = 'Curva de capital = suma acumulada del PnL de las operaciones cerradas en orden de cierre, empezando en $0. Representa el beneficio acumulado, no el saldo de la cuenta ni una rentabilidad porcentual.';
+const HELP_PNL = 'PnL = suma del resultado de cada operación cerrada, agrupada por QuantTradeId. En USD se usa TradePnL del CSV. En R se divide primero cada TradePnL por la R vigente en su fecha de entrada en Nueva York y después se suman los resultados. Las comisiones ya incluidas no se restan otra vez.';
+const HELP_EQUITY = 'Curva de capital = suma acumulada del PnL de las operaciones cerradas en orden de cierre, empezando en cero, en la unidad seleccionada. En R se normaliza cada trade con su R histórica antes de acumular. Representa el beneficio acumulado, no el saldo de la cuenta ni una rentabilidad porcentual.';
 const HELP_DRAWDOWN = 'Drawdown = máximo de PnL acumulado alcanzado hasta ese momento − PnL acumulado actual. El gráfico lo dibuja en negativo: −$100 significa estar $100 por debajo del máximo anterior. El máximo inicial es $0.';
 
 function helpKey(label) {

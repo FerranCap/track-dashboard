@@ -1,5 +1,5 @@
 [
-  { "effectiveDate": "2025-07-01", "risk": 20 },
+  { "effectiveDate": "2025-01-01", "risk": 20 },
   { "effectiveDate": "2025-09-01", "risk": 50 },
   { "effectiveDate": "2025-10-01", "risk": 100 },
   { "effectiveDate": "2026-01-01", "risk": 200 },

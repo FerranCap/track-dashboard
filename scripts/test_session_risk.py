@@ -9,7 +9,7 @@ class SessionRiskTests(unittest.TestCase):
     def test_reviewed_history(self):
         history = json.loads((Path(__file__).resolve().parents[1] / 'data' / 'session-risk.json').read_text(encoding='utf-8'))
         self.assertEqual(history, [
-            {'effectiveDate': '2025-07-01', 'risk': 20},
+            {'effectiveDate': '2025-01-01', 'risk': 20},
             {'effectiveDate': '2025-09-01', 'risk': 50},
             {'effectiveDate': '2025-10-01', 'risk': 100},
             {'effectiveDate': '2026-01-01', 'risk': 200},
