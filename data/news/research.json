@@ -11814,6 +11814,483 @@
         "No archived pre-entry text version was verified. Publications are not evidence of price causation."
       ],
       "notes": "PrimaryRWaccepted08:00:24ETbefore10:08entry. Withdrawnregistrationdoesnotmeanallfuturefinancingcancelled; separateMarch27purchaseagreementfiledMarch30notbackdated."
+    },
+    {
+      "symbol": "AMIX",
+      "issuerCik": "1617867",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-10",
+      "coverage": "partial",
+      "scope": "November 9-10 import: exact first entries only. Confirmed timestamps use [entry minus 48 elapsed hours, entry). Unknown clocks/zones use verified publication date on the entry day or two preceding New York dates. Historical reviews remain separate.",
+      "tradeEntries": {
+        "broker-08c8d15f8798bc34c504313b": "2026-11-10T10:03:01-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=AMIX",
+          "access": "page_and_linked_publications",
+          "note": "Started with the dated issuer news list and followed original or reproduced issuer publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/AMIX/news/",
+          "access": "http_429",
+          "note": "Direct access failed. Indexed syndication is explicitly identified when used."
+        },
+        {
+          "url": "https://microcapledger.com/moves/amix-up-2026-11-10/",
+          "access": "publication_or_alternate_reviewed",
+          "note": "The page explicitly says Published November 10, 2026. Its Facts as of 09:58 EST / 14:58 UTC labels describe research cutoff, not publication time."
+        },
+        {
+          "url": "https://kalkine.ca/news/healthcare/what-sent-autonomix-medical-nasdaqamix-up-5176-among-the-leading-market-movers-on-november-10-2026",
+          "access": "indexed_publication",
+          "note": "The search index labels the article Published today on the November 10, 2026 review and shows a matching dated title and issuer-specific text. The direct URL returned HTTP 404; no reliable publication clock was established."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "amix-20261110-filing-context-report-date-candidate",
+          "url": "https://microcapledger.com/moves/amix-up-2026-11-10/",
+          "candidateTradeIds": [
+            "broker-08c8d15f8798bc34c504313b"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "amix-20261110-session-review-report-date-candidate",
+          "url": "https://kalkine.ca/news/healthcare/what-sent-autonomix-medical-nasdaqamix-up-5176-among-the-leading-market-movers-on-november-10-2026",
+          "candidateTradeIds": [
+            "broker-08c8d15f8798bc34c504313b"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "amix-20261110-quiver-after-entry",
+          "url": "https://www.quiverquant.com/news/Autonomix%2BMedical%2BRises%2Bas%2BPatent%2BFocus%2BReturns%2Band%2BThin%2BShare%2BCount%2BAmplifies%2BTrading",
+          "candidateTradeIds": [
+            "broker-08c8d15f8798bc34c504313b"
+          ],
+          "reportedPublication": "2026-11-10T16:23:00+00:00",
+          "resolution": "Excluded: explicitly confirmed 16:23 UTC is after the 10:03:01 EST entry. Date fallback cannot override this known timestamp."
+        },
+        {
+          "id": "amix-20261110-kalkine-earnings-after-entry",
+          "url": "https://kalkine.com/news/announcements/autonomix-medical-posts-59m-net-loss-for-six-months-ended-sept-2026",
+          "candidateTradeIds": [
+            "broker-08c8d15f8798bc34c504313b"
+          ],
+          "reportedPublication": "2026-11-10T07:39:00-08:00",
+          "resolution": "Excluded: indexed publication explicitly states 07:39 AM PST, which is 10:39 EST and after entry. Direct body was inaccessible; no date fallback is applied."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial, not an exhaustive news feed or proof of a price catalyst.",
+        "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
+        "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
+      ]
+    },
+    {
+      "symbol": "EDSA",
+      "issuerCik": "1540159",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-10",
+      "coverage": "partial",
+      "scope": "November 9-10 import: exact first entries only. Confirmed timestamps use [entry minus 48 elapsed hours, entry). Unknown clocks/zones use verified publication date on the entry day or two preceding New York dates. Historical reviews remain separate.",
+      "tradeEntries": {
+        "broker-fe37bf8736ea303e6bda744a": "2026-11-09T09:37:46-05:00",
+        "broker-8cba02a619a3ea5219cdc1e1": "2026-11-09T11:19:12-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=EDSA",
+          "access": "page_and_linked_publications",
+          "note": "Started with the dated issuer news list and followed original or reproduced issuer publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/EDSA/news/",
+          "access": "http_429",
+          "note": "Direct access failed. Indexed syndication is explicitly identified when used."
+        },
+        {
+          "url": "https://finviz.com/news/418803/edesa-biotech-announces-agreement-with-kyorin-pharmaceutical-to-develop-and-commercialize-paridiprubart-in-japan",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz reproduces the issuer release on November 9 at 06:00; StockTitan explicitly labels the same release 11/09/2026 06:00 AM EST."
+        },
+        {
+          "url": "https://finviz.com/news/418854/edesa-biotech-signs-japan-licensing-agreement-with-kyorin-for-paridiprubart-worth-up-to-146-million",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz displays the dated InvestorsHub report on November 9, 2026 at 06:54; a timezone was not independently confirmed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "edsa-20261109-kyorin-license-release-candidate",
+          "url": "https://finviz.com/news/418803/edesa-biotech-announces-agreement-with-kyorin-pharmaceutical-to-develop-and-commercialize-paridiprubart-in-japan",
+          "candidateTradeIds": [
+            "broker-fe37bf8736ea303e6bda744a",
+            "broker-8cba02a619a3ea5219cdc1e1"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "edsa-20261109-kyorin-license-report-candidate",
+          "url": "https://finviz.com/news/418854/edesa-biotech-signs-japan-licensing-agreement-with-kyorin-for-paridiprubart-worth-up-to-146-million",
+          "candidateTradeIds": [
+            "broker-fe37bf8736ea303e6bda744a",
+            "broker-8cba02a619a3ea5219cdc1e1"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial, not an exhaustive news feed or proof of a price catalyst.",
+        "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
+        "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
+      ]
+    },
+    {
+      "symbol": "MI",
+      "issuerCik": "1958713",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-10",
+      "coverage": "partial",
+      "scope": "November 9-10 import: exact first entries only. Confirmed timestamps use [entry minus 48 elapsed hours, entry). Unknown clocks/zones use verified publication date on the entry day or two preceding New York dates. Historical reviews remain separate.",
+      "tradeEntries": {
+        "broker-755517465bd2f45c5cc46338": "2026-11-10T08:44:48-05:00",
+        "broker-dd08858095ddf9312799d4b1": "2026-11-10T11:05:07-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=MI",
+          "access": "page_and_linked_publications",
+          "note": "Started with the dated issuer news list and followed original or reproduced issuer publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/MI/news/",
+          "access": "http_429",
+          "note": "Direct access failed. Indexed syndication is explicitly identified when used."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63082994/11-communication-services-stocks-moving-tuesday-s-pre-market-session",
+          "access": "publication_or_alternate_reviewed",
+          "note": "The original Benzinga article displays November 10, 2026 at 07:05 AM; no explicit publication timezone was established."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october",
+          "access": "publication_or_alternate_reviewed",
+          "note": "The original article displays November 10, 2026 at 09:48 AM without an explicitly verified timezone."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "mi-20261110-premarket-movers-report-date-candidate",
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63082994/11-communication-services-stocks-moving-tuesday-s-pre-market-session",
+          "candidateTradeIds": [
+            "broker-755517465bd2f45c5cc46338",
+            "broker-dd08858095ddf9312799d4b1"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "mi-20261110-morning-market-report-date-candidate",
+          "url": "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october",
+          "candidateTradeIds": [
+            "broker-755517465bd2f45c5cc46338",
+            "broker-dd08858095ddf9312799d4b1"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial, not an exhaustive news feed or proof of a price catalyst.",
+        "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
+        "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
+      ]
+    },
+    {
+      "symbol": "NWGL",
+      "issuerCik": "1948294",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-10",
+      "coverage": "partial",
+      "scope": "November 9-10 import: exact first entries only. Confirmed timestamps use [entry minus 48 elapsed hours, entry). Unknown clocks/zones use verified publication date on the entry day or two preceding New York dates. Historical reviews remain separate.",
+      "tradeEntries": {
+        "broker-43cf431fbe3dd21cf7e0ed31": "2026-11-09T10:17:05-05:00",
+        "broker-275c88521d12ceb20d236c9e": "2026-11-09T10:35:36-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=NWGL",
+          "access": "page_and_linked_publications",
+          "note": "Started with the dated issuer news list and followed original or reproduced issuer publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/NWGL/news/",
+          "access": "unavailable",
+          "note": "Direct access failed. Indexed syndication is explicitly identified when used."
+        },
+        {
+          "url": "https://www.tipranks.com/news/company-announcements/cl-workshop-group-changes-independent-auditor-to-harmony-cpa",
+          "access": "publication_or_alternate_reviewed",
+          "note": "MarketBeat lists the exact TipRanks headline under November 9 at 08:31 AM, in its November 9, 2026 session listing; the opened TipRanks article confirms issuer and headline but does not expose a publication timezone."
+        },
+        {
+          "url": "https://www.globalbankingandfinance.com/nature-wood-group-limited-american-depositary-shares-nwgl-rises-2026-11-09/",
+          "access": "indexed_publication",
+          "note": "Search-index evidence explicitly states Posted on November 9, 2026 and identifies Nature Wood ADSs, NWGL. The direct article returned a cache miss."
+        }
+      ],
+      "unresolvedCandidates": [
+        {
+          "id": "nwgl-20261109-sept-publication-date-pending",
+          "url": "https://septinvesting.com/stocks/NWGL/filings/0001493152-26-050632",
+          "candidateTradeIds": [
+            "broker-43cf431fbe3dd21cf7e0ed31",
+            "broker-275c88521d12ceb20d236c9e"
+          ],
+          "reason": "Issuer and summary exist, but the visible November 9 date explicitly describes the underlying SEC filing, not publication of the SEPT summary. Publication date remains unestablished. Bankruptcy boilerplate and conflicting closing prices are not endorsed."
+        }
+      ],
+      "resolvedCandidates": [
+        {
+          "id": "nwgl-20261109-auditor-change-report-candidate",
+          "url": "https://www.tipranks.com/news/company-announcements/cl-workshop-group-changes-independent-auditor-to-harmony-cpa",
+          "candidateTradeIds": [
+            "broker-43cf431fbe3dd21cf7e0ed31",
+            "broker-275c88521d12ceb20d236c9e"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "nwgl-20261109-session-price-report-date-candidate",
+          "url": "https://www.globalbankingandfinance.com/nature-wood-group-limited-american-depositary-shares-nwgl-rises-2026-11-09/",
+          "candidateTradeIds": [
+            "broker-43cf431fbe3dd21cf7e0ed31",
+            "broker-275c88521d12ceb20d236c9e"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "nwgl-20261104-ads-ratio-outside-window",
+          "url": "https://finviz.com/news/415138/cl-workshop-group-limited-announces-plan-to-implement-ads-ratio-change",
+          "candidateTradeIds": [
+            "broker-43cf431fbe3dd21cf7e0ed31",
+            "broker-275c88521d12ceb20d236c9e"
+          ],
+          "resolution": "Excluded: publication November 4 is outside the November 9 trade windows. Its November 6 effective event date must not replace publication date. Used only for issuer/security research."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial, not an exhaustive news feed or proof of a price catalyst.",
+        "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
+        "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
+      ]
+    },
+    {
+      "symbol": "SMX",
+      "issuerCik": "1940674",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-10",
+      "coverage": "partial",
+      "scope": "November 9-10 import: exact first entries only. Confirmed timestamps use [entry minus 48 elapsed hours, entry). Unknown clocks/zones use verified publication date on the entry day or two preceding New York dates. Historical reviews remain separate.",
+      "tradeEntries": {
+        "broker-37f987e08b9b02d3c455b776": "2026-11-10T09:36:42-05:00",
+        "broker-fbac231ea6f78e9796ef0dda": "2026-11-10T12:04:39-05:00",
+        "broker-cd62cbd926459f9d2db7d01d": "2026-11-10T12:34:04-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=SMX",
+          "access": "page_and_linked_publications",
+          "note": "Started with the dated issuer news list and followed original or reproduced issuer publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SMX/news/",
+          "access": "http_429",
+          "note": "Direct access failed. Indexed syndication is explicitly identified when used."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october",
+          "access": "publication_or_alternate_reviewed",
+          "note": "The original article displays November 10, 2026 at 09:48 AM without an explicitly verified timezone."
+        },
+        {
+          "url": "https://finviz.com/news/419144/smx-is-building-a-verifiable-identity-layer-for-fashion-from-cotton-fields-to-luxury-resale",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/419224/smx-four-layer-digital-platform-for-plastics-connects-physical-material-to-digital-passports-markets-and-credits",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/419262/smx-proves-made-in-america-is-great-again",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/419412/media-continues-to-profile-smx-technology-and-growth",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/419569/global-tensions-highlight-the-need-for-greater-plastic-recycling-the-age-of-parity-has-made-it-possible",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/419940/smx-advances-development-of-its-scientific-intelligence-an-ai-powered-platform-intended-to-create-a-comprehensive-codex-for-chemical-agents-additives-and-supplements",
+          "access": "publication_or_alternate_reviewed",
+          "note": "The linked Newswire issuer release explicitly labels November 10, 2026 08:00 EST."
+        },
+        {
+          "url": "https://finviz.com/news/420132/smx-expands-into-ai-driven-material-science-with-new-scientific-intelligence-platform",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-10. No explicit publication timezone was established."
+        },
+        {
+          "url": "https://finviz.com/news/420236/smx-develops-ai-powered-scientific-intelligence-platform-to-accelerate-material-research-and-expand-commercial-services",
+          "access": "publication_or_alternate_reviewed",
+          "note": "StockTitan reproduces the dated release and explicitly labels 11/10/2026 10:00 AM EST."
+        },
+        {
+          "url": "https://finviz.com/news/420294/smx-develops-ai-powered-scientific-intelligence-platform-targets-commercial-launch-in-q2-2027",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Yahoo indexed syndication explicitly labels Tuesday, November 10, 2026 at 10:30 AM EST; the original InvestorsHub indexed report matches. Yahoo direct access returned 429."
+        },
+        {
+          "url": "https://finviz.com/news/420323/smx-targets-global-recycling-challenges-with-ai-powered-material-intelligence-platform",
+          "access": "publication_or_alternate_reviewed",
+          "note": "Finviz lists 11:00 and Quantisnow explicitly labels the same publication November 10, 2026 11:00:00 ET. StreetInsider syndication displays 11:01 EST; the corroborated source release time is retained."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "mi-20261110-morning-market-report-date-candidate",
+          "url": "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261109-fashion-identity-release-candidate",
+          "url": "https://finviz.com/news/419144/smx-is-building-a-verifiable-identity-layer-for-fashion-from-cotton-fields-to-luxury-resale",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261109-plastics-platform-release-candidate",
+          "url": "https://finviz.com/news/419224/smx-four-layer-digital-platform-for-plastics-connects-physical-material-to-digital-passports-markets-and-credits",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261109-origin-verification-release-candidate",
+          "url": "https://finviz.com/news/419262/smx-proves-made-in-america-is-great-again",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261109-media-profile-release-candidate",
+          "url": "https://finviz.com/news/419412/media-continues-to-profile-smx-technology-and-growth",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261109-recycling-economics-release-candidate",
+          "url": "https://finviz.com/news/419569/global-tensions-highlight-the-need-for-greater-plastic-recycling-the-age-of-parity-has-made-it-possible",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261110-sci-development-release-candidate",
+          "url": "https://finviz.com/news/419940/smx-advances-development-of-its-scientific-intelligence-an-ai-powered-platform-intended-to-create-a-comprehensive-codex-for-chemical-agents-additives-and-supplements",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261110-sci-expansion-release-candidate",
+          "url": "https://finviz.com/news/420132/smx-expands-into-ai-driven-material-science-with-new-scientific-intelligence-platform",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261110-sci-commercial-services-release-candidate",
+          "url": "https://finviz.com/news/420236/smx-develops-ai-powered-scientific-intelligence-platform-to-accelerate-material-research-and-expand-commercial-services",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261110-sci-commercial-launch-report-candidate",
+          "url": "https://finviz.com/news/420294/smx-develops-ai-powered-scientific-intelligence-platform-targets-commercial-launch-in-q2-2027",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        },
+        {
+          "id": "smx-20261110-sci-recycling-release-candidate",
+          "url": "https://finviz.com/news/420323/smx-targets-global-recycling-challenges-with-ai-powered-material-intelligence-platform",
+          "candidateTradeIds": [
+            "broker-37f987e08b9b02d3c455b776",
+            "broker-fbac231ea6f78e9796ef0dda",
+            "broker-cd62cbd926459f9d2db7d01d"
+          ],
+          "resolution": "Included as a verified publication; the builder applies exact timestamp or verified-date eligibility. Source limitations remain in sourceWarnings."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial, not an exhaustive news feed or proof of a price catalyst.",
+        "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
+        "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
+      ]
     }
   ],
   "matchingPolicy": {

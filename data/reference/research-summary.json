@@ -1,22 +1,22 @@
 {
   "checkedOn": "2026-11-05",
-  "tickerCount": 500,
-  "identities": 500,
-  "incorporationCountries": 500,
+  "tickerCount": 502,
+  "identities": 502,
+  "incorporationCountries": 502,
   "operatingCountries": 327,
   "operationsStatus": {
     "explicit_filing": 122,
-    "unverified": 173,
+    "unverified": 175,
     "reviewed": 158,
     "facilities_inference": 47
   },
   "securityTypes": {
-    "direct_equity": 472,
-    "ADS": 28
+    "direct_equity": 473,
+    "ADS": 29
   },
   "vieStatus": {
     "no_explicit": 32,
-    "unknown": 417,
+    "unknown": 419,
     "yes_explicit": 51
   }
 }

@@ -9836,6 +9836,513 @@
       "category": "corporate_update",
       "verificationStatus": "verified_publication",
       "matchingBasis": "timestamp"
+    },
+    {
+      "id": "edsa-20261109-kyorin-license-release",
+      "eventId": "edsa-20261109-kyorin-license",
+      "symbol": "EDSA",
+      "issuerName": "Edesa Biotech, Inc.",
+      "issuerCik": "1540159",
+      "headline": "Edesa Biotech Announces Agreement with KYORIN Pharmaceutical to Develop and Commercialize Paridiprubart in Japan",
+      "publishedAt": "2026-11-09T06:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "Edesa announces an exclusive Japanese paridiprubart license: $12 million upfront, up to approximately $134 million in conditional milestones and tiered royalties. Potential milestones are not received revenue; the drug remains investigational.",
+      "url": "https://finviz.com/news/418803/edesa-biotech-announces-agreement-with-kyorin-pharmaceutical-to-develop-and-commercialize-paridiprubart-in-japan",
+      "sourceUrls": [
+        "https://www.stocktitan.net/news/EDSA/edesa-biotech-announces-agreement-with-kyorin-pharmaceutical-to-8k18mnwemrhf.html"
+      ],
+      "timestampEvidence": "Finviz reproduces the issuer release on November 9 at 06:00; StockTitan explicitly labels the same release 11/09/2026 06:00 AM EST.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": []
+    },
+    {
+      "id": "edsa-20261109-kyorin-license-report",
+      "eventId": "edsa-20261109-kyorin-license",
+      "symbol": "EDSA",
+      "issuerName": "Edesa Biotech, Inc.",
+      "issuerCik": "1540159",
+      "headline": "Edesa Biotech Signs Japan Licensing Agreement With Kyorin for Paridiprubart Worth Up to $146 Million",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "InvestorsHub",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Fiona Craig reports on the Japanese licensing agreement and its conditional payments. This is a separately published report on the same event, not another licensing transaction.",
+      "url": "https://finviz.com/news/418854/edesa-biotech-signs-japan-licensing-agreement-with-kyorin-for-paridiprubart-worth-up-to-146-million",
+      "sourceUrls": [
+        "https://finviz.com/news/418854/edesa-biotech-signs-japan-licensing-agreement-with-kyorin-for-paridiprubart-worth-up-to-146-million"
+      ],
+      "timestampEvidence": "Finviz displays the dated InvestorsHub report on November 9, 2026 at 06:54; a timezone was not independently confirmed.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "06:54, timezone unconfirmed"
+    },
+    {
+      "id": "nwgl-20261109-auditor-change-report",
+      "eventId": "nwgl-20261109-auditor-change",
+      "symbol": "NWGL",
+      "issuerName": "CL Workshop Group Limited",
+      "issuerCik": "1948294",
+      "headline": "CL Workshop Group Changes Independent Auditor to Harmony CPA",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "TipRanks",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "TipRanks reports replacement of WWC with Harmony CPA and a prior going-concern qualification. Publication identity and date are corroborated by the dated MarketBeat news listing; underlying filing contents were not independently verified in this review.",
+      "url": "https://www.tipranks.com/news/company-announcements/cl-workshop-group-changes-independent-auditor-to-harmony-cpa",
+      "sourceUrls": [
+        "https://www.marketbeat.com/stocks/NASDAQ/NWGL/news/"
+      ],
+      "timestampEvidence": "MarketBeat lists the exact TipRanks headline under November 9 at 08:31 AM, in its November 9, 2026 session listing; the opened TipRanks article confirms issuer and headline but does not expose a publication timezone.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "The underlying November 9 auditor filing was not independently opened. Auditor and going-concern statements are attributed to TipRanks.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "08:31 from MarketBeat, timezone unconfirmed"
+    },
+    {
+      "id": "nwgl-20261109-session-price-report-date",
+      "eventId": "nwgl-20261109-session-price-report-date",
+      "symbol": "NWGL",
+      "issuerName": "CL Workshop Group Limited",
+      "issuerCik": "1948294",
+      "headline": "Nature Wood Group Limited American Depositary Shares up 12.25% on Monday",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Global Banking & Finance Review",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "The indexed publication reports a November 9 price rise under the former Nature Wood name and ticker NWGL. This is price commentary, not a verified company catalyst; full text was inaccessible and availability before entry is not established.",
+      "url": "https://www.globalbankingandfinance.com/nature-wood-group-limited-american-depositary-shares-nwgl-rises-2026-11-09/",
+      "sourceUrls": [
+        "https://www.globalbankingandfinance.com/nature-wood-group-limited-american-depositary-shares-nwgl-rises-2026-11-09/"
+      ],
+      "timestampEvidence": "Search-index evidence explicitly states Posted on November 9, 2026 and identifies Nature Wood ADSs, NWGL. The direct article returned a cache miss.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Only the indexed publication and posting date were verified. Full article contents and price claims were not independently checked. The publisher uses the former issuer name.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "amix-20261110-filing-context-report-date",
+      "eventId": "amix-20261110-filing-context-report-date",
+      "symbol": "AMIX",
+      "issuerName": "Autonomix Medical, Inc.",
+      "issuerCik": "1617867",
+      "headline": "Why did Autonomix Medical (AMIX) stock go up? No filing explains it",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Microcap Ledger",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Microcap Ledger reviews prior filings, financing and listing risks and says it found no new company announcement by its 09:58 EST research cutoff. That cutoff is not a publication timestamp and the publisher's no-catalyst assessment does not establish exhaustive coverage.",
+      "url": "https://microcapledger.com/moves/amix-up-2026-11-10/",
+      "sourceUrls": [
+        "https://microcapledger.com/moves/amix-up-2026-11-10/"
+      ],
+      "timestampEvidence": "The page explicitly says Published November 10, 2026. Its Facts as of 09:58 EST / 14:58 UTC labels describe research cutoff, not publication time.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Publication before the 10:03 entry is unconfirmed. The page references historical filings; later November 10 earnings reporting was also found.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-10",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "09:58 EST research cutoff only; not used as publication time"
+    },
+    {
+      "id": "amix-20261110-session-review-report-date",
+      "eventId": "amix-20261110-session-review-report-date",
+      "symbol": "AMIX",
+      "issuerName": "Autonomix Medical, Inc.",
+      "issuerCik": "1617867",
+      "headline": "What Sent Autonomix Medical (NASDAQ:AMIX) Up 51.76% Among the Leading Market Movers on November 10, 2026?",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Kalkine",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Kalkine's indexed November 10 review discusses AMIX price performance and earlier patents and regulatory context. It describes closing-session figures; availability before entry is not established. Its causal suggestions and figures remain publisher claims.",
+      "url": "https://kalkine.ca/news/healthcare/what-sent-autonomix-medical-nasdaqamix-up-5176-among-the-leading-market-movers-on-november-10-2026",
+      "sourceUrls": [
+        "https://kalkine.ca/news/healthcare/what-sent-autonomix-medical-nasdaqamix-up-5176-among-the-leading-market-movers-on-november-10-2026"
+      ],
+      "timestampEvidence": "The search index labels the article Published today on the November 10, 2026 review and shows a matching dated title and issuer-specific text. The direct URL returned HTTP 404; no reliable publication clock was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "The direct page returned HTTP 404. Publication existence/date are based on indexed evidence; full contents are unverified.",
+        "The indexed report discusses closing figures and conflicting market snapshots. It must not be presented as information known before entry or as a confirmed price cause.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-10",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "mi-20261110-premarket-movers-report-date",
+      "eventId": "mi-20261110-premarket-movers-report-date",
+      "symbol": "MI",
+      "issuerName": "NFT Ltd",
+      "issuerCik": "1958713",
+      "headline": "11 Communication Services Stocks Moving In Tuesday's Pre-Market Session",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Benzinga lists NFT Ltd (MI) among premarket gainers. This automated, editor-reviewed price report identifies the issuer but does not establish a new operating announcement or cause for the move.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63082994/11-communication-services-stocks-moving-tuesday-s-pre-market-session",
+      "sourceUrls": [
+        "https://www.benzinga.com/trading-ideas/movers/26/11/63082994/11-communication-services-stocks-moving-tuesday-s-pre-market-session"
+      ],
+      "timestampEvidence": "The original Benzinga article displays November 10, 2026 at 07:05 AM; no explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "This is automated multi-stock price reporting, not an issuer release.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-10",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "07:05, timezone unconfirmed"
+    },
+    {
+      "id": "mi-20261110-morning-market-report-date",
+      "eventId": "mi-20261110-morning-market-report-date",
+      "symbol": "MI",
+      "issuerName": "NFT Ltd",
+      "issuerCik": "1958713",
+      "headline": "Nasdaq Down Over 200 Points; US Consumer Prices Increase 0.4% In October",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Benzinga's market summary identifies NFT Ltd (MI) and SMX among gainers and discusses SMX SCI. It is a separate market report, not another company transaction or proof of a price cause.",
+      "url": "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october",
+      "sourceUrls": [
+        "https://www.benzinga.com/markets/market-summary/26/11/63092481/nasdaq-down-over-200-points-us-consumer-prices-increase-0-4-in-october"
+      ],
+      "timestampEvidence": "The original article displays November 10, 2026 at 09:48 AM without an explicitly verified timezone.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "This is multi-stock price reporting. Same-day date matching can include an article whose availability before the earlier entries is unconfirmed.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-10",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "09:48, timezone unconfirmed",
+      "additionalIssuers": [
+        {
+          "symbol": "SMX",
+          "issuerCik": "1940674"
+        }
+      ]
+    },
+    {
+      "id": "smx-20261109-fashion-identity-release",
+      "eventId": "smx-20261109-fashion-identity-release",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Is Building a Verifiable Identity Layer for Fashion, From Cotton Fields to Luxury Resale",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX describes molecular marking and digital passports for textile provenance and luxury authentication. These issuer claims do not establish new revenue or customer contracts.",
+      "url": "https://finviz.com/news/419144/smx-is-building-a-verifiable-identity-layer-for-fashion-from-cotton-fields-to-luxury-resale",
+      "sourceUrls": [
+        "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/smx-is-building-a-verifiable-identity-layer-for-fashion-from-cot-1248796"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "09:00, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261109-plastics-platform-release",
+      "eventId": "smx-20261109-plastics-platform-release",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Four-Layer Digital Platform for Plastics Connects Physical Material to Digital Passports, Markets and Credits",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX describes its physical marking, passport, market and credit architecture and invites companies to trials. Potential credit markets and commercial value remain subject to implementation and adoption.",
+      "url": "https://finviz.com/news/419224/smx-four-layer-digital-platform-for-plastics-connects-physical-material-to-digital-passports-markets-and-credits",
+      "sourceUrls": [
+        "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/smx-four-layer-digital-platform-for-plastics-connects-physical-m-1248797"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "09:30, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261109-origin-verification-release",
+      "eventId": "smx-20261109-origin-verification-release",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Proves \"Made in America\" Is Great Again",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX promotes material-level identity and digital records for origin and recycled-content verification. The release is commercial commentary rather than evidence of a newly signed contract.",
+      "url": "https://finviz.com/news/419262/smx-proves-made-in-america-is-great-again",
+      "sourceUrls": [
+        "https://finviz.com/news/419262/smx-proves-made-in-america-is-great-again"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "10:00, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261109-media-profile-release",
+      "eventId": "smx-20261109-media-profile-release",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "Media Continues to Profile SMX Technology and Growth",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX highlights media coverage of its molecular marking and digital passport technology. Linked third-party feature contents and their independence were not separately verified.",
+      "url": "https://finviz.com/news/419412/media-continues-to-profile-smx-technology-and-growth",
+      "sourceUrls": [
+        "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/media-continues-to-profile-smx-technology-and-growth-1249136"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "16:00, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261109-recycling-economics-release",
+      "eventId": "smx-20261109-recycling-economics-release",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "Global Tensions Highlight the Need for Greater Plastic Recycling; the Age of Parity Has Made It Possible",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX discusses recycling economics and material identity in the context of energy costs. Its economic framing is issuer commentary, not a universal cost-parity finding or a new contract.",
+      "url": "https://finviz.com/news/419569/global-tensions-highlight-the-need-for-greater-plastic-recycling-the-age-of-parity-has-made-it-possible",
+      "sourceUrls": [
+        "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/global-tensions-highlight-the-need-for-greater-plastic-recycling-1249140"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-09. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-09",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "16:10, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261110-sci-development-release",
+      "eventId": "smx-20261110-scientific-intelligence",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Advances Development of its Scientific Intelligence, an AI-Powered Platform Intended to Create a Comprehensive Codex for Chemical Agents, Additives and Supplements",
+      "publishedAt": "2026-11-10T08:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX announces development of SMX SCI, with internal deployment targeted for Q1 2027 and a limited commercial service in Q2 2027. Development, testing, validation and customer adoption remain conditions; prospective services are not earned revenue.",
+      "url": "https://finviz.com/news/419940/smx-advances-development-of-its-scientific-intelligence-an-ai-powered-platform-intended-to-create-a-comprehensive-codex-for-chemical-agents-additives-and-supplements",
+      "sourceUrls": [
+        "https://www.newswire.com/news/smx-advances-development-of-its-scientific-intelligence-an-ai-powered-platform"
+      ],
+      "timestampEvidence": "The linked Newswire issuer release explicitly labels November 10, 2026 08:00 EST.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated."
+      ]
+    },
+    {
+      "id": "smx-20261110-sci-expansion-release",
+      "eventId": "smx-20261110-scientific-intelligence",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Expands Into AI-Driven Material Science With New Scientific Intelligence Platform",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "A separately published issuer update describes the planned SMX SCI service and its connection to material verification. Commercial plans remain conditional and recycled-plastic standards are not yet adopted.",
+      "url": "https://finviz.com/news/420132/smx-expands-into-ai-driven-material-science-with-new-scientific-intelligence-platform",
+      "sourceUrls": [
+        "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/smx-expands-into-ai-driven-material-science-with-new-scientific-1249329"
+      ],
+      "timestampEvidence": "Finviz lists the exact dated headline; the linked reproduction confirms 2026-11-10. No explicit publication timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "Publication date is verified, but publication hour or timezone is not. Same-day matching does not establish publication before entry."
+      ],
+      "publicationDate": "2026-11-10",
+      "matchingBasis": "publication_date",
+      "reportedClockAudit": "09:00, timezone unconfirmed"
+    },
+    {
+      "id": "smx-20261110-sci-commercial-services-release",
+      "eventId": "smx-20261110-scientific-intelligence",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Develops AI-Powered Scientific Intelligence Platform to Accelerate Material Research and Expand Commercial Services",
+      "publishedAt": "2026-11-10T10:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "A further SMX issuer publication discusses AI-assisted material screening and proposed scientific services in Q2 2027. It concerns the same SCI development event; deployment and revenue remain conditional.",
+      "url": "https://finviz.com/news/420236/smx-develops-ai-powered-scientific-intelligence-platform-to-accelerate-material-research-and-expand-commercial-services",
+      "sourceUrls": [
+        "https://www.stocktitan.net/news/SMX/smx-develops-ai-powered-scientific-intelligence-platform-to-qvvqby8s21i0.html"
+      ],
+      "timestampEvidence": "StockTitan reproduces the dated release and explicitly labels 11/10/2026 10:00 AM EST.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "The Finviz article body was inaccessible; linked alternate or indexed evidence confirms publication. This known timestamp is excluded from entries earlier than publication."
+      ]
+    },
+    {
+      "id": "smx-20261110-sci-commercial-launch-report",
+      "eventId": "smx-20261110-scientific-intelligence",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Develops AI-Powered Scientific Intelligence Platform, Targets Commercial Launch in Q2 2027",
+      "publishedAt": "2026-11-10T10:30:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "InvestorsHub",
+      "kind": "issuer_reporting",
+      "category": "issuer_update",
+      "summary": "Fiona Craig reports on SMX SCI and a planned limited commercial launch in Q2 2027. This is separate reporting on the same event, with no assurance of deployment or customer adoption.",
+      "url": "https://finviz.com/news/420294/smx-develops-ai-powered-scientific-intelligence-platform-targets-commercial-launch-in-q2-2027",
+      "sourceUrls": [
+        "https://finance.yahoo.com/technology/ai/articles/smx-develops-ai-powered-scientific-153006861.html"
+      ],
+      "timestampEvidence": "Yahoo indexed syndication explicitly labels Tuesday, November 10, 2026 at 10:30 AM EST; the original InvestorsHub indexed report matches. Yahoo direct access returned 429.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "The Finviz article body was inaccessible; linked alternate or indexed evidence confirms publication. This known timestamp is excluded from entries earlier than publication."
+      ]
+    },
+    {
+      "id": "smx-20261110-sci-recycling-release",
+      "eventId": "smx-20261110-scientific-intelligence",
+      "symbol": "SMX",
+      "issuerName": "SMX (Security Matters) Public Ltd Co",
+      "issuerCik": "1940674",
+      "headline": "SMX Targets Global Recycling Challenges With AI-Powered Material Intelligence Platform",
+      "publishedAt": "2026-11-10T11:00:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "ACCESS Newswire",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "SMX describes planned AI material selection and verification services for recycling. This additional SCI publication retains its own time; the proposed Q2 2027 commercial offering is conditional.",
+      "url": "https://finviz.com/news/420323/smx-targets-global-recycling-challenges-with-ai-powered-material-intelligence-platform",
+      "sourceUrls": [
+        "https://www.quantisnow.com/insight/smx-targets-global-recycling-challenges-with-ai-powered-material-intelligence-platform-6783422"
+      ],
+      "timestampEvidence": "Finviz lists 11:00 and Quantisnow explicitly labels the same publication November 10, 2026 11:00:00 ET. StreetInsider syndication displays 11:01 EST; the corroborated source release time is retained.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-10",
+      "sourceWarnings": [
+        "Issuer promotional claims and prospective commercial plans have not been independently validated.",
+        "The Finviz article body was inaccessible; linked alternate or indexed evidence confirms publication. This known timestamp is excluded from entries earlier than publication."
+      ]
     }
   ]
 }

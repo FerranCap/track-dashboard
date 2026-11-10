@@ -1,0 +1,82 @@
+{
+  "reviewedOn": "2026-11-10",
+  "baseline": {
+    "trades": 1560,
+    "executions": 17513,
+    "pnl": "1912.076981"
+  },
+  "sessions": [
+    {
+      "date": "2026-11-09",
+      "source": "Trades_09.csv",
+      "sourceSha256": "a2ab5fedacefa32e64079aa93c16c89da80df4f8f9e46c085ce24482c2238154",
+      "trades": 4,
+      "executions": 92,
+      "reportedExecutionPnL": "-23.39",
+      "signedECN": "-1.7194",
+      "tradePnL": "-25.1094",
+      "availableFees": "1.7194",
+      "sourceRowsPreserved": true
+    },
+    {
+      "date": "2026-11-10",
+      "source": "Trades_10.csv",
+      "sourceSha256": "ab43b01f7d840675c44a74c696433bc891adea3005599bffd9afe37c65e37350",
+      "trades": 6,
+      "executions": 62,
+      "reportedExecutionPnL": "17.56",
+      "signedECN": "-0.11448640",
+      "tradePnL": "17.44551360",
+      "availableFees": "0.11448640",
+      "sourceRowsPreserved": true
+    }
+  ],
+  "result": {
+    "trades": 1570,
+    "executions": 17667,
+    "pnl": "1904.413095",
+    "previousTradeRecordsUnchanged": true,
+    "previousNewsContextsUnchanged": true,
+    "conflictingTradeIds": 0
+  },
+  "statementReconciliation": {
+    "source": "Transactions.csv",
+    "date": "2026-11-06",
+    "symbol": "VIVK",
+    "action": "Not appended: same aggregate position quantity as the two existing completed cycles; statement rows are daily side aggregates without cycle timestamps.",
+    "buyQty": 1570,
+    "sellQty": 1570,
+    "existingTradeCount": 2,
+    "existingExecutions": 29,
+    "existingGrossCashFlow": "14.7151",
+    "existingReportedPnL": "14.70",
+    "existingSignedECN": "-0.25809345",
+    "existingExactPnL": "14.44190655",
+    "existingDashboardPnL": "14.441906",
+    "statementGrossPnL": "14.75",
+    "statementFees": "2.91",
+    "statementCommission": "3.14",
+    "statementSignedECN": "-0.26",
+    "statementRegFee": "0.03",
+    "statementNetPnL": "11.84",
+    "notes": [
+      "Statement side totals and rounded prices do not reproduce execution gross amounts exactly; the gross difference is 0.0349 USD and reported-PnL difference is 0.05 USD.",
+      "Statement fees include additional commissions and regulatory charges; the accepted source basis remains sum(P / L) plus sum(ECNFee). No historical costs are subtracted again or assigned to cycles without execution evidence."
+    ]
+  },
+  "news": {
+    "addedPublications": 18,
+    "addedEvents": 13,
+    "newTradeArticleLinks": 44,
+    "newDateFallbackLinks": 33,
+    "sameDayDateFallbackLinks": 18,
+    "pendingPublicationDateCandidates": [
+      "nwgl-20261109-sept-publication-date-pending"
+    ]
+  },
+  "limitations": [
+    "Browser verification could not connect: browser tool reported missing sandboxPolicy.",
+    "Six JavaScript-backed checks require Node, which is not installed on PATH.",
+    "Per-trade JSON values retain the existing builder precision of six decimal places; normalized CSV retains full source decimal precision."
+  ]
+}
