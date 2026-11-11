@@ -28,6 +28,8 @@ function initializeWatchlist() {
   const headers = [...table.tHead.rows[0].cells];
   const layoutKey = 'track-watchlist-columns-v3';
   const tradeDetails = new Map();
+  let webPanel = null;
+  let activeWebLink = null;
   let entries = [];
   let storageReadable = true;
 
@@ -121,6 +123,70 @@ function initializeWatchlist() {
     control.title = exceedsLimit ? 'Market cap superior a 90 millones USD' : '';
   }
 
+  function closeWebPanel(restoreFocus = false) {
+    const previousLink = activeWebLink;
+    webPanel?.remove();
+    webPanel = null;
+    activeWebLink = null;
+    previousLink?.setAttribute('aria-expanded', 'false');
+    previousLink?.removeAttribute('aria-controls');
+    document.body.classList.remove('watchlist-web-open');
+    if (restoreFocus && previousLink?.isConnected) previousLink.focus();
+    requestAnimationFrame(fitRows);
+  }
+
+  function openWebPanel(link, linksRow, ticker) {
+    if (activeWebLink === link) {
+      closeWebPanel(true);
+      return;
+    }
+    closeWebPanel();
+    activeWebLink = link;
+    webPanel = document.createElement('tr');
+    webPanel.className = 'watchlist-web-row';
+    const cell = document.createElement('td');
+    cell.colSpan = fields.length + 2;
+    const panel = document.createElement('section');
+    panel.className = 'watchlist-web-panel';
+    panel.id = 'watchlist-web-panel';
+    panel.setAttribute('aria-label', `${link.textContent}: ${ticker}`);
+    const toolbar = document.createElement('div');
+    toolbar.className = 'watchlist-web-toolbar';
+    const title = document.createElement('strong');
+    title.textContent = `${ticker} \u00b7 ${link.textContent}`;
+    const externalLink = document.createElement('a');
+    externalLink.className = 'watchlist-link';
+    externalLink.href = link.href;
+    externalLink.target = '_blank';
+    externalLink.rel = 'noopener noreferrer';
+    externalLink.textContent = 'Abrir fuera';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'secondary';
+    close.textContent = 'Cerrar';
+    close.addEventListener('click', () => closeWebPanel(true));
+    toolbar.append(title, externalLink, close);
+    const hint = document.createElement('p');
+    hint.className = 'watchlist-web-hint';
+    hint.textContent = 'Si la web no se muestra, usa \u00abAbrir fuera\u00bb.';
+    const frame = document.createElement('iframe');
+    frame.className = 'watchlist-web-frame';
+    frame.title = `${link.textContent}: ${ticker}`;
+    frame.src = link.href;
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.allowFullscreen = true;
+    panel.append(toolbar, hint, frame);
+    cell.append(panel);
+    webPanel.append(cell);
+    linksRow.after(webPanel);
+    link.setAttribute('aria-expanded', 'true');
+    link.setAttribute('aria-controls', panel.id);
+    document.body.classList.add('watchlist-web-open');
+    requestAnimationFrame(() => {
+      if (panel.isConnected) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   function fitRows() {
     const view = document.getElementById('view-watchlist');
     if (view.hidden) return;
@@ -133,6 +199,7 @@ function initializeWatchlist() {
   }
 
   function render() {
+    closeWebPanel();
     tradeDetails.clear();
     body.replaceChildren();
     document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
@@ -231,6 +298,15 @@ function initializeWatchlist() {
       quantLink.target = '_blank';
       quantLink.rel = 'noopener noreferrer';
       quantLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Quant (nueva pesta\u00f1a)`);
+      for (const link of [dilutionLink, finvizLink, quantLink]) {
+        link.setAttribute('aria-label', `Ver ${entry.ticker} en ${link.textContent} dentro de Watchlist`);
+        link.setAttribute('aria-expanded', 'false');
+        link.addEventListener('click', event => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          openWebPanel(link, linksRow, entry.ticker);
+        });
+      }
       linksCell.append(dilutionLink, document.createTextNode(' '), finvizLink, document.createTextNode(' '), quantLink);
       linksRow.append(tickerSpacer, linksCell);
       body.append(linksRow);

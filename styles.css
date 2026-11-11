@@ -348,3 +348,18 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table .watchlist-links-row>td{padding-top:2px;padding-bottom:8px}
 
 .watchlist-add{width:auto;min-width:48px;height:28px;padding:0 10px;font-size:12px;line-height:normal}
+
+.watchlist-table textarea.watchlist-two-lines,.watchlist-table textarea.watchlist-two-lines:focus{height:calc(var(--watchlist-row-height) - 4px);padding:3px}
+.watchlist-table input,.watchlist-table select{padding-top:3px;padding-bottom:3px}
+.watchlist-link{min-height:24px;padding:4px 10px;font-size:11px;line-height:1.2;border-radius:5px}
+.watchlist-table .watchlist-links-row>td{padding-top:4px;padding-bottom:10px}
+
+.watchlist-table .watchlist-web-row>td{height:auto;padding:6px 0 12px;white-space:normal}
+.watchlist-web-panel{width:100%;min-width:0;border:1px solid #3a5272;border-radius:8px;overflow:hidden;background:#0f1929;scroll-margin-top:8px}
+.watchlist-web-toolbar{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.watchlist-web-toolbar strong{margin-right:auto;font-size:12px;color:#dce9fa}
+.watchlist-web-toolbar button{padding:5px 10px;font-size:11px}
+.watchlist-web-hint{padding:0 12px 8px;font-size:10px;color:#91a4be}
+.watchlist-web-frame{display:block;width:100%;min-width:0;height:calc(100dvh - 100px);min-height:450px;border:0;background:#fff}
+.watchlist-link[aria-expanded=true]{background:#284168;border-color:#8bbaff;color:#fff}
+.watchlist-active.watchlist-web-open{overflow-y:auto}
