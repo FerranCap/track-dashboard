@@ -338,7 +338,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-column-resizer:focus-visible{outline:1px solid #8bbaff;outline-offset:-1px}
 .watchlist-resizing,.watchlist-resizing *{cursor:col-resize!important;user-select:none!important}
 
-.watchlist-table select.watchlist-zero-zone{text-align:center;text-align-last:center}
+.watchlist-table select{text-align:center;text-align-last:center}
 
 .watchlist-table thead th{text-align:center}
 
@@ -367,3 +367,6 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table .watchlist-entry>th{text-align:center}
 
 #view-watchlist .watchlist-field-warning,#view-watchlist .watchlist-field-warning:focus{background:#453b16;border-color:#d5b245;color:#ffe49a}
+
+.watchlist-table input{text-align:center}
+.watchlist-table textarea{text-align:left}

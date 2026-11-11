@@ -8,7 +8,7 @@ function initializeWatchlist() {
   const fields = [
     ['country', 'Country', 'select'],
     ['float', 'Float (M)', 'number'],
-    ['marketCap', 'Mk (M USD)', 'number'],
+    ['marketCap', 'Mk (M)', 'number'],
     ['news', 'News', 'textarea'],
     ['institutionalOwnership', 'IO (%)', 'number'],
     ['dilutionHistory', 'Dilution Hist', 'select'],
@@ -26,7 +26,7 @@ function initializeWatchlist() {
   const table = body.closest('table');
   const columns = [...table.querySelectorAll('col')];
   const headers = [...table.tHead.rows[0].cells];
-  const layoutKey = 'track-watchlist-columns-v3';
+  const layoutKey = 'track-watchlist-columns-v4';
   const tradeDetails = new Map();
   const countryControls = [];
   let webPanel = null;
