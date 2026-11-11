@@ -58,7 +58,8 @@ function initializeWatchlist() {
     const table = body.closest('table');
     const toolbar = view.querySelector('.watchlist-toolbar');
     const expandedHeight = [...tradeDetails.values()].reduce((total, item) => total + (item.row.hidden ? 0 : item.row.offsetHeight), 0);
-    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - 28;
+    const linksHeight = [...body.querySelectorAll('.watchlist-links-row')].reduce((total, row) => total + row.offsetHeight, 0);
+    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - linksHeight - 28;
     view.style.setProperty('--watchlist-row-height', `${Math.min(30, Math.max(10, Math.floor(available / maxTickers)))}px`);
   }
 
@@ -68,6 +69,7 @@ function initializeWatchlist() {
     document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
     entries.forEach((entry, index) => {
       const row = document.createElement('tr');
+      row.className = 'watchlist-entry';
       const tickerCell = document.createElement('th');
       tickerCell.scope = 'row';
       const tickerLabel = document.createElement('span');
@@ -132,6 +134,20 @@ function initializeWatchlist() {
       actionCell.append(remove);
       row.append(actionCell);
       body.append(row);
+      const linksRow = document.createElement('tr');
+      linksRow.className = 'watchlist-links-row';
+      const linksCell = document.createElement('td');
+      linksCell.colSpan = fields.length + 2;
+      const dilutionLink = document.createElement('a');
+      dilutionLink.className = 'watchlist-link';
+      dilutionLink.textContent = 'DilutionTracker';
+      dilutionLink.href = `https://dilutiontracker.com/app/search/${encodeURIComponent(entry.ticker)}`;
+      dilutionLink.target = '_blank';
+      dilutionLink.rel = 'noopener noreferrer';
+      dilutionLink.setAttribute('aria-label', `Abrir ${entry.ticker} en DilutionTracker (nueva pesta\u00f1a)`);
+      linksCell.append(dilutionLink);
+      linksRow.append(linksCell);
+      body.append(linksRow);
       const detailRow = document.createElement('tr');
       detailRow.className = 'watchlist-trade-details';
       detailRow.id = `watchlist-trades-${index}`;

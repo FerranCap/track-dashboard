@@ -288,7 +288,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table{table-layout:fixed;width:100%;font-size:10px}
 .watchlist-table th,.watchlist-table td{padding:2px;white-space:normal;overflow-wrap:anywhere;min-width:0}
 .watchlist-table thead th{height:40px;line-height:1.2;vertical-align:middle;background:#192333}
-.watchlist-table tbody tr:not(.watchlist-trade-details){height:var(--watchlist-row-height)}
+.watchlist-table tbody tr.watchlist-entry{height:var(--watchlist-row-height)}
 .watchlist-table tbody th{color:#8bbaff;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1}
 .watchlist-table td{position:relative;height:var(--watchlist-row-height)}
 .watchlist-table input,.watchlist-table select,.watchlist-table textarea{display:block;box-sizing:border-box;width:100%;min-width:0;min-height:0;height:calc(var(--watchlist-row-height) - 4px);border:1px solid #30405a;background:#0f1929;color:#e8edf8;border-radius:3px;padding:1px 3px;font:inherit;line-height:1.2}
@@ -326,3 +326,9 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 
 .watchlist-table thead th{white-space:nowrap;overflow-wrap:normal;padding-left:2px;padding-right:2px;font-size:clamp(7px,.65vw,10px);letter-spacing:-.2px}
 .watchlist-trades-toggle{display:inline-grid;place-items:center;vertical-align:middle;width:12px;height:12px;line-height:1;margin-left:3px;text-align:center}
+
+.watchlist-table .watchlist-links-row{height:auto}
+.watchlist-table .watchlist-links-row>td{height:auto;padding:1px 2px 4px;border-bottom:1px solid #36465e}
+.watchlist-table .watchlist-entry>td,.watchlist-table .watchlist-entry>th{border-bottom:0}
+.watchlist-link{display:inline-flex;align-items:center;padding:1px 6px;border:1px solid #365480;border-radius:4px;background:#1b304c;color:#a7cdff;text-decoration:none;font-size:9px;line-height:1.2}
+.watchlist-link:hover{background:#284168;color:#fff}
