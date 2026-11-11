@@ -339,3 +339,5 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-resizing,.watchlist-resizing *{cursor:col-resize!important;user-select:none!important}
 
 .watchlist-table select.watchlist-zero-zone{text-align:center;text-align-last:center}
+
+.watchlist-table thead th{text-align:center}

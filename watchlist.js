@@ -26,7 +26,7 @@ function initializeWatchlist() {
   const table = body.closest('table');
   const columns = [...table.querySelectorAll('col')];
   const headers = [...table.tHead.rows[0].cells];
-  const layoutKey = 'track-watchlist-columns-v2';
+  const layoutKey = 'track-watchlist-columns-v3';
   const tradeDetails = new Map();
   let entries = [];
   let storageReadable = true;
