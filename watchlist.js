@@ -26,7 +26,7 @@ function initializeWatchlist() {
   const table = body.closest('table');
   const columns = [...table.querySelectorAll('col')];
   const headers = [...table.tHead.rows[0].cells];
-  const layoutKey = 'track-watchlist-columns-v1';
+  const layoutKey = 'track-watchlist-columns-v2';
   const tradeDetails = new Map();
   let entries = [];
   let storageReadable = true;
@@ -158,6 +158,7 @@ function initializeWatchlist() {
         const cell = document.createElement('td');
         const control = document.createElement(type === 'textarea' ? 'textarea' : type === 'select' ? 'select' : 'input');
         control.setAttribute('aria-label', `${entry.ticker}: ${label}`);
+        if (key === 'zeroZone') control.classList.add('watchlist-zero-zone');
         if (type === 'select') {
           for (const [value, text] of [['', 'Sin definir'], ['near', 'Cerca'], ['far', 'Lejos']]) {
             const option = document.createElement('option');
