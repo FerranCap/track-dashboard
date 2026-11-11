@@ -279,17 +279,36 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
   .sidebar-note{padding-top:8px}
 }
 
-.watchlist-add{font-size:24px;line-height:1;width:40px;height:40px;padding:0}
-.watchlist-add-form{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.watchlist-add-form label{display:grid;gap:7px;color:#a6b9ce;font-size:12px}
-#watchlist-symbol{width:180px;text-transform:uppercase}
-.watchlist-empty{padding:30px 12px;text-align:center;border:1px dashed #34465f;border-radius:10px}
-.watchlist-table-wrap{max-height:65vh;border:1px solid #2b3950;border-radius:8px}
-.watchlist-table th{position:sticky;top:0;z-index:2;background:#192333}
-.watchlist-table th:first-child{left:0;z-index:3;min-width:90px}
-.watchlist-table tbody th{z-index:1;vertical-align:top;padding-top:22px;color:#8bbaff}
-.watchlist-table td{vertical-align:top;padding:8px}
-.watchlist-table input,.watchlist-table select{width:135px;min-width:110px;font-size:12px}
-.watchlist-table textarea{display:block;width:230px;min-height:64px;resize:vertical;border:1px solid #30405a;background:#0f1929;color:#e8edf8;border-radius:7px;padding:8px 10px;font:inherit;white-space:pre-wrap}
+.watchlist-active .container{max-width:none;padding:14px 16px 0}
+.watchlist-active .intro{margin-bottom:10px}
+.watchlist-active .intro h1{font-size:22px;margin:0}
+.watchlist-active .intro .updated,.watchlist-active footer{display:none}
+.watchlist-panel{padding:8px;margin:0;min-width:0}
+.watchlist-table-wrap{width:100%;overflow:visible}
+.watchlist-table{table-layout:fixed;width:100%;font-size:10px}
+.watchlist-table th,.watchlist-table td{padding:2px;white-space:normal;overflow-wrap:anywhere;min-width:0}
+.watchlist-table thead th{height:40px;line-height:1.2;vertical-align:middle;background:#192333}
+.watchlist-table tbody tr{height:var(--watchlist-row-height)}
+.watchlist-table tbody th{color:#8bbaff;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.watchlist-table td{position:relative;height:var(--watchlist-row-height)}
+.watchlist-table input,.watchlist-table select,.watchlist-table textarea{display:block;box-sizing:border-box;width:100%;min-width:0;min-height:0;height:calc(var(--watchlist-row-height) - 4px);border:1px solid #30405a;background:#0f1929;color:#e8edf8;border-radius:3px;padding:1px 3px;font:inherit;line-height:1.2}
+.watchlist-table input[type=number]{appearance:textfield;-moz-appearance:textfield}
+.watchlist-table input::-webkit-inner-spin-button,.watchlist-table input::-webkit-outer-spin-button{appearance:none;margin:0}
+.watchlist-table select{background-image:none;padding:1px;appearance:none}
+.watchlist-table textarea{resize:none;overflow:hidden;white-space:nowrap}
+.watchlist-table textarea:focus{position:absolute;top:2px;right:2px;width:max(100%,240px);height:110px;white-space:pre-wrap;z-index:5;box-shadow:0 6px 20px #0008;padding:6px}
+.watchlist-table tbody tr:nth-child(n+17) textarea:focus{top:auto;bottom:2px}
 .watchlist-table .watchlist-market-cap-high{background:#453b16;border-color:#d5b245;color:#ffe49a}
-.watchlist-status{min-height:18px;margin-top:12px;font-size:11px;color:#a6b9ce}
+.watchlist-toolbar{display:flex;align-items:center;gap:8px;height:36px;margin-top:4px}
+.watchlist-add{font-size:22px;line-height:1;width:28px;height:28px;padding:0}
+.watchlist-remove{display:block;width:100%;height:calc(var(--watchlist-row-height) - 4px);min-height:0;padding:0;border:1px solid #97414f;border-radius:3px;background:#602532;color:#ffb6c1;font-size:16px;line-height:1}
+.watchlist-add-form{display:flex;align-items:center;gap:6px;min-width:0}
+.watchlist-add-form button{padding:4px 8px;font-size:11px}
+#watchlist-symbol{width:100px;min-height:28px;padding:3px 6px;text-transform:uppercase;font-size:11px}
+.watchlist-status:empty{display:none}
+.watchlist-status{font-size:11px;color:#ffb6c1;margin-top:4px}
+.watchlist-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.watchlist-active{--watchlist-row-height:clamp(12px,calc((100dvh - 240px)/20),30px)}
+@media(max-width:1100px){.watchlist-table{font-size:9px}.watchlist-active .container{padding-left:8px;padding-right:8px}.watchlist-panel{padding:4px}}
+
+.watchlist-short-column{width:calc(5ch + 12px)}

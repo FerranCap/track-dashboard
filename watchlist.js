@@ -2,6 +2,7 @@
 
 function initializeWatchlist() {
   const storageKey = 'track-watchlist-v1';
+  const maxTickers = 20;
   const fields = [
     ['country', 'Country', 'text'],
     ['float', 'Float (M)', 'number'],
@@ -36,7 +37,7 @@ function initializeWatchlist() {
   function save() {
     try {
       localStorage.setItem(storageKey, JSON.stringify(entries));
-      status.textContent = 'Guardado en este navegador.';
+      status.textContent = '';
     } catch {
       status.textContent = 'No se pudo guardar. Mantén esta pestaña abierta para conservar los cambios.';
     }
@@ -48,15 +49,24 @@ function initializeWatchlist() {
     control.title = exceedsLimit ? 'Market cap superior a 90 millones USD' : '';
   }
 
+  function fitRows() {
+    const view = document.getElementById('view-watchlist');
+    if (view.hidden) return;
+    const table = body.closest('table');
+    const toolbar = view.querySelector('.watchlist-toolbar');
+    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - 28;
+    view.style.setProperty('--watchlist-row-height', `${Math.min(30, Math.max(10, Math.floor(available / maxTickers)))}px`);
+  }
+
   function render() {
     body.replaceChildren();
-    document.getElementById('watchlist-table-wrap').hidden = entries.length === 0;
-    document.getElementById('watchlist-empty').hidden = entries.length > 0;
+    document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
     entries.forEach((entry, index) => {
       const row = document.createElement('tr');
       const tickerCell = document.createElement('th');
       tickerCell.scope = 'row';
       tickerCell.textContent = entry.ticker;
+      tickerCell.title = entry.ticker;
       row.append(tickerCell);
       fields.forEach(([key, label, type]) => {
         const cell = document.createElement('td');
@@ -70,7 +80,7 @@ function initializeWatchlist() {
             control.append(option);
           }
         } else if (type === 'textarea') {
-          control.rows = 2;
+          control.rows = 1;
         } else {
           control.type = type;
           if (type === 'number') {
@@ -93,8 +103,8 @@ function initializeWatchlist() {
       const actionCell = document.createElement('td');
       const remove = document.createElement('button');
       remove.type = 'button';
-      remove.className = 'secondary';
-      remove.textContent = 'Eliminar';
+      remove.className = 'watchlist-remove';
+      remove.textContent = '\u2212';
       remove.setAttribute('aria-label', `Eliminar ${entry.ticker}`);
       remove.disabled = !storageReadable;
       remove.addEventListener('click', () => {
@@ -106,10 +116,12 @@ function initializeWatchlist() {
       row.append(actionCell);
       body.append(row);
     });
+    requestAnimationFrame(fitRows);
   }
 
   document.getElementById('watchlist-add').disabled = !storageReadable;
   document.getElementById('watchlist-add').addEventListener('click', () => {
+    if (!storageReadable || entries.length >= maxTickers) return;
     form.hidden = false;
     symbolInput.focus();
   });
@@ -122,6 +134,7 @@ function initializeWatchlist() {
   symbolInput.addEventListener('input', () => symbolInput.setCustomValidity(''));
   form.addEventListener('submit', event => {
     event.preventDefault();
+    if (!storageReadable || entries.length >= maxTickers) return;
     const ticker = symbolInput.value.trim().toUpperCase();
     if (!ticker || entries.some(entry => entry.ticker.toUpperCase() === ticker)) {
       symbolInput.setCustomValidity(ticker ? 'Este ticker ya está en la watchlist.' : 'Introduce un ticker.');
@@ -135,5 +148,7 @@ function initializeWatchlist() {
     form.hidden = true;
     body.lastElementChild.querySelector('input').focus();
   });
+  window.addEventListener('resize', fitRows);
+  window.addEventListener('hashchange', () => requestAnimationFrame(fitRows));
   render();
 }
