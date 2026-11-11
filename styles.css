@@ -297,7 +297,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table select{background-image:none;padding:1px;appearance:none}
 .watchlist-table textarea{resize:none;overflow:hidden;white-space:nowrap}
 .watchlist-table .watchlist-market-cap-high{background:#453b16;border-color:#d5b245;color:#ffe49a}
-.watchlist-toolbar{display:flex;justify-content:center;align-items:center;gap:8px;height:36px;margin-top:4px}
+.watchlist-toolbar{display:flex;justify-content:flex-start;align-items:center;gap:8px;height:36px;margin-top:4px}
 .watchlist-add{display:grid;place-items:center;font-size:20px;line-height:1;width:28px;height:28px;padding:0;flex-shrink:0}
 .watchlist-remove{display:block;width:100%;height:calc(var(--watchlist-row-height) - 4px);min-height:0;padding:0;border:1px solid #97414f;border-radius:3px;background:#602532;color:#ffb6c1;font-size:16px;line-height:1}
 .watchlist-add-form{display:flex;align-items:center;gap:6px;min-width:0}
@@ -323,3 +323,6 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-history-stats dd{font-size:12px;color:#dce9fa;margin:0;white-space:nowrap}
 
 .watchlist-table textarea.watchlist-two-lines,.watchlist-table textarea.watchlist-two-lines:focus{height:2.6em;white-space:pre-wrap;line-height:1.2;padding:0 3px}
+
+.watchlist-table thead th{white-space:nowrap;overflow-wrap:normal;padding-left:2px;padding-right:2px;font-size:clamp(7px,.65vw,10px);letter-spacing:-.2px}
+.watchlist-trades-toggle{display:inline-grid;place-items:center;vertical-align:middle;width:12px;height:12px;line-height:1;margin-left:3px;text-align:center}
