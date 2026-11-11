@@ -144,6 +144,7 @@ function renderRecentSessions(daily) {
 }
 
 function renderWorkspace(rows) {
+  updateWatchlistTradeStats();
   const s = statistics(rows);
   $('overview-stats').innerHTML = [
     ['PnL total', signed(s.pnl), cssSign(s.pnl)], ['Operaciones', integerFormat.format(rows.length)],

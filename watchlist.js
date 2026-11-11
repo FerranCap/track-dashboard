@@ -1,5 +1,7 @@
 'use strict';
 
+let updateWatchlistTradeStats = () => {};
+
 function initializeWatchlist() {
   const storageKey = 'track-watchlist-v1';
   const maxTickers = 20;
@@ -11,8 +13,8 @@ function initializeWatchlist() {
     ['institutionalOwnership', 'IO (%)', 'number'],
     ['dilutionHistory', 'Dilution Hist', 'textarea'],
     ['dilutiveShares', 'Dilutive Shares', 'text'],
-    ['overheadVolume', 'OH Volume (TView)', 'text'],
-    ['underheadVolume', 'UH Volume (TView)', 'text'],
+    ['overheadVolume', 'OH Volume (TView)', 'textarea'],
+    ['underheadVolume', 'UH Volume (TView)', 'textarea'],
     ['zeroZone', 'Zero Zone', 'select'],
     ['extension', 'Ext (%)', 'number'],
     ['previousRuns', 'Prev Runs (Quant)', 'textarea']
@@ -21,6 +23,7 @@ function initializeWatchlist() {
   const form = document.getElementById('watchlist-add-form');
   const symbolInput = document.getElementById('watchlist-symbol');
   const status = document.getElementById('watchlist-status');
+  const tradeDetails = new Map();
   let entries = [];
   let storageReadable = true;
   try {
@@ -54,19 +57,31 @@ function initializeWatchlist() {
     if (view.hidden) return;
     const table = body.closest('table');
     const toolbar = view.querySelector('.watchlist-toolbar');
-    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - 28;
+    const expandedHeight = [...tradeDetails.values()].reduce((total, item) => total + (item.row.hidden ? 0 : item.row.offsetHeight), 0);
+    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - 28;
     view.style.setProperty('--watchlist-row-height', `${Math.min(30, Math.max(10, Math.floor(available / maxTickers)))}px`);
   }
 
   function render() {
+    tradeDetails.clear();
     body.replaceChildren();
     document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
     entries.forEach((entry, index) => {
       const row = document.createElement('tr');
       const tickerCell = document.createElement('th');
       tickerCell.scope = 'row';
-      tickerCell.textContent = entry.ticker;
+      const tickerLabel = document.createElement('span');
+      tickerLabel.textContent = entry.ticker;
+      tickerCell.append(tickerLabel);
       tickerCell.title = entry.ticker;
+      const expand = document.createElement('button');
+      expand.type = 'button';
+      expand.className = 'watchlist-trades-toggle';
+      expand.textContent = '\u25be';
+      expand.hidden = true;
+      expand.setAttribute('aria-expanded', 'false');
+      expand.setAttribute('aria-label', `Ver estad\u00edsticas de ${entry.ticker}`);
+      tickerCell.append(expand);
       row.append(tickerCell);
       fields.forEach(([key, label, type]) => {
         const cell = document.createElement('td');
@@ -80,7 +95,9 @@ function initializeWatchlist() {
             control.append(option);
           }
         } else if (type === 'textarea') {
-          control.rows = 1;
+          const multiline = ['news', 'overheadVolume', 'underheadVolume', 'previousRuns'].includes(key);
+          control.rows = multiline ? 2 : 1;
+          if (multiline) control.classList.add('watchlist-two-lines');
         } else {
           control.type = type;
           if (type === 'number') {
@@ -115,9 +132,58 @@ function initializeWatchlist() {
       actionCell.append(remove);
       row.append(actionCell);
       body.append(row);
+      const detailRow = document.createElement('tr');
+      detailRow.className = 'watchlist-trade-details';
+      detailRow.id = `watchlist-trades-${index}`;
+      detailRow.hidden = true;
+      const detailCell = document.createElement('td');
+      detailCell.colSpan = fields.length + 2;
+      detailRow.append(detailCell);
+      body.append(detailRow);
+      expand.setAttribute('aria-controls', detailRow.id);
+      expand.addEventListener('click', () => {
+        const opening = detailRow.hidden;
+        for (const item of tradeDetails.values()) {
+          item.row.hidden = true;
+          item.button.setAttribute('aria-expanded', 'false');
+        }
+        detailRow.hidden = !opening;
+        expand.setAttribute('aria-expanded', String(opening));
+        requestAnimationFrame(fitRows);
+      });
+      tradeDetails.set(entry.ticker, { row: detailRow, cell: detailCell, button: expand });
     });
+    updateWatchlistTradeStats();
     requestAnimationFrame(fitRows);
   }
+
+  updateWatchlistTradeStats = () => {
+    for (const [ticker, item] of tradeDetails) {
+      const history = (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
+      item.button.hidden = history.length === 0;
+      if (!history.length) {
+        item.row.hidden = true;
+        item.button.setAttribute('aria-expanded', 'false');
+        continue;
+      }
+      const rows = displayPnlRows(history);
+      const stats = statistics(rows);
+      const values = [
+        ['Trades', String(history.length)],
+        ['PnL', signed(stats.pnl)],
+        ['Win rate', pct(stats.wins.length, rows.length)],
+        ['Profit factor', stats.pf === Infinity ? '\u221e' : num(stats.pf)],
+        ['PnL medio', money(stats.expectancy)],
+        ['Mejor trade', rows.length ? signed(Math.max(...stats.values)) : '\u2014'],
+        ['Peor trade', rows.length ? signed(Math.min(...stats.values)) : '\u2014']
+      ];
+      const missing = history.length - rows.length;
+      const label = `${ticker} \u00b7 Historial completo \u00b7 ${pnlDisplayUnit === 'r' ? 'R' : 'USD'}${missing ? ` \u00b7 ${missing} trades sin R excluidos de los resultados` : ''}`;
+      const html = `<div class="watchlist-history-label">${esc(label)}</div><dl class="watchlist-history-stats">${values.map(([name, value]) => `<div><dt>${esc(name)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`;
+      if (item.cell.innerHTML !== html) item.cell.innerHTML = html;
+    }
+    requestAnimationFrame(fitRows);
+  };
 
   document.getElementById('watchlist-add').disabled = !storageReadable;
   document.getElementById('watchlist-add').addEventListener('click', () => {
@@ -146,7 +212,7 @@ function initializeWatchlist() {
     render();
     form.reset();
     form.hidden = true;
-    body.lastElementChild.querySelector('input').focus();
+    body.lastElementChild.previousElementSibling.querySelector('input').focus();
   });
   window.addEventListener('resize', fitRows);
   window.addEventListener('hashchange', () => requestAnimationFrame(fitRows));
