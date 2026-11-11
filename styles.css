@@ -332,3 +332,10 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table .watchlist-entry>td,.watchlist-table .watchlist-entry>th{border-bottom:0}
 .watchlist-link{display:inline-flex;align-items:center;padding:1px 6px;border:1px solid #365480;border-radius:4px;background:#1b304c;color:#a7cdff;text-decoration:none;font-size:9px;line-height:1.2}
 .watchlist-link:hover{background:#284168;color:#fff}
+
+.watchlist-table thead th{position:relative}
+.watchlist-column-resizer{position:absolute;inset:0 -3px 0 auto;width:7px;cursor:col-resize;touch-action:none;z-index:4}
+.watchlist-column-resizer::after{content:'';position:absolute;top:5px;bottom:5px;left:3px;width:1px;background:#526987}
+.watchlist-column-resizer:hover::after,.watchlist-column-resizer:focus-visible::after{width:2px;background:#8bbaff}
+.watchlist-column-resizer:focus-visible{outline:1px solid #8bbaff;outline-offset:-1px}
+.watchlist-resizing,.watchlist-resizing *{cursor:col-resize!important;user-select:none!important}
