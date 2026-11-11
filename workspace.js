@@ -1,6 +1,7 @@
 'use strict';
 
 const VIEW_DETAILS = {
+  watchlist: ['Watchlist', ''],
   general: ['General', 'Actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
   compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
@@ -104,7 +105,7 @@ function activateView() {
   $('page-title').textContent = VIEW_DETAILS[active][0];
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
-  $('data-selection').hidden = active === 'data' || active === 'compare';
+  $('data-selection').hidden = ['data', 'compare', 'watchlist'].includes(active);
   refreshCharts();
 }
 

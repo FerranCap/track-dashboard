@@ -81,6 +81,13 @@
 <span>Proyección</span>
 </a>
 </div>
+<div class="nav-group" role="group" aria-labelledby="nav-operations">
+<div id="nav-operations" class="nav-caption">OPERATIVA</div>
+<a href="#watchlist" data-view="watchlist">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+<span>Watchlist</span>
+</a>
+</div>
 <div class="nav-group" role="group" aria-labelledby="nav-data">
 <div id="nav-data" class="nav-caption">DATOS</div>
 <a href="#data" data-view="data">
@@ -99,7 +106,7 @@
 </div>
 </aside>
 <div class="app-shell">  <header class="topbar">
-<div class="header-brand"><div class="header-title">Estudio de trading</div><button id="pnl-unit-toggle" class="pnl-unit-toggle" type="button" role="switch" aria-checked="true" aria-label="Mostrar P&L en d?lares" title="USD o R histórica: cada trade usa la R vigente en su fecha de entrada en Nueva York."><span>R</span><span class="pnl-unit-track" aria-hidden="true"></span><strong>$</strong></button></div><div class="header-actions">
+<div class="header-brand"><div class="header-title">Estudio de trading</div><button id="pnl-unit-toggle" class="pnl-unit-toggle" type="button" role="switch" aria-checked="true" aria-label="Mostrar P&L en USD" title="USD o R histórica: cada trade usa la R vigente en su fecha de entrada en Nueva York."><span>R</span><span class="pnl-unit-track" aria-hidden="true"></span><strong>$</strong></button></div><div class="header-actions">
 <span id="source-status" class="status">Cargando…</span>
 <button id="refresh" type="button">Actualizar</button>
 </div>
@@ -368,6 +375,7 @@
 </section>
 
 </div>
+<div id="view-watchlist" class="view" aria-labelledby="page-title" hidden></div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <div class="panel-head"><div><h2 class="data-audit-heading">Calidad de la base de datos <span id="data-audit-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % identificados</span></h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
