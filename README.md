@@ -102,3 +102,5 @@ python -m http.server 8000
 Abre `http://localhost:8000` (no abras `index.html` mediante `file://`).
 
 En Windows, si Python no encuentra `America/New_York`, instala la base de zonas horarias con `python -m pip install tzdata`.
+
+The Watchlist under Operativa is manually maintained with one entry per ticker. Use + to add a symbol, then edit its fields in place; entries can be removed individually. Float and market cap are entered in millions, IO and extension in percent. Market cap above 90 million USD is highlighted yellow. Entries are saved only in localStorage for the current browser and origin, independently of trade imports and dashboard filters. They are not synchronized between browsers or devices.

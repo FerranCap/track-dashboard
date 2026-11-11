@@ -6,7 +6,7 @@ const tableCollator = new Intl.Collator('es', { numeric: true, sensitivity: 'bas
 const tableDisclosureStates = new WeakMap();
 
 function prepareCollapsibleTables() {
-  document.querySelectorAll('.table-wrap').forEach(host => {
+  document.querySelectorAll('.table-wrap:not([data-editable])').forEach(host => {
     const rowCount = [...host.querySelectorAll('table > tbody > tr')].length;
     let state = tableDisclosureStates.get(host);
     if (rowCount <= 10) {
@@ -87,7 +87,7 @@ function applyTableSort(table, state) {
 }
 
 function prepareSortableTables() {
-  document.querySelectorAll('table').forEach(table => {
+  document.querySelectorAll('table:not([data-editable])').forEach(table => {
     if (preparedTables.has(table) || !table.tHead?.rows.length) return;
     preparedTables.add(table);
     [...table.tHead.rows[0].cells].forEach(header => {
