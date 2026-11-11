@@ -107,4 +107,6 @@ The Watchlist under Operativa is manually maintained with one entry per ticker. 
 
 Watchlist column dividers can be dragged to resize adjacent columns while keeping the table width fixed; arrow keys also adjust a focused divider. Column proportions persist in this browser. Ticker resource buttons start in the Country column.
 
-Watchlist resource links open one full-width embedded website panel at a time, below the selected ticker, with nearly viewport-height content and vertical page scrolling. Closing the panel unloads the embedded page. An external-open link is available for websites that block framing or require a separate login.
+The Watchlist DilutionTracker link opens a full-width embedded website panel below the selected ticker, with nearly viewport-height content and vertical page scrolling. Finviz and Quant open directly in a new tab. Closing the panel unloads the embedded page. An external-open link is available for websites that block framing or require a separate login.
+
+Watchlist Country options are ranked by the full history closed-trade count, using only issuer incorporation country. Selection remains manual. Dilution history offers Dilutive hist, Holding and Growth. Yellow highlights indicate Growth, IO at least 50 percent, extension below 45 percent, and market cap above 90 million USD; blank values are not highlighted. Existing saved free-text values remain available when converting to dropdowns.

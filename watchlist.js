@@ -6,12 +6,12 @@ function initializeWatchlist() {
   const storageKey = 'track-watchlist-v1';
   const maxTickers = 20;
   const fields = [
-    ['country', 'Country', 'text'],
+    ['country', 'Country', 'select'],
     ['float', 'Float (M)', 'number'],
     ['marketCap', 'Mk (M USD)', 'number'],
     ['news', 'News', 'textarea'],
     ['institutionalOwnership', 'IO (%)', 'number'],
-    ['dilutionHistory', 'Dilution Hist', 'textarea'],
+    ['dilutionHistory', 'Dilution Hist', 'select'],
     ['dilutiveShares', 'Dilutive Shares', 'text'],
     ['overheadVolume', 'OH Volume (TView)', 'textarea'],
     ['underheadVolume', 'UH Volume (TView)', 'textarea'],
@@ -28,6 +28,7 @@ function initializeWatchlist() {
   const headers = [...table.tHead.rows[0].cells];
   const layoutKey = 'track-watchlist-columns-v3';
   const tradeDetails = new Map();
+  const countryControls = [];
   let webPanel = null;
   let activeWebLink = null;
   let entries = [];
@@ -117,10 +118,42 @@ function initializeWatchlist() {
     }
   }
 
-  function updateMarketCap(control) {
-    const exceedsLimit = control.value !== '' && Number(control.value) > 90;
-    control.classList.toggle('watchlist-market-cap-high', exceedsLimit);
-    control.title = exceedsLimit ? 'Market cap superior a 90 millones USD' : '';
+  function updateFieldHighlight(control, key) {
+    const value = control.value.trim();
+    const number = Number(value);
+    const numeric = value !== '' && Number.isFinite(number);
+    const highlighted = (key === 'marketCap' && numeric && number > 90)
+      || (key === 'institutionalOwnership' && numeric && number >= 50)
+      || (key === 'extension' && numeric && number < 45)
+      || (key === 'dilutionHistory' && value === 'Growth');
+    control.classList.toggle('watchlist-field-warning', highlighted);
+  }
+
+  function countryOptions() {
+    const counts = new Map();
+    for (const trade of dataset?.trades || []) {
+      const country = incorporationCountry(dataset?.tickerProfiles?.[trade.symbol]);
+      if (country) counts.set(country, (counts.get(country) || 0) + 1);
+    }
+    return [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([country]) => [country, country]);
+  }
+
+  function populateOptions(control, options, savedValue) {
+    const value = String(savedValue ?? '');
+    const choices = [['', 'Sin definir'], ...options];
+    if (value && !choices.some(([key]) => key === value)) choices.push([value, value]);
+    const signature = JSON.stringify(choices);
+    if (control.dataset.options !== signature) {
+      control.replaceChildren();
+      for (const [key, label] of choices) {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = label;
+        control.append(option);
+      }
+      control.dataset.options = signature;
+    }
+    control.value = value;
   }
 
   function closeWebPanel(restoreFocus = false) {
@@ -201,6 +234,7 @@ function initializeWatchlist() {
   function render() {
     closeWebPanel();
     tradeDetails.clear();
+    countryControls.length = 0;
     body.replaceChildren();
     document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
     entries.forEach((entry, index) => {
@@ -227,12 +261,11 @@ function initializeWatchlist() {
         control.setAttribute('aria-label', `${entry.ticker}: ${label}`);
         if (key === 'zeroZone') control.classList.add('watchlist-zero-zone');
         if (type === 'select') {
-          for (const [value, text] of [['', 'Sin definir'], ['near', 'Cerca'], ['far', 'Lejos']]) {
-            const option = document.createElement('option');
-            option.value = value;
-            option.textContent = text;
-            control.append(option);
-          }
+          const options = key === 'country' ? countryOptions()
+            : key === 'dilutionHistory' ? ['Dilutive hist', 'Holding', 'Growth'].map(value => [value, value])
+              : [['near', 'Cerca'], ['far', 'Lejos']];
+          populateOptions(control, options, entry[key]);
+          if (key === 'country') countryControls.push({ control, entry });
         } else if (type === 'textarea') {
           const multiline = ['news', 'overheadVolume', 'underheadVolume', 'previousRuns'].includes(key);
           control.rows = multiline ? 2 : 1;
@@ -247,10 +280,10 @@ function initializeWatchlist() {
         }
         control.value = String(entry[key] ?? '');
         control.disabled = !storageReadable;
-        if (key === 'marketCap') updateMarketCap(control);
+        updateFieldHighlight(control, key);
         control.addEventListener('input', () => {
           entry[key] = control.value;
-          if (key === 'marketCap') updateMarketCap(control);
+          updateFieldHighlight(control, key);
           save();
         });
         cell.append(control);
@@ -298,7 +331,7 @@ function initializeWatchlist() {
       quantLink.target = '_blank';
       quantLink.rel = 'noopener noreferrer';
       quantLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Quant (nueva pesta\u00f1a)`);
-      for (const link of [dilutionLink, finvizLink, quantLink]) {
+      for (const link of [dilutionLink]) {
         link.setAttribute('aria-label', `Ver ${entry.ticker} en ${link.textContent} dentro de Watchlist`);
         link.setAttribute('aria-expanded', 'false');
         link.addEventListener('click', event => {
@@ -336,6 +369,8 @@ function initializeWatchlist() {
   }
 
   updateWatchlistTradeStats = () => {
+    const options = countryOptions();
+    for (const { control, entry } of countryControls) populateOptions(control, options, entry.country);
     for (const [ticker, item] of tradeDetails) {
       const history = (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
       item.button.hidden = history.length === 0;

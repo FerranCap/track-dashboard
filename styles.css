@@ -363,3 +363,7 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-web-frame{display:block;width:100%;min-width:0;height:calc(100dvh - 100px);min-height:450px;border:0;background:#fff}
 .watchlist-link[aria-expanded=true]{background:#284168;border-color:#8bbaff;color:#fff}
 .watchlist-active.watchlist-web-open{overflow-y:auto}
+
+.watchlist-table .watchlist-entry>th{text-align:center}
+
+#view-watchlist .watchlist-field-warning,#view-watchlist .watchlist-field-warning:focus{background:#453b16;border-color:#d5b245;color:#ffe49a}
