@@ -341,3 +341,10 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-table select.watchlist-zero-zone{text-align:center;text-align-last:center}
 
 .watchlist-table thead th{text-align:center}
+
+#view-watchlist input:focus,#view-watchlist select:focus,#view-watchlist textarea:focus{outline:none;box-shadow:none;border-color:#30405a}
+#view-watchlist .watchlist-market-cap-high:focus{border-color:#d5b245}
+.watchlist-table tbody th,.watchlist-table tbody td{vertical-align:middle}
+.watchlist-table .watchlist-links-row>td{padding-top:2px;padding-bottom:8px}
+
+.watchlist-add{width:auto;min-width:48px;height:28px;padding:0 10px;font-size:12px;line-height:normal}

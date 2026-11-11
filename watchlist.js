@@ -129,7 +129,7 @@ function initializeWatchlist() {
     const expandedHeight = [...tradeDetails.values()].reduce((total, item) => total + (item.row.hidden ? 0 : item.row.offsetHeight), 0);
     const linksHeight = [...body.querySelectorAll('.watchlist-links-row')].reduce((total, row) => total + row.offsetHeight, 0);
     const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - linksHeight - 28;
-    view.style.setProperty('--watchlist-row-height', `${Math.min(30, Math.max(10, Math.floor(available / maxTickers)))}px`);
+    view.style.setProperty('--watchlist-row-height', `${Math.min(42, Math.max(10, Math.floor(available / Math.max(1, entries.length))))}px`);
   }
 
   function render() {
