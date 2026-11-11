@@ -37,8 +37,7 @@ function initializePnlUnits() {
   const toggle = $('pnl-unit-toggle');
   try { if (localStorage.getItem('track-pnl-unit') === 'r') pnlDisplayUnit = 'r'; } catch {}
   const sync = () => {
-    toggle.setAttribute('aria-checked', String(pnlDisplayUnit === 'r'));
-    toggle.querySelector('[data-pnl-unit]').textContent = pnlDisplayUnit === 'r' ? 'R' : 'USD';
+    toggle.setAttribute('aria-checked', String(pnlDisplayUnit === 'usd'));
     document.querySelectorAll('[data-pnl-unit-label]').forEach(label => { label.textContent = pnlDisplayUnit === 'r' ? 'R' : 'USD'; });
     for (const id of ['growth-swing-unit', 'growth-projection-swing-unit']) $(id).value = pnlDisplayUnit;
   };

@@ -238,9 +238,6 @@ function applyFilters(){
   if(!dataset)return;
   const sourceRows=tradeFilterPanels.get('general').matchingRows();
   filtered=displayPnlRows(sourceRows);
-  const missing=sourceRows.length-filtered.length;
-  $('pnl-unit-status').hidden=pnlDisplayUnit!=='r';
-  $('pnl-unit-status').textContent=`P&L en R · Cada trade usa la R vigente en su entrada en Nueva York. Los días, semanas y totales suman las R individuales.${missing ? ` ${missing} trades sin R o PnL válido quedan fuera de estos estudios; siguen conservados en USD.` : ''} Precios, comisiones y valores monetarios de R siguen en USD.`;
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
 }
 function setTradeTableSort(state) {
