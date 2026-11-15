@@ -185,7 +185,7 @@ function renderConsistencyStability(rows) {
     unit === 'week' ? `Semana del ${period.period}` : period.period, period.count, signed(period.pnl), money(period.average), `${num(period.winRate, 1)}%`, ratioValue(period.pf)
   ])) : '<p class="muted">Sin operaciones para estos filtros.</p>';
   renderChart('monthly-expectancy-chart', [{ values: periods.map(period => [period.period, period.average, `${label}${unit === 'week' ? ' del' : ':'} ${period.period}; ${period.count} operaciones.${period.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }], {
-    bar: true, currency: true, title: `PnL medio por ${label.toLowerCase()}`,
+    bar: true, currency: true, signedPnl: true, title: `PnL medio por ${label.toLowerCase()}`,
     explanation: `PnL del periodo ÷ sus operaciones, por fecha de cierre en Nueva York. Agrupación por ${scope}. Se omiten periodos vacíos; los extremos pueden ser parciales. Se aplican los filtros actuales. Compara la media por operación; no representa rentabilidad sobre capital. ${HELP_PNL}`
   });
 }
@@ -219,7 +219,7 @@ function concentrationChartSvg(series, opts) {
     const full = `${point[0]}: ${valueLabel(point[1])}. ${point[2]}\n\n${opts.explanation}`;
     const name = String(point[0]);
     const label = name.length > labelLength ? `${name.slice(0, labelLength - 1)}…` : name;
-    shapes += `<text x="${left - 10}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(label)}</text><rect x="${Math.min(x(0), x(point[1]))}" y="${y - 8}" width="${Math.max(1, Math.abs(x(point[1]) - x(0)))}" height="17" rx="3" fill="${point[1] < 0 ? '#fb4f61' : '#5c9bff'}" ${helpAttributes(full)}><title>${esc(full)}</title></rect><text x="${width - 8}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(valueLabel(point[1]))}</text>`;
+    shapes += `<text x="${left - 10}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(label)}</text><rect x="${Math.min(x(0), x(point[1]))}" y="${y - 8}" width="${Math.max(1, Math.abs(x(point[1]) - x(0)))}" height="17" rx="3" fill="${point[1] < 0 ? '#fb4f61' : opts.currency ? '#24c86a' : '#5c9bff'}" ${helpAttributes(full)}><title>${esc(full)}</title></rect><text x="${width - 8}" y="${y + 4}" text-anchor="end" fill="#bfd1e9" font-size="11" ${helpAttributes(full)}>${esc(valueLabel(point[1]))}</text>`;
   });
   return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(opts.title)}">${shapes}</svg>`;
 }

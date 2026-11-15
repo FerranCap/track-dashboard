@@ -42,7 +42,7 @@ function renderStudyCharts(prefix, groups, explanation) {
     if (prefix === 'country') chartGroups.sort((left, right) => right[field] - left[field] || left.name.localeCompare(right.name));
     renderChart(chartId, [{ color: '#5c9bff', values: chartGroups.map(group => [
       group.name, group[field], `${group.count} operaciones; ${group.quantityCount} con acciones, ${group.durationCount} con duración.${group.count < 20 ? ' Muestra reducida (<20).' : ''}`
-    ]) }], { bar: true, ...options, title, explanation: `${meaning} ${prefix === 'country' ? 'Países ordenados de mayor a menor valor, de izquierda a derecha. ' : ''}${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta la tabla detallada.' });
+    ]) }], { bar: true, signedPnl: ['pnl', 'average', 'per-share'].includes(id), ...options, title, explanation: `${meaning} ${prefix === 'country' ? 'Países ordenados de mayor a menor valor, de izquierda a derecha. ' : ''}${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta la tabla detallada.' });
   }
 }
 

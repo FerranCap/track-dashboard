@@ -110,7 +110,7 @@ function renderDurationStudies(rows) {
   ];
   for (const [id, field, title, options, meaning] of charts) {
     renderChart(`duration-${id}-chart`, [{ values: known.filter(group => Number.isFinite(group[field])).map(group => [group.name, group[field], `${group.count} trades; ${group.quantityCount} con cantidad válida.${group.count < 20 ? ' Muestra reducida (<20).' : ''}`]), color: '#5c9bff' }],
-      { bar: true, ...options, title, explanation: `${meaning} ${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta el detalle de la tabla.' });
+      { bar: true, signedPnl: ['pnl', 'average', 'per-share'].includes(id), ...options, title, explanation: `${meaning} ${explanation}`, empty: 'Sin valores calculables para estos filtros. Consulta el detalle de la tabla.' });
   }
   const outcomes = [['win', '#29d17e'], ['loss', '#fb4f61'], ['scratch', '#98adc8']];
   for (const [id, field, title, options] of [

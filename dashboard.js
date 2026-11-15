@@ -169,7 +169,7 @@ function svgChart(series,opts={}){
     const arr=s.values;if(!arr.length)continue;
     if(opts.bar){
       const step=plotW/count,width=Math.min(45,step*.73);
-      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(s.color||'#24c86a'):'#fb4f61'}" ${helpAttributes(pointHelp(p))}></rect>`;}).join('');
+      shapes+=arr.map((p,i)=>{const v=p[1],x=X(i)-width/2;return `<rect x="${x}" y="${Math.min(Y(v),Y(0))}" width="${width}" height="${Math.max(1,Math.abs(Y(v)-Y(0)))}" fill="${v>=0?(opts.signedPnl?'#24c86a':s.color||'#24c86a'):'#fb4f61'}" ${helpAttributes(pointHelp(p))}></rect>`;}).join('');
     }else{
       const segments=[];
       for(let i=0;i<arr.length;i++){

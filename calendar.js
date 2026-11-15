@@ -28,7 +28,7 @@ function renderCalendarResults(rows) {
     .sort(([left], [right]) => left.localeCompare(right));
   const values = groups.map(([date, trades]) => [date, sum(trades)]);
   if (period === 'week') values.forEach(point => point.push(`Semana del ${point[0]} (lunes a domingo).`));
-  renderChart('months-chart', [{ values, color: '#5c9bff' }], {
+  renderChart('months-chart', [{ values }], {
     bar: true, currency: true, title,
     explanation: `${HELP_PNL} Cada barra suma las operaciones agrupadas por ${scope}. Se aplican los filtros actuales; se omiten los periodos sin operaciones y los extremos pueden ser parciales.`
   });
