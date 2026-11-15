@@ -9,6 +9,7 @@
   },
   "settings": {
     "baseSize": 3,
+    "monetaryUnit": "USD",
     "maxSessionIncrease": 0.1,
     "errorLimit": 6
   },
