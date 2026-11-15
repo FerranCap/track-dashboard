@@ -68,3 +68,18 @@
 .journal-calendar-day .journal-holiday-label{color:#e5c57f;overflow-wrap:anywhere}
 .journal-calendar-day[aria-pressed=true]{outline:2px solid #8bbaff;outline-offset:1px}
 @media(max-width:1150px){.journal-category-grid{grid-template-columns:minmax(0,1fr)}}
+.journal-entry-heading{display:flex;gap:20px;align-items:end;margin-bottom:18px}
+.journal-entry-heading>label{display:grid;gap:6px;min-width:170px;color:#a9bdd5;font-size:12px}
+.journal-entry-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.journal-entry-fields fieldset{min-width:0;border:1px solid #304058;border-radius:8px;padding:14px;margin:0}
+.journal-entry-fields legend{padding:0 6px;font-size:12px;font-weight:600;color:#8bbaff}
+.journal-entry-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.journal-entry-fields label{display:grid;gap:6px;color:#a9bdd5;font-size:11px}
+.journal-entry-fields input,.journal-entry-fields textarea{width:100%;min-width:0;box-sizing:border-box}
+.journal-entry-fields input{padding:8px;min-height:34px}
+.journal-entry-fields textarea{resize:vertical;line-height:1.5;padding:10px}
+.journal-entry-comment{grid-column:1/-1}
+.journal-entry-calculated{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.journal-entry-calculated output{display:block;font-size:18px;margin-top:10px}
+@media(max-width:1100px){.journal-entry-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.journal-entry-calculated{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.journal-entry-fields{grid-template-columns:minmax(0,1fr)}.journal-entry-heading{align-items:start;flex-direction:column}}

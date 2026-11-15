@@ -53,7 +53,6 @@ async function run() {
   assert.ok(element('journal-session-detail').innerHTML.includes('22/10/2026'));
   assert.ok(element('journal-calendar').innerHTML.includes('journal-day-passed'));
   assert.ok(element('journal-calendar').innerHTML.includes('journal-day-failed'));
-  assert.ok(element('journal-session-table').innerHTML.includes('aria-pressed="true"'));
   assert.ok(element('journal-calendar').innerHTML.includes('data-journal-date="2026-10-22" aria-pressed="true"'));
   assert.ok(element('journal-calendar').innerHTML.includes('Nota 0'));
   element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-10-19' }, disabled: false }) } });
@@ -64,11 +63,11 @@ async function run() {
   assert.ok(element('journal-session-detail').innerHTML.includes('30/09/2026'));
   assert.notEqual(element('journal-month-prev').disabled, true);
   element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-09-21' }, disabled: false }) } });
-  assert.ok(element('journal-session-detail').innerHTML.includes('Sin evaluar'));
+  assert.ok(!element('journal-session-detail').innerHTML.includes('Sin evaluar'));
   element('journal-month-next').handlers.click();
   assert.equal(element('journal-month').value, '2026-10');
   element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-10-23' }, disabled: false }) } });
-  assert.ok(element('journal-session-detail').innerHTML.includes('Pendiente'));
+  assert.ok(!element('journal-session-detail').innerHTML.includes('Pendiente'));
 
   let previousSize = data.settings.baseSize;
   for (const row of data.sessions) {
@@ -87,7 +86,7 @@ async function run() {
   assert.equal(data.sessions.find(row => row.date === '2026-10-23').overall, null);
   assert.equal(evaluate("journalNumber(0)"), '0');
   assert.equal(evaluate("journalNumber(null)"), '—');
-  assert.equal(evaluate("journalNumber('-')"), 'Sin evaluar');
+  assert.equal(evaluate("journalNumber('-')"), '—');
   assert.equal(evaluate("journalGroupValue(journalData.sessions.find(row => row.status === 'paused'), JOURNAL_GROUPS[0])"), null);
 
   generalCriteria.from = '2026-10-19';
@@ -135,7 +134,6 @@ async function run() {
   assert.equal(evaluate("journalAmount({date: '2026-09-17', sizeAfter: 0}, 'sizeAfter')"), 0);
   assert.equal(evaluate("journalAmount({date: '2026-09-17', sizeAfter: '-'}, 'sizeAfter')"), '-');
   assert.ok(element('journal-session-detail').innerHTML.includes('0,000833 R'));
-  assert.ok(element('journal-session-table').innerHTML.includes('0,01 R'));
   assert.ok(element('journal-summary').innerHTML.includes('0,015021 R'));
   assert.ok(element('journal-chart-grid').innerHTML.includes('Evolución del size · R'));
   assert.ok(!/NaN|Infinity|undefined/.test(element('journal-chart-grid').innerHTML));
@@ -152,6 +150,43 @@ async function run() {
   evaluate("journalData.sessions[0].comment = '<img src=x onerror=alert(1)>'; journalSelectedDate = journalData.sessions[0].date; journalMonth = journalSelectedDate.slice(0, 7); renderJournal()");
   assert.ok(!element('journal-session-detail').innerHTML.includes('<img'));
   assert.ok(element('journal-session-detail').innerHTML.includes('&lt;img'));
+  const beforeEntryDraft = evaluate('JSON.stringify(journalData.sessions)');
+  element('journal-tab-entry').handlers.click();
+  assert.equal(element('journal-entry').hidden, false);
+  assert.equal(element('journal-sessions').hidden, true);
+  assert.equal(element('journal-charts').hidden, true);
+  assert.equal(element('journal-chart-menu').hidden, true);
+  assert.ok(element('journal-entry-fields').innerHTML.includes('Resultante · USD'));
+  element('journal-entry-date').value = '2026-11-16';
+  element('journal-entry-date').handlers.change();
+  const entryKeys = evaluate('JOURNAL_GROUPS.flatMap(group => group.fields.map(([key]) => key))');
+  for (const key of entryKeys) element(`journal-entry-${key}`).value = '6';
+  element('journal-entry-sizeBefore').value = '3';
+  element('journal-entry-errorScore').value = '3';
+  element('journal-entry-discretionary').value = '-0.5';
+  element('journal-entry-systematic').value = '0.25';
+  element('journal-entry-comment').value = 'Daily journal comment';
+  evaluate("pnlDisplayUnit = 'r'");
+  element('journal-entry-form').handlers.input({ target: element('journal-entry-errorScore') });
+  assert.ok(element('journal-entry-calculated').innerHTML.includes('3,18 USD'));
+  assert.ok(element('journal-entry-calculated').innerHTML.includes('6 %'));
+  const savedDraft = JSON.parse(storage.get('track-journal-entry-2026-11-16'));
+  assert.equal(savedDraft.sizeBefore, 3);
+  assert.equal(savedDraft.discretionary, -0.5);
+  assert.equal(savedDraft.comment, 'Daily journal comment');
+  element('journal-entry-date').value = '2026-11-17';
+  element('journal-entry-date').handlers.change();
+  assert.equal(element('journal-entry-energy').value, '');
+  element('journal-entry-date').value = '2026-11-16';
+  element('journal-entry-date').handlers.change();
+  assert.equal(element('journal-entry-energy').value, '6');
+  assert.equal(element('journal-entry-comment').value, 'Daily journal comment');
+  const blocked = evaluate('journalEntryCalculation({...JSON.parse(localStorage.getItem("track-journal-entry-2026-11-16")), errorScore: 7}, journalData.settings)');
+  assert.equal(blocked.sizeAfter, 3);
+  assert.equal(blocked.sizeAdded, 0);
+  assert.equal(blocked.overall, 6);
+  assert.equal(evaluate('journalEntryCalculation({sizeBefore: 3, errorScore: 1}, journalData.settings).sizeAfter'), null);
+  assert.equal(evaluate('JSON.stringify(journalData.sessions)'), beforeEntryDraft, 'Draft entry never changes canonical sessions');
   context.fetch = async () => ({ ok: false, status: 500 });
   await evaluate('initializeJournal()');
   assert.ok(element('journal-status').textContent.includes('No se ha podido cargar'));
