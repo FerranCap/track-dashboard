@@ -87,6 +87,10 @@
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
 <span>Watchlist</span>
 </a>
+<a href="#journal" data-view="journal">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5"/></svg>
+<span>Diario</span>
+</a>
 </div>
 <div class="nav-group" role="group" aria-labelledby="nav-data">
 <div id="nav-data" class="nav-caption">DATOS</div>
@@ -392,6 +396,7 @@
 <p id="watchlist-status" class="watchlist-status" role="status"></p>
 </section>
 </div>
+<div id="view-journal" class="view" aria-labelledby="page-title" hidden></div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <div class="panel-head"><div><h2 class="data-audit-heading">Calidad de la base de datos <span id="data-audit-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % identificados</span></h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
@@ -667,7 +672,7 @@
 <script src="projection.js?v=20261110-historical-r-66" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
-<script src="workspace.js?v=20261111-watchlist-5" defer>
+<script src="workspace.js?v=20261115-journal-1" defer>
 </script>
 <script src="dashboard.js?v=20261110-historical-r-66" defer>
 </script>

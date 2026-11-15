@@ -12291,6 +12291,116 @@
         "Date-only same-day links do not establish publication before entry. Reported clocks without a confirmed timezone are retained only in audit metadata.",
         "Current served text is not verified as the version available before entry. Issuer statements are attributed rather than independently validated."
       ]
+    },
+    {
+      "symbol": "NVDA",
+      "issuerCik": "1045810",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-15",
+      "coverage": "partial",
+      "scope": "November 12-13 import: exact first position-cycle entries. Known publication timestamps use the exact 48-hour interval; unknown clocks or zones use the agreed publication-date rule.",
+      "tradeEntries": {
+        "broker-1b6acd985500ed006b973c3f": "2026-11-12T09:15:29-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=NVDA",
+          "access": "page_reviewed",
+          "note": "Started with issuer news list; current list is not a complete historical archive."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/NVDA/news/",
+          "access": "http_429",
+          "note": "Direct retrieval returned HTTP 429. Original publisher and indexed evidence were followed."
+        },
+        {
+          "url": "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board",
+          "access": "publication_reviewed",
+          "note": "The original issuer release and archive both display November 10, 2026; no publication clock or timezone was established."
+        },
+        {
+          "url": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+          "access": "publication_reviewed",
+          "note": "The original issuer release and newsroom archive explicitly display November 12, 2026, without a confirmed clock or timezone."
+        },
+        {
+          "url": "https://apnews.com/article/jensen-haung-china-spy-nvidia-aritificial-intelligence-f9ac67fed10c86c1ed1ad1f41dd921a5",
+          "access": "publication_reviewed",
+          "note": "Indexed AP publication evidence explicitly reports Thu Nov 12 12:26:02 2026 UTC, equivalent to 07:26:02 EST. The AP page confirms issuer and headline; later body updates are not treated as pre-entry facts."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm",
+          "access": "indexed_evidence",
+          "note": "Distinguishes the November 11 board action from the November 12 issuer release; filing event date is not substituted for publication time."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive historical coverage or evidence of a price cause.",
+        "Yahoo direct access returned HTTP 429. Some historical evidence relies on indexed metadata.",
+        "Same-day date-only matches do not establish availability before entry. Current article bodies may contain later updates."
+      ]
+    },
+    {
+      "symbol": "FCUV",
+      "issuerCik": "1590418",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-15",
+      "coverage": "partial",
+      "scope": "November 12-13 import: exact first position-cycle entries. Known publication timestamps use the exact 48-hour interval; unknown clocks or zones use the agreed publication-date rule.",
+      "tradeEntries": {
+        "broker-d598e03ef6368492daea073d": "2026-11-13T08:47:38-05:00",
+        "broker-06ed5790cdd87b128f02a0d2": "2026-11-13T09:59:30-05:00",
+        "broker-f771d56f4c4278d6bfb499bd": "2026-11-13T10:32:18-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=FCUV",
+          "access": "page_reviewed",
+          "note": "Started with issuer news list; current list is not a complete historical archive."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/FCUV/news/",
+          "access": "http_429",
+          "note": "Direct retrieval returned HTTP 429. Original publisher and indexed evidence were followed."
+        },
+        {
+          "url": "https://fennedge.ai/daily-recap/2026-11-13/premarket",
+          "access": "publication_reviewed",
+          "note": "The original page explicitly labels Friday November 13, 2026 and Published 09:05 ET, with a separate As of 09:00 ET observation time. Publication uses 09:05, not the observation time."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63254076/12-information-technology-stocks-moving-friday-s-intraday-session",
+          "access": "publication_reviewed",
+          "note": "The original article byline displays November 13, 2026 12:05 PM without a verified timezone. Only the date is used for matching and display."
+        },
+        {
+          "url": "https://fennedge.ai/daily-recap/2026-11-13/evidence",
+          "access": "page_reviewed",
+          "note": "Explicitly retrospective and built after the session; excluded from all morning entries, without date fallback."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "fcuv-20261113-retrospective-evidence-excluded",
+          "url": "https://fennedge.ai/daily-recap/2026-11-13/evidence",
+          "candidateTradeIds": [
+            "broker-d598e03ef6368492daea073d",
+            "broker-06ed5790cdd87b128f02a0d2",
+            "broker-f771d56f4c4278d6bfb499bd"
+          ],
+          "resolution": "The publisher states this report is built after the session. That known after-entry timing excludes all three morning entries; no date fallback is applied."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive historical coverage or evidence of a price cause.",
+        "Yahoo direct access returned HTTP 429. Some historical evidence relies on indexed metadata.",
+        "Same-day date-only matches do not establish availability before entry. Current article bodies may contain later updates."
+      ]
     }
   ],
   "matchingPolicy": {

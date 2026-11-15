@@ -2,6 +2,7 @@
 
 const VIEW_DETAILS = {
   watchlist: ['Watchlist', ''],
+  journal: ['Diario', ''],
   general: ['General', 'Actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
   compare: ['Comparativas', 'Compara hasta seis grupos de operaciones con filtros independientes.'],
@@ -106,7 +107,7 @@ function activateView() {
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
   document.body.classList.toggle('watchlist-active', active === 'watchlist');
-  $('data-selection').hidden = ['data', 'compare', 'watchlist'].includes(active);
+  $('data-selection').hidden = ['data', 'compare', 'watchlist', 'journal'].includes(active);
   refreshCharts();
 }
 

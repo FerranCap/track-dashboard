@@ -1246,5 +1246,26 @@
     "security_basis": "The annual report and November 4, 2026 issuer release identify Nasdaq NWGL as ADSs. The issuer announced a change from 8 to 640 Class A ordinary shares per ADS effective November 6, subject to Nasdaq confirmation.",
     "historical_note": "Formerly Nature Wood Group Limited; current issuer CL Workshop Group Limited. Annual-report headquarters are Macau; the November release has a Hong Kong dateline. Do not infer a headquarters move or operating country from that dateline. ADS ratio was announced to change before the November 9 trade.",
     "vie_basis": "No conclusive issuer-specific VIE statement established in the reviewed annual report. Generic regulation and ownership disclosures do not prove VIE absence."
+  },
+  "NVDA": {
+    "issuer_name": "NVIDIA Corporation",
+    "cik": "1045810",
+    "incorporation_country": "United States",
+    "incorporation_jurisdiction": "Delaware",
+    "headquarters_country": "United States",
+    "operating_country": "",
+    "security_type": "direct_equity",
+    "vie_status": "unknown",
+    "incorporation_status": "filing_cover",
+    "operations_status": "unverified",
+    "structure_status": "cover_table",
+    "source_filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+    "source_filing_date": "2026-02-25",
+    "checked_on": "2026-11-15",
+    "operations_basis": "The annual report describes employees in 38 countries and functional facilities in the US, China, India, Israel and Taiwan. A single principal operating country is not established; the headquarters address is not substituted.",
+    "security_basis": "The Form 10-K cover identifies NVDA as common stock listed on Nasdaq, not ADS or ADR.",
+    "vie_basis": "No conclusive issuer-specific VIE statement was established in the reviewed annual report. Absence of a mention does not establish absence of VIEs.",
+    "notes": "Reviewed SEC annual-report cover and Items 1 and 2 through the web evidence tool after direct SEC submissions retrieval returned HTTP 403. Incorporation and headquarters are separate from global operating exposure.",
+    "historical_note": "Reviewed on 2026-11-15 using the annual report filed 2026-02-25. Classification does not assert a point-in-time legal opinion for every trade."
   }
 }

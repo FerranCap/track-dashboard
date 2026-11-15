@@ -10343,6 +10343,139 @@
         "Issuer promotional claims and prospective commercial plans have not been independently validated.",
         "The Finviz article body was inaccessible; linked alternate or indexed evidence confirms publication. This known timestamp is excluded from entries earlier than publication."
       ]
+    },
+    {
+      "id": "nvda-20261110-independent-board-investigation",
+      "eventId": "nvda-20261110-independent-board-investigation",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Statement From the Independent Members of the NVIDIA Board",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "NVIDIA Newsroom",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "Independent directors say they retained outside counsel for the previously announced investigation. This is an investigation update, not a finding of misconduct.",
+      "url": "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board",
+      "sourceUrls": [
+        "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board"
+      ],
+      "timestampEvidence": "The original issuer release and archive both display November 10, 2026; no publication clock or timezone was established.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-15",
+      "sourceWarnings": [
+        "Date-only eligibility uses the two preceding New York calendar days; an exact elapsed publication age is unknown."
+      ],
+      "publicationDate": "2026-11-10"
+    },
+    {
+      "id": "nvda-20261112-ceo-transition",
+      "eventId": "nvda-20261112-leadership-transition",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "NVIDIA Announces CEO Transition",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "NVIDIA Newsroom",
+      "kind": "issuer_release",
+      "category": "issuer_update",
+      "summary": "NVIDIA announces Huang's resignation, Kress as interim CEO and Jones as board chair. The November 12 release date is distinct from the November 11 board action described in the related Form 8-K. Publication before the 09:15:29 entry is not established by the issuer page.",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+      "sourceUrls": [
+        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+      ],
+      "timestampEvidence": "The original issuer release and newsroom archive explicitly display November 12, 2026, without a confirmed clock or timezone.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-15",
+      "sourceWarnings": [
+        "Same-day date-only match: publication before entry is not established.",
+        "The related SEC Form 8-K describes board acceptance on November 11; that event date is not used as the publication date."
+      ],
+      "publicationDate": "2026-11-12"
+    },
+    {
+      "id": "nvda-20261112-ap-leadership-report",
+      "eventId": "nvda-20261112-leadership-transition",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Jensen Huang steps down and Nvidia shares drop",
+      "publishedAt": "2026-11-12T07:26:02-05:00",
+      "timePrecision": "second",
+      "publisher": "Associated Press",
+      "kind": "reporting",
+      "category": "market_context",
+      "summary": "AP reports the leadership change and market reaction. Allegations are attributed to reporting. The currently served article includes later session results, whose availability before entry is not verified.",
+      "url": "https://apnews.com/article/jensen-haung-china-spy-nvidia-aritificial-intelligence-f9ac67fed10c86c1ed1ad1f41dd921a5",
+      "sourceUrls": [
+        "https://apnews.com/article/jensen-haung-china-spy-nvidia-aritificial-intelligence-f9ac67fed10c86c1ed1ad1f41dd921a5"
+      ],
+      "timestampEvidence": "Indexed AP publication evidence explicitly reports Thu Nov 12 12:26:02 2026 UTC, equivalent to 07:26:02 EST. The AP page confirms issuer and headline; later body updates are not treated as pre-entry facts.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-15",
+      "sourceWarnings": [
+        "Current served text includes post-entry market developments; only publication existence and original timestamp are established for matching.",
+        "Allegations in reporting are not independently adjudicated here."
+      ]
+    },
+    {
+      "id": "fcuv-20261113-fennedge-premarket",
+      "eventId": "fcuv-20261113-fennedge-premarket",
+      "symbol": "FCUV",
+      "issuerName": "FOCUS UNIVERSAL INC.",
+      "issuerCik": "1590418",
+      "headline": "Premarket movers on Friday, November 13, 2026",
+      "publishedAt": "2026-11-13T09:05:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "FennEdge",
+      "kind": "reporting",
+      "category": "market_context",
+      "summary": "The premarket table identifies Focus Universal among the leading gappers. Its claim that no filing was found is limited to the publisher's search. The 09:05 ET publication is after the first cycle entry and before the second and third entries.",
+      "url": "https://fennedge.ai/daily-recap/2026-11-13/premarket",
+      "sourceUrls": [
+        "https://fennedge.ai/daily-recap/2026-11-13/premarket"
+      ],
+      "timestampEvidence": "The original page explicitly labels Friday November 13, 2026 and Published 09:05 ET, with a separate As of 09:00 ET observation time. Publication uses 09:05, not the observation time.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-15",
+      "sourceWarnings": [
+        "A market-mover table does not establish an issuer announcement or a cause of price movement.",
+        "The page is not a complete issuer news archive; historical text availability is not independently verified."
+      ]
+    },
+    {
+      "id": "fcuv-20261113-benzinga-intraday",
+      "eventId": "fcuv-20261113-benzinga-intraday",
+      "symbol": "FCUV",
+      "issuerName": "FOCUS UNIVERSAL INC.",
+      "issuerCik": "1590418",
+      "headline": "12 Information Technology Stocks Moving In Friday's Intraday Session",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "reporting",
+      "category": "market_context",
+      "summary": "Benzinga includes Focus Universal in a technology-stock movers list. Its reported 12:05 PM clock has no confirmed timezone in the consulted evidence and may be after all entries. This counts only by publication date; publication before entry is not established.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63254076/12-information-technology-stocks-moving-friday-s-intraday-session",
+      "sourceUrls": [
+        "https://www.benzinga.com/trading-ideas/movers/26/11/63254076/12-information-technology-stocks-moving-friday-s-intraday-session"
+      ],
+      "timestampEvidence": "The original article byline displays November 13, 2026 12:05 PM without a verified timezone. Only the date is used for matching and display.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-15",
+      "sourceWarnings": [
+        "Same-day date-only match: publication before entry is not established; the reported afternoon clock may be after all three entries.",
+        "Publisher market figures are attributed and are not a verified corporate catalyst."
+      ],
+      "publicationDate": "2026-11-13",
+      "reportedPublicationClock": "12:05 PM (timezone unconfirmed)"
     }
   ]
 }
