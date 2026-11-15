@@ -15,7 +15,9 @@ function element(id) {
 }
 const presets = ['all', 'none', 'default'].map(name => Object.assign(element(`preset-${name}`), { dataset: { journalPreset: name } }));
 const storage = new Map();
+const generalCriteria = { from: '', to: '' };
 const context = vm.createContext({
+  tradeFilterPanels: new Map([['general', { appliedCriteria: generalCriteria }]]),
   document: { getElementById: element, querySelectorAll(selector) { return selector === '[data-journal-preset]' ? presets : []; } },
   localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
   fetch: async () => ({ ok: true, json: async () => JSON.parse(JSON.stringify(data)) })
@@ -33,6 +35,21 @@ async function run() {
   assert.ok(element('journal-status').textContent.includes('20 con nota'));
   assert.ok(element('journal-session-detail').innerHTML.includes('22/10/2026'));
   assert.ok(element('journal-session-table').innerHTML.includes('aria-pressed="true"'));
+  assert.ok(element('journal-calendar').innerHTML.includes('data-journal-date="2026-10-22" aria-pressed="true"'));
+  assert.ok(element('journal-calendar').innerHTML.includes('Nota 0'));
+  element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-10-19' }, disabled: false }) } });
+  assert.ok(element('journal-session-detail').innerHTML.includes('19/10/2026'));
+  assert.ok(element('journal-session-detail').innerHTML.includes('4,51'));
+  element('journal-month-prev').handlers.click();
+  assert.equal(element('journal-month').value, '2026-09');
+  assert.ok(element('journal-session-detail').innerHTML.includes('30/09/2026'));
+  assert.equal(element('journal-month-prev').disabled, true);
+  element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-09-21' }, disabled: false }) } });
+  assert.ok(element('journal-session-detail').innerHTML.includes('Sin evaluar'));
+  element('journal-month-next').handlers.click();
+  assert.equal(element('journal-month').value, '2026-10');
+  element('journal-calendar').handlers.click({ target: { closest: () => ({ dataset: { journalDate: '2026-10-23' }, disabled: false }) } });
+  assert.ok(element('journal-session-detail').innerHTML.includes('Pendiente'));
 
   let previousSize = data.settings.baseSize;
   for (const row of data.sessions) {
@@ -54,17 +71,19 @@ async function run() {
   assert.equal(evaluate("journalNumber('-')"), 'Sin evaluar');
   assert.equal(evaluate("journalGroupValue(journalData.sessions.find(row => row.status === 'paused'), JOURNAL_GROUPS[0])"), null);
 
-  element('journal-from').value = '2026-10-19';
-  element('journal-to').value = '2026-10-22';
-  element('journal-from').handlers.change();
+  generalCriteria.from = '2026-10-19';
+  generalCriteria.to = '2026-10-22';
+  evaluate('renderJournal()');
   assert.equal(evaluate('journalFilteredRows().length'), 4);
   assert.ok(element('journal-status').textContent.includes('4 con nota'));
-  element('journal-from').value = '2026-10-23';
-  element('journal-to').value = '2026-10-19';
-  element('journal-to').handlers.change();
+  generalCriteria.from = '2026-10-23';
+  generalCriteria.to = '2026-10-19';
+  evaluate('renderJournal()');
   assert.ok(element('journal-status').textContent.includes('fecha inicial'));
   assert.equal(evaluate('journalFilteredRows().length'), 0);
-  element('journal-reset-dates').handlers.click();
+  generalCriteria.from = '';
+  generalCriteria.to = '';
+  evaluate('renderJournal()');
 
   element('journal-tab-charts').handlers.click();
   assert.equal(element('journal-charts').hidden, false);
@@ -88,7 +107,7 @@ async function run() {
   assert.ok(!gapChart.includes('23/10/2026 · Nota general: 0'));
   evaluate("journalSelectedDate = '2026-10-12'; renderJournal()");
   assert.ok(element('journal-session-detail').innerHTML.includes('SEMANA DE REENFOQUE'));
-  evaluate("journalData.sessions[0].comment = '<img src=x onerror=alert(1)>'; journalSelectedDate = journalData.sessions[0].date; renderJournal()");
+  evaluate("journalData.sessions[0].comment = '<img src=x onerror=alert(1)>'; journalSelectedDate = journalData.sessions[0].date; journalMonth = journalSelectedDate.slice(0, 7); renderJournal()");
   assert.ok(!element('journal-session-detail').innerHTML.includes('<img'));
   assert.ok(element('journal-session-detail').innerHTML.includes('&lt;img'));
   context.fetch = async () => ({ ok: false, status: 500 });

@@ -7,13 +7,13 @@
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <link rel="stylesheet" href="styles.css?v=20261111-watchlist-23">
-  <link rel="stylesheet" href="journal.css?v=20261115-journal-2">
+  <link rel="stylesheet" href="journal.css?v=20261115-journal-calendar-4">
 </head>
 <body>
 <aside class="sidebar">
 <nav aria-label="Apartados">
-<div class="nav-group" role="group" aria-labelledby="nav-studies">
-<div id="nav-studies" class="nav-caption">ESTUDIOS</div>
+<div class="nav-group" role="group" aria-labelledby="nav-journey">
+<div id="nav-journey" class="nav-caption">TRAYECTORIA</div>
 <a href="#general" data-view="general">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <rect x="3" y="3" width="7" height="7"/>
@@ -30,6 +30,13 @@
 </svg>
 <span>Calendario</span>
 </a>
+<a href="#journal" data-view="journal">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5"/></svg>
+<span>Diario</span>
+</a>
+</div>
+<div class="nav-group" role="group" aria-labelledby="nav-studies">
+<div id="nav-studies" class="nav-caption">ESTUDIOS</div>
 <a href="#risk" data-view="risk">
 <svg viewBox="0 0 24 24" aria-hidden="true">
 <path d="M12 3l8 4v6c0 5-8 8-8 8s-8-3-8-8V7zM12 8v5m0 3v1"/>
@@ -87,10 +94,6 @@
 <a href="#watchlist" data-view="watchlist">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
 <span>Watchlist</span>
-</a>
-<a href="#journal" data-view="journal">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5"/></svg>
-<span>Diario</span>
 </a>
 </div>
 <div class="nav-group" role="group" aria-labelledby="nav-data">
@@ -404,9 +407,6 @@
 <button id="journal-tab-charts" type="button" role="tab" aria-selected="false" aria-controls="journal-charts" tabindex="-1">Gráficos</button>
 </div>
 <div class="journal-controls">
-<label>Desde<input id="journal-from" type="date"></label>
-<label>Hasta<input id="journal-to" type="date"></label>
-<button id="journal-reset-dates" type="button">Todo el historial</button>
 <details id="journal-chart-menu" class="journal-chart-menu" hidden>
 <summary>Mostrar gráficos <span id="journal-chart-count"></span></summary>
 <div class="journal-chart-options">
@@ -420,12 +420,17 @@
 <div id="journal-summary" class="metrics four"></div>
 <div id="journal-sessions" role="tabpanel" aria-labelledby="journal-tab-sessions">
 <div class="journal-session-layout">
-<section class="panel section"><div class="panel-head"><h2>Historial de sesiones</h2></div><p class="mini-caption">Selecciona una fecha para consultar su ficha.</p><div id="journal-session-table" class="table-wrap"></div></section>
+<section class="panel section">
+<div class="panel-head"><h2>Calendario del diario</h2></div>
+<div class="calendar-controls journal-calendar-controls"><button id="journal-month-prev" type="button" aria-label="Mes anterior">&larr;</button><label for="journal-month">Mes<select id="journal-month"></select></label><button id="journal-month-next" type="button" aria-label="Mes siguiente">&rarr;</button></div>
+<p class="mini-caption">Pulsa un día para consultar su ficha. Cada día muestra su nota o estado.</p>
+<div id="journal-calendar" class="journal-calendar" role="group" aria-label="Días del diario"></div>
+<details class="journal-history"><summary>Ver historial en tabla</summary><div id="journal-session-table" class="table-wrap"></div></details>
+</section>
 <section id="journal-session-detail" class="panel section" aria-label="Ficha de la sesión"></section>
 </div>
 </div>
 <div id="journal-charts" role="tabpanel" aria-labelledby="journal-tab-charts" hidden><div id="journal-chart-grid" class="journal-chart-grid"></div></div>
-<details class="panel section journal-method"><summary>Origen y criterios del diario</summary><p>Las notas y el size conservan los valores de la hoja. La nota general promedia fundamental, técnico y ejecución; preparación se muestra por separado. Los ceros se conservan, los guiones indican datos sin evaluar y los campos vacíos quedan pendientes.</p><p id="journal-source"></p><p id="journal-rules"></p></details>
 </div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
@@ -702,10 +707,10 @@
 <script src="projection.js?v=20261110-historical-r-66" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
-<script src="journal.js?v=20261115-journal-2" defer></script>
-<script src="workspace.js?v=20261115-journal-2" defer>
+<script src="journal.js?v=20261115-journal-global-filter-5" defer></script>
+<script src="workspace.js?v=20261115-journal-global-filter-5" defer>
 </script>
-<script src="dashboard.js?v=20261115-pnl-colors-68" defer>
+<script src="dashboard.js?v=20261115-journal-global-filter-5" defer>
 </script>
 </body>
 </html>

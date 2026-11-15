@@ -114,6 +114,6 @@ Watchlist Country options are ranked by the full history closed-trade count, usi
 
 ## Trading journal
 
-The Diario view under Operativa has Sessions and Charts tabs with its own date filters. Select a session date to inspect preparation, fundamental and technical analysis, execution, results, comments, errors and size. The chart menu supports individual metrics, block averages, size changes and result comparisons; its selection is saved in browser local storage.
+The Diario view under Trayectoria has Sessions and Charts tabs using the applied general date filter. Select a session date to inspect preparation, fundamental and technical analysis, execution, results, comments, errors and size. The chart menu supports individual metrics, block averages, size changes and result comparisons; its selection is saved in browser local storage.
 
 `data/journal.json` contains a read-only snapshot of the linked Size Tracker sheet imported on November 15, 2026. Source row numbers and full numeric values are preserved. Numeric zeros, unevaluated dashes, paused dates and incomplete dates remain distinct. The original overall score uses the nine fundamental, technical and execution scores; preparation is separate. Size increments weight the three block averages equally, subject to the source error threshold. Source values are displayed without recalculating or changing trade accounting or session R. Sheet edits require a new reviewed import; this version does not synchronize with Google Sheets automatically.

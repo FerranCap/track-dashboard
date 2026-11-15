@@ -19,6 +19,21 @@
 #journal-summary{margin:0 0 22px}
 .journal-session-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,1fr);gap:20px;align-items:start}
 .journal-session-layout>.panel{min-width:0}
+.journal-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:16px}
+.journal-calendar-weekday{text-align:center;font-size:11px;color:#91a4be;padding:8px 0}
+.journal-calendar-day{min-width:0;min-height:76px;padding:9px 6px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:9px;white-space:normal;background:#142438;border:1px solid #304860;border-radius:7px;text-align:left}
+.journal-calendar-day>span{font-size:14px;color:#dce9fa}
+.journal-calendar-day>small{font-size:10px;color:#a8c3e5;line-height:1.35}
+.journal-calendar-day:hover:not(:disabled){background:#243b5c;border-color:#739edb}
+.journal-calendar-day[aria-pressed=true]{outline:2px solid #8bbaff;outline-offset:1px;background:#243b5c}
+.journal-day-paused{background:#252335;border-color:#44415b}
+.journal-day-incomplete,.journal-day-not_evaluated{background:#192330;border-style:dashed}
+.journal-calendar-day.journal-day-empty{background:#101c2b;opacity:.4;cursor:default}
+.journal-calendar-controls label{min-width:150px}
+.journal-calendar-controls select{width:100%}
+.journal-history{margin-top:22px;font-size:12px;color:#a8bbd2}
+.journal-history summary{cursor:pointer;margin-bottom:12px}
+@media(max-width:760px){.journal-calendar{gap:4px}.journal-calendar-day{min-height:64px;padding:7px 4px}.journal-calendar-day>small{font-size:9px}}
 .journal-table{width:100%;font-size:12px}
 .journal-table th,.journal-table td{padding:10px 8px;white-space:nowrap}
 .journal-table tbody th{font-weight:400}
@@ -41,8 +56,5 @@
 .journal-legend{display:flex;justify-content:center;gap:18px;font-size:11px;margin-top:8px}
 .journal-legend span:before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px}
 .journal-empty{color:#91a4be;font-size:13px;padding:20px 0;line-height:1.6}
-.journal-method{margin-top:22px;color:#91a4be;font-size:12px;line-height:1.7}
-.journal-method summary{cursor:pointer;color:#b9cce1}
-.journal-method a{color:#9bc5ff}
 @media(max-width:1150px){.journal-session-layout{grid-template-columns:minmax(0,1fr)}.journal-chart-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){.journal-controls{gap:10px}.journal-controls>label{flex:1;min-width:120px}.journal-chart-menu{margin-left:0;width:100%}.journal-chart-options{left:0;right:auto}.journal-tabs button{flex:1}.journal-table th,.journal-table td{padding:8px 6px}.journal-values{gap:12px}.journal-chart-grid{gap:14px}#journal-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}

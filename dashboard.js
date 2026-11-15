@@ -239,6 +239,7 @@ function applyFilters(){
   const sourceRows=tradeFilterPanels.get('general').matchingRows();
   filtered=displayPnlRows(sourceRows);
   page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
+  if (typeof renderJournal === 'function') renderJournal();
 }
 function setTradeTableSort(state) {
   tradeTableSort = state;

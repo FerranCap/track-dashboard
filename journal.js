@@ -11,6 +11,7 @@ const JOURNAL_DEFAULT_CHARTS = ['overall', 'size', 'errors'];
 const JOURNAL_COLORS = ['#78adff', '#47d2b4', '#f0ba72'];
 let journalData = null;
 let journalSelectedDate = '';
+let journalMonth = '';
 let journalView = 'sessions';
 let journalSelectedCharts = new Set(JOURNAL_DEFAULT_CHARTS);
 
@@ -51,11 +52,41 @@ function journalChartDefinitions() {
   ];
 }
 
+function journalDateRange() {
+  return typeof tradeFilterPanels === 'undefined' ? {} : tradeFilterPanels.get('general')?.appliedCriteria || {};
+}
+
 function journalFilteredRows() {
-  const from = document.getElementById('journal-from').value;
-  const to = document.getElementById('journal-to').value;
+  const { from, to } = journalDateRange();
   if (from && to && from > to) return [];
   return journalData.sessions.filter(row => (!from || row.date >= from) && (!to || row.date <= to));
+}
+
+function journalMonths(rows) { return [...new Set(rows.map(row => row.date.slice(0, 7)))].sort(); }
+
+function renderJournalCalendar(rows) {
+  const months = journalMonths(rows);
+  const title = month => new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month}-01T12:00:00Z`));
+  document.getElementById('journal-month').innerHTML = months.map(month => `<option value="${month}">${title(month)}</option>`).join('');
+  document.getElementById('journal-month').value = journalMonth;
+  const index = months.indexOf(journalMonth);
+  document.getElementById('journal-month-prev').disabled = index <= 0;
+  document.getElementById('journal-month-next').disabled = index < 0 || index >= months.length - 1;
+  const host = document.getElementById('journal-calendar');
+  if (!journalMonth || !rows.length) { host.innerHTML = '<p class="journal-empty">No hay días en este intervalo.</p>'; return; }
+  const [year, month] = journalMonth.split('-').map(Number);
+  const offset = (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7;
+  const days = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const entries = new Map(rows.map(row => [row.date, row]));
+  const cells = Array.from({ length: Math.ceil((offset + days) / 7) * 7 }, (_, index) => {
+    const day = index - offset + 1;
+    if (day < 1 || day > days) return '<span class="journal-calendar-spacer" aria-hidden="true"></span>';
+    const date = `${journalMonth}-${String(day).padStart(2, '0')}`;
+    const row = entries.get(date);
+    const label = row ? Number.isFinite(row.overall) ? `Nota ${journalNumber(row.overall)}` : JOURNAL_STATUSES[row.status] : 'Sin registro';
+    return `<button type="button" class="journal-calendar-day ${row ? `journal-day-${row.status}` : 'journal-day-empty'}" data-journal-date="${date}" aria-pressed="${date === journalSelectedDate}" aria-controls="journal-session-detail" aria-label="${journalDate(date)} · ${label}" ${row ? '' : 'disabled'}><span>${day}</span><small>${label}</small></button>`;
+  });
+  host.innerHTML = ['L', 'M', 'X', 'J', 'V', 'S', 'D'].map(day => `<span class="journal-calendar-weekday" aria-hidden="true">${day}</span>`).join('') + cells.join('');
 }
 
 function journalChartSvg(definition, rows) {
@@ -109,15 +140,20 @@ function renderJournalDetail(rows) {
 function renderJournal() {
   if (!journalData) return;
   const rows = journalFilteredRows();
-  if (!rows.some(row => row.date === journalSelectedDate)) journalSelectedDate = rows.filter(row => row.status === 'evaluated').at(-1)?.date || rows.at(-1)?.date || '';
+  const months = journalMonths(rows);
+  if (!months.includes(journalMonth)) journalMonth = rows.find(row => row.date === journalSelectedDate)?.date.slice(0, 7) || rows.filter(row => row.status === 'evaluated').at(-1)?.date.slice(0, 7) || months.at(-1) || '';
+  const monthRows = rows.filter(row => row.date.startsWith(journalMonth));
+  if (!monthRows.some(row => row.date === journalSelectedDate)) journalSelectedDate = monthRows.filter(row => row.status === 'evaluated').at(-1)?.date || monthRows.at(-1)?.date || '';
   const evaluated = rows.filter(row => Number.isFinite(row.overall));
   const lastSize = rows.filter(row => Number.isFinite(row.sizeAfter)).at(-1)?.sizeAfter;
   const average = evaluated.length ? evaluated.reduce((sum, row) => sum + row.overall, 0) / evaluated.length : null;
   const highErrors = rows.filter(row => Number.isFinite(row.errorScore) && row.errorScore > journalData.settings.errorLimit).length;
   document.getElementById('journal-summary').innerHTML = [['Sesiones con nota', evaluated.length], ['Nota media', journalNumber(average)], ['Último size del período', journalNumber(lastSize)], ['Errores sobre el límite', highErrors]].map(([label, value]) => `<div class="metric"><div class="metric-label">${label}</div><div class="metric-value">${value}</div></div>`).join('');
-  const invalidRange = document.getElementById('journal-from').value && document.getElementById('journal-to').value && document.getElementById('journal-from').value > document.getElementById('journal-to').value;
+  const { from, to } = journalDateRange();
+  const invalidRange = from && to && from > to;
   document.getElementById('journal-status').textContent = invalidRange ? 'La fecha inicial debe ser anterior o igual a la fecha final.' : `${rows.length} fechas · ${evaluated.length} con nota · ${rows.filter(row => row.status === 'paused').length} en pausa · ${rows.filter(row => row.status === 'not_evaluated').length} sin evaluar · ${rows.filter(row => row.status === 'incomplete').length} pendientes`;
   document.getElementById('journal-session-table').innerHTML = rows.length ? `<table class="journal-table"><thead><tr><th>Fecha</th><th>Estado</th><th>Nota</th><th>Error</th><th>Size antes</th><th>Size después</th></tr></thead><tbody>${rows.slice().reverse().map(row => `<tr class="${row.date === journalSelectedDate ? 'journal-selected' : ''}"><th><button type="button" data-journal-date="${row.date}" aria-pressed="${row.date === journalSelectedDate}">${journalDate(row.date)}</button></th><td><span class="journal-badge">${JOURNAL_STATUSES[row.status]}</span></td><td>${journalNumber(row.overall)}</td><td class="${row.errorScore > journalData.settings.errorLimit ? 'journal-high-error' : ''}">${journalNumber(row.errorScore)}</td><td>${journalNumber(row.sizeBefore)}</td><td>${journalNumber(row.sizeAfter)}</td></tr>`).join('')}</tbody></table>` : '<p class="journal-empty">No hay sesiones en este intervalo.</p>';
+  renderJournalCalendar(rows);
   renderJournalDetail(rows);
   renderJournalCharts(rows);
 }
@@ -177,15 +213,26 @@ async function initializeJournal() {
       document.getElementById(`journal-tab-${target}`).focus();
     });
   }
-  for (const id of ['journal-from', 'journal-to']) document.getElementById(id).addEventListener('change', renderJournal);
-  document.getElementById('journal-reset-dates').addEventListener('click', () => {
-    document.getElementById('journal-from').value = '';
-    document.getElementById('journal-to').value = '';
+  const selectDay = event => {
+    const button = event.target.closest('[data-journal-date]');
+    if (button && !button.disabled && journalData && journalFilteredRows().some(row => row.date === button.dataset.journalDate)) {
+      journalSelectedDate = button.dataset.journalDate;
+      journalMonth = journalSelectedDate.slice(0, 7);
+      renderJournal();
+    }
+  };
+  document.getElementById('journal-session-table').addEventListener('click', selectDay);
+  document.getElementById('journal-calendar').addEventListener('click', selectDay);
+  document.getElementById('journal-month').addEventListener('change', event => {
+    journalMonth = event.target.value;
+    journalSelectedDate = '';
     renderJournal();
   });
-  document.getElementById('journal-session-table').addEventListener('click', event => {
-    const button = event.target.closest('[data-journal-date]');
-    if (button) { journalSelectedDate = button.dataset.journalDate; renderJournal(); }
+  for (const [id, offset] of [['journal-month-prev', -1], ['journal-month-next', 1]]) document.getElementById(id).addEventListener('click', () => {
+    if (!journalData) return;
+    const months = journalMonths(journalFilteredRows());
+    const next = months[months.indexOf(journalMonth) + offset];
+    if (next) { journalMonth = next; journalSelectedDate = ''; renderJournal(); }
   });
   try {
     const response = await fetch(`data/journal.json?v=${Date.now()}`, { cache: 'no-store' });
@@ -198,8 +245,6 @@ async function initializeJournal() {
       dates.add(row.date);
     }
     journalData = { ...data, sessions: data.sessions.slice().sort((a, b) => a.date.localeCompare(b.date)) };
-    document.getElementById('journal-source').innerHTML = `Copia importada el ${journalDate(data.source.importedOn)} de <a href="${journalEscape(data.source.url)}" target="_blank" rel="noopener noreferrer">Google Sheets · Size Tracker</a>. La hoja no se sincroniza automáticamente.`;
-    document.getElementById('journal-rules').textContent = `Size base: ${journalNumber(data.settings.baseSize)}. Subida máxima por sesión: ${journalNumber(data.settings.maxSessionIncrease * 100)}%. La hoja bloquea la subida si el error supera ${journalNumber(data.settings.errorLimit)}. La subida usa las medias de fundamental, técnico y ejecución con el mismo peso. Los resultados y el size mantienen sus unidades originales; no modifican la R del dashboard.`;
     renderJournal();
   } catch {
     document.getElementById('journal-status').textContent = 'No se ha podido cargar el diario. Recarga la página para volver a intentarlo.';
