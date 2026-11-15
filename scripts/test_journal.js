@@ -26,6 +26,7 @@ vm.runInContext(fs.readFileSync(path.join(root, 'calendar.js'), 'utf8'), context
 vm.runInContext(fs.readFileSync(path.join(root, 'workspace.js'), 'utf8'), context);
 context.riskFixture = JSON.parse(fs.readFileSync(path.join(root, 'data/session-risk.json'), 'utf8'));
 vm.runInContext('sessionRiskHistory = riskFixture', context);
+vm.runInContext(fs.readFileSync(path.join(root, 'date-fields.js'), 'utf8'), context);
 vm.runInContext(fs.readFileSync(path.join(root, 'journal.js'), 'utf8'), context);
 const evaluate = source => vm.runInContext(source, context);
 
@@ -157,7 +158,8 @@ async function run() {
   assert.equal(element('journal-charts').hidden, true);
   assert.equal(element('journal-chart-menu').hidden, true);
   assert.ok(element('journal-entry-fields').innerHTML.includes('Resultante · USD'));
-  element('journal-entry-date').value = '2026-11-16';
+  assert.match(element('journal-entry-date').value, /^\d{2}\/\d{2}\/\d{4}$/);
+  element('journal-entry-date').value = '16/11/2026';
   element('journal-entry-date').handlers.change();
   const entryKeys = evaluate('JOURNAL_GROUPS.flatMap(group => group.fields.map(([key]) => key))');
   for (const key of entryKeys) element(`journal-entry-${key}`).value = '6';
@@ -174,10 +176,10 @@ async function run() {
   assert.equal(savedDraft.sizeBefore, 3);
   assert.equal(savedDraft.discretionary, -0.5);
   assert.equal(savedDraft.comment, 'Daily journal comment');
-  element('journal-entry-date').value = '2026-11-17';
+  element('journal-entry-date').value = '17/11/2026';
   element('journal-entry-date').handlers.change();
   assert.equal(element('journal-entry-energy').value, '');
-  element('journal-entry-date').value = '2026-11-16';
+  element('journal-entry-date').value = '16/11/2026';
   element('journal-entry-date').handlers.change();
   assert.equal(element('journal-entry-energy').value, '6');
   assert.equal(element('journal-entry-comment').value, 'Daily journal comment');

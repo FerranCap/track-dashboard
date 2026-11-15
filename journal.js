@@ -223,8 +223,9 @@ function initializeJournalEntry() {
   document.getElementById('journal-entry-fields').innerHTML = JOURNAL_GROUPS.map(group => `<fieldset><legend>${group.label} · 0–10</legend><div class="journal-entry-inputs">${group.fields.map(([key, label]) => input(key, label, true)).join('')}</div></fieldset>`).join('') + `<fieldset><legend>Resultante · USD</legend><div class="journal-entry-inputs">${extra.slice(0, 2).map(([key, label]) => input(key, label)).join('')}</div></fieldset><fieldset><legend>Size y errores</legend><div class="journal-entry-inputs">${extra.slice(2).map(([key, label]) => input(key, label, key === 'errorScore')).join('')}</div></fieldset><fieldset class="journal-entry-comment"><legend>Comentario y errores del día</legend><label for="journal-entry-comment">Comentario<textarea id="journal-entry-comment" name="comment" rows="4"></textarea></label></fieldset>`;
   const dateInput = document.getElementById('journal-entry-date');
   const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
-  dateInput.value = ['year', 'month', 'day'].map(type => parts.find(part => part.type === type).value).join('-');
-  const read = () => ({ date: dateInput.value, comment: document.getElementById('journal-entry-comment').value, ...Object.fromEntries(fields.map(([key]) => {
+  dateInput.value = dateFieldFromIso(['year', 'month', 'day'].map(type => parts.find(part => part.type === type).value).join('-'));
+  attachDatePicker(dateInput);
+  const read = () => ({ date: dateFieldToIso(dateInput.value), comment: document.getElementById('journal-entry-comment').value, ...Object.fromEntries(fields.map(([key]) => {
     const raw = document.getElementById(`journal-entry-${key}`).value.trim();
     return [key, raw !== '' && Number.isFinite(Number(raw)) ? Number(raw) : null];
   })) });
@@ -234,17 +235,22 @@ function initializeJournalEntry() {
     const value = (number, suffix = '') => Number.isFinite(number) ? `${journalNumber(number, suffix === ' USD' ? 6 : 2)}${suffix}` : '—';
     document.getElementById('journal-entry-calculated').innerHTML = [['Nota general', value(result.overall)], ['Size después · USD', value(result.sizeAfter, ' USD')], ['Size añadido · USD', value(result.sizeAdded, ' USD')], ['Size añadido · %', value(result.sizeAddedPercent, ' %')]].map(([label, number]) => `<div class="metric"><div class="metric-label">${label}</div><output class="metric-value">${number}</output></div>`).join('');
     let message = 'Importes en USD. Envía una captura con la fecha, todos los campos y el resumen calculado.';
-    if (save && /^\d{4}-\d{2}-\d{2}$/.test(entry.date)) {
+    if (!entry.date) message = 'Introduce una fecha válida en formato dd/mm/aaaa.';
+    if (save && entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date)) {
       try { localStorage.setItem(`track-journal-entry-${entry.date}`, JSON.stringify(entry)); message = 'Borrador guardado en este navegador. ' + message; } catch { message = 'No se pudo guardar el borrador en este navegador. ' + message; }
     }
     document.getElementById('journal-entry-status').textContent = message;
   };
   const load = () => {
-    let entry = journalData.sessions.find(row => row.date === dateInput.value) || {};
-    try { const draft = JSON.parse(localStorage.getItem(`track-journal-entry-${dateInput.value}`)); if (draft && draft.date === dateInput.value) entry = draft; } catch {}
+    if (!dateFieldToIso(dateInput.value)) {
+      document.getElementById('journal-entry-status').textContent = 'Introduce una fecha válida en formato dd/mm/aaaa.';
+      return;
+    }
+    let entry = journalData.sessions.find(row => row.date === dateFieldToIso(dateInput.value)) || {};
+    try { const draft = JSON.parse(localStorage.getItem(`track-journal-entry-${dateFieldToIso(dateInput.value)}`)); if (draft && draft.date === dateFieldToIso(dateInput.value)) entry = draft; } catch {}
     for (const [key] of fields) document.getElementById(`journal-entry-${key}`).value = Number.isFinite(entry[key]) ? String(entry[key]) : '';
     document.getElementById('journal-entry-comment').value = typeof entry.comment === 'string' ? entry.comment : '';
-    if (!Number.isFinite(entry.sizeBefore)) document.getElementById('journal-entry-sizeBefore').value = String(journalData.sessions.filter(row => row.date < dateInput.value && Number.isFinite(row.sizeAfter)).at(-1)?.sizeAfter ?? journalData.settings.baseSize);
+    if (!Number.isFinite(entry.sizeBefore)) document.getElementById('journal-entry-sizeBefore').value = String(journalData.sessions.filter(row => row.date < dateFieldToIso(dateInput.value) && Number.isFinite(row.sizeAfter)).at(-1)?.sizeAfter ?? journalData.settings.baseSize);
     render(false);
   };
   dateInput.addEventListener('change', load);

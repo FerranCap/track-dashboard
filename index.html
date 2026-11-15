@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261111-watchlist-23">
+  <link rel="stylesheet" href="styles.css?v=20261115-european-dates-14">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
 </head>
 <body>
@@ -431,7 +431,7 @@
 <div id="journal-charts" role="tabpanel" aria-labelledby="journal-tab-charts" hidden><div id="journal-chart-grid" class="journal-chart-grid"></div></div>
 <div id="journal-entry" role="tabpanel" aria-labelledby="journal-tab-entry" hidden>
 <form id="journal-entry-form" class="journal-entry-form">
-<div class="journal-entry-heading"><label for="journal-entry-date">Fecha de la sesión<input id="journal-entry-date" name="date" type="date" required></label><p id="journal-entry-status" class="mini-caption" role="status">Rellena los campos y envía una captura con la fecha y los valores.</p></div>
+<div class="journal-entry-heading"><label for="journal-entry-date">Fecha de la sesión<input id="journal-entry-date" name="date" type="text" placeholder="dd/mm/aaaa" maxlength="10" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required></label><p id="journal-entry-status" class="mini-caption" role="status">Rellena los campos y envía una captura con la fecha y los valores.</p></div>
 <div id="journal-entry-fields" class="journal-entry-fields"></div>
 <div id="journal-entry-calculated" class="journal-entry-calculated"></div>
 </form>
@@ -707,13 +707,14 @@
 <script src="studies.js?v=20261115-pnl-colors-68" defer></script>
 <script src="table-sort.js?v=20261111-watchlist-5" defer></script>
 <script src="help.js?v=20261110-historical-r-66" defer></script>
-<script src="filters.js?v=20261110-country-exclusion-64" defer></script>
+<script src="date-fields.js?v=20261115-european-dates-1" defer></script>
+<script src="filters.js?v=20261115-european-dates-14" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261110-historical-r-66" defer></script>
 <script src="projection.js?v=20261110-historical-r-66" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
-<script src="journal.js?v=20261115-journal-entry-13" defer></script>
+<script src="journal.js?v=20261115-european-dates-14" defer></script>
 <script src="workspace.js?v=20261115-journal-r-7" defer>
 </script>
 <script src="dashboard.js?v=20261115-journal-r-7" defer>

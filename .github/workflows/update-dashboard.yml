@@ -18,6 +18,7 @@ on:
       - 'swing.js'
       - 'news.js'
       - 'filters.js'
+      - 'date-fields.js'
       - 'help.js'
       - 'table-sort.js'
       - 'consistency.js'
@@ -62,6 +63,7 @@ jobs:
           cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
           cp projection.js swing.js optimal.js watchlist.js site/
           cp journal.js journal.css site/
+          cp date-fields.js site/
           cp data/trades.json site/data/trades.json
           cp data/session-risk.json site/data/session-risk.json
           cp data/journal.json site/data/journal.json

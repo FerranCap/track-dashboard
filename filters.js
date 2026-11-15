@@ -72,7 +72,7 @@ class TradeFilterPanel {
     this.appliedCount = 0;
     const prefix = `filter-${key}`;
     host.classList.add('trade-filter-panel');
-    host.innerHTML = `<div class="filter-row"><label class="filter-label" for="${prefix}-period">Fechas</label><div class="filter-date-controls"><select id="${prefix}-period" data-field="period" aria-label="Periodo"><option value="all">Todo el historial</option><option value="custom">Rango personalizado</option></select><div class="filter-date-range" hidden><label>Desde<input type="date" data-field="from"></label><label>Hasta<input type="date" data-field="to"></label></div></div></div>
+    host.innerHTML = `<div class="filter-row"><label class="filter-label" for="${prefix}-period">Fechas</label><div class="filter-date-controls"><select id="${prefix}-period" data-field="period" aria-label="Periodo"><option value="all">Todo el historial</option><option value="custom">Rango personalizado</option></select><div class="filter-date-range" hidden><label>Desde<input type="text" placeholder="dd/mm/aaaa" maxlength="10" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" data-field="from"></label><label>Hasta<input type="text" placeholder="dd/mm/aaaa" maxlength="10" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" data-field="to"></label></div></div></div>
       ${filterRangeMarkup(prefix, 'time', 'Hora de entrada', true)}
       <div class="filter-row"><label class="filter-label" for="${prefix}-symbol">Símbolo</label><input id="${prefix}-symbol" type="text" data-field="symbol" placeholder="Escribe el ticker · vacío: todos" autocomplete="off" spellcheck="false" autocapitalize="characters"></div>
       <div class="filter-row"><label class="filter-label" for="${prefix}-side">Dirección</label><select id="${prefix}-side" data-field="side"><option value="all">Todas</option><option value="BUY">Long</option><option value="SELL">Short</option></select></div>
@@ -90,6 +90,7 @@ class TradeFilterPanel {
         </div></div>
       <div class="filter-row country-filter-row"><span class="filter-label" id="${prefix}-countries-label">País de constitución</span><div><div class="country-toggles" role="group" aria-labelledby="${prefix}-countries-label"></div><small>Clic izquierdo: solo los seleccionados. Clic derecho o Mayús + clic: todos menos los seleccionados. Cambiar de modo sustituye la selección. Sin selección: todos.</small><small class="country-filter-state" aria-live="polite"></small></div></div>
       <div class="filter-footer"><span class="filter-count" role="status" aria-live="polite"></span><div class="filter-actions"><button type="button" class="secondary" data-clear>Limpiar filtros</button><button type="button" data-apply>Aplicar filtros</button></div></div>`;
+    for (const key of ['from', 'to']) attachDatePicker(this.field(key));
     this.field('side').value = defaultSide;
     this.appliedCriteria = this.snapshot();
     host.addEventListener('input', event => this.handleInput(event));
@@ -179,8 +180,8 @@ class TradeFilterPanel {
       const month = value.slice(6), [year, number] = month.split('-').map(Number);
       from = `${month}-01`; to = new Date(Date.UTC(year, number, 0)).toISOString().slice(0, 10);
     }
-    this.field('from').value = from;
-    this.field('to').value = to;
+    this.field('from').value = dateFieldFromIso(from);
+    this.field('to').value = dateFieldFromIso(to);
   }
 
   syncRange(kind) {
@@ -230,7 +231,7 @@ class TradeFilterPanel {
 
   criteria() {
     const minutes = value => { const [hour, minute] = value.split(':').map(Number); return hour * 60 + minute; };
-    return { from: this.field('from').value, to: this.field('to').value, symbol: this.field('symbol').value.trim().toUpperCase(), side: this.field('side').value,
+    return { from: dateFieldToIso(this.field('from').value), to: dateFieldToIso(this.field('to').value), symbol: this.field('symbol').value.trim().toUpperCase(), side: this.field('side').value,
       timeMin: minutes(this.bound('time', 'min').value || '00:00'), timeMax: minutes(this.bound('time', 'max').value || '23:59'),
       durationMin: Number(this.bound('duration', 'min').value || 0), durationMax: this.bound('duration', 'max').value === '' ? Infinity : Number(this.bound('duration', 'max').value),
       newsHours: Number((Number(this.field('news').value || 0) * 0.48).toFixed(2)),
@@ -244,7 +245,7 @@ class TradeFilterPanel {
 
   apply() {
     const criteria = this.snapshot();
-    const invalid = [...this.host.querySelectorAll('input')].some(input => !input.validity.valid) ||
+    const invalid = criteria.from === null || criteria.to === null || [...this.host.querySelectorAll('input')].some(input => !input.validity.valid) ||
       (criteria.from && criteria.to && criteria.from > criteria.to) || criteria.timeMin > criteria.timeMax || criteria.priceMin > criteria.priceMax || criteria.durationMin > criteria.durationMax;
     if (invalid) {
       this.validationMessage = 'Revisa los rangos y las horas (HH:mm, de 00:00 a 23:59). El mínimo debe ser menor o igual al máximo.';

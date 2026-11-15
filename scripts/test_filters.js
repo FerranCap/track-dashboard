@@ -4,7 +4,14 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-for (const file of ['workspace.js', 'news.js', 'filters.js']) vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'));
+for (const file of ['date-fields.js', 'workspace.js', 'news.js', 'filters.js']) vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'));
+assert.equal(dateFieldFromIso('2026-11-15'), '15/11/2026');
+assert.equal(dateFieldToIso('05/06/2026'), '2026-06-05');
+assert.equal(dateFieldToIso('29/02/2024'), '2024-02-29');
+assert.equal(dateFieldToIso('29/02/2026'), null);
+assert.equal(dateFieldToIso('31/04/2026'), null);
+assert.equal(dateFieldToIso('11/15/2026'), null);
+assert.equal(dateFieldToIso(''), '');
 
 const profiles = {
   US: { incorporation_country: 'United States' },
@@ -48,8 +55,8 @@ const fields = { period: { value: 'month:2024-02' }, from: { value: '' }, to: { 
 const range = { hidden: true };
 const panel = { field: key => fields[key], host: { querySelector: () => range } };
 TradeFilterPanel.prototype.setPeriod.call(panel);
-assert.equal(fields.from.value, '2024-02-01');
-assert.equal(fields.to.value, '2024-02-29');
+assert.equal(fields.from.value, '01/02/2024');
+assert.equal(fields.to.value, '29/02/2024');
 fields.period.value = 'custom';
 TradeFilterPanel.prototype.setPeriod.call(panel);
 assert.equal(range.hidden, false);
