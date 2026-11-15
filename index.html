@@ -7,6 +7,7 @@
   <title>Track | Trading Statistics</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <link rel="stylesheet" href="styles.css?v=20261111-watchlist-23">
+  <link rel="stylesheet" href="journal.css?v=20261115-journal-2">
 </head>
 <body>
 <aside class="sidebar">
@@ -396,7 +397,36 @@
 <p id="watchlist-status" class="watchlist-status" role="status"></p>
 </section>
 </div>
-<div id="view-journal" class="view" aria-labelledby="page-title" hidden></div>
+<div id="view-journal" class="view" aria-labelledby="page-title" hidden>
+<section class="panel section journal-toolbar">
+<div class="journal-tabs" role="tablist" aria-label="Vistas del diario">
+<button id="journal-tab-sessions" type="button" role="tab" aria-selected="true" aria-controls="journal-sessions">Sesiones</button>
+<button id="journal-tab-charts" type="button" role="tab" aria-selected="false" aria-controls="journal-charts" tabindex="-1">Gráficos</button>
+</div>
+<div class="journal-controls">
+<label>Desde<input id="journal-from" type="date"></label>
+<label>Hasta<input id="journal-to" type="date"></label>
+<button id="journal-reset-dates" type="button">Todo el historial</button>
+<details id="journal-chart-menu" class="journal-chart-menu" hidden>
+<summary>Mostrar gráficos <span id="journal-chart-count"></span></summary>
+<div class="journal-chart-options">
+<div class="journal-menu-actions"><button type="button" data-journal-preset="all">Todos</button><button type="button" data-journal-preset="none">Ninguno</button><button type="button" data-journal-preset="default">Restablecer</button></div>
+<div id="journal-chart-choices"></div>
+</div>
+</details>
+</div>
+<p id="journal-status" class="mini-caption" role="status">Cargando diario…</p>
+</section>
+<div id="journal-summary" class="metrics four"></div>
+<div id="journal-sessions" role="tabpanel" aria-labelledby="journal-tab-sessions">
+<div class="journal-session-layout">
+<section class="panel section"><div class="panel-head"><h2>Historial de sesiones</h2></div><p class="mini-caption">Selecciona una fecha para consultar su ficha.</p><div id="journal-session-table" class="table-wrap"></div></section>
+<section id="journal-session-detail" class="panel section" aria-label="Ficha de la sesión"></section>
+</div>
+</div>
+<div id="journal-charts" role="tabpanel" aria-labelledby="journal-tab-charts" hidden><div id="journal-chart-grid" class="journal-chart-grid"></div></div>
+<details class="panel section journal-method"><summary>Origen y criterios del diario</summary><p>Las notas y el size conservan los valores de la hoja. La nota general promedia fundamental, técnico y ejecución; preparación se muestra por separado. Los ceros se conservan, los guiones indican datos sin evaluar y los campos vacíos quedan pendientes.</p><p id="journal-source"></p><p id="journal-rules"></p></details>
+</div>
 <div id="view-data" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
 <div class="panel-head"><div><h2 class="data-audit-heading">Calidad de la base de datos <span id="data-audit-complete" class="data-audit-complete" role="status" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100 % identificados</span></h2><small>Comprobación de todos los tickers del historial, sin aplicar los filtros de análisis.</small></div><button id="data-check-pending" type="button" disabled>Actualizar comprobación</button></div>
@@ -672,7 +702,8 @@
 <script src="projection.js?v=20261110-historical-r-66" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
-<script src="workspace.js?v=20261115-journal-1" defer>
+<script src="journal.js?v=20261115-journal-2" defer></script>
+<script src="workspace.js?v=20261115-journal-2" defer>
 </script>
 <script src="dashboard.js?v=20261110-historical-r-66" defer>
 </script>

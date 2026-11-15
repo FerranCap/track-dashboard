@@ -467,6 +467,7 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
+  initializeJournal();
   initializeWatchlist();
   initializeOptimal();
   initializeGrowthProjection();

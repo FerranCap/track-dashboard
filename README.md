@@ -110,3 +110,10 @@ Watchlist column dividers can be dragged to resize adjacent columns while keepin
 The Watchlist DilutionTracker link opens a full-width embedded website panel below the selected ticker, with nearly viewport-height content and vertical page scrolling. Finviz and Quant open directly in a new tab. Closing the panel unloads the embedded page. An external-open link is available for websites that block framing or require a separate login.
 
 Watchlist Country options are ranked by the full history closed-trade count, using only issuer incorporation country. Selection remains manual. Dilution history offers Dilutive hist, Holding and Growth. Yellow highlights indicate Growth, IO at least 50 percent, extension below 45 percent, and market cap above 90 million USD; blank values are not highlighted. Existing saved free-text values remain available when converting to dropdowns.
+
+
+## Trading journal
+
+The Diario view under Operativa has Sessions and Charts tabs with its own date filters. Select a session date to inspect preparation, fundamental and technical analysis, execution, results, comments, errors and size. The chart menu supports individual metrics, block averages, size changes and result comparisons; its selection is saved in browser local storage.
+
+`data/journal.json` contains a read-only snapshot of the linked Size Tracker sheet imported on November 15, 2026. Source row numbers and full numeric values are preserved. Numeric zeros, unevaluated dashes, paused dates and incomplete dates remain distinct. The original overall score uses the nine fundamental, technical and execution scores; preparation is separate. Size increments weight the three block averages equally, subject to the source error threshold. Source values are displayed without recalculating or changing trade accounting or session R. Sheet edits require a new reviewed import; this version does not synchronize with Google Sheets automatically.
