@@ -99,10 +99,12 @@ function renderJournalCalendar(rows) {
     const date = `${journalMonth}-${String(day).padStart(2, '0')}`;
     const row = entries.get(date);
     const label = row && Number.isFinite(row.overall) ? `Nota ${journalNumber(row.overall)}` : row?.status === 'paused' ? 'Pausa' : '-';
+    const sizePercent = row && Number.isFinite(row.sizeAdded) && Number.isFinite(row.sizeBefore) && row.sizeBefore > 0 ? row.sizeAdded / row.sizeBefore * 100 : null;
+    const sizeLabel = Number.isFinite(sizePercent) ? `${sizePercent > 0 ? '+' : ''}${journalNumber(sizePercent)} %` : '';
     const outcome = row && Number.isFinite(row.overall) ? row.overall >= 5 ? ' journal-day-passed' : ' journal-day-failed' : '';
     const holiday = typeof calendarHoliday === 'function' ? calendarHoliday(date) : '';
     const holidayLabel = holiday ? `Festivo bursátil: ${holiday}. Mercado cerrado.` : '';
-    return `<button type="button" class="journal-calendar-day ${row ? `journal-day-${row.status}` : 'journal-day-empty'}${outcome}${holiday ? ' journal-day-holiday' : ''}" data-journal-date="${date}" aria-pressed="${date === journalSelectedDate}" aria-controls="journal-session-detail" aria-label="${journalDate(date)} · ${label}${holiday ? ` · ${journalEscape(holidayLabel)}` : ''}" ${holiday ? `title="${journalEscape(holidayLabel)}"` : ''} ${row ? '' : 'disabled'}><span>${day}</span><small>${label}</small>${holiday ? `<small class="journal-holiday-label">${journalEscape(holiday)}</small>` : ''}</button>`;
+    return `<button type="button" class="journal-calendar-day ${row ? `journal-day-${row.status}` : 'journal-day-empty'}${outcome}${holiday ? ' journal-day-holiday' : ''}" data-journal-date="${date}" aria-pressed="${date === journalSelectedDate}" aria-controls="journal-session-detail" aria-label="${journalDate(date)} · ${label}${sizeLabel ? ` · Size añadido ${sizeLabel}` : ''}${holiday ? ` · ${journalEscape(holidayLabel)}` : ''}" ${holiday ? `title="${journalEscape(holidayLabel)}"` : ''} ${row ? '' : 'disabled'}><span>${day}</span><small>${label}</small>${sizeLabel ? `<small class="journal-day-size">${sizeLabel}</small>` : ''}${holiday ? `<small class="journal-holiday-label">${journalEscape(holiday)}</small>` : ''}</button>`;
   });
   host.innerHTML = ['L', 'M', 'X', 'J', 'V', 'S', 'D'].map(day => `<span class="journal-calendar-weekday" aria-hidden="true">${day}</span>`).join('') + cells.join('');
 }
@@ -152,11 +154,13 @@ function renderJournalDetail(rows) {
   if (!row) { host.innerHTML = '<h2>Ficha de la sesión</h2><p class="journal-empty">No hay sesiones en este intervalo.</p>'; return; }
   const field = (label, value) => `<div><dt>${journalEscape(label)}</dt><dd>${journalNumber(value)}</dd></div>`;
   const amount = (label, key) => `<div><dt>${journalEscape(label)}</dt><dd>${journalFormatAmount(row, key)}</dd></div>`;
+  const sizeAddedPercent = Number.isFinite(row.sizeAdded) && Number.isFinite(row.sizeBefore) && row.sizeBefore > 0 ? row.sizeAdded / row.sizeBefore * 100 : null;
+  const sizeAddedPercentLabel = Number.isFinite(sizeAddedPercent) ? `${sizeAddedPercent > 0 ? '+' : ''}${journalNumber(sizeAddedPercent)} %` : '—';
   host.innerHTML = `<div class="panel-head"><h2>${journalDate(row.date)}</h2><span class="journal-badge">${JOURNAL_STATUSES[row.status]}</span></div>
     <div class="journal-detail-block"><h3>Comentario y errores</h3><p class="journal-comment">${journalEscape(row.comment || (typeof row.rest === 'string' && row.rest !== '-' ? row.rest : row.status === 'paused' ? 'Semana de reenfoque. Sin sesión evaluada.' : 'Sin comentario registrado.'))}</p><dl class="journal-values">${field('Puntuación del error', row.errorScore)}${field('Nota general', row.overall)}</dl></div>
     ${JOURNAL_GROUPS.map(group => `<div class="journal-detail-block"><h3>${group.label}</h3><dl class="journal-values">${group.fields.map(([key, label]) => field(label, row[key])).join('')}</dl></div>`).join('')}
     <div class="journal-detail-block"><h3>Resultante · ${journalDisplayUnit()}</h3><dl class="journal-values">${amount('Discrecional', 'discretionary')}${amount('Sistemático', 'systematic')}</dl></div>
-    <div class="journal-detail-block"><h3>Size · ${journalDisplayUnit()}</h3><dl class="journal-values">${amount('Antes', 'sizeBefore')}${amount('Después', 'sizeAfter')}${amount('Añadido', 'sizeAdded')}</dl></div>
+    <div class="journal-detail-block"><h3>Size · ${journalDisplayUnit()}</h3><dl class="journal-values">${amount('Antes', 'sizeBefore')}${amount('Después', 'sizeAfter')}${amount('Añadido', 'sizeAdded')}<div><dt>Añadido respecto al size anterior</dt><dd>${sizeAddedPercentLabel}</dd></div></dl></div>
     ${Number.isFinite(row.previousTechnical) || Number.isFinite(row.previousFocus) ? `<div class="journal-detail-block"><h3>Histórico</h3><dl class="journal-values">${field('Análisis técnico anterior', row.previousTechnical)}${field('Focus anterior', row.previousFocus)}</dl></div>` : ''}`;
 }
 
