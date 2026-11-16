@@ -2,6 +2,7 @@
 
 const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v11.htk';
 const HOTKEYS_STORAGE = 'track-das-hotkeys-v1';
+const HOTKEYS_RISK_PAIRS = [[2, 9], [1, 14]];
 const HOTKEYS_LAYOUT = [
   ['Alt+1', 'Panic', 'danger'], ['Alt+2', 'C', 'neutral'], ['Alt+3', 'B', 'neutral'], ['Alt+4', 'Market', 'neutral'], ['Alt+Q', 'Clear', 'neutral'],
   ['Alt+5', 'Config', 'neutral'], ['Alt+6', 'Buy 20%', 'buy'], ['Alt+7', 'Buy 50%', 'buy'], ['Alt+8', 'Buy 100%', 'buy'], ['Alt+E', 'Entry B', 'buy'],
@@ -71,7 +72,7 @@ function hotkeysValidate(entries) {
   for (const entry of entries) {
     if (!entry || typeof entry.id !== 'string' || ids.has(entry.id) || typeof entry.key !== 'string'
       || typeof entry.name !== 'string' || !entry.name.trim() || /[:\r\n\x00-\x1f]/.test(entry.name)
-      || typeof entry.label !== 'string' || !entry.label.trim() || entry.label.length > 60
+      || typeof entry.label !== 'string' || !entry.label.trim() || (entry.slot !== null && entry.label.length > 60)
       || typeof entry.script !== 'string' || !entry.script.trim() || /[\x00-\x08\x0b-\x1f]/.test(entry.script)
       || typeof entry.advanced !== 'boolean') throw new Error('Revisa el nombre, texto y script de cada botón. El nombre DAS no puede contener dos puntos ni saltos de línea.');
     ids.add(entry.id);
@@ -88,6 +89,10 @@ function hotkeysValidate(entries) {
 
 function hotkeysSerialize(entries) {
   hotkeysValidate(entries);
+  for (const pair of HOTKEYS_RISK_PAIRS) {
+    const values = pair.map(slot => hotkeysRiskValue(entries.find(entry => entry.slot === slot)));
+    if (values.some(value => value === null) || values[0] !== values[1]) throw new Error('B y Entry B deben compartir un multiplicador; C y Entry C deben compartir el suyo. Revisa $RiskMultiplier en esos botones.');
+  }
   return entries.map(entry => {
     const script = entry.script.replace(/\r?\n/g, '');
     const advanced = entry.advanced || script.length > 100 || /[{}]/.test(script);
@@ -132,6 +137,22 @@ function hotkeysApplyParameter(script, id, rawValue) {
   return script.replace(parameter.pattern, () => `${parameter.prefix}${parameter.min === undefined ? value : value / (parameter.scale || 1)}${parameter.suffix}`);
 }
 
+function hotkeysRiskValue(entry) {
+  const parameter = entry && hotkeysParameterDefinitions(entry.script).find(item => item.id === 'risk');
+  return parameter && Number.isFinite(parameter.value) && parameter.value > 0 ? parameter.value : null;
+}
+
+function hotkeysSynchronizeRisk(entries, selectedId) {
+  const selected = entries.find(entry => entry.id === selectedId);
+  const pair = selected && HOTKEYS_RISK_PAIRS.find(slots => slots.includes(selected.slot));
+  if (!pair) return entries;
+  const partner = entries.find(entry => entry.slot === pair.find(slot => slot !== selected.slot));
+  const value = hotkeysRiskValue(selected);
+  if (value === null || hotkeysRiskValue(partner) === null) throw new Error('Conserva una asignación válida $RiskMultiplier en ambos botones de B o C para compartir el multiplicador.');
+  return entries.map(entry => entry.id === partner.id && hotkeysRiskValue(entry) !== value
+    ? { ...entry, script: hotkeysApplyParameter(entry.script, 'risk', String(value)) } : entry);
+}
+
 function hotkeysMessage(id, message, error = false) {
   const element = document.getElementById(id);
   element.textContent = message;
@@ -153,11 +174,17 @@ function hotkeysRenderDeck() {
   }).join('');
   const extras = hotkeysEntries.filter(entry => entry.slot === null);
   document.getElementById('hotkeys-extra-count').textContent = `(${extras.length})`;
-  document.getElementById('hotkeys-extras').innerHTML = extras.map(entry => `<button type="button" class="hotkeys-extra" data-hotkey-id="${entry.id}" aria-pressed="${entry.id === hotkeysSelectedId}"><span>${hotkeysEscape(entry.label)}</span><span class="hotkeys-chord">${hotkeysEscape(entry.key)}</span></button>`).join('');
+  document.getElementById('hotkeys-extras').innerHTML = extras.map(entry => `<button type="button" class="hotkeys-extra" data-hotkey-id="${entry.id}" aria-pressed="${entry.id === hotkeysSelectedId}"><span>${hotkeysEscape(entry.name)}</span><span class="hotkeys-chord">${hotkeysEscape(entry.key)}</span></button>`).join('');
 }
 
 function hotkeysRenderParameters() {
   const parameters = hotkeysParameterDefinitions(document.getElementById('hotkeys-script').value);
+  const slot = hotkeysEntries.find(entry => entry.id === hotkeysSelectedId)?.slot;
+  const group = [2, 9].includes(slot) ? 'B' : [1, 14].includes(slot) ? 'C' : '';
+  if (group) {
+    const risk = parameters.find(parameter => parameter.id === 'risk');
+    if (risk) risk.label = `Multiplicador compartido · ${group} / Entry ${group}`;
+  }
   document.getElementById('hotkeys-parameters').hidden = !parameters.length;
   document.getElementById('hotkeys-parameter-fields').innerHTML = parameters.map(parameter => `<label for="hotkeys-param-${parameter.id}">${parameter.label}<input id="hotkeys-param-${parameter.id}" data-hotkey-parameter="${parameter.id}" value="${hotkeysEscape(parameter.value)}" ${parameter.min === undefined ? 'type="text"' : `type="number" step="any" min="${parameter.min}" ${parameter.max === undefined ? '' : `max="${parameter.max}"`}`} required></label>`).join('');
 }
@@ -168,8 +195,12 @@ function hotkeysOpenEditor(id) {
   hotkeysSelectedId = id;
   hotkeysDirty = false;
   document.getElementById('hotkeys-editor-panel').hidden = false;
-  document.getElementById('hotkeys-position').textContent = entry.slot === null ? 'HOTKEY ADICIONAL' : `FILA ${Math.floor(entry.slot / 5) + 1} · COLUMNA ${entry.slot % 5 + 1}`;
-  document.getElementById('hotkeys-editor-title').textContent = entry.label;
+  document.getElementById('hotkeys-position').textContent = entry.slot === null ? 'KEYBOARD' : `FILA ${Math.floor(entry.slot / 5) + 1} · COLUMNA ${entry.slot % 5 + 1}`;
+  document.getElementById('hotkeys-editor-title').textContent = entry.slot === null ? entry.name : entry.label;
+  document.getElementById('hotkeys-label-field').hidden = entry.slot === null;
+  document.getElementById('hotkeys-label').disabled = entry.slot === null;
+  document.getElementById('hotkeys-save').textContent = entry.slot === null ? 'Guardar hotkey' : 'Guardar botón';
+  document.getElementById('hotkeys-restore').textContent = entry.slot === null ? 'Restaurar hotkey original' : 'Restaurar botón original';
   document.getElementById('hotkeys-editor-chord').textContent = entry.key;
   for (const field of ['label', 'key', 'name', 'script']) document.getElementById(`hotkeys-${field}`).value = entry[field];
   hotkeysMessage('hotkeys-editor-status', '');
@@ -187,7 +218,12 @@ function hotkeysSaveEditor() {
       const updated = hotkeysApplyParameter(textarea.value, parameter.id, raw);
       if (parameter.min === undefined ? raw.trim() !== parameter.value : Number(raw) !== parameter.value) textarea.value = updated;
     }
-    const entries = hotkeysEntries.map(entry => entry.id !== hotkeysSelectedId ? entry : { ...entry, ...Object.fromEntries(['label', 'key', 'name', 'script'].map(field => [field, document.getElementById(`hotkeys-${field}`).value.trim()])) });
+    const entries = hotkeysSynchronizeRisk(hotkeysEntries.map(entry => {
+      if (entry.id !== hotkeysSelectedId) return entry;
+      const updated = { ...entry, ...Object.fromEntries(['label', 'key', 'name', 'script'].map(field => [field, document.getElementById(`hotkeys-${field}`).value.trim()])) };
+      if (entry.slot === null) updated.label = updated.name;
+      return updated;
+    }), hotkeysSelectedId);
     hotkeysValidate(entries);
     const persisted = hotkeysPersist(entries);
     hotkeysEntries = entries;
@@ -218,6 +254,16 @@ async function initializeHotkeys() {
         hotkeysEntries = saved.entries;
       }
     } catch { storageWarning = ' La configuración guardada no está disponible o no es válida; se muestra el archivo original.'; }
+    let synchronized = false;
+    for (const [slot, partnerSlot] of HOTKEYS_RISK_PAIRS) {
+      const selected = hotkeysEntries.find(entry => entry.slot === slot);
+      const partner = hotkeysEntries.find(entry => entry.slot === partnerSlot);
+      if (hotkeysRiskValue(selected) !== null && hotkeysRiskValue(partner) !== null && hotkeysRiskValue(selected) !== hotkeysRiskValue(partner)) {
+        hotkeysEntries = hotkeysSynchronizeRisk(hotkeysEntries, selected.id);
+        synchronized = true;
+      }
+    }
+    if (synchronized) storageWarning += hotkeysPersist(hotkeysEntries) ? ' Multiplicadores de Entry B y Entry C unificados con B y C.' : ' Multiplicadores unificados en esta sesión; no se pudo guardar en el navegador.';
     document.getElementById('hotkeys-generate').disabled = false;
     hotkeysMessage('hotkeys-status', `${hotkeysEntries.length} hotkeys cargadas · Archivo base v11.${storageWarning}`, Boolean(storageWarning));
     hotkeysOpenEditor(hotkeysEntries.find(entry => entry.slot === 0).id);
@@ -225,7 +271,7 @@ async function initializeHotkeys() {
       const button = event.target.closest('[data-hotkey-id]');
       if (button && hotkeysSaveEditor()) {
         hotkeysOpenEditor(button.dataset.hotkeyId);
-        document.getElementById('hotkeys-label').focus({ preventScroll: true });
+        document.getElementById(hotkeysEntries.find(entry => entry.id === hotkeysSelectedId).slot === null ? 'hotkeys-name' : 'hotkeys-label').focus({ preventScroll: true });
         if (window.innerWidth <= 1150) document.getElementById('hotkeys-editor-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
@@ -246,7 +292,7 @@ async function initializeHotkeys() {
     });
     document.getElementById('hotkeys-editor').addEventListener('submit', event => { event.preventDefault(); hotkeysSaveEditor(); });
     document.getElementById('hotkeys-restore').addEventListener('click', () => {
-      hotkeysEntries = hotkeysEntries.map(entry => entry.id === hotkeysSelectedId ? { ...hotkeysDefaults.find(original => original.id === entry.id) } : entry);
+      hotkeysEntries = hotkeysSynchronizeRisk(hotkeysEntries.map(entry => entry.id === hotkeysSelectedId ? { ...hotkeysDefaults.find(original => original.id === entry.id) } : entry), hotkeysSelectedId);
       const persisted = hotkeysPersist(hotkeysEntries);
       hotkeysOpenEditor(hotkeysSelectedId);
       hotkeysMessage('hotkeys-status', persisted ? 'Botón restaurado al archivo original y guardado.' : 'Botón restaurado en esta sesión; no se pudo guardar en el navegador.', !persisted);

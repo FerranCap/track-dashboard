@@ -1,10 +1,10 @@
-.hotkeys-intro{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:12px;background:linear-gradient(110deg,#1b2b43,#192333)}
-.hotkeys-intro h2{font-size:24px;margin:8px 0}
-.hotkeys-intro p{margin:0;color:#a9bdd5;line-height:1.6}
-.hotkeys-intro>button{white-space:nowrap;background:#365f98;border-color:#6e9ce0;padding:13px 18px}
+.hotkeys-deck-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hotkeys-deck-heading h2{margin:0}
+#hotkeys-generate{padding:6px 10px;font-size:11px;background:#365f98;border-color:#6e9ce0}
 #hotkeys-status{min-height:22px;margin:12px 0 20px}
 .hotkeys-workspace{display:grid;grid-template-columns:minmax(430px,1.1fr) minmax(340px,1fr);gap:20px;align-items:start;margin-bottom:24px}
-.hotkeys-workspace>section{min-width:0}
+.hotkeys-workspace>*{min-width:0}
+.hotkeys-controls{display:grid;gap:20px;min-width:0}
 .hotkeys-deck-panel>.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hotkeys-deck-scroll{overflow-x:auto;padding:5px;margin:-5px}
 .hotkeys-deck{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;padding:20px;background:#0b111c;border:1px solid #303e52;border-radius:20px;box-shadow:inset 0 2px 12px #0005}
@@ -18,8 +18,6 @@
 .hotkeys-key strong{font-size:clamp(11px,1.2vw,17px);line-height:1.25;overflow-wrap:anywhere;text-align:center}
 .hotkeys-key small,.hotkeys-chord{font-family:Consolas,monospace;font-size:10px;background:#101a2ba8;color:#d5e3fa;padding:4px 6px;border:1px solid #ffffff18;border-radius:5px}
 .hotkeys-deck-panel>p{margin:20px 0 0;line-height:1.6}
-.hotkeys-extras{border-top:1px solid #33445b;margin-top:24px;padding-top:18px}
-.hotkeys-extras summary{cursor:pointer;color:#b7cce8;font-size:12px}
 #hotkeys-extras{display:grid;gap:8px;margin-top:14px}
 .hotkeys-extra{display:flex;justify-content:space-between;align-items:center;gap:12px;white-space:normal;text-align:left;background:#142033}
 .hotkeys-extra[aria-pressed="true"]{border-color:#8abbff}
@@ -38,6 +36,5 @@
 #hotkeys-editor>p{line-height:1.6}
 .hotkeys-editor-actions{display:flex;flex-wrap:wrap;gap:10px}
 .hotkeys-error{color:#f2a6ab!important}
-.hotkeys-export-help p{margin-bottom:8px;line-height:1.7}
 @media(max-width:1150px){.hotkeys-workspace{grid-template-columns:1fr}.hotkeys-editor-panel{position:static}.hotkeys-deck{max-width:650px;margin:auto}.hotkeys-key strong{font-size:16px}}
-@media(max-width:600px){.hotkeys-intro{align-items:stretch;flex-direction:column;gap:16px}.hotkeys-deck{min-width:370px;padding:15px;gap:10px}.hotkeys-key strong{font-size:12px}.hotkeys-form-grid{grid-template-columns:1fr}.hotkeys-editor-panel>.panel-head{align-items:start}.hotkeys-editor-actions>button{width:100%}}
+@media(max-width:600px){.hotkeys-deck{min-width:370px;padding:15px;gap:10px}.hotkeys-key strong{font-size:12px}.hotkeys-form-grid{grid-template-columns:1fr}.hotkeys-editor-panel>.panel-head{align-items:start}.hotkeys-editor-actions>button{width:100%}}
