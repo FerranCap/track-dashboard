@@ -26,8 +26,8 @@
 .hotkeys-editor-panel>.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .hotkeys-editor-panel h2{margin-top:7px}
 .hotkeys-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-#hotkeys-editor label{display:grid;gap:7px;color:#b6cbe5;font-size:12px;min-width:0}
-#hotkeys-editor input,#hotkeys-editor textarea{width:100%;box-sizing:border-box;background:#101a29;border:1px solid #344963;border-radius:7px;color:#edf4ff;padding:10px;font:inherit;min-width:0}
+#hotkeys-editor label,#hotkeys-variables-panel label{display:grid;gap:7px;color:#b6cbe5;font-size:12px;min-width:0}
+#hotkeys-editor input,#hotkeys-editor textarea,#hotkeys-variables-panel input{width:100%;box-sizing:border-box;background:#101a29;border:1px solid #344963;border-radius:7px;color:#edf4ff;padding:10px;font:inherit;min-width:0}
 #hotkeys-editor textarea{font-family:Consolas,monospace;line-height:1.6;resize:vertical;font-size:12px;overflow-wrap:anywhere}
 .hotkeys-full{grid-column:1/-1}
 .hotkeys-parameters{margin:20px 0;border:1px solid #344963;border-radius:8px;padding:14px;min-width:0}
@@ -36,5 +36,12 @@
 #hotkeys-editor>p{line-height:1.6}
 .hotkeys-editor-actions{display:flex;flex-wrap:wrap;gap:10px}
 .hotkeys-error{color:#f2a6ab!important}
+.hotkeys-journal-size{padding:16px;margin:16px 0 20px;border:1px solid #41698e;border-radius:9px;background:#162a3e}
+#hotkeys-risk-scale{margin:10px 0;font-family:Consolas,monospace;font-size:17px;color:#8ce2c7}
+.hotkeys-journal-size p,#hotkeys-variables-form>p,.hotkeys-runtime-note{line-height:1.6;margin:10px 0}
+.hotkeys-variable-group{margin:18px 0;border:1px solid #344963;border-radius:8px;padding:14px;min-width:0}
+.hotkeys-variable-group legend{padding:0 7px;font-size:12px;color:#8cbbff}
+#hotkeys-editor-content>.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hotkeys-runtime-note{margin-top:20px;padding-top:16px;border-top:1px solid #344963}
 @media(max-width:1150px){.hotkeys-workspace{grid-template-columns:1fr}.hotkeys-editor-panel{position:static}.hotkeys-deck{max-width:650px;margin:auto}.hotkeys-key strong{font-size:16px}}
 @media(max-width:600px){.hotkeys-deck{min-width:370px;padding:15px;gap:10px}.hotkeys-key strong{font-size:12px}.hotkeys-form-grid{grid-template-columns:1fr}.hotkeys-editor-panel>.panel-head{align-items:start}.hotkeys-editor-actions>button{width:100%}}

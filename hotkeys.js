@@ -1,7 +1,8 @@
 'use strict';
 
-const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v11.htk';
-const HOTKEYS_STORAGE = 'track-das-hotkeys-v1';
+const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v12.htk';
+const HOTKEYS_STORAGE = 'track-das-hotkeys-v12';
+const HOTKEYS_UPDATED_ON = '2026-11-16';
 const HOTKEYS_RISK_PAIRS = [[2, 9], [1, 14]];
 const HOTKEYS_LAYOUT = [
   ['Alt+1', 'Panic', 'danger'], ['Alt+2', 'C', 'neutral'], ['Alt+3', 'B', 'neutral'], ['Alt+4', 'Market', 'neutral'], ['Alt+Q', 'Clear', 'neutral'],
@@ -12,6 +13,13 @@ let hotkeysDefaults = [];
 let hotkeysEntries = [];
 let hotkeysSelectedId = '';
 let hotkeysDirty = false;
+let hotkeysVariablesDirty = false;
+let hotkeysJournalSize = null;
+let hotkeysJournalError = '';
+
+function hotkeysUpdatedLabel() {
+  return `Última actualización: ${HOTKEYS_UPDATED_ON.split('-').reverse().join('/')}`;
+}
 
 function hotkeysEscape(value) {
   return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
@@ -173,7 +181,6 @@ function hotkeysRenderDeck() {
       : `<button class="hotkeys-key" type="button" disabled>${hotkeysEscape(label)}</button>`;
   }).join('');
   const extras = hotkeysEntries.filter(entry => entry.slot === null);
-  document.getElementById('hotkeys-extra-count').textContent = `(${extras.length})`;
   document.getElementById('hotkeys-extras').innerHTML = extras.map(entry => `<button type="button" class="hotkeys-extra" data-hotkey-id="${entry.id}" aria-pressed="${entry.id === hotkeysSelectedId}"><span>${hotkeysEscape(entry.name)}</span><span class="hotkeys-chord">${hotkeysEscape(entry.key)}</span></button>`).join('');
 }
 
@@ -189,12 +196,107 @@ function hotkeysRenderParameters() {
   document.getElementById('hotkeys-parameter-fields').innerHTML = parameters.map(parameter => `<label for="hotkeys-param-${parameter.id}">${parameter.label}<input id="hotkeys-param-${parameter.id}" data-hotkey-parameter="${parameter.id}" value="${hotkeysEscape(parameter.value)}" ${parameter.min === undefined ? 'type="text"' : `type="number" step="any" min="${parameter.min}" ${parameter.max === undefined ? '' : `max="${parameter.max}"`}`} required></label>`).join('');
 }
 
+function hotkeysLatestJournalSize(data) {
+  if (data?.schemaVersion !== 1 || !Array.isArray(data.sessions) || data.settings?.monetaryUnit !== 'USD') throw new Error('No se pudo leer el size del diario en USD.');
+  return data.sessions.filter(row => row.status === 'evaluated' && /^\d{4}-\d{2}-\d{2}$/.test(row.date) && Number.isFinite(row.sizeAfter) && row.sizeAfter >= 0)
+    .sort((left, right) => left.date.localeCompare(right.date)).at(-1) || null;
+}
+
+async function hotkeysLoadJournalSize() {
+  hotkeysJournalSize = null;
+  hotkeysJournalError = '';
+  try {
+    const response = await fetch(`data/journal.json?v=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) throw new Error('No se pudo cargar el size del diario.');
+    hotkeysJournalSize = hotkeysLatestJournalSize(await response.json());
+    if (!hotkeysJournalSize) hotkeysJournalError = 'No hay un size evaluado en el diario.';
+  } catch (error) { hotkeysJournalError = error.message; }
+}
+
+function hotkeysVariableDefinitions(entries) {
+  const fields = [];
+  for (const [slot, partnerSlot] of HOTKEYS_RISK_PAIRS) {
+    const group = slot === 2 ? 'B' : 'C';
+    const targets = entries.filter(entry => [slot, partnerSlot].includes(entry.slot));
+    const parameter = targets.length === 2 && hotkeysParameterDefinitions(targets.find(entry => entry.slot === slot).script).find(item => item.id === 'risk');
+    if (parameter) fields.push({ ...parameter, id: `risk-${group.toLowerCase()}`, parameterId: 'risk', label: `$RiskMultiplier · ${group} / Entry ${group}`, group: 'Riesgo', targets: targets.map(entry => entry.id) });
+  }
+  for (const parameterId of ['route', 'tif']) {
+    const targets = entries.flatMap(entry => {
+      const parameter = hotkeysParameterDefinitions(entry.script).find(item => item.id === parameterId);
+      return parameter ? [{ entry, parameter }] : [];
+    });
+    if (targets.length) fields.push({ ...targets[0].parameter, id: parameterId, parameterId, group: 'Órdenes',
+      label: parameterId === 'route' ? 'Route · Todas las hotkeys' : 'TIF · Todas las hotkeys',
+      value: targets.every(item => item.parameter.value === targets[0].parameter.value) ? targets[0].parameter.value : '', targets: targets.map(item => item.entry.id) });
+  }
+  for (const entry of entries) {
+    for (const parameter of hotkeysParameterDefinitions(entry.script).filter(item => !['risk', 'route', 'tif'].includes(item.id))) {
+      fields.push({ ...parameter, id: `${entry.id}-${parameter.id}`, parameterId: parameter.id, targets: [entry.id],
+        label: `${entry.slot === null ? entry.name : entry.label} · ${parameter.label}`, group: parameter.id.startsWith('entry-') ? 'Entradas' : parameter.id === 'close' ? 'Cierres' : 'Otros parámetros' });
+    }
+  }
+  return fields;
+}
+
+function hotkeysApplyVariables(entries, values) {
+  let updated = entries;
+  for (const field of hotkeysVariableDefinitions(entries)) {
+    const raw = values[field.id];
+    if (raw === undefined || (field.min === undefined && raw.trim() === '' && field.value === '')) continue;
+    updated = updated.map(entry => {
+      if (!field.targets.includes(entry.id)) return entry;
+      const parameter = hotkeysParameterDefinitions(entry.script).find(item => item.id === field.parameterId);
+      const script = hotkeysApplyParameter(entry.script, field.parameterId, raw);
+      return (field.min === undefined ? raw.trim() === parameter.value : Number(raw) === parameter.value) ? entry : { ...entry, script };
+    });
+  }
+  hotkeysValidate(updated);
+  return updated;
+}
+
+function hotkeysRenderVariables() {
+  const fields = hotkeysVariableDefinitions(hotkeysEntries);
+  document.getElementById('hotkeys-risk-scale').value = hotkeysJournalSize ? String(hotkeysJournalSize.sizeAfter) : 'No disponible';
+  hotkeysMessage('hotkeys-risk-scale-note', hotkeysJournalSize ? `Size después de la sesión del ${hotkeysJournalSize.date.split('-').reverse().join('/')}.` : hotkeysJournalError, !hotkeysJournalSize);
+  document.getElementById('hotkeys-variable-fields').innerHTML = [...new Set(fields.map(field => field.group))].map(group => `<fieldset class="hotkeys-variable-group"><legend>${group}</legend><div class="hotkeys-form-grid">${fields.filter(field => field.group === group).map(field => `<label for="hotkeys-variable-${field.id}">${hotkeysEscape(field.label)}<input id="hotkeys-variable-${field.id}" value="${hotkeysEscape(field.value)}" ${field.min === undefined ? 'type="text" placeholder="Varios valores"' : `type="number" step="any" min="${field.min}" ${field.max === undefined ? '' : `max="${field.max}"`} required`}></label>`).join('')}</div></fieldset>`).join('');
+  hotkeysVariablesDirty = false;
+  hotkeysMessage('hotkeys-variables-status', '');
+}
+
+function hotkeysSaveVariables() {
+  if (!hotkeysVariablesDirty) return true;
+  try {
+    if (!document.getElementById('hotkeys-variables-form').reportValidity()) return false;
+    const values = Object.fromEntries(hotkeysVariableDefinitions(hotkeysEntries).map(field => [field.id, document.getElementById(`hotkeys-variable-${field.id}`).value]));
+    const entries = hotkeysApplyVariables(hotkeysEntries, values);
+    const persisted = hotkeysPersist(entries);
+    hotkeysEntries = entries;
+    hotkeysRenderVariables();
+    hotkeysRenderDeck();
+    hotkeysMessage('hotkeys-variables-status', persisted ? 'Variables guardadas.' : 'Variables aplicadas en esta sesión; no se pudo guardar en el navegador.', !persisted);
+    return true;
+  } catch (error) { hotkeysMessage('hotkeys-variables-status', error.message, true); return false; }
+}
+
+function hotkeysCloseEditor() {
+  hotkeysSelectedId = '';
+  hotkeysDirty = false;
+  document.getElementById('hotkeys-editor-panel').hidden = false;
+  document.getElementById('hotkeys-editor-content').hidden = true;
+  document.getElementById('hotkeys-variables-panel').hidden = false;
+  hotkeysRenderVariables();
+  hotkeysRenderDeck();
+}
+
 function hotkeysOpenEditor(id) {
   const entry = hotkeysEntries.find(item => item.id === id);
   if (!entry) return;
   hotkeysSelectedId = id;
   hotkeysDirty = false;
   document.getElementById('hotkeys-editor-panel').hidden = false;
+  document.getElementById('hotkeys-editor-content').hidden = false;
+  document.getElementById('hotkeys-variables-panel').hidden = true;
   document.getElementById('hotkeys-position').textContent = entry.slot === null ? 'KEYBOARD' : `FILA ${Math.floor(entry.slot / 5) + 1} · COLUMNA ${entry.slot % 5 + 1}`;
   document.getElementById('hotkeys-editor-title').textContent = entry.slot === null ? entry.name : entry.label;
   document.getElementById('hotkeys-label-field').hidden = entry.slot === null;
@@ -228,7 +330,7 @@ function hotkeysSaveEditor() {
     const persisted = hotkeysPersist(entries);
     hotkeysEntries = entries;
     hotkeysOpenEditor(hotkeysSelectedId);
-    hotkeysMessage('hotkeys-status', persisted ? 'Configuración guardada en este navegador.' : 'No se pudo guardar en este navegador. Puedes generar el archivo con los cambios de esta sesión.', !persisted);
+    hotkeysMessage('hotkeys-status', persisted ? hotkeysUpdatedLabel() : 'No se pudo guardar en este navegador. Puedes generar el archivo con los cambios de esta sesión.', !persisted);
     hotkeysMessage('hotkeys-editor-status', 'Botón actualizado.');
     return true;
   } catch (error) {
@@ -239,7 +341,7 @@ function hotkeysSaveEditor() {
 
 async function initializeHotkeys() {
   try {
-    const response = await fetch(HOTKEYS_SOURCE, { cache: 'no-store' });
+    const [response] = await Promise.all([fetch(HOTKEYS_SOURCE, { cache: 'no-store' }), hotkeysLoadJournalSize()]);
     if (!response.ok) throw new Error('No se pudo cargar el archivo original de hotkeys.');
     const source = new TextDecoder('windows-1252').decode(await response.arrayBuffer());
     hotkeysDefaults = hotkeysParse(source);
@@ -265,11 +367,15 @@ async function initializeHotkeys() {
     }
     if (synchronized) storageWarning += hotkeysPersist(hotkeysEntries) ? ' Multiplicadores de Entry B y Entry C unificados con B y C.' : ' Multiplicadores unificados en esta sesión; no se pudo guardar en el navegador.';
     document.getElementById('hotkeys-generate').disabled = false;
-    hotkeysMessage('hotkeys-status', `${hotkeysEntries.length} hotkeys cargadas · Archivo base v11.${storageWarning}`, Boolean(storageWarning));
-    hotkeysOpenEditor(hotkeysEntries.find(entry => entry.slot === 0).id);
+    hotkeysMessage('hotkeys-status', `${hotkeysUpdatedLabel()}${storageWarning}`, Boolean(storageWarning));
+    hotkeysCloseEditor();
     for (const id of ['hotkeys-deck', 'hotkeys-extras']) document.getElementById(id).addEventListener('click', event => {
       const button = event.target.closest('[data-hotkey-id]');
-      if (button && hotkeysSaveEditor()) {
+      if (button && hotkeysSaveVariables() && hotkeysSaveEditor()) {
+        if (button.dataset.hotkeyId === hotkeysSelectedId) {
+          hotkeysCloseEditor();
+          return;
+        }
         hotkeysOpenEditor(button.dataset.hotkeyId);
         document.getElementById(hotkeysEntries.find(entry => entry.id === hotkeysSelectedId).slot === null ? 'hotkeys-name' : 'hotkeys-label').focus({ preventScroll: true });
         if (window.innerWidth <= 1150) document.getElementById('hotkeys-editor-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -291,14 +397,19 @@ async function initializeHotkeys() {
       } catch (error) { hotkeysMessage('hotkeys-editor-status', error.message, true); }
     });
     document.getElementById('hotkeys-editor').addEventListener('submit', event => { event.preventDefault(); hotkeysSaveEditor(); });
+    document.getElementById('hotkeys-variables-form').addEventListener('input', () => {
+      hotkeysVariablesDirty = true;
+      hotkeysMessage('hotkeys-variables-status', 'Cambios pendientes. Se guardan al seleccionar una hotkey o generar el archivo.');
+    });
+    document.getElementById('hotkeys-variables-form').addEventListener('submit', event => { event.preventDefault(); hotkeysSaveVariables(); });
     document.getElementById('hotkeys-restore').addEventListener('click', () => {
       hotkeysEntries = hotkeysSynchronizeRisk(hotkeysEntries.map(entry => entry.id === hotkeysSelectedId ? { ...hotkeysDefaults.find(original => original.id === entry.id) } : entry), hotkeysSelectedId);
       const persisted = hotkeysPersist(hotkeysEntries);
       hotkeysOpenEditor(hotkeysSelectedId);
-      hotkeysMessage('hotkeys-status', persisted ? 'Botón restaurado al archivo original y guardado.' : 'Botón restaurado en esta sesión; no se pudo guardar en el navegador.', !persisted);
+      hotkeysMessage('hotkeys-status', persisted ? hotkeysUpdatedLabel() : 'Botón restaurado en esta sesión; no se pudo guardar en el navegador.', !persisted);
     });
     document.getElementById('hotkeys-generate').addEventListener('click', () => {
-      if (!hotkeysSaveEditor()) return;
+      if (!hotkeysSaveVariables() || !hotkeysSaveEditor()) return;
       try {
         const bytes = hotkeysEncode(hotkeysSerialize(hotkeysEntries));
         const url = URL.createObjectURL(new Blob([bytes], { type: 'application/octet-stream' }));
@@ -309,7 +420,7 @@ async function initializeHotkeys() {
         link.click();
         link.remove();
         setTimeout(() => URL.revokeObjectURL(url), 10000);
-        hotkeysMessage('hotkeys-status', `Archivo .htk generado con ${hotkeysEntries.length} hotkeys. Los atajos del Stream Deck deben coincidir con los de DAS.`);
+        hotkeysMessage('hotkeys-status', hotkeysUpdatedLabel());
       } catch (error) { hotkeysMessage('hotkeys-status', error.message, true); }
     });
   } catch (error) { hotkeysMessage('hotkeys-status', error.message, true); }
