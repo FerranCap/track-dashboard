@@ -112,6 +112,12 @@ The Watchlist DilutionTracker link opens a full-width embedded website panel bel
 Watchlist Country options are ranked by the full history closed-trade count, using only issuer incorporation country. Selection remains manual. Dilution history offers Dilutive hist, Holding and Growth. Yellow highlights indicate Growth, IO at least 50 percent, extension below 45 percent, and market cap above 90 million USD; blank values are not highlighted. Existing saved free-text values remain available when converting to dropdowns.
 
 
+## DAS hotkeys
+
+Operativa > Hotkeys reproduces the supplied Stream Deck layout in three rows of five buttons. Click a button to edit its label, DAS shortcut, DAS name and script. Recognized script parameters expose route, TIF, risk multiplier, entry factors, closing percentage, test shares and closing price margin where present. The original v11 formulas remain unchanged until edited, including the distinct long/short entry factors. Seven additional hotkeys remain editable below the deck and are included in every export.
+
+Configuration is stored in this browser and origin under `track-das-hotkeys-v1`. Save a button explicitly or switch buttons to save pending edits. Generate hotkeys saves the current button and downloads `RRS_Setup_RiskScale_TradeSize_custom.htk`; it does not change the installed DAS file or the Stream Deck profile. Keep their keyboard shortcuts aligned. Duplicate shortcuts and invalid parameters block export. Export preserves the supplied DAS record format, Windows-1252 encoding, CRLF line endings and 51-character wrapping with recalculated lengths for advanced scripts. With no edits, the downloaded bytes match `data/hotkeys/RRS_Setup_RiskScale_TradeSize_v11.htk` exactly. Restore original applies only to the selected button. Scripts are edited as data and are never executed by the dashboard.
+
 ## Trading journal
 
 The Diario view under Trayectoria has Sessions and Charts tabs using the applied general date filter. Select a session date to inspect preparation, fundamental and technical analysis, execution, results, comments, errors and size. The chart menu supports individual metrics, block averages, size changes and result comparisons; its selection is saved in browser local storage.

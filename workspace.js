@@ -2,6 +2,7 @@
 
 const VIEW_DETAILS = {
   watchlist: ['Watchlist', ''],
+  hotkeys: ['Hotkeys', 'Configura tus botones y genera el archivo para DAS Trader.'],
   journal: ['Diario', ''],
   general: ['General', 'Actividad y resultados, de un vistazo.'],
   calendar: ['Calendario', 'Resultados por sesión y evolución mensual.'],
@@ -107,7 +108,7 @@ function activateView() {
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
   document.body.classList.toggle('watchlist-active', active === 'watchlist');
-  $('data-selection').hidden = ['data', 'compare', 'watchlist'].includes(active);
+  $('data-selection').hidden = ['data', 'compare', 'watchlist', 'hotkeys'].includes(active);
   refreshCharts();
 }
 
@@ -467,6 +468,7 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
+  initializeHotkeys();
   initializeJournal();
   initializeWatchlist();
   initializeOptimal();

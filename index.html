@@ -8,6 +8,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <link rel="stylesheet" href="styles.css?v=20261115-european-dates-14">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
+  <link rel="stylesheet" href="hotkeys.css?v=20261116-1">
 </head>
 <body>
 <aside class="sidebar">
@@ -94,6 +95,10 @@
 <a href="#watchlist" data-view="watchlist">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
 <span>Watchlist</span>
+</a>
+<a href="#hotkeys" data-view="hotkeys">
+<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h1m4 0h1m4 0h1M6 13h1m4 0h1m4 0h1M8 16h8"/></svg>
+<span>Hotkeys</span>
 </a>
 </div>
 <div class="nav-group" role="group" aria-labelledby="nav-data">
@@ -382,6 +387,37 @@
 <div id="country-table" class="table-wrap"></div>
 </section>
 
+</div>
+<div id="view-hotkeys" class="view" aria-labelledby="page-title" hidden>
+<section class="section panel hotkeys-intro">
+<div><div class="eyebrow">DAS TRADER · STREAM DECK</div><h2>Tu mesa de ejecución</h2><p>La misma distribución de tu Stream Deck. Pulsa un botón para configurar su hotkey.</p></div>
+<button id="hotkeys-generate" type="button" disabled>Generar hotkeys · .htk</button>
+</section>
+<p id="hotkeys-status" class="mini-caption" role="status" aria-live="polite">Cargando tus hotkeys…</p>
+<div class="hotkeys-workspace">
+<section class="panel hotkeys-deck-panel" aria-label="Distribución del Stream Deck">
+<div class="panel-head"><h2>Stream Deck</h2><span class="mini-caption">3 filas · 5 columnas</span></div>
+<div class="hotkeys-deck-scroll"><div id="hotkeys-deck" class="hotkeys-deck"></div></div>
+<p class="mini-caption">Los botones abren el editor. Los atajos se ejecutan desde tu Stream Deck en DAS.</p>
+<details class="hotkeys-extras"><summary>Más hotkeys del archivo <span id="hotkeys-extra-count"></span></summary><div id="hotkeys-extras"></div></details>
+</section>
+<section id="hotkeys-editor-panel" class="panel hotkeys-editor-panel" aria-labelledby="hotkeys-editor-title" hidden>
+<div class="panel-head"><div><div id="hotkeys-position" class="eyebrow"></div><h2 id="hotkeys-editor-title">Configurar hotkey</h2></div><span id="hotkeys-editor-chord" class="hotkeys-chord"></span></div>
+<form id="hotkeys-editor">
+<div class="hotkeys-form-grid">
+<label for="hotkeys-label">Texto del botón<input id="hotkeys-label" maxlength="60" required></label>
+<label for="hotkeys-key">Atajo en DAS<input id="hotkeys-key" maxlength="40" required autocomplete="off" spellcheck="false" placeholder="Alt+1"></label>
+<label for="hotkeys-name" class="hotkeys-full">Nombre en DAS<input id="hotkeys-name" maxlength="120" required></label>
+</div>
+<fieldset id="hotkeys-parameters" class="hotkeys-parameters" hidden><legend>Parámetros del script</legend><div id="hotkeys-parameter-fields" class="hotkeys-form-grid"></div></fieldset>
+<label for="hotkeys-script" class="hotkeys-script-label">Script de DAS<textarea id="hotkeys-script" rows="10" spellcheck="false" required></textarea></label>
+<p class="mini-caption">Los parámetros editan el script de arriba. Conserva las variables compartidas, como $RiskScale y $TradeSize, cuando las necesites.</p>
+<p id="hotkeys-editor-status" class="mini-caption" role="status" aria-live="polite"></p>
+<div class="hotkeys-editor-actions"><button type="submit">Guardar botón</button><button id="hotkeys-restore" type="button" class="secondary">Restaurar botón original</button></div>
+</form>
+</section>
+</div>
+<section class="section panel hotkeys-export-help"><h2>Cargar en DAS</h2><p>Genera el archivo .htk y ábrelo desde Setup → Hot Key en DAS. Los atajos configurados aquí deben coincidir con los que envía tu Stream Deck.</p><p class="mini-caption">Configuración guardada en este navegador. El archivo incluye los 15 botones y las hotkeys adicionales de tu archivo original.</p></section>
 </div>
 <div id="view-watchlist" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel watchlist-panel">
@@ -715,7 +751,8 @@
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
-<script src="workspace.js?v=20261115-journal-r-7" defer>
+<script src="hotkeys.js?v=20261116-1" defer></script>
+<script src="workspace.js?v=20261116-hotkeys-1" defer>
 </script>
 <script src="dashboard.js?v=20261115-journal-r-7" defer>
 </script>
