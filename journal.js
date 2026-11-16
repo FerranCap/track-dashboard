@@ -57,9 +57,6 @@ function journalChartDefinitions() {
     { id: 'sizePercent', group: 'Size', title: 'Evolución del size · % desde el inicio', unit: '%', series: [series('Variación', row => Number.isFinite(row.sizeAfter) ? (row.sizeAfter / journalData.settings.baseSize - 1) * 100 : null)] },
     { id: 'sizeAdded', group: 'Size', title: 'Size añadido por sesión', monetary: true, bar: true, series: [series('Añadido', row => journalAmount(row, 'sizeAdded'))] },
     { id: 'sizeAddedPercent', group: 'Size', title: 'Size añadido por sesión · %', bar: true, unit: '%', series: [series('Incremento', row => Number.isFinite(row.sizeAdded) && row.sizeBefore > 0 ? row.sizeAdded / row.sizeBefore * 100 : null)] },
-    { id: 'discretionary', group: 'Resultante', title: 'Resultante discrecional', monetary: true, series: [series('Discrecional', row => journalAmount(row, 'discretionary'))] },
-    { id: 'systematic', group: 'Resultante', title: 'Resultante sistemático', monetary: true, series: [series('Sistemático', row => journalAmount(row, 'systematic'))] },
-    { id: 'results', group: 'Resultante', title: 'Resultante · comparación', monetary: true, series: [series('Discrecional', row => journalAmount(row, 'discretionary')), series('Sistemático', row => journalAmount(row, 'systematic'))] },
     { id: 'errors', group: 'Errores', title: 'Puntuación de errores', score: true, bar: true, series: [series('Error', row => row.errorScore)] },
     { id: 'previousTechnical', group: 'Histórico', title: 'Análisis técnico anterior', score: true, series: [series('Análisis técnico anterior', row => row.previousTechnical)] },
     { id: 'previousFocus', group: 'Histórico', title: 'Focus anterior', score: true, series: [series('Focus anterior', row => row.previousFocus)] }
@@ -159,7 +156,6 @@ function renderJournalDetail(rows) {
   host.innerHTML = `<div class="panel-head"><h2>${journalDate(row.date)}</h2>${JOURNAL_STATUSES[row.status] ? `<span class="journal-badge">${JOURNAL_STATUSES[row.status]}</span>` : ''}</div>
     <div class="journal-detail-block"><h3>Comentario y errores</h3><p class="journal-comment">${journalEscape(row.comment || (typeof row.rest === 'string' && row.rest !== '-' ? row.rest : row.status === 'paused' ? 'Semana de reenfoque. Sin sesión evaluada.' : 'Sin comentario registrado.'))}</p><dl class="journal-values">${field('Puntuación del error', row.errorScore)}${field('Nota general', row.overall)}</dl></div>
     ${JOURNAL_GROUPS.map(group => `<div class="journal-detail-block"><h3>${group.label}</h3><dl class="journal-values">${group.fields.map(([key, label]) => field(label, row[key])).join('')}</dl></div>`).join('')}
-    <div class="journal-detail-block"><h3>Resultante · ${journalDisplayUnit()}</h3><dl class="journal-values">${amount('Discrecional', 'discretionary')}${amount('Sistemático', 'systematic')}</dl></div>
     <div class="journal-detail-block"><h3>Size · ${journalDisplayUnit()}</h3><dl class="journal-values">${amount('Antes', 'sizeBefore')}${amount('Después', 'sizeAfter')}${amount('Añadido', 'sizeAdded')}<div><dt>Añadido respecto al size anterior</dt><dd>${sizeAddedPercentLabel}</dd></div></dl></div>
     ${Number.isFinite(row.previousTechnical) || Number.isFinite(row.previousFocus) ? `<div class="journal-detail-block"><h3>Histórico</h3><dl class="journal-values">${field('Análisis técnico anterior', row.previousTechnical)}${field('Focus anterior', row.previousFocus)}</dl></div>` : ''}`;
 }
@@ -178,7 +174,7 @@ function renderJournal() {
   const { from, to } = journalDateRange();
   const invalidRange = from && to && from > to;
   document.getElementById('journal-status').textContent = invalidRange ? 'La fecha inicial debe ser anterior o igual a la fecha final.' : `${rows.length} fechas · ${evaluated.length} con nota · ${rows.filter(row => row.status === 'paused').length} en pausa`;
-  const missingRisk = journalDisplayUnit() === 'R' ? rows.filter(row => ['sizeBefore', 'sizeAfter', 'sizeAdded', 'discretionary', 'systematic'].some(key => Number.isFinite(row[key]) && journalAmount(row, key) === null)).length : 0;
+  const missingRisk = journalDisplayUnit() === 'R' ? rows.filter(row => ['sizeBefore', 'sizeAfter', 'sizeAdded'].some(key => Number.isFinite(row[key]) && journalAmount(row, key) === null)).length : 0;
   if (missingRisk) document.getElementById('journal-status').textContent += ` · ${missingRisk} fechas sin R válida: sus importes no se pueden convertir.`;
   renderJournalCalendar(rows);
   renderJournalDetail(rows);
@@ -217,10 +213,10 @@ function journalEntryCalculation(entry, settings) {
 }
 
 function initializeJournalEntry() {
-  const extra = [['discretionary', 'Discrecional · USD'], ['systematic', 'Sistemático · USD'], ['errorScore', 'Puntuación del error'], ['sizeBefore', 'Size antes · USD']];
+  const extra = [['errorScore', 'Puntuación del error'], ['sizeBefore', 'Size antes · USD']];
   const fields = [...JOURNAL_GROUPS.flatMap(group => group.fields), ...extra];
   const input = (key, label, score = false) => `<label for="journal-entry-${key}">${label}<input id="journal-entry-${key}" name="${key}" type="number" step="any" ${score ? 'min="0" max="10"' : key === 'sizeBefore' ? 'min="0"' : ''} inputmode="decimal"></label>`;
-  document.getElementById('journal-entry-fields').innerHTML = JOURNAL_GROUPS.map(group => `<fieldset><legend>${group.label} · 0–10</legend><div class="journal-entry-inputs">${group.fields.map(([key, label]) => input(key, label, true)).join('')}</div></fieldset>`).join('') + `<fieldset><legend>Resultante · USD</legend><div class="journal-entry-inputs">${extra.slice(0, 2).map(([key, label]) => input(key, label)).join('')}</div></fieldset><fieldset><legend>Size y errores</legend><div class="journal-entry-inputs">${extra.slice(2).map(([key, label]) => input(key, label, key === 'errorScore')).join('')}</div></fieldset><fieldset class="journal-entry-comment"><legend>Comentario y errores del día</legend><label for="journal-entry-comment">Comentario<textarea id="journal-entry-comment" name="comment" rows="4"></textarea></label></fieldset>`;
+  document.getElementById('journal-entry-fields').innerHTML = JOURNAL_GROUPS.map(group => `<fieldset><legend>${group.label} · 0–10</legend><div class="journal-entry-inputs">${group.fields.map(([key, label]) => input(key, label, true)).join('')}</div></fieldset>`).join('') + `<fieldset><legend>Size y errores</legend><div class="journal-entry-inputs">${extra.map(([key, label]) => input(key, label, key === 'errorScore')).join('')}</div></fieldset><fieldset class="journal-entry-comment"><legend>Comentario y errores del día</legend><label for="journal-entry-comment">Comentario<textarea id="journal-entry-comment" name="comment" rows="4"></textarea></label></fieldset>`;
   const dateInput = document.getElementById('journal-entry-date');
   const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
   dateInput.value = dateFieldFromIso(['year', 'month', 'day'].map(type => parts.find(part => part.type === type).value).join('-'));

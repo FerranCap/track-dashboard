@@ -12401,6 +12401,86 @@
         "Yahoo direct access returned HTTP 429. Some historical evidence relies on indexed metadata.",
         "Same-day date-only matches do not establish availability before entry. Current article bodies may contain later updates."
       ]
+    },
+    {
+      "symbol": "GMM",
+      "issuerCik": "1913749",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-16",
+      "coverage": "partial",
+      "scope": "November 16 broker import: all six first position-cycle entries. Exact timestamps use the elapsed 48-hour window; unknown clocks or zones use the agreed publication-date rule.",
+      "tradeEntries": {
+        "broker-26c901fab16b08162f6be46e": "2026-11-16T08:43:50-05:00",
+        "broker-7ddff2027cab445b43ec23e3": "2026-11-16T08:51:15-05:00",
+        "broker-ae4433fc38d88d1146ecd788": "2026-11-16T09:01:04-05:00",
+        "broker-2f72941d78d48aaae3ae023d": "2026-11-16T09:13:31-05:00",
+        "broker-d4594c4d783f784f11c45f1f": "2026-11-16T09:21:23-05:00",
+        "broker-d179123719ad8eff078c1550": "2026-11-16T09:40:28-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=GMM",
+          "access": "page_reviewed",
+          "note": "Started with issuer news list and followed the 08:30 GlobeNewswire release. The 10:44 reporting link could not be fetched."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/GMM/news/",
+          "access": "http_429",
+          "note": "Direct retrieval returned HTTP 429; followed original issuer, distributor and original reporting instead."
+        },
+        {
+          "url": "https://www.globenewswire.com/fr/news-release/2026/11/16/3403520/0/en/global-mofy-announces-indirect-investment-in-anthropic-strengthening-its-position-in-the-global-ai-ecosystem.html",
+          "access": "publication_reviewed",
+          "note": "Confirms 08:30 Eastern publication, November 16 date, issuer identity and the claimed September fund subscription."
+        },
+        {
+          "url": "https://ir.globalmofy.cn/global-mofy-announces-indirect-investment-in-anthropic-strengthening-its-position-in-the-global-ai-ecosystem/",
+          "access": "publication_reviewed",
+          "note": "Issuer confirms publication date and the release contents. It does not disclose investment amount or exact economic exposure."
+        },
+        {
+          "url": "https://www.stocktitan.net/news/GMM/global-mofy-announces-indirect-investment-in-anthropic-strengthening-cvjtvvawcf52.html",
+          "access": "publication_reviewed",
+          "note": "Reproduced release corroborates 08:30 EST; merged under the original publication."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/tech/26/11/63305804/global-mofy-stock-nearly-triples-as-investors-eye-its-latest-ai-investment",
+          "access": "publication_reviewed",
+          "note": "Explicit November 16 date and 12:10 PM clock without a confirmed timezone; counted by date only with a pre-entry warning."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/Global%2BMofy%2BAI%2Bstock%2Bjumps%2Bafter%2BAnthropic-related%2Binvestment%2Bdisclosure",
+          "access": "publication_reviewed",
+          "note": "Explicit November 16 14:47 UTC, after the final 09:40:28 EST entry; excluded without date fallback."
+        },
+        {
+          "url": "https://bulltale.tech/app/event/9425",
+          "access": "publication_reviewed",
+          "note": "Corroborates the separately listed AI Expansion Strategy headline at November 16 10:44 AM EST, after every entry. Yahoo original is inaccessible; excluded on confirmed timing."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "gmm-20261116-quiver-after-entry",
+          "url": "https://www.quiverquant.com/news/Global%2BMofy%2BAI%2Bstock%2Bjumps%2Bafter%2BAnthropic-related%2Binvestment%2Bdisclosure",
+          "resolution": "excluded_after_entry",
+          "note": "14:47 UTC is 09:47 EST, after all six first entries. No date fallback."
+        },
+        {
+          "id": "gmm-20261116-expansion-strategy-after-entry",
+          "url": "https://bulltale.tech/app/event/9425",
+          "resolution": "excluded_after_entry",
+          "note": "Explicit 10:44 AM EST publication evidence is after all six entries; original reporting link was inaccessible. No date fallback."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive news coverage or proof of a price cause.",
+        "Yahoo direct access returned HTTP 429 and the Finviz 10:44 article link was inaccessible.",
+        "Benzinga is matched by date only; its reported clock may be after every entry.",
+        "Issuer investment and third-party listing claims are not independently confirmed; no archived pre-entry body was obtained."
+      ]
     }
   ],
   "matchingPolicy": {

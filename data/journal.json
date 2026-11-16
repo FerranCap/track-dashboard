@@ -973,6 +973,40 @@
       "sizeAdded": null,
       "previousTechnical": null,
       "previousFocus": null
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-16",
+      "rest": 7,
+      "energy": 6,
+      "stress": 8,
+      "wellbeing": 6.5,
+      "expectations": 6.5,
+      "confidence": 7,
+      "fundamentalAnalysis": 7,
+      "fundamentalTracking": 5,
+      "volume": 4,
+      "managementLevels": 5,
+      "riskReward": 6,
+      "technicalTracking": 5,
+      "exitDiscipline": 6,
+      "entryDiscipline": 6,
+      "sizing": 4,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 5.333333333333333,
+      "comment": "Mas que un error seria falta de definicion del riesgo por operacion. Que es lo que vamos definir y actualizar a partir de hoy. Lo pongo como un error medio grave porque realmente afecta mucho al risk management y rompe el Kelly asi que ir undersize te puede mantener en DD mas de lo sostenible.",
+      "errorScore": 4,
+      "sizeBefore": 4.5063862291733345,
+      "sizeAfter": 4.751733923872772,
+      "sizeAdded": 0.2453476946994373,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-16"
+      }
     }
   ]
 }
