@@ -116,7 +116,7 @@ function hotkeysParameterDefinitions(script) {
     { id: 'tif', label: 'Vigencia (TIF)', pattern: /\bTIF=([A-Za-z0-9+]+);/gi, prefix: 'TIF=', suffix: ';' },
     { id: 'close', label: 'Posición a cerrar (%)', pattern: /\bShare=Pos\*([0-9.]+);/gi, prefix: 'Share=Pos*', suffix: ';', scale: 100, min: 0.000001, max: 100 },
     { id: 'slippage', label: 'Margen sobre Last (%)', pattern: /\$Delta=Last\*([0-9.]+);/g, prefix: '$Delta=Last*', suffix: ';', scale: 100, min: 0, max: 100 },
-    { id: 'shares', label: 'Acciones de prueba', pattern: /\bShare=([0-9.]+);/gi, prefix: 'Share=', suffix: ';', min: 1 }
+    { id: 'shares', label: 'Acciones', pattern: /\bShare=([0-9.]+);/gi, prefix: 'Share=', suffix: ';', min: 1 }
   ];
   const parameters = definitions.flatMap(definition => {
     const matches = [...script.matchAll(definition.pattern)];
@@ -232,11 +232,15 @@ function hotkeysVariableDefinitions(entries) {
   }
   for (const entry of entries) {
     for (const parameter of hotkeysParameterDefinitions(entry.script).filter(item => !['risk', 'route', 'tif'].includes(item.id))) {
+      let group = parameter.id.startsWith('entry-') ? 'Entradas' : ['close', 'slippage'].includes(parameter.id) ? 'Cierres' : 'Otros parámetros';
+      if (parameter.id === 'shares' && entry.slot === null) group = 'Listing';
+      if (parameter.id === 'shares' && entry.slot === 10) group = 'Test';
       fields.push({ ...parameter, id: `${entry.id}-${parameter.id}`, parameterId: parameter.id, targets: [entry.id],
-        label: `${entry.slot === null ? entry.name : entry.label} · ${parameter.label}`, group: parameter.id.startsWith('entry-') ? 'Entradas' : parameter.id === 'close' ? 'Cierres' : 'Otros parámetros' });
+        label: `${entry.slot === null ? entry.name : entry.label} · ${parameter.label}`, group });
     }
   }
-  return fields;
+  const order = ['Riesgo', 'Órdenes', 'Entradas', 'Cierres', 'Otros parámetros', 'Listing', 'Test'];
+  return fields.sort((left, right) => order.indexOf(left.group) - order.indexOf(right.group));
 }
 
 function hotkeysApplyVariables(entries, values) {
@@ -257,7 +261,7 @@ function hotkeysApplyVariables(entries, values) {
 
 function hotkeysRenderVariables() {
   const fields = hotkeysVariableDefinitions(hotkeysEntries);
-  document.getElementById('hotkeys-risk-scale').value = hotkeysJournalSize ? String(hotkeysJournalSize.sizeAfter) : 'No disponible';
+  document.getElementById('hotkeys-risk-scale').value = hotkeysJournalSize ? hotkeysJournalSize.sizeAfter.toFixed(3) : 'No disponible';
   hotkeysMessage('hotkeys-risk-scale-note', hotkeysJournalSize ? `Size después de la sesión del ${hotkeysJournalSize.date.split('-').reverse().join('/')}.` : hotkeysJournalError, !hotkeysJournalSize);
   document.getElementById('hotkeys-variable-fields').innerHTML = [...new Set(fields.map(field => field.group))].map(group => `<fieldset class="hotkeys-variable-group"><legend>${group}</legend><div class="hotkeys-form-grid">${fields.filter(field => field.group === group).map(field => `<label for="hotkeys-variable-${field.id}">${hotkeysEscape(field.label)}<input id="hotkeys-variable-${field.id}" value="${hotkeysEscape(field.value)}" ${field.min === undefined ? 'type="text" placeholder="Varios valores"' : `type="number" step="any" min="${field.min}" ${field.max === undefined ? '' : `max="${field.max}"`} required`}></label>`).join('')}</div></fieldset>`).join('');
   hotkeysVariablesDirty = false;
