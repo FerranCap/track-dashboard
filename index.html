@@ -701,9 +701,10 @@
 </div>
 <div id="view-projection" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
-<h2>Proyección · próximos 12 meses</h2>
+<h2>Proyección · fecha personalizable</h2>
 <p>Parte de la R vigente y aplica subidas compuestas. Para proyectar el PnL, mantiene la relación PnL/R de los trades históricos filtrados y repite su secuencia de sesiones. Las sesiones futuras se distribuyen de lunes a viernes, sin descontar festivos bursátiles.</p>
 <div class="ratio-controls">
+<label for="growth-projection-end">Proyectar hasta<input id="growth-projection-end" type="text" inputmode="numeric" placeholder="DD/MM/AAAA" maxlength="10" autocomplete="off" aria-describedby="growth-projection-status"></label>
 <label for="growth-projection-interval">Subir el riesgo cada<input id="growth-projection-interval" type="number" min="1" max="10000" step="1" value="20"></label>
 <label for="growth-projection-unit">Unidad<select id="growth-projection-unit"><option value="session" selected>Sesiones operadas</option><option value="day">Días naturales</option><option value="week">Semanas</option><option value="month">Meses</option></select></label>
 <label for="growth-projection-percent">Subida de R (%)<input id="growth-projection-percent" type="number" min="0" max="1000" step="0.1" value="10"></label>
@@ -751,12 +752,12 @@
 <script src="filters.js?v=20261115-european-dates-14" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261110-historical-r-66" defer></script>
-<script src="projection.js?v=20261110-historical-r-66" defer></script>
+<script src="projection.js?v=20261117-custom-end-date-1" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
 <script src="hotkeys.js?v=20261117-1" defer></script>
-<script src="workspace.js?v=20261116-hotkeys-1" defer>
+<script src="workspace.js?v=20261117-custom-end-date-1" defer>
 </script>
 <script src="dashboard.js?v=20261115-journal-r-7" defer>
 </script>

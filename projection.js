@@ -8,7 +8,16 @@ function projectionMonth(date, months) {
   return target.toISOString().slice(0, 10);
 }
 
-function growthProjection(rows, history, startDate, interval, unit, percent, sizeMultiplier = 1) {
+function projectionToday() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+}
+
+function growthProjection(rows, history, startDate, interval, unit, percent, sizeMultiplier = 1, endDate = projectionMonth(startDate, 12)) {
+  const endTime = Date.parse(`${endDate}T00:00:00Z`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate) || !Number.isFinite(endTime)
+    || new Date(endTime).toISOString().slice(0, 10) !== endDate || endDate <= startDate) {
+    throw new Error('Indica una fecha final válida posterior a hoy (DD/MM/AAAA).');
+  }
   if (!Number.isInteger(interval) || interval < 1 || interval > 10000
     || !['session', 'day', 'week', 'month'].includes(unit)
     || !Number.isFinite(percent) || percent < 0 || percent > 1000) {
@@ -29,11 +38,10 @@ function growthProjection(rows, history, startDate, interval, unit, percent, siz
     sourceSessions.get(entryDate).push({ trade, risk: risk.risk });
   }
   const sample = [...sourceSessions].sort(([left], [right]) => left.localeCompare(right)).map(([, trades]) => trades);
-  const endDate = projectionMonth(startDate, 12);
   const points = [[startDate, current.risk]], trades = [];
   let session = 0, projectedRisk = current.risk;
   const startTime = Date.parse(`${startDate}T00:00:00Z`);
-  for (let time = startTime + 86400000; time <= Date.parse(`${endDate}T00:00:00Z`); time += 86400000) {
+  for (let time = startTime + 86400000; time <= endTime; time += 86400000) {
     const date = new Date(time).toISOString().slice(0, 10);
     const weekday = new Date(time).getUTCDay();
     const tradingDay = weekday !== 0 && weekday !== 6;
@@ -76,13 +84,16 @@ function renderGrowthProjection(rows) {
   const unit = $('growth-projection-unit').value;
   const sizeInput = $('growth-projection-size');
   const sizeMultiplier = sizeInput.value.trim() ? Number(sizeInput.value) : NaN;
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  const today = projectionToday();
+  const endInput = $('growth-projection-end');
+  const endDate = dateFieldToIso(endInput.value);
+  endInput.setAttribute('aria-invalid', String(!endDate || endDate <= today));
   let projection = null, message = '';
-  try { projection = growthProjection(rows, sessionRiskHistory, today, interval, unit, percent, sizeMultiplier); }
+  try { projection = growthProjection(rows, sessionRiskHistory, today, interval, unit, percent, sizeMultiplier, endDate); }
   catch (error) { message = error.message; }
   const trades = projection?.trades || [];
   const displayTrades = displayPnlRows(trades);
-  const explanation = `Escenario a 12 meses desde la R actual. Subidas de R compuestas. PnL proyectado = PnL histórico / R histórica × R proyectada × size ${num(sizeMultiplier)}. El multiplicador escala ganancias, pérdidas y costes ya incluidos en el PnL de forma proporcional; la ejecución y los costes reales pueden variar. Se repite la secuencia histórica filtrada. Sesiones de lunes a viernes sin descontar festivos bursátiles. Se excluyen trades sin R conocida en su entrada. Las sesiones continúan aunque alcancen −R; no se simula detener la operativa.`;
+  const explanation = `Escenario desde ${today} hasta ${projection?.endDate || endDate || "la fecha elegida"}, partiendo de la R actual. Subidas de R compuestas. PnL proyectado = PnL histórico / R histórica × R proyectada × size ${num(sizeMultiplier)}. El multiplicador escala ganancias, pérdidas y costes ya incluidos en el PnL de forma proporcional; la ejecución y los costes reales pueden variar. Se repite la secuencia histórica filtrada. Sesiones de lunes a viernes sin descontar festivos bursátiles. Se excluyen trades sin R conocida en su entrada. Las sesiones continúan aunque alcancen −R; no se simula detener la operativa.`;
   const units = { session: 'sesiones', day: 'días', week: 'semanas', month: 'meses' };
   $('growth-projection-status').textContent = projection
     ? `Desde ${today} hasta ${projection.endDate}. R inicial ${usdMoney(projection.initialRisk)} → R final ${usdMoney(projection.finalRisk)}. Subida del ${num(percent, 1)} % cada ${interval} ${units[unit]}. Size ×${num(sizeMultiplier)}. ${projection.sourceSessions} sesiones históricas como base; ${projection.sessions} sesiones futuras de lunes a viernes. ${projection.excluded} trades excluidos por falta de R o PnL válido.${!projection.sourceSessions ? ' Sin muestra disponible para proyectar el PnL.' : ''}`
@@ -108,7 +119,10 @@ function renderGrowthProjection(rows) {
 }
 
 function initializeGrowthProjection() {
-  for (const id of ['growth-projection-interval', 'growth-projection-percent', 'growth-projection-size']) {
+  const endInput = $('growth-projection-end');
+  endInput.value = dateFieldFromIso(projectionMonth(projectionToday(), 12));
+  attachDatePicker(endInput);
+  for (const id of ['growth-projection-end', 'growth-projection-interval', 'growth-projection-percent', 'growth-projection-size']) {
     $(id).addEventListener('input', () => renderGrowthProjection(filtered));
   }
   for (const id of ['growth-projection-unit', 'growth-projection-trade-window', 'growth-projection-average-period', 'growth-projection-swing-unit']) {

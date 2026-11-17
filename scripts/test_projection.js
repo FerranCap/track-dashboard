@@ -81,6 +81,23 @@ assert.equal(evaluate("growthProjection(rows, history, '2026-11-06', 1, 'week', 
 assert.equal(evaluate("growthProjection(rows, history, '2026-11-06', 1, 'month', 10).points[1][0]"), '2026-12-06');
 assert.equal(evaluate("projectionMonth('2027-01-31', 1)"), '2027-02-28');
 assert.equal(evaluate("projectionMonth('2028-01-31', 1)"), '2028-02-29');
+evaluate("globalThis.shortProjection = growthProjection(rows, history, '2026-11-06', 2, 'session', 10, 1, '2026-11-11')");
+assert.equal(context.shortProjection.endDate, '2026-11-11');
+assert.equal(context.shortProjection.sessions, 3);
+assert.equal(context.shortProjection.finalRisk, 330);
+assert.deepEqual(Array.from(context.shortProjection.trades, trade => trade.id), Array.from(result.trades.filter(trade => trade.date <= '2026-11-11'), trade => trade.id), 'Custom end date includes the final session and preserves the historical sequence');
+evaluate("globalThis.weekendProjection = growthProjection(rows, history, '2026-11-06', 1, 'day', 10, 1, '2026-11-08')");
+assert.equal(context.weekendProjection.sessions, 0);
+assert.equal(context.weekendProjection.points.at(-1)[0], '2026-11-08');
+assert.ok(Math.abs(context.weekendProjection.finalRisk - 363) < 1e-9, 'Calendar growth includes a weekend end date');
+evaluate("globalThis.longProjection = growthProjection(rows, history, '2026-11-06', 1, 'month', 10, 1, '2028-02-29')");
+assert.equal(context.longProjection.endDate, '2028-02-29');
+assert.ok(context.longProjection.trades.some(trade => trade.date === '2028-02-29'), 'Longer horizons include leap days');
+assert.ok(Math.abs(context.longProjection.finalRisk - 300 * 1.1 ** 15) < 1e-9);
+for (const endDate of ['', null, '2026-11-06', '2026-11-05', '2027-02-29', '2027-13-01', '11/12/2026']) {
+  context.invalidEndDate = endDate;
+  assert.throws(() => evaluate("growthProjection(rows, history, '2026-11-06', 2, 'session', 10, 1, invalidEndDate)"));
+}
 assert.equal(evaluate("growthProjection([], history, '2026-11-06', 20, 'session', 10).trades.length"), 0);
 assert.equal(evaluate("growthProjection([{...rows[0], opened: '2025-06-01T09:00:00-04:00'}], history, '2026-11-06', 20, 'session', 10).excluded"), 1);
 for (const expression of [
