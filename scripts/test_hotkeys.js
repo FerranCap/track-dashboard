@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
-const original = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v12.htk'));
+const original = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk'));
 const elements = new Map();
 const storage = new Map();
 let downloads = [];
@@ -72,9 +72,9 @@ async function run() {
   select(2);
   element('hotkeys-restore').handlers.click();
   select(2);
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 2))'), 25, 'Old browser drafts must not override the current v12 file');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 2))'), 25, 'Old browser drafts must not override the current v13 file');
   assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 1))'), 17);
-  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 16/11/2026');
+  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 17/11/2026');
   assert.equal(JSON.parse(storage.get('track-das-hotkeys-v1')).entries.find(entry => entry.slot === 2).script.includes('$RiskMultiplier=35;'), true, 'Old configuration remains untouched');
   assert.equal(evaluate('hotkeysEntries.length'), 22);
   assert.equal(evaluate('hotkeysEntries.filter(entry => entry.slot !== null).length'), 15);
@@ -83,6 +83,34 @@ async function run() {
   const initial = evaluate('hotkeysSerialize(hotkeysEntries)');
   assert.deepEqual(Buffer.from(evaluate('hotkeysEncode(hotkeysSerialize(hotkeysEntries))')), original, 'Unedited export must match every original byte');
   assert.equal(evaluate('hotkeysSerialize(hotkeysParse(hotkeysSerialize(hotkeysEntries)))'), initial);
+  context.previousSource = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v12.htk'), 'latin1');
+  const previousEntries = JSON.parse(evaluate('JSON.stringify(hotkeysParse(previousSource))'));
+  const currentEntries = JSON.parse(evaluate('JSON.stringify(hotkeysEntries)'));
+  const tradingSlots = [3, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  for (const entry of currentEntries) {
+    const previous = previousEntries.find(item => item.id === entry.id);
+    assert.equal(entry.script.split(evaluate('HOTKEYS_ROUTE_RULE')).join('Route=EDGAL;'), previous.script,
+      'Only routing changes; entry prices, sizing and closing behavior stay identical');
+    if (!tradingSlots.includes(entry.slot)) {
+      assert.equal(entry.script, previous.script, 'Non-trading hotkeys and List remain unchanged');
+      continue;
+    }
+    const routeBlocks = entry.script.match(/if\(Last<1\)\{Route=\w+;\}else\{Route=\w+;\}/g);
+    assert.ok(routeBlocks?.length, `Missing automatic routing for ${entry.name}`);
+    for (const block of routeBlocks) {
+      for (const [last, expected] of [[0.5, 'EDGAL'], [0.9999, 'EDGAL'], [1, 'SAGEREB'], [1.0001, 'SAGEREB'], [25, 'SAGEREB']]) {
+        const routeContext = vm.createContext({ Last: last, Price: last < 1 ? 2 : 0.01, EDGAL: 'EDGAL', SAGEREB: 'SAGEREB' });
+        vm.runInContext(block, routeContext);
+        assert.equal(routeContext.Route, expected, 'Routing uses Last, including exactly $1, regardless of the stop/limit field');
+      }
+    }
+  }
+  context.routeEntries = currentEntries;
+  const editedRoutes = evaluate("hotkeysApplyVariables(routeEntries, {'route-below':'LOW','route-above':'HIGH'})");
+  for (const entry of editedRoutes.filter(item => tradingSlots.includes(item.slot))) {
+    assert.ok(entry.script.includes('if(Last<1){Route=LOW;}else{Route=HIGH;}'));
+  }
+  assert.equal(editedRoutes.find(entry => entry.key === 'Alt+F').script, 'Route=EDGAL;Price=0.01;Share=1;BUY=Send;TIF=DAY+;');
   assert.equal(evaluate("hotkeysCanonicalKey('Shift+Ctrl+b')"), evaluate("hotkeysCanonicalKey('ctrl+shift+B')"));
   assert.equal(evaluate("hotkeysCanonicalKey('Alt+[')"), 'ALT+[');
   assert.throws(() => evaluate("hotkeysCanonicalKey('Alt+Alt+1')"));
@@ -93,7 +121,7 @@ async function run() {
   assert.throws(() => evaluate("hotkeysEncode('\u{1f600}')"), /Windows-1252/);
 
   element('hotkeys-generate').handlers.click();
-  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 16/11/2026');
+  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 17/11/2026');
   assert.deepEqual(Buffer.from(await downloads[0].arrayBuffer()), original);
   assert.equal(downloadNames[0], 'RRS_Setup_RiskScale_TradeSize_custom.htk');
   element('hotkeys-variable-risk-b').value = '30';
@@ -121,7 +149,7 @@ async function run() {
   element('hotkeys-variables-form').handlers.submit({ preventDefault() {} });
   assert.deepEqual(Buffer.from(evaluate('hotkeysEncode(hotkeysSerialize(hotkeysEntries))')), original);
   context.variableSource = evaluate('JSON.stringify(hotkeysEntries)');
-  const updatedVariables = evaluate("hotkeysApplyVariables(JSON.parse(variableSource), {route:'SMRTL',tif:'DAY'})");
+  const updatedVariables = evaluate("hotkeysApplyVariables(JSON.parse(variableSource), {route:'SMRTL','route-below':'SMRTL','route-above':'SMRTL',tif:'DAY'})");
   assert.ok(updatedVariables.filter(entry => /Route=/.test(entry.script)).every(entry => entry.script.includes('Route=SMRTL;')));
   assert.ok(updatedVariables.filter(entry => /TIF=/.test(entry.script)).every(entry => entry.script.includes('TIF=DAY;')));
   assert.equal(updatedVariables.find(entry => entry.slot === 0).script, 'PANIC;');
@@ -159,7 +187,7 @@ async function run() {
   element('hotkeys-generate').handlers.click();
   const updated = new TextDecoder('windows-1252').decode(await downloads.at(-1).arrayBuffer());
   context.updatedSource = updated;
-  assert.equal(evaluate("hotkeysParse(updatedSource).find(entry => entry.slot === 6).script"), 'Route=EDGAL;Price=Bid;Share=Pos*0.3;Buy=Send;TIF=DAY+;');
+  assert.equal(evaluate("hotkeysParse(updatedSource).find(entry => entry.slot === 6).script"), 'if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=Bid;Share=Pos*0.3;Buy=Send;TIF=DAY+;');
   assert.equal(evaluate("hotkeysParse(updatedSource).find(entry => entry.slot === 9).script"), evaluate("hotkeysEntries.find(entry => entry.slot === 9).script"), 'Edited advanced lengths must parse correctly');
   assert.equal(evaluate('hotkeysEntries.filter(entry => entry.slot === null).every(entry => entry.script === hotkeysDefaults.find(item => item.id === entry.id).script)'), true);
 
@@ -228,6 +256,19 @@ async function run() {
   assert.equal(JSON.parse(storage.get('track-das-hotkeys-v12')).entries.find(entry => entry.slot === 9).script.includes('$RiskMultiplier=25;'), true);
   context.mismatchedEntries = saved.entries;
   assert.throws(() => evaluate('hotkeysSerialize(mismatchedEntries)'), /compartir/);
+  const migrationEntries = previousEntries.map(entry => ({ ...entry, label: `${entry.label} saved`,
+    script: entry.script.replace('$RiskMultiplier=25;', '$RiskMultiplier=31;') }));
+  migrationEntries.find(entry => entry.slot === 10).script = migrationEntries.find(entry => entry.slot === 10).script.replaceAll('Route=EDGAL;', 'Route=CUSTOM;');
+  storage.set('track-das-hotkeys-v12', JSON.stringify({ schemaVersion: 1, entries: migrationEntries }));
+  await evaluate('initializeHotkeys()');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 31);
+  assert.ok(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes(HOTKEYS_ROUTE_RULE)'));
+  assert.ok(evaluate('hotkeysEntries.find(entry => entry.slot === 10).script.includes("Route=CUSTOM;")'));
+  assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).label'), 'Entry B saved');
+  assert.equal(JSON.parse(storage.get('track-das-hotkeys-v12')).routingVersion, 1);
+  const migratedExport = evaluate('hotkeysSerialize(hotkeysEntries)');
+  await evaluate('initializeHotkeys()');
+  assert.equal(evaluate('hotkeysSerialize(hotkeysEntries)'), migratedExport, 'Migration is applied only once');
   storage.set('track-das-hotkeys-v12', '{broken');
   await evaluate('initializeHotkeys()');
   assert.ok(element('hotkeys-status').textContent.includes('no es válida'));

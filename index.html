@@ -402,7 +402,7 @@
 <div id="hotkeys-variables-panel">
 <div class="panel-head"><div><div class="eyebrow">CONFIGURACIÓN GENERAL</div><h2>Variables</h2></div></div>
 <div class="hotkeys-journal-size"><label for="hotkeys-risk-scale">$RiskScale · Size del diario · USD</label><input id="hotkeys-risk-scale" type="text" readonly aria-describedby="hotkeys-risk-scale-note"><p id="hotkeys-risk-scale-note" class="mini-caption"></p></div>
-<form id="hotkeys-variables-form"><div id="hotkeys-variable-fields"></div><p class="mini-caption">B y Entry B comparten multiplicador. C y Entry C comparten otro independiente. Ruta y TIF se aplican a todas las hotkeys que los usan.</p><p id="hotkeys-variables-status" class="mini-caption" role="status" aria-live="polite"></p><button type="submit">Guardar variables</button></form>
+<form id="hotkeys-variables-form"><div id="hotkeys-variable-fields"></div><p class="mini-caption">B y Entry B comparten multiplicador. C y Entry C comparten otro independiente. Entradas, test y cierres: EDGAL si Last &lt; 1 USD; SAGEREB desde 1 USD. List mantiene ruta fija EDGAL. Cada ruta y TIF se aplican a las hotkeys que los usan.</p><p id="hotkeys-variables-status" class="mini-caption" role="status" aria-live="polite"></p><button type="submit">Guardar variables</button></form>
 <p class="mini-caption hotkeys-runtime-note">$StopPrice, $EntryPrice, $Distance y $TradeSize se calculan en DAS al ejecutar la hotkey.</p>
 </div>
 <div id="hotkeys-editor-content" hidden>
@@ -755,7 +755,7 @@
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
-<script src="hotkeys.js?v=20261116-9" defer></script>
+<script src="hotkeys.js?v=20261117-1" defer></script>
 <script src="workspace.js?v=20261116-hotkeys-1" defer>
 </script>
 <script src="dashboard.js?v=20261115-journal-r-7" defer>

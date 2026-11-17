@@ -1,8 +1,9 @@
 'use strict';
 
-const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v12.htk';
+const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk';
 const HOTKEYS_STORAGE = 'track-das-hotkeys-v12';
-const HOTKEYS_UPDATED_ON = '2026-11-16';
+const HOTKEYS_UPDATED_ON = '2026-11-17';
+const HOTKEYS_ROUTE_RULE = 'if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}';
 const HOTKEYS_RISK_PAIRS = [[2, 9], [1, 14]];
 const HOTKEYS_LAYOUT = [
   ['Alt+1', 'Panic', 'danger'], ['Alt+2', 'C', 'neutral'], ['Alt+3', 'B', 'neutral'], ['Alt+4', 'Market', 'neutral'], ['Alt+Q', 'Clear', 'neutral'],
@@ -110,15 +111,19 @@ function hotkeysSerialize(entries) {
 }
 
 function hotkeysParameterDefinitions(script) {
+  const conditionalRouting = /if\(Last<1\)\{Route=/.test(script);
   const definitions = [
     { id: 'risk', label: 'Multiplicador de riesgo', pattern: /\$RiskMultiplier=([0-9.]+);/g, prefix: '$RiskMultiplier=', suffix: ';', min: 0.000001 },
     { id: 'route', label: 'Ruta', pattern: /\bRoute=([A-Za-z0-9_]+);/gi, prefix: 'Route=', suffix: ';' },
+    { id: 'route-below', label: 'Ruta · Last < 1 USD', pattern: /if\(Last<1\)\{Route=([A-Za-z0-9_]+);/g, prefix: 'if(Last<1){Route=', suffix: ';' },
+    { id: 'route-above', label: 'Ruta · Last ≥ 1 USD', pattern: /\}else\{Route=([A-Za-z0-9_]+);/g, prefix: '}else{Route=', suffix: ';' },
     { id: 'tif', label: 'Vigencia (TIF)', pattern: /\bTIF=([A-Za-z0-9+]+);/gi, prefix: 'TIF=', suffix: ';' },
     { id: 'close', label: 'Posición a cerrar (%)', pattern: /\bShare=Pos\*([0-9.]+);/gi, prefix: 'Share=Pos*', suffix: ';', scale: 100, min: 0.000001, max: 100 },
     { id: 'slippage', label: 'Margen sobre Last (%)', pattern: /\$Delta=Last\*([0-9.]+);/g, prefix: '$Delta=Last*', suffix: ';', scale: 100, min: 0, max: 100 },
     { id: 'shares', label: 'Acciones', pattern: /\bShare=([0-9.]+);/gi, prefix: 'Share=', suffix: ';', min: 1 }
   ];
   const parameters = definitions.flatMap(definition => {
+    if (conditionalRouting && definition.id === 'route') return [];
     const matches = [...script.matchAll(definition.pattern)];
     if (!matches.length || !matches.every(match => match[1] === matches[0][1])) return [];
     return [{ ...definition, value: definition.min === undefined ? matches[0][1] : Number(matches[0][1]) * (definition.scale || 1) }];
@@ -169,7 +174,7 @@ function hotkeysMessage(id, message, error = false) {
 
 function hotkeysPersist(entries) {
   try {
-    localStorage.setItem(HOTKEYS_STORAGE, JSON.stringify({ schemaVersion: 1, entries }));
+    localStorage.setItem(HOTKEYS_STORAGE, JSON.stringify({ schemaVersion: 1, routingVersion: 1, entries }));
     return true;
   } catch { return false; }
 }
@@ -221,17 +226,17 @@ function hotkeysVariableDefinitions(entries) {
     const parameter = targets.length === 2 && hotkeysParameterDefinitions(targets.find(entry => entry.slot === slot).script).find(item => item.id === 'risk');
     if (parameter) fields.push({ ...parameter, id: `risk-${group.toLowerCase()}`, parameterId: 'risk', label: `$RiskMultiplier · ${group} / Entry ${group}`, group: 'Riesgo', targets: targets.map(entry => entry.id) });
   }
-  for (const parameterId of ['route', 'tif']) {
+  for (const parameterId of ['route', 'route-below', 'route-above', 'tif']) {
     const targets = entries.flatMap(entry => {
       const parameter = hotkeysParameterDefinitions(entry.script).find(item => item.id === parameterId);
       return parameter ? [{ entry, parameter }] : [];
     });
     if (targets.length) fields.push({ ...targets[0].parameter, id: parameterId, parameterId, group: 'Órdenes',
-      label: parameterId === 'route' ? 'Route · Todas las hotkeys' : 'TIF · Todas las hotkeys',
+      label: ({ route: 'Ruta fija · List / scripts personalizados', 'route-below': 'Ruta · Last < 1 USD', 'route-above': 'Ruta · Last ≥ 1 USD', tif: 'TIF · Todas las hotkeys' })[parameterId],
       value: targets.every(item => item.parameter.value === targets[0].parameter.value) ? targets[0].parameter.value : '', targets: targets.map(item => item.entry.id) });
   }
   for (const entry of entries) {
-    for (const parameter of hotkeysParameterDefinitions(entry.script).filter(item => !['risk', 'route', 'tif'].includes(item.id))) {
+    for (const parameter of hotkeysParameterDefinitions(entry.script).filter(item => !['risk', 'route', 'route-below', 'route-above', 'tif'].includes(item.id))) {
       let group = parameter.id.startsWith('entry-') ? 'Entradas' : ['close', 'slippage'].includes(parameter.id) ? 'Cierres' : 'Otros parámetros';
       if (parameter.id === 'shares' && entry.slot === null) group = 'Listing';
       if (parameter.id === 'shares' && entry.slot === 10) group = 'Test';
@@ -358,6 +363,11 @@ async function initializeHotkeys() {
         hotkeysValidate(saved.entries);
         if (saved.schemaVersion !== 1 || saved.entries.length !== hotkeysDefaults.length || !saved.entries.every((entry, index) => entry.id === hotkeysDefaults[index].id && entry.slot === hotkeysDefaults[index].slot)) throw new Error('Invalid saved layout');
         hotkeysEntries = saved.entries;
+        if (saved.routingVersion !== 1) {
+          hotkeysEntries = hotkeysEntries.map(entry => entry.slot !== null && !/if\(Last<1\)\{Route=/.test(entry.script) && /Route=EDGAL;/.test(entry.script)
+            ? { ...entry, script: entry.script.replace(/Route=EDGAL;/g, HOTKEYS_ROUTE_RULE) } : entry);
+          if (!hotkeysPersist(hotkeysEntries)) storageWarning = ' Rutas actualizadas en esta sesión; no se pudo guardar en el navegador.';
+        }
       }
     } catch { storageWarning = ' La configuración guardada no está disponible o no es válida; se muestra el archivo original.'; }
     let synchronized = false;
