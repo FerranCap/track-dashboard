@@ -725,12 +725,13 @@
 <div id="growth-projection-risk-chart" class="chart"></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>PnL absoluto proyectado de cada trade · <span data-pnl-unit-label>USD</span></h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<div class="panel-head"><h2>Evolución del PnL absoluto medio por trade · <span data-pnl-unit-label>USD</span></h2><label class="study-control" for="growth-projection-trade-window">Operaciones visibles<select id="growth-projection-trade-window"><option value="50">Últimas 50</option><option value="100" selected>Últimas 100</option><option value="250">Últimas 250</option><option value="all">Todas</option></select></label></div>
+<p id="growth-projection-average-base" class="mini-caption" role="status"></p>
 <p id="growth-projection-trade-count" class="mini-caption" role="status"></p>
-<div class="growth-trade-plot" tabindex="0" role="region" aria-label="PnL absoluto proyectado por trade"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
+<div class="growth-trade-plot" tabindex="0" role="region" aria-label="Evolución del PnL absoluto medio por trade"><div id="growth-projection-absolute-pnl-chart" class="chart"></div></div>
 </section>
 <section class="section panel">
-<div class="panel-head"><h2>PnL absoluto medio proyectado por trade</h2><label class="study-control" for="growth-projection-average-period">Agrupar por<select id="growth-projection-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
+<div class="panel-head"><h2>PnL absoluto medio proyectado por período · <span data-pnl-unit-label>USD</span></h2><label class="study-control" for="growth-projection-average-period">Agrupar por<select id="growth-projection-average-period"><option value="day">Diario</option><option value="week" selected>Semanal</option><option value="month">Mensual</option></select></label></div>
 <div id="growth-projection-average-pnl-chart" class="chart"></div>
 </section>
 </div>
@@ -752,7 +753,7 @@
 <script src="filters.js?v=20261115-european-dates-14" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261110-historical-r-66" defer></script>
-<script src="projection.js?v=20261117-custom-end-date-1" defer></script>
+<script src="projection.js?v=20261117-average-size-2" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>

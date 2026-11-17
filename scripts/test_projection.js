@@ -31,9 +31,21 @@ assert.equal(result.trades[2].pnl, 0, 'Zero trades remain in the projected seque
 assert.equal(result.trades[3].date, '2026-11-11');
 assert.equal(result.trades[3].projectedRisk, 330, 'Risk increases before session N+1');
 assert.equal(result.trades[3].pnl, 165);
+assert.equal(result.sourceTrades, 3);
+assert.ok(Math.abs(result.meanAbsoluteR - (0.5 + 0.3 + 0) / 3) < 1e-12, 'The baseline weights trades equally, includes zeros and uses absolute historical R');
+assert.equal(result.trades[0].averagePnl, 80);
+assert.equal(result.trades[1].averagePnl, 80, 'Every trade uses the same baseline instead of replaying individual magnitudes');
+assert.equal(result.trades[2].averagePnl, 80, 'A zero source trade keeps its place in the mean-based projection');
+assert.equal(result.trades[3].averagePnl, 88, 'Dollar magnitude grows with projected risk');
+assert.ok(result.trades.every(trade => Math.abs(trade.averagePnl / trade.projectedRisk - result.meanAbsoluteR) < 1e-12), 'The projected mean remains constant in R');
+assert.equal(evaluate("growthProjection(rows.slice(0, 1), history, '2026-11-06', 2, 'session', 10).meanAbsoluteR"), 0.5, 'Changing the general filter changes the baseline');
+assert.equal(evaluate("growthProjection([{...rows[0], pnl: 0}], history, '2026-11-06', 2, 'session', 10).meanAbsoluteR"), 0, 'A zero-only sample has a valid zero baseline');
+assert.equal(evaluate("growthProjection([], history, '2026-11-06', 2, 'session', 10).meanAbsoluteR"), null, 'An empty sample has no baseline');
+assert.ok(Math.abs(evaluate("growthProjection([...rows, {...rows[0], id: 'current', opened: '2026-04-02T09:00:00-04:00', pnl: -300}], history, '2026-11-06', 2, 'session', 10).meanAbsoluteR") - 0.45) < 1e-12, 'Each source is normalized by its own historical risk');
 evaluate("globalThis.doubled = growthProjection(rows, history, '2026-11-06', 2, 'session', 10, 2)");
 assert.deepEqual(Array.from(context.doubled.points, point => Array.from(point)), Array.from(result.points, point => Array.from(point)), 'Size does not change the configured risk');
 assert.deepEqual(Array.from(context.doubled.trades, trade => trade.pnl), Array.from(result.trades, trade => trade.pnl * 2), 'Size scales positive, negative and zero PnL');
+assert.deepEqual(Array.from(context.doubled.trades, trade => trade.averagePnl), Array.from(result.trades, trade => trade.averagePnl * 2), 'Size scales the shared mean without changing its historical baseline');
 assert.equal(evaluate('sessionSwings(result.trades, history, true).sessions[0].maximum'), 150, 'Projected order preserves the within-session high');
 assert.equal(evaluate('sessionSwings(result.trades, history, true).sessions[0].pnl'), 60);
 context.swingRows = [-10, 4].map((pnl, index) => ({

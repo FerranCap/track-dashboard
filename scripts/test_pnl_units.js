@@ -35,6 +35,17 @@ function runPnlUnitChecks(check, evaluate) {
   check(evaluate("growthProjection(unitTrades, sessionRiskHistory, '2026-11-10', 20, 'session', 10).trades[0].pnl === growthProjection(rTrades, sessionRiskHistory, '2026-11-10', 20, 'session', 10).trades[0].pnl"), 'Projection uses original historical USD regardless of display mode');
   check(evaluate('JSON.stringify(sessionSwings(unitTrades, sessionRiskHistory)) === JSON.stringify(sessionSwings(rTrades, sessionRiskHistory))'), 'Session risk and stop calculations do not divide converted PnL again');
   check(evaluate("displayPnlRows([{ ...unitTrades[2], projectedRisk: 600, pnl: 1200 }], 'r')[0].pnl") === 2, 'Projected PnL uses its projected risk rather than historical risk');
+  evaluate(`
+    globalThis.meanProjection = growthProjection(unitTrades, sessionRiskHistory, '2026-11-10', 2, 'session', 10, 2);
+    globalThis.meanProjectionR = growthProjection(rTrades, sessionRiskHistory, '2026-11-10', 2, 'session', 10, 2);
+    globalThis.meanProjectionRows = meanProjection.trades.map(trade => ({ ...trade, pnl: trade.averagePnl }));
+  `);
+  check(evaluate('meanProjection.meanAbsoluteR === meanProjectionR.meanAbsoluteR'), 'The filtered mean is identical when source rows are displayed in USD or R');
+  check(evaluate('JSON.stringify(meanProjection.trades.map(trade => trade.averagePnl)) === JSON.stringify(meanProjectionR.trades.map(trade => trade.averagePnl))'), 'Projection of the mean always uses canonical USD');
+  check(evaluate("displayPnlRows(meanProjectionRows, 'r').every(trade => Math.abs(trade.pnl - 5 / 3) < 1e-12)"), 'The mean chart is flat in R, including the size multiplier');
+  check(evaluate("displayPnlRows(meanProjectionRows, 'usd')[0].pnl === 500 && displayPnlRows(meanProjectionRows, 'usd')[3].pnl === 550"), 'The mean chart grows in dollars as projected risk increases');
+  check(evaluate("['day', 'week', 'month'].every(unit => growthPeriods(displayPnlRows(meanProjectionRows, 'r'), unit).every(period => Math.abs(period.meanAbsolutePnl - 5 / 3) < 1e-12))"), 'All grouping periods preserve the constant mean in R');
+  check(evaluate("growthTradePoints(displayPnlRows(meanProjectionRows, 'r'), '50').length === 50 && meanProjection.sourceTrades === 3"), 'The visible trade limit does not change the source sample');
   check(evaluate("svgChart([{ values: [['a', 1], ['b', 2]] }], { currency: true }).includes(' R')"), 'PnL chart axes use R');
   check(evaluate("svgChart([{ values: [['a', 20], ['b', 300]] }], { currency: true, currencyUnit: 'usd' }).includes('$')"), 'Risk-value chart axes remain USD');
   check(evaluate("durationScatterSvg([{ values: [[5, 1]] }], { currency: true, xCurrency: true }).includes('$')"), 'Price scatter axes remain USD while PnL uses R');
