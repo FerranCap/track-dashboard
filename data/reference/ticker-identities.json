@@ -405,5 +405,10 @@
     "cik_str": 1789299,
     "ticker": "WTO",
     "title": "UTime Ltd"
+  },
+  "FRTT": {
+    "cik": "2092967",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/2092967/000121390026050657/ea0287802-20fr12ba1_fort.htm",
+    "note": "SEC registration cover and November 16 MD&A identify Nasdaq FRTT as Fort Technology Inc.; reviewed 2026-11-17."
   }
 }

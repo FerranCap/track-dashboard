@@ -52,8 +52,8 @@ async function run() {
   assert.equal(evaluate('hotkeysSelectedId'), '');
   assert.equal(element('hotkeys-variables-panel').hidden, false);
   assert.equal(element('hotkeys-editor-panel').hidden, false);
-  assert.equal(element('hotkeys-risk-scale').value, '4.752');
-  assert.ok(element('hotkeys-risk-scale-note').textContent.includes('16/11/2026'));
+  assert.equal(element('hotkeys-risk-scale').value, '4.956');
+  assert.ok(element('hotkeys-risk-scale-note').textContent.includes('17/11/2026'));
   assert.equal(element('hotkeys-variable-risk-b').value, '25');
   assert.equal(element('hotkeys-variable-risk-c').value, '17');
   assert.equal(element('hotkeys-editor-content').hidden, true);
@@ -291,7 +291,7 @@ async function run() {
   await evaluate('hotkeysLoadJournalSize()');
   context.pnlDisplayUnit = 'r';
   evaluate('hotkeysRenderVariables()');
-  assert.equal(element('hotkeys-risk-scale').value, '4.752', 'RiskScale displays canonical USD with three decimals regardless of the display unit');
+  assert.equal(element('hotkeys-risk-scale').value, '4.956', 'RiskScale displays canonical USD with three decimals regardless of the display unit');
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/update-dashboard.yml'), 'utf8');
   assert.ok(html.includes('href="#hotkeys" data-view="hotkeys"'));

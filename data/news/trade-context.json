@@ -87,6 +87,7 @@
     "FGI",
     "FNGR",
     "FOXX",
+    "FRTT",
     "FTFT",
     "GCDT",
     "GCL",
@@ -250,7 +251,7 @@
     "ZTG",
     "ZYBT"
   ],
-  "tradeAccountingSha256": "e1fad60197bb2e11b1bc9b236f26f2a3228db9acfa277e78c6e41cdecdf1b1db",
+  "tradeAccountingSha256": "99e54a213aa42b9a0093a56996938d22732bbed176e46fea69cb027a906a504c",
   "articles": [
     {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
@@ -10757,6 +10758,33 @@
       ]
     },
     {
+      "id": "omh-20261116-longbridge-premarket",
+      "eventId": "omh-20261116-longbridge-premarket",
+      "symbol": "OMH",
+      "issuerName": "Ohmyswift Limited (formerly Ohmyhome Limited)",
+      "issuerCik": "1944902",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Ohmyhome tumbles 8% in premarket trading",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Longbridge Market Movers",
+      "kind": "reporting",
+      "category": "market_context",
+      "summary": "Longbridge's indexed issuer news list identifies a November 16 premarket price-move report. This verifies the dated publication listing, not the reported percentage or a corporate catalyst. The direct page returned an older cached listing and the report body was unavailable. Only the publication date is used; the clock timezone is unconfirmed.",
+      "url": "https://longbridge.com/en/quote/OMH.US/news",
+      "sourceUrls": [
+        "https://longbridge.com/en/quote/OMH.US/news"
+      ],
+      "timestampEvidence": "Search-indexed Longbridge issuer news page explicitly lists the headline under Market Movers, November 16, 2026 at 10:02 AM. The timezone is unconfirmed and direct retrieval serves a stale November 11 listing.",
+      "verificationStatus": "verified_date",
+      "sourceWarnings": [
+        "Indexed dated-publication evidence only; article body and claimed percentage unverified. Direct retrieval returned a stale listing. The displayed page timezone label is inconsistent with November EST and is not used."
+      ],
+      "publicationDate": "2026-11-16",
+      "reportedPublicationClock": "10:02 AM (timezone unconfirmed)"
+    },
+    {
       "eventId": "gmm-20261116-anthropic-investment",
       "symbol": "GMM",
       "issuerName": "Global Mofy AI Limited",
@@ -10781,6 +10809,115 @@
       "verificationStatus": "verified_publication",
       "sourceWarnings": [
         "The investment amount, fund terms and actual exposure are not disclosed or independently verified. Claims about a proposed Anthropic listing are attributed to the issuer, not independently established. No archived pre-entry article version was obtained."
+      ]
+    },
+    {
+      "id": "frtt-20261116-results-filing",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Fort Technology furnishes September 2026 interim financial statements and MD&A",
+      "publishedAt": "2026-11-16T16:46:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "SEC EDGAR / Fort Technology Inc.",
+      "kind": "sec_filing",
+      "category": "earnings",
+      "summary": "The filing reports nine-month revenue of $11.981 million and operating loss of $1.820 million. It also describes a conditional convertible-note facility of up to $20 million; this is not confirmation that the full facility was funded.",
+      "url": "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fort6k110626.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fort6k110626.htm",
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-1.htm",
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-2.htm",
+        "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-52aa0eeb956e.html"
+      ],
+      "timestampEvidence": "StockTitan explicitly reports EDGAR availability November 16 at 04:46 PM EST, following acceptance at 04:45 PM EST. Public availability is used conservatively.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Financial results are unaudited; financing capacity is conditional. No archived pre-entry article version was obtained."
+      ]
+    },
+    {
+      "id": "omh-20261116-shelf-amendment",
+      "eventId": "omh-20261116-shelf-amendment",
+      "symbol": "OMH",
+      "issuerName": "Ohmyswift Limited (formerly Ohmyhome Limited)",
+      "issuerCik": "1944902",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Ohmyswift files post-effective amendment to its $300 million shelf registration",
+      "publishedAt": "2026-11-16T17:04:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "SEC EDGAR / Ohmyswift Limited",
+      "kind": "sec_filing",
+      "category": "financing",
+      "summary": "The post-effective amendment updates an existing shelf for corporate changes and the sale of the real estate business. The shelf permits potential future offerings; this amendment registers no additional securities and does not establish a completed $300 million financing. The issuer now identifies its legal domicile as British Virgin Islands.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/0001213900-26-120786-index.htm",
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea031233301ex5-2.htm",
+        "https://www.stocktitan.net/sec-filings/OMH/pos-am-ohmyhome-ltd-sec-filing-1d3d312e370e.html"
+      ],
+      "timestampEvidence": "SEC index confirms November 16 acceptance at 17:00:02 Eastern; StockTitan explicitly reports public EDGAR availability at 05:04 PM EST. The later public-availability minute is used.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Direct main-document retrieval was inaccessible; SEC index, counsel opinion, indexed SEC text and the full filing reproduction were reviewed. The ticker registry was corrected to the current BVI domicile; this snapshot also groups earlier OMH trades under BVI and is not a historical domicile model."
+      ]
+    },
+    {
+      "id": "frtt-20261117-results-release",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Fort Technology Reports Record Year-to-Date Revenues of $12 Million, Up 49%, and Record Year-to-Date Gross Profit of $2.1 Million",
+      "publishedAt": "2026-11-17T07:32:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire / Fort Technology Inc.",
+      "kind": "issuer_release",
+      "category": "earnings",
+      "summary": "Fort announces unaudited nine-month revenue of $11.981 million and gross profit of $2.092 million. Operating loss widened to $1.820 million. The underlying results were already furnished November 16; the later release is a separate publication on the same event.",
+      "url": "https://www.globenewswire.com/news-release/2026/11/17/3404491/0/en/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-2-1-million.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/11/17/3404491/0/en/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-2-1-million.html",
+        "https://finviz.com/news/423900/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-21-million",
+        "https://www.stocktitan.net/news/FRTT/fort-technology-reports-record-year-to-date-revenues-of-12-million-dcikp0xc6fiw.html",
+        "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-42464841ff8a.html"
+      ],
+      "timestampEvidence": "StockTitan reproduces the issuer release with explicit November 17 07:32 AM EST. Finviz corroborates 07:32. The 07:58 EST Form 6-K reproduces this release and is merged rather than counted again.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Direct GlobeNewswire retrieval was inaccessible; the issuer release was reviewed through Finviz and StockTitan reproductions. No price causation is established."
+      ]
+    },
+    {
+      "id": "frtt-20261117-nexera-results-milestones",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Nexera: Subsidiary Fort Technology Reports 49% Growth with Record $12 Million Year-to-Date Revenues, Advancing Toward Milestones for Additional Fort Shares",
+      "publishedAt": "2026-11-17T07:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire / Nexera Technologies Ltd",
+      "kind": "issuer_release",
+      "category": "earnings",
+      "summary": "Fort's controlling shareholder separately reports the results and conditional additional-share milestones. Financing and revenue targets remain conditions, not completed achievements. Its embedded financial-statement link points to Nexera CIK 1885408 rather than Fort CIK 2092967; Fort's financials were checked separately.",
+      "url": "https://www.stocktitan.net/news/NEXR/nexera-subsidiary-fort-technology-reports-49-growth-with-record-12-4yhnek6wu6pl.html",
+      "sourceUrls": [
+        "https://www.stocktitan.net/news/NEXR/nexera-subsidiary-fort-technology-reports-49-growth-with-record-12-4yhnek6wu6pl.html"
+      ],
+      "timestampEvidence": "StockTitan reproduces the Nexera release with explicit November 17 07:47 AM EST; MarketChameleon corroborates 07:47.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "The release financial-statement link points to the parent CIK, not Fort. Conditional financing and contingent shares are not treated as completed transactions."
       ]
     }
   ],
@@ -30273,6 +30410,104 @@
       "eventCount": 1,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-1b917ae5a270b0025e93edc1",
+      "symbol": "FRTT",
+      "entryAt": "2026-11-17T08:24:53-05:00",
+      "windowStartAt": "2026-11-15T13:24:53+00:00",
+      "windowEndAt": "2026-11-17T13:24:53+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-17",
+      "articles": [
+        {
+          "articleId": "frtt-20261116-results-filing",
+          "eventId": "frtt-20261116-nine-month-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 56273.0,
+          "ageSecondsMax": 56333.0
+        },
+        {
+          "articleId": "frtt-20261117-results-release",
+          "eventId": "frtt-20261116-nine-month-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 3113.0,
+          "ageSecondsMax": 3173.0
+        },
+        {
+          "articleId": "frtt-20261117-nexera-results-milestones",
+          "eventId": "frtt-20261116-nine-month-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 2213.0,
+          "ageSecondsMax": 2273.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-2c66ae3ee449b4e6278ecbdc",
+      "symbol": "OMH",
+      "entryAt": "2026-11-17T11:41:33-05:00",
+      "windowStartAt": "2026-11-15T16:41:33+00:00",
+      "windowEndAt": "2026-11-17T16:41:33+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-17",
+      "articles": [
+        {
+          "articleId": "omh-20261116-longbridge-premarket",
+          "eventId": "omh-20261116-longbridge-premarket",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "omh-20261116-shelf-amendment",
+          "eventId": "omh-20261116-shelf-amendment",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 66993.0,
+          "ageSecondsMax": 67053.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-93afcba7c69fc11f4e8cac14",
+      "symbol": "OMH",
+      "entryAt": "2026-11-17T11:50:14-05:00",
+      "windowStartAt": "2026-11-15T16:50:14+00:00",
+      "windowEndAt": "2026-11-17T16:50:14+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-17",
+      "articles": [
+        {
+          "articleId": "omh-20261116-longbridge-premarket",
+          "eventId": "omh-20261116-longbridge-premarket",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "omh-20261116-shelf-amendment",
+          "eventId": "omh-20261116-shelf-amendment",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 67514.0,
+          "ageSecondsMax": 67574.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
     }
   ],
   "reviews": [
@@ -42756,14 +42991,169 @@
         "Benzinga is matched by date only; its reported clock may be after every entry.",
         "Issuer investment and third-party listing claims are not independently confirmed; no archived pre-entry body was obtained."
       ]
+    },
+    {
+      "symbol": "FRTT",
+      "issuerCik": "2092967",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-17",
+      "coverage": "partial",
+      "scope": "November 17 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-1b917ae5a270b0025e93edc1": "2026-11-17T08:24:53-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=FRTT",
+          "access": "page_reviewed",
+          "note": "Started with issuer news list; followed original issuer publications and filings."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/FRTT/news/",
+          "access": "http_429",
+          "note": "Direct retrieval returned HTTP 429; issuer filings and release reproductions were followed instead."
+        },
+        {
+          "url": "https://finviz.com/news/423900/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-21-million",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.stocktitan.net/news/FRTT/fort-technology-reports-record-year-to-date-revenues-of-12-million-dcikp0xc6fiw.html",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/11/17/3404491/0/en/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-2-1-million.html",
+          "access": "inaccessible",
+          "note": "Direct page inaccessible; publication established through documented reproductions/index evidence."
+        },
+        {
+          "url": "https://www.stocktitan.net/news/NEXR/nexera-subsidiary-fort-technology-reports-49-growth-with-record-12-4yhnek6wu6pl.html",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fort6k110626.htm",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-52aa0eeb956e.html",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-2.htm",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-1.htm",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "frtt-20261117-quiver-after-entry",
+          "url": "https://www.quiverquant.com/news/Why%2BFort%2BTechnology%2B%28FRTT%29%2BStock%2BIs%2BUp%2BToday",
+          "resolution": "excluded_after_entry",
+          "note": "Explicit November 17 15:33 UTC is 10:33 EST, after the 08:24:53 entry. No date fallback."
+        },
+        {
+          "id": "frtt-20261117-filing-reproduction",
+          "url": "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-42464841ff8a.html",
+          "resolution": "merged_duplicate",
+          "note": "The 07:58 EST filing reproduces the 07:32 release; retained as supporting URL, not a second copy of the same release."
+        },
+        {
+          "id": "frtt-20261113-financing",
+          "url": "https://marketchameleon.com/Overview/FRTT/PressReleases/",
+          "resolution": "excluded_outside_window",
+          "note": "November 12 and 13 financing publications are outside both permitted windows. The separately published November 16 filing remains eligible."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Nexera release links to parent CIK instead of Fort; the discrepancy remains prominent in sourceWarnings. Direct GlobeNewswire page inaccessible."
+      ]
+    },
+    {
+      "symbol": "OMH",
+      "issuerCik": "1944902",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-17",
+      "coverage": "partial",
+      "scope": "November 17 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-2c66ae3ee449b4e6278ecbdc": "2026-11-17T11:41:33-05:00",
+        "broker-93afcba7c69fc11f4e8cac14": "2026-11-17T11:50:14-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=OMH",
+          "access": "page_reviewed",
+          "note": "Started with issuer news list; followed original issuer publications and filings."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/OMH/news/",
+          "access": "http_429",
+          "note": "Direct retrieval returned HTTP 429; issuer filings and release reproductions were followed instead."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/0001213900-26-120786-index.htm",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea031233301ex5-2.htm",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+          "access": "inaccessible",
+          "note": "Direct page inaccessible; publication established through documented reproductions/index evidence."
+        },
+        {
+          "url": "https://www.stocktitan.net/sec-filings/OMH/pos-am-ohmyhome-ltd-sec-filing-1d3d312e370e.html",
+          "access": "publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        },
+        {
+          "url": "https://longbridge.com/en/quote/OMH.US/news",
+          "access": "indexed_publication_reviewed",
+          "note": "Reviewed publication evidence; timestamp and content limitations are retained in the article record."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "omh-20261116-longbridge-indexed",
+          "url": "https://longbridge.com/en/quote/OMH.US/news",
+          "resolution": "included_verified_date",
+          "note": "Original candidate: direct listing stale and body unavailable. Indexed headline, issuer and November 16 date establish publication existence; count with explicit source warnings rather than leave pending."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Longbridge November 16 report is established from an indexed dated listing only; direct retrieval serves stale November 11 data. Body unavailable and clock zone unconfirmed.",
+        "Current name and BVI domicile corrected from the November 5 Cayman snapshot. The registry has one profile per symbol, so earlier OMH trades also use the current incorporation country; raw trade records and accounting remain unchanged."
+      ]
     }
   ],
   "counts": {
-    "trades": 869,
-    "articles": 401,
-    "events": 346,
-    "tradeArticleLinks": 880,
-    "dateFallbackLinks": 279,
-    "tradesWithNews": 601
+    "trades": 872,
+    "articles": 406,
+    "events": 349,
+    "tradeArticleLinks": 887,
+    "dateFallbackLinks": 281,
+    "tradesWithNews": 604
   }
 }

@@ -1,0 +1,312 @@
+{
+  "checkedOn": "2026-11-17",
+  "session": "2026-11-17",
+  "source": "Trades_17.csv",
+  "sourceSha256": "0c59c681338490e70277218506d814247d9c32cf053bf44f3388634587cd71cb",
+  "baseline": {
+    "trades": 1580,
+    "executions": 17833,
+    "pnl": "2005.054895"
+  },
+  "imported": {
+    "trades": 3,
+    "executions": 19,
+    "reportedPnL": "-16.06",
+    "signedECN": "0.00748800",
+    "commission": "-0.00748800",
+    "pnl": "-16.052512",
+    "records": [
+      {
+        "id": "broker-1b917ae5a270b0025e93edc1",
+        "date": "2026-11-17",
+        "opened": "2026-11-17T08:24:53-05:00",
+        "closed": "2026-11-17T08:26:48-05:00",
+        "symbol": "FRTT",
+        "side": "BUY",
+        "pnl": 10.647488,
+        "country": "United Kingdom",
+        "entryPrice": 0.609531,
+        "entryQty": 898.0,
+        "fees": -0.307488,
+        "executionCount": 13,
+        "holdMinutes": 1.9167,
+        "mae": null,
+        "mfe": null
+      },
+      {
+        "id": "broker-2c66ae3ee449b4e6278ecbdc",
+        "date": "2026-11-17",
+        "opened": "2026-11-17T11:41:33-05:00",
+        "closed": "2026-11-17T11:44:49-05:00",
+        "symbol": "OMH",
+        "side": "SELL",
+        "pnl": -37.8,
+        "country": null,
+        "entryPrice": 4.506667,
+        "entryQty": 90.0,
+        "fees": 0.3,
+        "executionCount": 4,
+        "holdMinutes": 3.2667,
+        "mae": null,
+        "mfe": null
+      },
+      {
+        "id": "broker-93afcba7c69fc11f4e8cac14",
+        "date": "2026-11-17",
+        "opened": "2026-11-17T11:50:14-05:00",
+        "closed": "2026-11-17T12:06:33-05:00",
+        "symbol": "OMH",
+        "side": "SELL",
+        "pnl": 11.1,
+        "country": null,
+        "entryPrice": 5.3,
+        "entryQty": 10.0,
+        "fees": 0.0,
+        "executionCount": 2,
+        "holdMinutes": 16.3167,
+        "mae": null,
+        "mfe": null
+      }
+    ]
+  },
+  "result": {
+    "trades": 1583,
+    "executions": 17852,
+    "pnl": "1989.002383",
+    "previousTradeRecordsUnchanged": true,
+    "unrelatedProfilesUnchanged": true,
+    "previousArticlesUnchanged": true,
+    "previousReviewsUnchanged": true,
+    "previousTradeNewsContextsUnchanged": true,
+    "conflictingTradeIds": 0
+  },
+  "newTickerProfiles": {
+    "FRTT": {
+      "symbol": "FRTT",
+      "issuer_name": "Fort Technology Inc.",
+      "cik": "2092967",
+      "first_trade_date": "2026-11-17",
+      "last_trade_date": "2026-11-17",
+      "incorporation_country": "Canada",
+      "incorporation_jurisdiction": "Ontario",
+      "headquarters_country": "Canada",
+      "operating_country": "United Kingdom",
+      "security_type": "direct_equity",
+      "vie_status": "unknown",
+      "identity_status": "historical_ticker_lookup",
+      "incorporation_status": "filing_cover",
+      "operations_status": "reviewed",
+      "structure_status": "cover_table",
+      "review_status": "partial",
+      "source_profile_url": "https://data.sec.gov/submissions/CIK0002092967.json",
+      "source_filing_url": "https://www.sec.gov/Archives/edgar/data/2092967/000121390026050657/ea0287802-20fr12ba1_fort.htm",
+      "source_filing_date": "2026-05-01",
+      "checked_on": "2026-11-17",
+      "notes": "SEC cover and November 16 financials/MD&A reviewed. The stale SEC entity index reports British Columbia; the filing confirms continuation into Ontario on April 30, 2026. Supplemental sources: https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-1.htm ; https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-2.htm",
+      "identity_source_url": "https://www.sec.gov/Archives/edgar/data/2092967/000121390026050657/ea0287802-20fr12ba1_fort.htm",
+      "operations_basis": "Reviewed principal operating base: UK warehouses and staff; September 2026 UK customer revenue is 9.883 of 11.981 million USD. US Logia expansion is disclosed separately and does not establish Canada as the operating country.",
+      "security_basis": "SEC registration cover lists FRTT common shares on Nasdaq; direct equity, not ADS/ADR.",
+      "vie_basis": "No conclusive issuer-specific VIE statement established in the reviewed sources; absence of a mention is not evidence of no VIE.",
+      "historical_note": "Reviewed November 17, 2026. Ontario continuation effective April 30, 2026; Nasdaq trading began June 8, 2026. UK operating concentration coexists with US expansion."
+    }
+  },
+  "profileCorrections": {
+    "OMH": {
+      "before": {
+        "symbol": "OMH",
+        "issuer_name": "Ohmyhome Ltd",
+        "cik": "1944902",
+        "first_trade_date": "2026-07-21",
+        "last_trade_date": "2026-11-04",
+        "incorporation_country": "Cayman Islands",
+        "incorporation_jurisdiction": "Cayman Islands",
+        "headquarters_country": "Singapore",
+        "operating_country": "",
+        "security_type": "direct_equity",
+        "vie_status": "unknown",
+        "identity_status": "current_ticker_match",
+        "incorporation_status": "sec_metadata",
+        "operations_status": "unverified",
+        "structure_status": "cover_table",
+        "review_status": "partial",
+        "source_profile_url": "https://data.sec.gov/submissions/CIK0001944902.json",
+        "source_filing_url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026048586/ea0286457-20f_ohmyhome.htm",
+        "source_filing_date": "2026-04-28",
+        "checked_on": "2026-11-05",
+        "notes": "Primary-source extraction. Incorporation, operating exposure and security structure are separate fields. The office country is not substituted for operating country.",
+        "identity_source_url": "https://www.sec.gov/files/company_tickers.json",
+        "operations_basis": "",
+        "security_basis": "The registered-security cover table identifies common or ordinary shares, rather than depositary shares.",
+        "vie_basis": "No conclusive issuer-specific VIE statement established. Absence of a match is not proof that no VIE exists.",
+        "historical_note": "Snapshot checked on 2026-11-05; not a point-in-time legal opinion for every trade. Review corporate reorganizations and ticker changes before historical attribution."
+      },
+      "after": {
+        "symbol": "OMH",
+        "issuer_name": "Ohmyswift Limited",
+        "cik": "1944902",
+        "first_trade_date": "2026-07-21",
+        "last_trade_date": "2026-11-04",
+        "incorporation_country": "British Virgin Islands",
+        "incorporation_jurisdiction": "British Virgin Islands",
+        "headquarters_country": "Singapore",
+        "operating_country": "",
+        "security_type": "direct_equity",
+        "vie_status": "unknown",
+        "identity_status": "current_ticker_match",
+        "incorporation_status": "filing_cover",
+        "operations_status": "unverified",
+        "structure_status": "cover_table",
+        "review_status": "partial",
+        "source_profile_url": "https://data.sec.gov/submissions/CIK0001944902.json",
+        "source_filing_url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+        "source_filing_date": "2026-11-16",
+        "checked_on": "2026-11-17",
+        "notes": "November 16 SEC filing index and US counsel opinion confirm the current name and British Virgin Islands domicile. Main document directly inaccessible; indexed SEC text and complete reproduction corroborate the cover. Operating country and VIE status remain unverified.",
+        "identity_source_url": "https://www.sec.gov/files/company_tickers.json",
+        "operations_basis": "",
+        "security_basis": "The registered-security cover table identifies common or ordinary shares, rather than depositary shares.",
+        "vie_basis": "No conclusive issuer-specific VIE statement established. Absence of a match is not proof that no VIE exists.",
+        "historical_note": "Reviewed November 17, 2026: now Ohmyswift Limited, continued to British Virgin Islands November 3, 2026, previously Cayman Islands. The registry stores one current profile per symbol; country studies therefore use the current BVI snapshot for earlier OMH trades too. This is not a claim of BVI incorporation before continuation. Primary SEC counsel opinion: https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea031233301ex5-2.htm"
+      },
+      "scope": "Current profile changes country studies for all OMH history because the registry stores one profile per symbol; trade accounting is unchanged."
+    }
+  },
+  "news": {
+    "addedPublications": 5,
+    "addedTradeArticleLinks": 7,
+    "addedDateOnlyLinks": 2,
+    "sameDayDateOnlyLinks": 0,
+    "reviewedTrades": 3,
+    "articleIds": [
+      "frtt-20261116-results-filing",
+      "frtt-20261117-results-release",
+      "frtt-20261117-nexera-results-milestones",
+      "omh-20261116-shelf-amendment",
+      "omh-20261116-longbridge-premarket"
+    ],
+    "contexts": [
+      {
+        "tradeId": "broker-1b917ae5a270b0025e93edc1",
+        "symbol": "FRTT",
+        "entryAt": "2026-11-17T08:24:53-05:00",
+        "windowStartAt": "2026-11-15T13:24:53+00:00",
+        "windowEndAt": "2026-11-17T13:24:53+00:00",
+        "status": "news_found",
+        "reviewStatus": "partial",
+        "reviewedOn": "2026-11-17",
+        "articles": [
+          {
+            "articleId": "frtt-20261116-results-filing",
+            "eventId": "frtt-20261116-nine-month-results",
+            "matchingBasis": "timestamp",
+            "ageSecondsMin": 56273.0,
+            "ageSecondsMax": 56333.0
+          },
+          {
+            "articleId": "frtt-20261117-results-release",
+            "eventId": "frtt-20261116-nine-month-results",
+            "matchingBasis": "timestamp",
+            "ageSecondsMin": 3113.0,
+            "ageSecondsMax": 3173.0
+          },
+          {
+            "articleId": "frtt-20261117-nexera-results-milestones",
+            "eventId": "frtt-20261116-nine-month-results",
+            "matchingBasis": "timestamp",
+            "ageSecondsMin": 2213.0,
+            "ageSecondsMax": 2273.0
+          }
+        ],
+        "eventCount": 1,
+        "uncertainArticleIds": [],
+        "unresolvedCandidateIds": []
+      },
+      {
+        "tradeId": "broker-2c66ae3ee449b4e6278ecbdc",
+        "symbol": "OMH",
+        "entryAt": "2026-11-17T11:41:33-05:00",
+        "windowStartAt": "2026-11-15T16:41:33+00:00",
+        "windowEndAt": "2026-11-17T16:41:33+00:00",
+        "status": "news_found",
+        "reviewStatus": "partial",
+        "reviewedOn": "2026-11-17",
+        "articles": [
+          {
+            "articleId": "omh-20261116-longbridge-premarket",
+            "eventId": "omh-20261116-longbridge-premarket",
+            "matchingBasis": "publication_date",
+            "daysBeforeEntry": 1,
+            "publicationBeforeEntryUnconfirmed": false,
+            "ageSecondsMin": null,
+            "ageSecondsMax": null
+          },
+          {
+            "articleId": "omh-20261116-shelf-amendment",
+            "eventId": "omh-20261116-shelf-amendment",
+            "matchingBasis": "timestamp",
+            "ageSecondsMin": 66993.0,
+            "ageSecondsMax": 67053.0
+          }
+        ],
+        "eventCount": 2,
+        "uncertainArticleIds": [],
+        "unresolvedCandidateIds": []
+      },
+      {
+        "tradeId": "broker-93afcba7c69fc11f4e8cac14",
+        "symbol": "OMH",
+        "entryAt": "2026-11-17T11:50:14-05:00",
+        "windowStartAt": "2026-11-15T16:50:14+00:00",
+        "windowEndAt": "2026-11-17T16:50:14+00:00",
+        "status": "news_found",
+        "reviewStatus": "partial",
+        "reviewedOn": "2026-11-17",
+        "articles": [
+          {
+            "articleId": "omh-20261116-longbridge-premarket",
+            "eventId": "omh-20261116-longbridge-premarket",
+            "matchingBasis": "publication_date",
+            "daysBeforeEntry": 1,
+            "publicationBeforeEntryUnconfirmed": false,
+            "ageSecondsMin": null,
+            "ageSecondsMax": null
+          },
+          {
+            "articleId": "omh-20261116-shelf-amendment",
+            "eventId": "omh-20261116-shelf-amendment",
+            "matchingBasis": "timestamp",
+            "ageSecondsMin": 67514.0,
+            "ageSecondsMax": 67574.0
+          }
+        ],
+        "eventCount": 2,
+        "uncertainArticleIds": [],
+        "unresolvedCandidateIds": []
+      }
+    ],
+    "previousCounts": {
+      "trades": 869,
+      "articles": 401,
+      "events": 346,
+      "tradeArticleLinks": 880,
+      "dateFallbackLinks": 279,
+      "tradesWithNews": 601
+    },
+    "counts": {
+      "trades": 872,
+      "articles": 406,
+      "events": 349,
+      "tradeArticleLinks": 887,
+      "dateFallbackLinks": 281,
+      "tradesWithNews": 604
+    }
+  },
+  "limitations": [
+    "Partial news coverage; Yahoo returned HTTP 429 and some original pages were inaccessible.",
+    "Longbridge November 16 publication established from an indexed issuer listing; direct page stale, body unavailable, clock timezone unconfirmed.",
+    "Nexera release points to parent CIK rather than Fort for financial statements; independently checked Fort filings.",
+    "FRTT VIE unknown. OMH operating country and VIE remain unknown.",
+    "Browser verification unavailable because the browser connection failed during bootstrap."
+  ],
+  "publication": "Local only; no deployment or Google Sheets update."
+}

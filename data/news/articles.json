@@ -10531,6 +10531,142 @@
         "Same-day date-only match: publication before entry is not established; the reported afternoon clock may be after every entry.",
         "Anthropic valuation and listing details and market-cause claims are attributed to Benzinga, not independently verified."
       ]
+    },
+    {
+      "id": "frtt-20261116-results-filing",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Fort Technology furnishes September 2026 interim financial statements and MD&A",
+      "publishedAt": "2026-11-16T16:46:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "SEC EDGAR / Fort Technology Inc.",
+      "kind": "sec_filing",
+      "category": "earnings",
+      "summary": "The filing reports nine-month revenue of $11.981 million and operating loss of $1.820 million. It also describes a conditional convertible-note facility of up to $20 million; this is not confirmation that the full facility was funded.",
+      "url": "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fort6k110626.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fort6k110626.htm",
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-1.htm",
+        "https://www.sec.gov/Archives/edgar/data/2092967/000118518526005475/fortex99-2.htm",
+        "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-52aa0eeb956e.html"
+      ],
+      "timestampEvidence": "StockTitan explicitly reports EDGAR availability November 16 at 04:46 PM EST, following acceptance at 04:45 PM EST. Public availability is used conservatively.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Financial results are unaudited; financing capacity is conditional. No archived pre-entry article version was obtained."
+      ]
+    },
+    {
+      "id": "frtt-20261117-results-release",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Fort Technology Reports Record Year-to-Date Revenues of $12 Million, Up 49%, and Record Year-to-Date Gross Profit of $2.1 Million",
+      "publishedAt": "2026-11-17T07:32:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire / Fort Technology Inc.",
+      "kind": "issuer_release",
+      "category": "earnings",
+      "summary": "Fort announces unaudited nine-month revenue of $11.981 million and gross profit of $2.092 million. Operating loss widened to $1.820 million. The underlying results were already furnished November 16; the later release is a separate publication on the same event.",
+      "url": "https://www.globenewswire.com/news-release/2026/11/17/3404491/0/en/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-2-1-million.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/11/17/3404491/0/en/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-2-1-million.html",
+        "https://finviz.com/news/423900/fort-technology-reports-record-year-to-date-revenues-of-12-million-up-49-and-record-year-to-date-gross-profit-of-21-million",
+        "https://www.stocktitan.net/news/FRTT/fort-technology-reports-record-year-to-date-revenues-of-12-million-dcikp0xc6fiw.html",
+        "https://www.stocktitan.net/sec-filings/FRTT/6-k-fort-technology-inc-current-report-foreign-issuer-42464841ff8a.html"
+      ],
+      "timestampEvidence": "StockTitan reproduces the issuer release with explicit November 17 07:32 AM EST. Finviz corroborates 07:32. The 07:58 EST Form 6-K reproduces this release and is merged rather than counted again.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Direct GlobeNewswire retrieval was inaccessible; the issuer release was reviewed through Finviz and StockTitan reproductions. No price causation is established."
+      ]
+    },
+    {
+      "id": "frtt-20261117-nexera-results-milestones",
+      "eventId": "frtt-20261116-nine-month-results",
+      "symbol": "FRTT",
+      "issuerName": "Fort Technology Inc.",
+      "issuerCik": "2092967",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Nexera: Subsidiary Fort Technology Reports 49% Growth with Record $12 Million Year-to-Date Revenues, Advancing Toward Milestones for Additional Fort Shares",
+      "publishedAt": "2026-11-17T07:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire / Nexera Technologies Ltd",
+      "kind": "issuer_release",
+      "category": "earnings",
+      "summary": "Fort's controlling shareholder separately reports the results and conditional additional-share milestones. Financing and revenue targets remain conditions, not completed achievements. Its embedded financial-statement link points to Nexera CIK 1885408 rather than Fort CIK 2092967; Fort's financials were checked separately.",
+      "url": "https://www.stocktitan.net/news/NEXR/nexera-subsidiary-fort-technology-reports-49-growth-with-record-12-4yhnek6wu6pl.html",
+      "sourceUrls": [
+        "https://www.stocktitan.net/news/NEXR/nexera-subsidiary-fort-technology-reports-49-growth-with-record-12-4yhnek6wu6pl.html"
+      ],
+      "timestampEvidence": "StockTitan reproduces the Nexera release with explicit November 17 07:47 AM EST; MarketChameleon corroborates 07:47.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "The release financial-statement link points to the parent CIK, not Fort. Conditional financing and contingent shares are not treated as completed transactions."
+      ]
+    },
+    {
+      "id": "omh-20261116-shelf-amendment",
+      "eventId": "omh-20261116-shelf-amendment",
+      "symbol": "OMH",
+      "issuerName": "Ohmyswift Limited (formerly Ohmyhome Limited)",
+      "issuerCik": "1944902",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Ohmyswift files post-effective amendment to its $300 million shelf registration",
+      "publishedAt": "2026-11-16T17:04:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "SEC EDGAR / Ohmyswift Limited",
+      "kind": "sec_filing",
+      "category": "financing",
+      "summary": "The post-effective amendment updates an existing shelf for corporate changes and the sale of the real estate business. The shelf permits potential future offerings; this amendment registers no additional securities and does not establish a completed $300 million financing. The issuer now identifies its legal domicile as British Virgin Islands.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea0312333-posam1_ohmyswift.htm",
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/0001213900-26-120786-index.htm",
+        "https://www.sec.gov/Archives/edgar/data/1944902/000121390026120786/ea031233301ex5-2.htm",
+        "https://www.stocktitan.net/sec-filings/OMH/pos-am-ohmyhome-ltd-sec-filing-1d3d312e370e.html"
+      ],
+      "timestampEvidence": "SEC index confirms November 16 acceptance at 17:00:02 Eastern; StockTitan explicitly reports public EDGAR availability at 05:04 PM EST. The later public-availability minute is used.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "Direct main-document retrieval was inaccessible; SEC index, counsel opinion, indexed SEC text and the full filing reproduction were reviewed. The ticker registry was corrected to the current BVI domicile; this snapshot also groups earlier OMH trades under BVI and is not a historical domicile model."
+      ]
+    },
+    {
+      "id": "omh-20261116-longbridge-premarket",
+      "eventId": "omh-20261116-longbridge-premarket",
+      "symbol": "OMH",
+      "issuerName": "Ohmyswift Limited (formerly Ohmyhome Limited)",
+      "issuerCik": "1944902",
+      "checkedOn": "2026-11-17",
+      "contentAsOfEntryVerified": false,
+      "headline": "Ohmyhome tumbles 8% in premarket trading",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Longbridge Market Movers",
+      "kind": "reporting",
+      "category": "market_context",
+      "summary": "Longbridge's indexed issuer news list identifies a November 16 premarket price-move report. This verifies the dated publication listing, not the reported percentage or a corporate catalyst. The direct page returned an older cached listing and the report body was unavailable. Only the publication date is used; the clock timezone is unconfirmed.",
+      "url": "https://longbridge.com/en/quote/OMH.US/news",
+      "sourceUrls": [
+        "https://longbridge.com/en/quote/OMH.US/news"
+      ],
+      "timestampEvidence": "Search-indexed Longbridge issuer news page explicitly lists the headline under Market Movers, November 16, 2026 at 10:02 AM. The timezone is unconfirmed and direct retrieval serves a stale November 11 listing.",
+      "verificationStatus": "verified_date",
+      "sourceWarnings": [
+        "Indexed dated-publication evidence only; article body and claimed percentage unverified. Direct retrieval returned a stale listing. The displayed page timezone label is inconsistent with November EST and is not used."
+      ],
+      "publicationDate": "2026-11-16",
+      "reportedPublicationClock": "10:02 AM (timezone unconfirmed)"
     }
   ]
 }

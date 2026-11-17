@@ -1007,6 +1007,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-16"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-17",
+      "rest": 6,
+      "energy": 7,
+      "stress": 8,
+      "wellbeing": 7,
+      "expectations": 7,
+      "confidence": 7,
+      "fundamentalAnalysis": 5,
+      "fundamentalTracking": 5,
+      "volume": 6,
+      "managementLevels": 5,
+      "riskReward": 5,
+      "technicalTracking": 5,
+      "exitDiscipline": 3,
+      "entryDiscipline": 5,
+      "sizing": 0,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 4.333333333333333,
+      "comment": "Ha sido un error tecnico seguido de un error de no cerrar la operacion aceptando perdida por ir con demasiado size en un trade de poca calidad. Es un error importante pero del que no me siento demasiado culpable porque el size con el que he gestionado el trade seguia siendo low size.",
+      "errorScore": 6,
+      "sizeBefore": 4.751733923872772,
+      "sizeAfter": 4.956322467817294,
+      "sizeAdded": 0.20458854394452253,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-17"
+      }
     }
   ]
 }
