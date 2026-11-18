@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css?v=20261115-european-dates-14">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
   <link rel="stylesheet" href="hotkeys.css?v=20261116-3">
+  <link rel="stylesheet" href="research.css?v=20261118-1">
 </head>
 <body>
 <aside class="sidebar">
@@ -148,10 +149,22 @@
     <div id="error" class="error" role="alert" hidden>
 </div>
 <div id="view-nvidia" class="view" aria-labelledby="page-title" hidden>
-<section class="section panel">
-<h2>Nvidia</h2>
-<p class="muted">Todavía no hay contenido en este apartado de I+D.</p>
+<div class="research-layout">
+<section class="section panel research-calendar" aria-labelledby="research-month">
+<h2 id="research-month">Octubre 2026</h2>
+<p class="mini-caption">Prueba · 1 día disponible</p>
+<div id="research-calendar" class="research-days" aria-label="Sesiones disponibles"></div>
+<p class="mini-caption">Selecciona el día marcado para abrir su gráfico.</p>
 </section>
+<section class="section panel research-chart-panel" aria-labelledby="research-chart-title">
+<div class="panel-head"><div><h2 id="research-chart-title">NVDA · 1 minuto</h2><p id="research-status" class="mini-caption" role="status">Selecciona el 01/10/2026 en el calendario.</p></div>
+<div class="research-controls"><button id="research-zoom-in" type="button" disabled aria-label="Ampliar gráfico">+</button><button id="research-zoom-out" type="button" disabled aria-label="Reducir gráfico">−</button><button id="research-reset" type="button" disabled>Todo el día</button></div></div>
+<p id="research-bar-details" class="research-bar-details" aria-live="off">Premercado, sesión regular y posmercado · America/New_York</p>
+<div id="research-chart" class="research-chart"><canvas id="research-canvas" tabindex="0" role="img" aria-label="Gráfico de velas de un minuto y volumen de Nvidia, horario de Nueva York"></canvas></div>
+<label class="research-scroll" for="research-position">Recorrer sesión<input id="research-position" type="range" min="0" max="0" value="0" disabled></label>
+<p class="mini-caption">Horario de Nueva York · Precios en USD · Volumen de Nasdaq (XNAS.ITCH). Los minutos sin operaciones quedan vacíos.</p>
+</section>
+</div>
 </div>
 <div id="view-general" class="view" aria-labelledby="page-title" hidden>
 <section class="section panel">
@@ -771,7 +784,8 @@
 <script src="watchlist.js?v=20261111-watchlist-24" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
 <script src="hotkeys.js?v=20261117-1" defer></script>
-<script src="workspace.js?v=20261118-nvidia-1" defer>
+<script src="research.js?v=20261118-1" defer></script>
+<script src="workspace.js?v=20261118-nvidia-2" defer>
 </script>
 <script src="dashboard.js?v=20261115-journal-r-7" defer>
 </script>

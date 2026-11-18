@@ -469,6 +469,7 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
+  initializeResearch();
   initializeHotkeys();
   initializeJournal();
   initializeWatchlist();
