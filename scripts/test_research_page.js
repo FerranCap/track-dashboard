@@ -96,6 +96,8 @@ async function main() {
   const test = harness();
   await test.run('initializeResearch()');
   assert.deepEqual(test.requests.map(request => request.url), ['data/research/sessions.json']);
+  assert.equal(test.run('researchMonth'), '2026-11');
+  test.run("renderResearchCalendar('2026-10')");
   const buttons = test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate);
   assert.equal(buttons.length, index.sessions.filter(entry => entry.date.startsWith('2026-10')).length);
   assert.equal(buttons[0].dataset.researchDate, '2026-10-01');
@@ -288,18 +290,41 @@ async function main() {
   assert.equal(secondsRetry.requests.length, 4, 'Retrying seconds must retain the cached minute data');
   assertSynchronized(secondsRetry);
 
+  const november = harness();
+  await november.run('initializeResearch()');
+  assert.equal(november.run('researchMonth'), '2026-11');
+  assert.equal(november.requests.length, 1, 'Opening November must load only the calendar index');
+  const novemberEntries = index.sessions.filter(entry => entry.date.startsWith('2026-11'));
+  assert.equal(novemberEntries.length, 12);
+  const novemberButtons = november.elements.get('research-calendar').children.filter(button => button.dataset.researchDate);
+  assert.deepEqual(novemberButtons.map(button => button.dataset.researchDate), novemberEntries.map(entry => entry.date));
+  for (const entry of novemberEntries) {
+    november.calls.length = 0;
+    const previousRequests = november.requests.length;
+    await novemberButtons.find(button => button.dataset.researchDate === entry.date).handlers.click();
+    assert.equal(november.run('researchData.date'), entry.date);
+    assert.equal(november.run('researchSecondData.date'), entry.date);
+    assert.equal(november.requests.length, previousRequests + 2);
+    const source = JSON.parse(read(`data/research/${entry.secondsFile}`));
+    assertOpeningMinute(november, source);
+    assert.equal(november.run('researchOpeningMinute().start'), Date.parse(`${entry.date}T14:30:00Z`) / 1000, 'November opening minute must respect New York standard time');
+    assertSynchronized(november, source);
+    november.run('zoomResearch(.2)');
+    assertSynchronized(november, source);
+  }
+
   const multiple = harness({ ...index, sessions: [...index.sessions,
-    { date: '2026-11-17', file: 'nvda-2026-11-17-1m.json', secondsFile: 'nvda-2026-11-17-1s.json', version: 'test' }] });
+    { date: '2026-12-01', file: 'nvda-2026-12-01-1m.json', secondsFile: 'nvda-2026-12-01-1s.json', version: 'test' }] });
   await multiple.run('initializeResearch()');
-  assert.equal(multiple.run('researchMonth'), '2026-11');
+  assert.equal(multiple.run('researchMonth'), '2026-12');
   assert.equal(multiple.requests.length, 1);
-  await multiple.run("loadResearchSession('2026-11-17')");
+  await multiple.run("loadResearchSession('2026-12-01')");
   assert.match(multiple.elements.get('research-status').textContent, /09:30.*NY/);
-  assert.match(multiple.elements.get('research-chart-title').textContent, /17\/11\/2026/);
+  assert.match(multiple.elements.get('research-chart-title').textContent, /01\/12\/2026/);
   multiple.run("renderResearchCalendar('2026-10')");
   await multiple.run("loadResearchSession('2026-10-01')");
   assert.equal(multiple.requests.length, 5);
-  await multiple.run("loadResearchSession('2026-11-17')");
+  await multiple.run("loadResearchSession('2026-12-01')");
   assert.equal(multiple.requests.length, 5);
   console.log('Research isolation, linked minute/second panes, drag panning, exact time bounds, cached drawing, daily loading, retry, wheel zoom, scrollbar, crosshair, price scaling, calendar and NY timezone: OK');
 }
