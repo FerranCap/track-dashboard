@@ -10,6 +10,39 @@ let researchWindow = 0;
 let researchSpan = 0;
 let researchHover = null;
 let researchFrame = null;
+let researchMonth = '';
+let researchPriceRange = null;
+let researchGeometry = null;
+let researchAxisDrag = null;
+
+function syncResearchScroll() {
+  const scroll = document.getElementById('research-position');
+  const ratio = researchData ? researchSpan / researchWindow : 1;
+  document.getElementById('research-scroll-track').style.width = `${ratio * 100}%`;
+  scroll.setAttribute('aria-disabled', String(!researchData || researchWindow >= researchSpan));
+  const maxScroll = Math.max(0, scroll.scrollWidth - scroll.clientWidth);
+  const position = researchSpan > researchWindow ? researchStart / (researchSpan - researchWindow) * maxScroll : 0;
+  if (Math.abs(scroll.scrollLeft - position) > .5) scroll.scrollLeft = position;
+}
+
+function clearResearchSession() {
+  researchData = null;
+  researchStart = researchWindow = researchSpan = 0;
+  researchHover = researchPriceRange = researchGeometry = researchAxisDrag = null;
+  document.querySelectorAll('[data-research-date]').forEach(button => button.setAttribute('aria-pressed', 'false'));
+  document.getElementById('research-chart-title').textContent = 'NVDA · 1 minuto';
+  document.getElementById('research-status').textContent = 'Selecciona un día en el calendario.';
+  document.getElementById('research-bar-details').textContent = 'Premercado, sesión regular y posmercado · America/New_York';
+  for (const id of ['research-zoom-in', 'research-zoom-out', 'research-reset']) document.getElementById(id).disabled = true;
+  syncResearchScroll();
+  drawResearchChart();
+}
+
+function selectResearchDay(date) {
+  if (researchLoading) return;
+  if (researchData?.date === date) clearResearchSession();
+  else return loadResearchSession(date);
+}
 
 function scheduleResearchChart() {
   if (researchFrame !== null) return;
@@ -50,7 +83,9 @@ function drawResearchChart() {
   const min = Math.min(...priceBars.map(bar => Number(bar.low)));
   const max = Math.max(...priceBars.map(bar => Number(bar.high)));
   const padding = Math.max((max - min) * .07, .02);
-  const low = min - padding, high = max + padding;
+  const low = researchPriceRange?.low ?? min - padding;
+  const high = researchPriceRange?.high ?? max + padding;
+  researchGeometry = { left, right, top, bottom, low, high };
   const x = time => left + ((time - first) / 60 + .5) / researchWindow * (right - left);
   const y = price => bottom - (price - low) / (high - low) * (bottom - top);
   const bodyWidth = Math.max(.7, Math.min(12, (right - left) / researchWindow * .72));
@@ -73,24 +108,34 @@ function drawResearchChart() {
     const color = Number(bar.close) >= Number(bar.open) ? '#35ebb3' : '#ff6b7d';
     ctx.strokeStyle = color; ctx.fillStyle = color;
     const px = x(bar.time);
+    ctx.save(); ctx.beginPath(); ctx.rect(left, top, right - left, bottom - top); ctx.clip();
     ctx.beginPath(); ctx.moveTo(px, y(Number(bar.high))); ctx.lineTo(px, y(Number(bar.low))); ctx.stroke();
     ctx.fillRect(px - bodyWidth / 2, Math.min(y(Number(bar.open)), y(Number(bar.close))), bodyWidth, Math.max(1, Math.abs(y(Number(bar.open)) - y(Number(bar.close)))));
+    ctx.restore();
     ctx.globalAlpha = .65;
     const volumeHeight = bar.volume / maxVolume * (volumeBottom - volumeTop);
     ctx.fillRect(px - bodyWidth / 2, volumeBottom - volumeHeight, bodyWidth, volumeHeight);
     ctx.globalAlpha = 1;
   }
   if (researchHover !== null) {
-    const target = first + Math.floor(researchHover * researchWindow) * 60;
+    const target = first + Math.floor(researchHover.x * researchWindow) * 60;
     const bar = bars.find(bar => bar.time === target);
     ctx.strokeStyle = '#9bb4d0'; ctx.setLineDash([3, 3]);
     ctx.beginPath(); ctx.moveTo(x(target), top); ctx.lineTo(x(target), volumeBottom); ctx.stroke();
+    if (researchHover.y >= top && researchHover.y <= bottom) {
+      ctx.beginPath(); ctx.moveTo(left, researchHover.y); ctx.lineTo(right, researchHover.y); ctx.stroke();
+    }
     document.getElementById('research-bar-details').textContent = bar
       ? `${researchClock(bar.time)} NY · O ${Number(bar.open).toFixed(2)} · H ${Number(bar.high).toFixed(2)} · L ${Number(bar.low).toFixed(2)} · C ${Number(bar.close).toFixed(2)} USD · Vol ${bar.volume.toLocaleString('es-ES')}`
       : `${researchClock(target)} NY · Sin operaciones`;
   }
   ctx.restore(); ctx.fillStyle = '#a6bad2';
   for (let i = 0; i <= 4; i++) ctx.fillText((high - i * (high - low) / 4).toFixed(2), right + 7, top + i * (bottom - top) / 4 + 4);
+  if (researchHover && researchHover.y >= top && researchHover.y <= bottom) {
+    const price = high - (researchHover.y - top) / (bottom - top) * (high - low);
+    ctx.fillStyle = '#365480'; ctx.fillRect(right + 1, researchHover.y - 10, width - right - 1, 20);
+    ctx.fillStyle = '#ffffff'; ctx.fillText(price.toFixed(2), right + 7, researchHover.y + 4);
+  }
   ctx.fillText('Vol', left + 4, volumeTop - 5);
   const ticks = Math.max(2, Math.floor((right - left) / 85));
   for (let i = 0; i < ticks; i++) {
@@ -98,10 +143,7 @@ function drawResearchChart() {
     const px = left + offset / researchWindow * (right - left);
     ctx.fillText(researchClock(first + offset * 60), Math.min(px, right - 32), height - 10);
   }
-  const slider = document.getElementById('research-position');
-  slider.max = Math.max(0, researchSpan - researchWindow);
-  slider.value = researchStart;
-  slider.disabled = researchWindow >= researchSpan;
+  syncResearchScroll();
 }
 
 async function loadResearchSession(date) {
@@ -127,6 +169,7 @@ async function loadResearchSession(date) {
       researchCache.set(date, { ...data, bars });
     }
     researchData = researchCache.get(date);
+    researchHover = researchPriceRange = researchAxisDrag = null;
     researchStart = 0;
     researchSpan = (researchData.bars.at(-1).time - researchData.bars[0].time) / 60 + 1;
     researchWindow = researchSpan;
@@ -143,16 +186,17 @@ async function loadResearchSession(date) {
   }
 }
 
-function zoomResearch(factor) {
+function zoomResearch(factor, anchor = .5) {
   if (!researchData) return;
   const next = Math.min(researchSpan, Math.max(Math.min(30, researchSpan), Math.round(researchWindow * factor)));
-  researchStart = Math.max(0, Math.min(researchSpan - next, Math.round(researchStart + (researchWindow - next) / 2)));
+  researchStart = Math.max(0, Math.min(researchSpan - next, Math.round(researchStart + (researchWindow - next) * anchor)));
   researchWindow = next;
   researchHover = null;
   drawResearchChart();
 }
 
 function renderResearchCalendar(month) {
+  researchMonth = month;
   const calendar = document.getElementById('research-calendar');
   calendar.replaceChildren();
   const [year, number] = month.split('-').map(Number);
@@ -174,7 +218,7 @@ function renderResearchCalendar(month) {
     if (available) {
       button.dataset.researchDate = date;
       button.setAttribute('aria-pressed', String(researchData?.date === date));
-      button.addEventListener('click', () => loadResearchSession(date));
+      button.addEventListener('click', () => selectResearchDay(date));
     }
     calendar.append(button);
   }
@@ -183,15 +227,77 @@ function renderResearchCalendar(month) {
 async function initializeResearch() {
   document.getElementById('research-zoom-in').addEventListener('click', () => zoomResearch(.5));
   document.getElementById('research-zoom-out').addEventListener('click', () => zoomResearch(2));
-  document.getElementById('research-reset').addEventListener('click', () => { researchStart = 0; researchWindow = researchSpan; researchHover = null; drawResearchChart(); });
-  document.getElementById('research-position').addEventListener('input', event => { researchStart = Number(event.target.value); researchHover = null; drawResearchChart(); });
-  const canvas = document.getElementById('research-canvas');
-  canvas.addEventListener('pointermove', event => {
-    const bounds = canvas.getBoundingClientRect();
-    researchHover = Math.max(0, Math.min(.999999, (event.clientX - bounds.left - 12) / (bounds.width - 77)));
+  document.getElementById('research-reset').addEventListener('click', () => { researchStart = 0; researchWindow = researchSpan; researchHover = researchPriceRange = null; drawResearchChart(); });
+  for (const [id, offset] of [['research-month-prev', -1], ['research-month-next', 1]]) {
+    document.getElementById(id).addEventListener('click', () => {
+      if (!researchMonth) return;
+      const [year, month] = researchMonth.split('-').map(Number);
+      renderResearchCalendar(new Date(Date.UTC(year, month - 1 + offset, 1)).toISOString().slice(0, 7));
+    });
+  }
+  const scroll = document.getElementById('research-position');
+  scroll.addEventListener('scroll', () => {
+    if (!researchData || researchWindow >= researchSpan) return;
+    const maxScroll = scroll.scrollWidth - scroll.clientWidth;
+    const next = maxScroll > 0 ? Math.round(scroll.scrollLeft / maxScroll * (researchSpan - researchWindow)) : 0;
+    if (next === researchStart) return;
+    researchStart = Math.max(0, Math.min(researchSpan - researchWindow, next));
+    researchHover = null;
     scheduleResearchChart();
   });
-  canvas.addEventListener('pointerleave', () => { researchHover = null; scheduleResearchChart(); });
+  const canvas = document.getElementById('research-canvas');
+  canvas.addEventListener('wheel', event => {
+    if (!researchData || !event.deltaY) return;
+    event.preventDefault();
+    const bounds = canvas.getBoundingClientRect();
+    const anchor = Math.max(0, Math.min(1, (event.clientX - bounds.left - 12) / (bounds.width - 77)));
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? bounds.height : 1);
+    zoomResearch(Math.exp(Math.max(-240, Math.min(240, delta)) * .003), anchor);
+  }, { passive: false });
+  canvas.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || !researchData || !researchGeometry) return;
+    const bounds = canvas.getBoundingClientRect();
+    const px = event.clientX - bounds.left, py = event.clientY - bounds.top;
+    if (px < researchGeometry.right || py < researchGeometry.top || py > researchGeometry.bottom) return;
+    event.preventDefault();
+    researchAxisDrag = { pointerId: event.pointerId, y: event.clientY, low: researchGeometry.low, high: researchGeometry.high };
+    researchHover = null;
+    canvas.setPointerCapture(event.pointerId);
+    canvas.style.cursor = 'ns-resize';
+  });
+  canvas.addEventListener('pointermove', event => {
+    const bounds = canvas.getBoundingClientRect();
+    if (researchAxisDrag) {
+      if (event.pointerId !== researchAxisDrag.pointerId) return;
+      const center = (researchAxisDrag.high + researchAxisDrag.low) / 2;
+      const half = (researchAxisDrag.high - researchAxisDrag.low) / 2 * Math.exp(Math.max(-4, Math.min(4, (event.clientY - researchAxisDrag.y) * .012)));
+      researchPriceRange = { low: center - half, high: center + half };
+      scheduleResearchChart();
+      return;
+    }
+    const px = event.clientX - bounds.left, py = event.clientY - bounds.top;
+    const overAxis = researchGeometry && px >= researchGeometry.right && py >= researchGeometry.top && py <= researchGeometry.bottom;
+    canvas.style.cursor = overAxis ? 'ns-resize' : 'crosshair';
+    researchHover = !overAxis && px >= 12 && px < bounds.width - 65 && py >= 20 && py < bounds.height - 32
+      ? { x: Math.max(0, Math.min(.999999, (px - 12) / (bounds.width - 77))), y: py } : null;
+    scheduleResearchChart();
+  });
+  const finishDrag = event => {
+    if (!researchAxisDrag || event.pointerId !== researchAxisDrag.pointerId) return;
+    researchAxisDrag = null;
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    scheduleResearchChart();
+  };
+  canvas.addEventListener('pointerup', finishDrag);
+  canvas.addEventListener('pointercancel', finishDrag);
+  canvas.addEventListener('lostpointercapture', finishDrag);
+  canvas.addEventListener('dblclick', event => {
+    const bounds = canvas.getBoundingClientRect();
+    if (researchGeometry && event.clientX - bounds.left >= researchGeometry.right) {
+      researchPriceRange = null; drawResearchChart();
+    }
+  });
+  canvas.addEventListener('pointerleave', () => { if (!researchAxisDrag) researchHover = null; scheduleResearchChart(); });
   canvas.addEventListener('keydown', event => {
     if (!researchData || !['ArrowLeft', 'ArrowRight', '+', '-'].includes(event.key)) return;
     event.preventDefault();
@@ -211,13 +317,8 @@ async function initializeResearch() {
       researchSessions.set(session.date, session);
     }
     const months = [...new Set([...researchSessions.keys()].sort().map(date => date.slice(0, 7)))];
-    const select = document.getElementById('research-month-select');
-    for (const month of months) {
-      const option = document.createElement('option'); option.value = month; option.textContent = month.split('-').reverse().join('/'); select.append(option);
-    }
-    select.value = months.at(-1); select.disabled = false;
-    select.addEventListener('change', () => renderResearchCalendar(select.value));
-    renderResearchCalendar(select.value);
+    for (const id of ['research-month-prev', 'research-month-next']) document.getElementById(id).disabled = false;
+    renderResearchCalendar(months.at(-1));
   } catch {
     document.getElementById('research-availability').textContent = 'No se pudo cargar el calendario.';
     document.getElementById('research-status').textContent = 'Recarga la página para reintentar.';

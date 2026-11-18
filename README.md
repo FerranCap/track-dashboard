@@ -118,6 +118,8 @@ I+D > Nvidia opens `research.html`, an independent static page with its own scri
 
 `data/research/sessions.json` lists available sessions. Opening the page fetches only this small index. Selecting a date fetches that day's minute bars; repeat selections reuse the in-memory cache. Daily file URLs include the index entry's `version` so corrected data can invalidate browser caches without disabling normal caching. The session index revalidates on page load.
 
+Click the selected day again to deselect it and clear the chart. Calendar arrows navigate consecutive months, including months without loaded sessions; unavailable days stay disabled. The mouse wheel zooms the time axis around the cursor. The native horizontal scrollbar below the chart pans through the session, with its thumb showing the visible proportion of the day. The crosshair includes a horizontal price guide and axis label. Drag vertically on the right price axis to scale Y around its current center; double-click that axis to restore automatic scaling. The full-day button resets both axes. These interactions do not fetch additional data.
+
 The initial test session is October 1, 2026. All chart times use `America/New_York`, including daylight saving changes. Original second bars stay outside the website. To prepare another day, run `python scripts/build_research_bars.py SOURCE.json --date YYYY-MM-DD --output data/research/nvda-YYYY-MM-DD-1m.json`, then add its date, filename and version to the session index. Increment that version whenever replacing a daily file. Only list reconciled sessions. The calendar derives available months and days from the index. GitHub Pages packaging includes the independent page and daily files.
 
 ## DAS hotkeys
