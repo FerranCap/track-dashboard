@@ -7,7 +7,7 @@ const researchTime = new Intl.DateTimeFormat('es-ES', { timeZone: 'America/New_Y
 const researchSecondTime = new Intl.DateTimeFormat('es-ES', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
 const researchCharts = {
   minute: { canvas: 'research-canvas', container: 'research-chart', details: 'research-bar-details', seconds: 60 },
-  second: { canvas: 'research-seconds-canvas', container: 'research-seconds-chart', details: 'research-seconds-details', seconds: 1 }
+  second: { canvas: 'research-seconds-canvas', container: 'research-seconds-chart', details: 'research-bar-details', seconds: 1 }
 };
 let researchData = null;
 let researchSecondData = null;
@@ -73,6 +73,7 @@ function clearResearchSession() {
   document.getElementById('research-chart-title').textContent = 'NVDA · 1 minuto';
   document.getElementById('research-status').textContent = 'Selecciona un día en el calendario.';
   document.getElementById('research-seconds-status').textContent = 'Muestra el mismo intervalo visible que el gráfico de 1 minuto.';
+  document.getElementById('research-seconds-status').hidden = true;
   drawResearchChart();
 }
 
@@ -184,6 +185,7 @@ function drawResearchChart() {
     const { first, last } = researchVisibleRange();
     const count = researchCharts.second.visibleBars.length;
     document.getElementById('research-seconds-status').textContent = `${researchClock(first, true)}–${researchClock(last - 1, true)} NY · ${count} velas de 1 segundo${count ? '' : ' · Sin datos de 1 segundo en este intervalo'} · Intervalo sincronizado`;
+    document.getElementById('research-seconds-status').hidden = true;
   }
   syncResearchScroll();
 }
@@ -223,9 +225,13 @@ async function loadResearchSession(date) {
     document.getElementById('research-chart-title').textContent = `NVDA · ${date.split('-').reverse().join('/')} · 1 minuto`;
     status.textContent = `${researchClock(data.bars[0].time)}–${researchClock(data.bars.at(-1).time)} NY · ${data.bars.length} velas`;
     document.getElementById('research-seconds-status').textContent = 'Cargando velas de 1 segundo…';
+    document.getElementById('research-seconds-status').hidden = false;
     drawResearchChart();
     try { researchSecondData = await fetchResearchBars(session, date, true); drawResearchChart(); }
-    catch { document.getElementById('research-seconds-status').textContent = 'No se pudieron cargar las velas de 1 segundo. Deselecciona el día y vuelve a seleccionarlo para reintentar.'; }
+    catch {
+      document.getElementById('research-seconds-status').textContent = 'No se pudieron cargar las velas de 1 segundo. Deselecciona el día y vuelve a seleccionarlo para reintentar.';
+      document.getElementById('research-seconds-status').hidden = false;
+    }
   } catch { status.textContent = 'No se pudo cargar la sesión. Pulsa el día para reintentar.'; }
   finally { researchLoading = false; }
 }

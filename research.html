@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
   <title>Nvidia · I+D | Track</title>
-  <link rel="stylesheet" href="research.css?v=20261118-linked-charts-4">
-  <script src="research.js?v=20261118-linked-charts-4" defer></script>
+  <link rel="stylesheet" href="research.css?v=20261118-compact-charts-5">
+  <script src="research.js?v=20261118-compact-charts-5" defer></script>
 </head>
 <body>
 <header class="research-header"><a href="index.html#general">← Dashboard</a><span>Track · I+D</span></header>
@@ -22,18 +22,13 @@
 <section class="panel research-chart-panel" aria-labelledby="research-chart-title">
 <div class="panel-head"><div><h2 id="research-chart-title">NVDA · 1 minuto</h2><p id="research-status" class="mini-caption" role="status">Selecciona un día en el calendario.</p></div>
 </div>
-<p id="research-bar-details" class="research-bar-details" aria-live="off">Premercado, sesión regular y posmercado · America/New_York</p>
+<p id="research-bar-details" class="research-bar-details" aria-live="off">09:20–11:00 NY · USD</p>
 <div id="research-chart" class="research-chart"><canvas id="research-canvas" tabindex="0" role="img" aria-label="Gráfico de velas de un minuto y volumen de Nvidia, horario de Nueva York"></canvas></div>
-<div id="research-position" class="research-scrollbar" tabindex="0" role="region" aria-label="Desplazamiento horizontal de la sesión" aria-disabled="true"><div id="research-scroll-track" class="research-scroll-track"></div></div>
-<p class="mini-caption">Rueda: zoom · Arrastra el gráfico o la barra inferior: recorrer sesión · Arrastra el eje de precios: escala Y · Doble clic en el eje: escala automática.</p>
-<p class="mini-caption">Horario de Nueva York · Precios en USD · Volumen de Nasdaq (XNAS.ITCH). Los minutos sin operaciones quedan vacíos.</p>
-<section class="research-seconds-panel" aria-labelledby="research-seconds-title">
-<h2 id="research-seconds-title">NVDA · 1 segundo</h2>
-<p class="mini-caption">Datos de 09:25 a 11:00 NY · Solo se muestran las velas dentro del intervalo visible arriba.</p>
-<p id="research-seconds-status" class="mini-caption" role="status">Muestra el mismo intervalo visible que el gráfico de 1 minuto.</p>
-<p id="research-seconds-details" class="research-bar-details" aria-live="off">America/New_York · USD</p>
+<div class="research-seconds-panel" role="group" aria-label="NVDA · 1 segundo">
 <div id="research-seconds-chart" class="research-chart"><canvas id="research-seconds-canvas" tabindex="0" role="img" aria-label="Gráfico de velas de un segundo y volumen de Nvidia, sincronizado con el gráfico de un minuto, horario de Nueva York"></canvas></div>
-</section>
+</div>
+<div id="research-position" class="research-scrollbar" tabindex="0" role="region" aria-label="Desplazamiento horizontal de la sesión" aria-disabled="true"><div id="research-scroll-track" class="research-scroll-track"></div></div>
+<p id="research-seconds-status" class="mini-caption" role="status" hidden></p>
 </section>
 </div>
 </main>

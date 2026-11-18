@@ -67,12 +67,15 @@ def main():
     parser.add_argument('source', type=Path)
     parser.add_argument('--date', required=True)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--start', help='Inclusive New York time for both charts, HH:MM')
+    parser.add_argument('--end', help='Exclusive New York time for both charts, HH:MM')
     parser.add_argument('--seconds-output', type=Path)
     parser.add_argument('--seconds-start', help='Inclusive New York time, HH:MM')
     parser.add_argument('--seconds-end', help='Exclusive New York time, HH:MM')
     args = parser.parse_args()
     with args.source.open(encoding='utf-8') as stream:
-        result = aggregate_session((json.loads(line) for line in stream if line.strip()), args.date)
+        result = aggregate_session((json.loads(line) for line in stream if line.strip()), args.date,
+                                   start_time=args.start, end_time=args.end)
     result['sourceFile'] = args.source.name
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, separators=(',', ':')) + '\n', encoding='utf-8')
@@ -81,7 +84,8 @@ def main():
     if args.seconds_output:
         with args.source.open(encoding='utf-8') as stream:
             seconds = aggregate_session((json.loads(line) for line in stream if line.strip()), args.date,
-                                        interval='1s', start_time=args.seconds_start, end_time=args.seconds_end)
+                                        interval='1s', start_time=args.seconds_start or args.start,
+                                        end_time=args.seconds_end or args.end)
         seconds['sourceFile'] = args.source.name
         args.seconds_output.parent.mkdir(parents=True, exist_ok=True)
         args.seconds_output.write_text(json.dumps(seconds, separators=(',', ':')) + '\n', encoding='utf-8')

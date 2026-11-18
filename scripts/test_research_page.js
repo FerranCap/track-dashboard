@@ -77,6 +77,8 @@ async function main() {
   assert.doesNotMatch(read('workspace.js'), /initializeResearch/);
   assert.doesNotMatch(html, /research-zoom-in|research-zoom-out|research-reset/);
   assert.match(html, /id="research-seconds-canvas"/);
+  const betweenCharts = html.slice(html.indexOf('</canvas>'), html.indexOf('id="research-seconds-canvas"'));
+  assert.doesNotMatch(betweenCharts, /<p\b|<h2\b|research-position/, 'The charts must have no text or controls between them');
 
   const test = harness();
   await test.run('initializeResearch()');
@@ -87,7 +89,8 @@ async function main() {
   await buttons[0].handlers.click();
   assert.equal(test.requests.length, 3);
   assert.equal(test.requests[1].options.cache, 'default');
-  assert.match(test.elements.get('research-status').textContent, /04:00.*19:59 NY.*901 velas/);
+  assert.match(test.elements.get('research-status').textContent, /09:20.*10:59 NY.*100 velas/);
+  assert.equal(test.elements.get('research-seconds-status').hidden, true);
   assert.equal(buttons[0]['aria-pressed'], 'true');
   assert.equal(test.run('researchCharts.second.visibleBars.length'), secondSession.bars.length);
   assertSynchronized(test);
@@ -209,15 +212,16 @@ async function main() {
   await retry.run("loadResearchSession('2026-10-01')");
   assert.match(retry.elements.get('research-status').textContent, /No se pudo cargar/);
   await retry.run("loadResearchSession('2026-10-01')");
-  assert.match(retry.elements.get('research-status').textContent, /901 velas/);
+  assert.match(retry.elements.get('research-status').textContent, /100 velas/);
   assert.equal(retry.requests.length, 4);
 
   const secondsRetry = harness();
   await secondsRetry.run('initializeResearch()');
   secondsRetry.fail('-1s.json');
   await secondsRetry.run("loadResearchSession('2026-10-01')");
-  assert.match(secondsRetry.elements.get('research-status').textContent, /901 velas/);
+  assert.match(secondsRetry.elements.get('research-status').textContent, /100 velas/);
   assert.match(secondsRetry.elements.get('research-seconds-status').textContent, /No se pudieron cargar/);
+  assert.equal(secondsRetry.elements.get('research-seconds-status').hidden, false);
   assert.equal(secondsRetry.run('researchSecondData'), null);
   secondsRetry.run('clearResearchSession()');
   await secondsRetry.run("loadResearchSession('2026-10-01')");

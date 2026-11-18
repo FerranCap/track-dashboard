@@ -10,17 +10,18 @@ def record(timestamp, opening='10', high='12', low='9', closing='11', volume='7'
 
 
 class ResearchBarTests(unittest.TestCase):
-    def test_seconds_window_uses_new_york_and_excludes_end(self):
+    def test_both_chart_windows_use_new_york_and_exclude_end(self):
         for date, hour, end_hour in [('2026-10-01', 13, 15), ('2026-11-17', 14, 16)]:
-            with self.subTest(date=date):
-                result = aggregate_session([
-                    record(f'{date}T{hour:02d}:24:59Z'),
-                    record(f'{date}T{hour:02d}:25:00Z'),
-                    record(f'{date}T{end_hour - 1:02d}:59:59Z'),
-                    record(f'{date}T{end_hour:02d}:00:00Z'),
-                ], date, interval='1s', start_time='09:25', end_time='11:00')
-                self.assertEqual(len(result['bars']), 2)
-                self.assertEqual(result['sessionWindow'], {'start': '09:25', 'end': '11:00', 'endExclusive': True})
+            for interval in ('1m', '1s'):
+                with self.subTest(date=date, interval=interval):
+                    result = aggregate_session([
+                        record(f'{date}T{hour:02d}:19:59Z'),
+                        record(f'{date}T{hour:02d}:20:00Z'),
+                        record(f'{date}T{end_hour - 1:02d}:59:59Z'),
+                        record(f'{date}T{end_hour:02d}:00:00Z'),
+                    ], date, interval=interval, start_time='09:20', end_time='11:00')
+                    self.assertEqual(len(result['bars']), 2)
+                    self.assertEqual(result['sessionWindow'], {'start': '09:20', 'end': '11:00', 'endExclusive': True})
 
     def test_seconds_preserve_gaps_and_source_values(self):
         result = aggregate_session([
