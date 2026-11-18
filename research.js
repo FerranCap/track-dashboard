@@ -29,6 +29,30 @@ function researchVisibleRange() {
   return { first, last: first + researchWindow * 60 };
 }
 
+function researchOpeningMinute() {
+  const bar = researchData?.bars.find(item => researchClock(item.time) === '09:30');
+  return bar ? { start: bar.time, end: bar.time + 60, high: bar.high, low: bar.low } : null;
+}
+
+function drawResearchOpeningLevels(paint, geometry) {
+  const opening = researchOpeningMinute();
+  if (!opening) return;
+  const { left, right, top, bottom, low, high } = geometry;
+  const levels = opening.high === opening.low
+    ? [[opening.high, 'High/Low 09:30', '#f6c560']]
+    : [[opening.high, 'High 09:30', '#f6c560'], [opening.low, 'Low 09:30', '#7dbbff']];
+  paint.save(); paint.font = '11px system-ui'; paint.lineWidth = 1;
+  for (const [price, label, color] of levels) {
+    const py = bottom - (price - low) / (high - low) * (bottom - top);
+    if (py < top || py > bottom) continue;
+    paint.strokeStyle = paint.fillStyle = color;
+    paint.setLineDash([6, 4]);
+    paint.beginPath(); paint.moveTo(left, py); paint.lineTo(right, py); paint.stroke();
+    paint.fillText(`${label} · ${price.toFixed(2)}`, left + 8, Math.max(top + 12, py - 5));
+  }
+  paint.restore();
+}
+
 function researchLowerBound(bars, time) {
   let low = 0, high = bars.length;
   while (low < high) {
@@ -150,6 +174,7 @@ function drawResearchPane(pane, data) {
     paint.globalAlpha = 1; paint.restore(); paint.fillStyle = '#a6bad2';
     for (let i = 0; i <= 4; i++) paint.fillText((high - i * (high - low) / 4).toFixed(2), right + 7, top + i * (bottom - top) / 4 + 4);
     paint.fillText('Vol', left + 4, volumeTop - 5);
+    if (pane.seconds === 1) drawResearchOpeningLevels(paint, pane.geometry);
     const ticks = Math.max(2, Math.floor((right - left) / (pane.seconds === 1 ? 100 : 85)));
     for (let i = 0; i < ticks; i++) {
       const time = first + Math.floor(i * ((last - first) / pane.seconds - 1) / (ticks - 1)) * pane.seconds;

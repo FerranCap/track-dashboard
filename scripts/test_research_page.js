@@ -70,6 +70,17 @@ function assertSynchronized(test, source = secondSession) {
   assert.equal(test.run('researchCharts.minute.geometry.last'), test.run('researchCharts.second.geometry.last'));
 }
 
+function assertOpeningMinute(test, source) {
+  const levels = test.run('researchOpeningMinute()');
+  assert.ok(levels);
+  assert.equal(test.run(`researchClock(${levels.start}, true)`), '09:30:00');
+  assert.equal(test.run(`researchClock(${levels.end - 1}, true)`), '09:30:59');
+  const openingSeconds = source.bars.filter(bar => bar.time >= levels.start && bar.time < levels.end);
+  assert.ok(openingSeconds.length > 0);
+  assert.equal(levels.high, Math.max(...openingSeconds.map(bar => Number(bar.high))));
+  assert.equal(levels.low, Math.min(...openingSeconds.map(bar => Number(bar.low))));
+}
+
 async function main() {
   const html = read('research.html');
   assert.deepEqual([...html.matchAll(/<script[^>]+src="([^"?]+)/g)].map(match => match[1]), ['research.js']);
@@ -96,6 +107,12 @@ async function main() {
   assert.equal(buttons[0]['aria-pressed'], 'true');
   assert.equal(test.run('researchCharts.second.visibleBars.length'), secondSession.bars.length);
   assertSynchronized(test);
+  assertOpeningMinute(test, secondSession);
+  assert.ok(test.calls.some(call => call[0] === 'fillText' && String(call[1]).startsWith('High 09:30')));
+  assert.ok(test.calls.some(call => call[0] === 'fillText' && String(call[1]).startsWith('Low 09:30')));
+  test.calls.length = 0;
+  test.run('researchCharts.minute.cacheKey = null; drawResearchPane(researchCharts.minute, researchData)');
+  assert.ok(!test.calls.some(call => call[0] === 'fillText' && /^(High|Low) 09:30/.test(String(call[1]))), 'Opening levels belong only on the seconds chart');
   await test.run("loadResearchSession('2026-10-01')");
   assert.equal(test.requests.length, 3, 'A repeated selection must reuse both cached datasets');
   await test.run("loadResearchSession('2026-10-03')");
@@ -111,6 +128,7 @@ async function main() {
   assert.equal(buttons[0]['aria-pressed'], 'false');
   assert.equal(test.run('researchData'), null);
   assert.equal(test.run('researchSecondData'), null);
+  assert.equal(test.run('researchOpeningMinute()'), null);
   assert.equal(test.run('researchCharts.second.visibleBars.length'), 0);
   assert.equal(test.elements.get('research-position').scrollLeft, 0);
   await buttons[0].handlers.click();
@@ -217,6 +235,7 @@ async function main() {
   assert.equal(test.requests.length, 5);
   const dayTwoSeconds = JSON.parse(read('data/research/nvda-2026-10-02-1s.json'));
   assertSynchronized(test, dayTwoSeconds);
+  assertOpeningMinute(test, dayTwoSeconds);
   test.run('zoomResearch(.2)');
   assertSynchronized(test, dayTwoSeconds);
   await test.run("loadResearchSession('2026-10-01')");
@@ -237,6 +256,7 @@ async function main() {
     assert.equal(test.run('researchSecondData.date'), date);
     assert.equal(test.requests.length, previousRequests + 2, 'Selecting a new day must load only its two files');
     const source = JSON.parse(read(`data/research/nvda-${date}-1s.json`));
+    assertOpeningMinute(test, source);
     assertSynchronized(test, source);
     test.run('zoomResearch(.2)');
     assertSynchronized(test, source);
