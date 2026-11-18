@@ -10,6 +10,29 @@ def record(timestamp, opening='10', high='12', low='9', closing='11', volume='7'
 
 
 class ResearchBarTests(unittest.TestCase):
+    def test_seconds_window_uses_new_york_and_excludes_end(self):
+        for date, hour, end_hour in [('2026-10-01', 13, 15), ('2026-11-17', 14, 16)]:
+            with self.subTest(date=date):
+                result = aggregate_session([
+                    record(f'{date}T{hour:02d}:24:59Z'),
+                    record(f'{date}T{hour:02d}:25:00Z'),
+                    record(f'{date}T{end_hour - 1:02d}:59:59Z'),
+                    record(f'{date}T{end_hour:02d}:00:00Z'),
+                ], date, interval='1s', start_time='09:25', end_time='11:00')
+                self.assertEqual(len(result['bars']), 2)
+                self.assertEqual(result['sessionWindow'], {'start': '09:25', 'end': '11:00', 'endExclusive': True})
+
+    def test_seconds_preserve_gaps_and_source_values(self):
+        result = aggregate_session([
+            record('2026-10-01T08:00:00Z', '10.000000001', '12', '9', '11', '0'),
+            record('2026-10-01T08:00:06Z', '11', '13', '10', '12', '5'),
+        ], '2026-10-01', interval='1s')
+        self.assertEqual(result['interval'], '1s')
+        self.assertEqual(len(result['bars']), 2)
+        self.assertEqual(result['bars'][0]['open'], '10.000000001')
+        self.assertEqual(result['bars'][0]['volume'], 0)
+        self.assertEqual(result['bars'][1]['time'] - result['bars'][0]['time'], 6)
+
     def test_ohlc_volume_and_chronology(self):
         result = aggregate_session([
             record('2026-10-01T08:00:59Z', '11', '14', '10', '13', '5'),

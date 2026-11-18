@@ -8,6 +8,7 @@ const root = path.join(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const index = JSON.parse(read('data/research/sessions.json'));
 const session = JSON.parse(read(`data/research/${index.sessions[0].file}`));
+const secondSession = JSON.parse(read(`data/research/${index.sessions[0].secondsFile}`));
 
 function harness(manifest = index) {
   const elements = new Map();
@@ -24,7 +25,8 @@ function harness(manifest = index) {
       getBoundingClientRect() { return { width: 900, height: 490, left: 0, top: 0 }; },
       setPointerCapture(id) { this.pointerId = id; },
       hasPointerCapture(id) { return this.pointerId === id; },
-      releasePointerCapture() { this.pointerId = null; }
+      releasePointerCapture() { this.pointerId = null; },
+      getContext() { return drawing; }
     };
   }
   const document = {
@@ -43,16 +45,27 @@ function harness(manifest = index) {
     fetch: async (url, options) => {
       requests.push({ url, options });
       if (url === 'data/research/sessions.json') return { ok: true, json: async () => manifest };
-      assert.match(url, /^data\/research\/nvda-\d{4}-\d{2}-\d{2}-1m\.json\?v=/);
-      if (failNext) { failNext = false; return { ok: false, status: 503 }; }
+      assert.match(url, /^data\/research\/nvda-\d{4}-\d{2}-\d{2}-1[ms]\.json\?v=/);
+      if (failNext && (failNext === true || url.includes(failNext))) { failNext = false; return { ok: false, status: 503 }; }
       const date = /nvda-(\d{4}-\d{2}-\d{2})/.exec(url)[1];
-      return { ok: true, json: async () => date === session.date ? session : {
-        ...session, date, bars: [{ ...session.bars[0], time: Date.parse(`${date}T14:30:00Z`) / 1000 }]
+      const fixture = url.includes('-1s.json') ? secondSession : session;
+      return { ok: true, json: async () => date === session.date ? fixture : {
+        ...fixture, date, bars: [{ ...fixture.bars[0], time: Date.parse(`${date}T14:30:00Z`) / 1000 }]
       } };
     }
   });
   vm.runInContext(read('research.js'), context);
-  return { run: code => vm.runInContext(code, context), requests, elements, calls, fail() { failNext = true; } };
+  return { run: code => vm.runInContext(code, context), requests, elements, calls, fail(match = true) { failNext = match; } };
+}
+
+function assertSynchronized(test) {
+  test.run('drawResearchChart()');
+  const range = test.run('researchVisibleRange()');
+  const actual = JSON.parse(test.run('JSON.stringify(researchCharts.second.visibleBars.map(bar => bar.time))'));
+  const expected = secondSession.bars.filter(bar => bar.time >= range.first && bar.time < range.last).map(bar => bar.time);
+  assert.deepEqual(actual, expected, 'Seconds pane must contain exactly the source bars within the minute viewport');
+  assert.equal(test.run('researchCharts.minute.geometry.first'), test.run('researchCharts.second.geometry.first'));
+  assert.equal(test.run('researchCharts.minute.geometry.last'), test.run('researchCharts.second.geometry.last'));
 }
 
 async function main() {
@@ -62,6 +75,8 @@ async function main() {
   assert.match(read('index.html'), /href="research.html"/);
   assert.doesNotMatch(read('index.html'), /src="research.js|id="view-nvidia"/);
   assert.doesNotMatch(read('workspace.js'), /initializeResearch/);
+  assert.doesNotMatch(html, /research-zoom-in|research-zoom-out|research-reset/);
+  assert.match(html, /id="research-seconds-canvas"/);
 
   const test = harness();
   await test.run('initializeResearch()');
@@ -70,17 +85,19 @@ async function main() {
   assert.equal(buttons.length, 1);
   assert.equal(buttons[0].dataset.researchDate, '2026-10-01');
   await buttons[0].handlers.click();
-  assert.equal(test.requests.length, 2);
+  assert.equal(test.requests.length, 3);
   assert.equal(test.requests[1].options.cache, 'default');
   assert.match(test.elements.get('research-status').textContent, /04:00.*19:59 NY.*901 velas/);
   assert.equal(buttons[0]['aria-pressed'], 'true');
+  assert.equal(test.run('researchCharts.second.visibleBars.length'), secondSession.bars.length);
+  assertSynchronized(test);
   await test.run("loadResearchSession('2026-10-01')");
-  assert.equal(test.requests.length, 2, 'A repeated selection must reuse loaded bars');
+  assert.equal(test.requests.length, 3, 'A repeated selection must reuse both cached datasets');
   await test.run("loadResearchSession('2026-10-02')");
-  assert.equal(test.requests.length, 2, 'An unavailable day must not request a file');
-  test.elements.get('research-zoom-in').handlers.click();
+  assert.equal(test.requests.length, 3, 'An unavailable day must not request a file');
+  test.run('zoomResearch(.5)');
   assert.equal(test.elements.get('research-position')['aria-disabled'], 'false');
-  test.elements.get('research-reset').handlers.click();
+  test.run('zoomResearch(researchSpan)');
   assert.equal(test.elements.get('research-position')['aria-disabled'], 'true');
   const initialWindow = test.run('researchWindow');
   const initialStart = test.run('researchStart');
@@ -88,10 +105,11 @@ async function main() {
   await buttons[0].handlers.click();
   assert.equal(buttons[0]['aria-pressed'], 'false');
   assert.equal(test.run('researchData'), null);
-  assert.equal(test.elements.get('research-zoom-in').disabled, true);
+  assert.equal(test.run('researchSecondData'), null);
+  assert.equal(test.run('researchCharts.second.visibleBars.length'), 0);
   assert.equal(test.elements.get('research-position').scrollLeft, 0);
   await buttons[0].handlers.click();
-  assert.equal(test.requests.length, 2, 'Reselecting a deselected day must use its cached data');
+  assert.equal(test.requests.length, 3, 'Reselecting a deselected day must use its cached data');
 
   const canvas = test.elements.get('research-canvas');
   let prevented = false;
@@ -101,7 +119,10 @@ async function main() {
   assert.ok(test.run('researchWindow < researchSpan'));
   assert.ok(parseFloat(test.elements.get('research-scroll-track').style.width) > 100);
   for (let i = 0; i < 30; i++) canvas.handlers.wheel(wheel);
-  assert.equal(test.run('researchWindow'), 30);
+  assert.equal(test.run('researchWindow'), 1);
+  assertSynchronized(test);
+  canvas.handlers.wheel({ ...wheel, deltaY: 1 });
+  assert.equal(test.run('researchWindow'), 2, 'Zoom out must escape the one-minute minimum even with small wheel deltas');
   assert.ok(test.run('researchStart >= 0 && researchStart + researchWindow <= researchSpan'));
   for (let i = 0; i < 30; i++) canvas.handlers.wheel({ ...wheel, deltaY: 120 });
   assert.equal(test.run('researchWindow'), initialWindow);
@@ -118,36 +139,56 @@ async function main() {
   test.run('drawResearchChart()');
   scroll.scrollLeft = 0; scroll.handlers.scroll(); test.run('drawResearchChart()');
   assert.equal(test.run('researchStart'), 0);
+  assertSynchronized(test);
 
   canvas.handlers.pointermove({ clientX: 450, clientY: 140 });
   test.calls.length = 0;
   test.run('drawResearchChart()');
   assert.ok(test.calls.some(call => call[0] === 'moveTo' && call[1] === 12 && call[2] === 140), 'Crosshair must include a horizontal line');
-  const expectedPrice = test.run('(researchGeometry.high - (140 - researchGeometry.top) / (researchGeometry.bottom - researchGeometry.top) * (researchGeometry.high - researchGeometry.low)).toFixed(2)');
+  const expectedPrice = test.run('(researchCharts.minute.geometry.high - (140 - researchCharts.minute.geometry.top) / (researchCharts.minute.geometry.bottom - researchCharts.minute.geometry.top) * (researchCharts.minute.geometry.high - researchCharts.minute.geometry.low)).toFixed(2)');
   assert.ok(test.calls.some(call => call[0] === 'fillText' && call[1] === expectedPrice && call[2] === 842), 'Crosshair must show its price on the axis');
+  assert.ok(!test.calls.some(call => call[0] === 'clip'), 'Hover must reuse cached candle layers');
 
   canvas.handlers.pointerdown({ button: 0, pointerId: 7, clientX: 850, clientY: 140, preventDefault() {} });
   assert.equal(canvas.pointerId, 7);
-  const originalRange = test.run('researchGeometry.high - researchGeometry.low');
+  const originalRange = test.run('researchCharts.minute.geometry.high - researchCharts.minute.geometry.low');
   canvas.handlers.pointermove({ pointerId: 7, clientX: 850, clientY: 180 });
-  assert.ok(test.run('researchPriceRange.high - researchPriceRange.low') > originalRange);
+  assert.ok(test.run('researchCharts.minute.priceRange.high - researchCharts.minute.priceRange.low') > originalRange);
   canvas.handlers.pointerup({ pointerId: 7 });
-  assert.equal(test.run('researchAxisDrag'), null);
+  assert.equal(test.run('researchDrag'), null);
   assert.equal(canvas.pointerId, null);
   test.run('drawResearchChart()');
   canvas.handlers.dblclick({ clientX: 850, clientY: 140 });
-  assert.equal(test.run('researchPriceRange'), null);
+  assert.equal(test.run('researchCharts.minute.priceRange'), null);
   canvas.handlers.pointerdown({ button: 0, pointerId: 8, clientX: 450, clientY: 140, preventDefault() {} });
-  assert.equal(test.run('researchAxisDrag'), null, 'Dragging the plot must not scale the price axis');
+  assert.equal(test.run('researchDrag.type'), 'pan');
+  canvas.handlers.pointermove({ pointerId: 8, clientX: 200, clientY: 140 });
+  assert.ok(test.run('researchStart') > 0, 'Dragging left must move forward in the session');
+  assert.equal(test.run('researchCharts.minute.priceRange'), null, 'Panning must not scale Y');
+  canvas.handlers.pointerup({ pointerId: 8 });
+  test.run('drawResearchChart()');
+  assert.equal(test.run('researchCharts.minute.geometry.first'), test.run('researchCharts.second.geometry.first'));
+  assert.equal(test.run('researchCharts.minute.geometry.last'), test.run('researchCharts.second.geometry.last'));
+  assertSynchronized(test);
+  const secondCanvas = test.elements.get('research-seconds-canvas');
+  const beforeSecondPan = test.run('researchStart');
+  secondCanvas.handlers.pointerdown({ button: 0, pointerId: 15, clientX: 450, clientY: 140, preventDefault() {} });
+  secondCanvas.handlers.pointermove({ pointerId: 15, clientX: 400, clientY: 140 });
+  secondCanvas.handlers.pointerup({ pointerId: 15 });
+  assert.ok(test.run('researchStart') > beforeSecondPan, 'Dragging the seconds pane must pan both charts');
+  assertSynchronized(test);
+  secondCanvas.handlers.wheel({ ...wheel, deltaY: -120 });
+  assertSynchronized(test);
   canvas.handlers.pointerdown({ button: 0, pointerId: 9, clientX: 850, clientY: 180, preventDefault() {} });
-  const rangeBeforeUp = test.run('researchGeometry.high - researchGeometry.low');
+  const rangeBeforeUp = test.run('researchCharts.minute.geometry.high - researchCharts.minute.geometry.low');
   canvas.handlers.pointermove({ pointerId: 9, clientX: 850, clientY: 140 });
-  assert.ok(test.run('researchPriceRange.high - researchPriceRange.low') < rangeBeforeUp);
+  assert.ok(test.run('researchCharts.minute.priceRange.high - researchCharts.minute.priceRange.low') < rangeBeforeUp);
   canvas.handlers.pointercancel({ pointerId: 9 });
-  assert.equal(test.run('researchAxisDrag'), null);
+  assert.equal(test.run('researchDrag'), null);
   assert.equal(canvas.pointerId, null);
-  test.elements.get('research-reset').handlers.click();
-  assert.equal(test.run('researchPriceRange'), null);
+  canvas.handlers.dblclick({ clientX: 850, clientY: 140 });
+  test.run('zoomResearch(researchSpan)');
+  assert.equal(test.run('researchCharts.minute.priceRange'), null);
   assert.equal(test.run('researchWindow'), initialWindow);
   assert.equal(test.requests.length, initialRequests);
 
@@ -160,7 +201,7 @@ async function main() {
   test.run("renderResearchCalendar('2026-12')");
   test.elements.get('research-month-next').handlers.click();
   assert.equal(test.run('researchMonth'), '2027-01');
-  assert.equal(test.requests.length, 2, 'Navigating months must not load session files');
+  assert.equal(test.requests.length, 3, 'Navigating months must not load session files');
 
   const retry = harness();
   await retry.run('initializeResearch()');
@@ -169,10 +210,22 @@ async function main() {
   assert.match(retry.elements.get('research-status').textContent, /No se pudo cargar/);
   await retry.run("loadResearchSession('2026-10-01')");
   assert.match(retry.elements.get('research-status').textContent, /901 velas/);
-  assert.equal(retry.requests.length, 3);
+  assert.equal(retry.requests.length, 4);
+
+  const secondsRetry = harness();
+  await secondsRetry.run('initializeResearch()');
+  secondsRetry.fail('-1s.json');
+  await secondsRetry.run("loadResearchSession('2026-10-01')");
+  assert.match(secondsRetry.elements.get('research-status').textContent, /901 velas/);
+  assert.match(secondsRetry.elements.get('research-seconds-status').textContent, /No se pudieron cargar/);
+  assert.equal(secondsRetry.run('researchSecondData'), null);
+  secondsRetry.run('clearResearchSession()');
+  await secondsRetry.run("loadResearchSession('2026-10-01')");
+  assert.equal(secondsRetry.requests.length, 4, 'Retrying seconds must retain the cached minute data');
+  assertSynchronized(secondsRetry);
 
   const multiple = harness({ ...index, sessions: [...index.sessions,
-    { date: '2026-11-17', file: 'nvda-2026-11-17-1m.json', version: 'test' }] });
+    { date: '2026-11-17', file: 'nvda-2026-11-17-1m.json', secondsFile: 'nvda-2026-11-17-1s.json', version: 'test' }] });
   await multiple.run('initializeResearch()');
   assert.equal(multiple.run('researchMonth'), '2026-11');
   assert.equal(multiple.requests.length, 1);
@@ -181,10 +234,10 @@ async function main() {
   assert.match(multiple.elements.get('research-chart-title').textContent, /17\/11\/2026/);
   multiple.run("renderResearchCalendar('2026-10')");
   await multiple.run("loadResearchSession('2026-10-01')");
-  assert.equal(multiple.requests.length, 3);
+  assert.equal(multiple.requests.length, 5);
   await multiple.run("loadResearchSession('2026-11-17')");
-  assert.equal(multiple.requests.length, 3);
-  console.log('Research isolation, daily loading, cache, wheel zoom, scrollbar, crosshair, price scaling, date toggle, month navigation and NY timezone: OK');
+  assert.equal(multiple.requests.length, 5);
+  console.log('Research isolation, linked minute/second panes, drag panning, exact time bounds, cached drawing, daily loading, retry, wheel zoom, scrollbar, crosshair, price scaling, calendar and NY timezone: OK');
 }
 
 main().catch(error => { console.error(error); process.exitCode = 1; });

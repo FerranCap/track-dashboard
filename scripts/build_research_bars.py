@@ -7,17 +7,28 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
-def aggregate_session(records, session_date, symbol='NVDA'):
+def aggregate_session(records, session_date, symbol='NVDA', interval='1m', start_time=None, end_time=None):
+    if interval not in ('1m', '1s'):
+        raise ValueError('Unsupported bar interval')
     timezone = ZoneInfo('America/New_York')
+    if bool(start_time) != bool(end_time):
+        raise ValueError('Both session window endpoints are required')
+    start = datetime.strptime(start_time, '%H:%M').time() if start_time else None
+    end = datetime.strptime(end_time, '%H:%M').time() if end_time else None
+    if start and end <= start:
+        raise ValueError('Session window end must follow its start')
     buckets = {}
     source_count = 0
     for record in records:
         if record['symbol'] != symbol:
             continue
         timestamp = datetime.fromisoformat(record['hd']['ts_event'].replace('Z', '+00:00'))
-        if timestamp.astimezone(timezone).date().isoformat() != session_date:
+        local = timestamp.astimezone(timezone)
+        if local.date().isoformat() != session_date:
             continue
-        minute = timestamp.replace(second=0, microsecond=0)
+        if start and not start <= local.time() < end:
+            continue
+        minute = timestamp.replace(microsecond=0) if interval == '1s' else timestamp.replace(second=0, microsecond=0)
         prices = [Decimal(record[key]) for key in ('open', 'high', 'low', 'close')]
         volume = int(record['volume'])
         if not all(price.is_finite() and price > 0 for price in prices) or volume < 0:
@@ -43,9 +54,12 @@ def aggregate_session(records, session_date, symbol='NVDA'):
                  volume=bar['volume']) for minute, bar in sorted(buckets.items())]
     if not bars:
         raise ValueError('No bars found for the requested session')
-    return dict(symbol=symbol, date=session_date, timezone='America/New_York',
-                interval='1m', dataset='XNAS.ITCH', sourceInterval='1s',
+    result = dict(symbol=symbol, date=session_date, timezone='America/New_York',
+                interval=interval, dataset='XNAS.ITCH', sourceInterval='1s',
                 sourceRecordCount=source_count, bars=bars)
+    if start:
+        result['sessionWindow'] = dict(start=start_time, end=end_time, endExclusive=True)
+    return result
 
 
 def main():
@@ -53,6 +67,9 @@ def main():
     parser.add_argument('source', type=Path)
     parser.add_argument('--date', required=True)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--seconds-output', type=Path)
+    parser.add_argument('--seconds-start', help='Inclusive New York time, HH:MM')
+    parser.add_argument('--seconds-end', help='Exclusive New York time, HH:MM')
     args = parser.parse_args()
     with args.source.open(encoding='utf-8') as stream:
         result = aggregate_session((json.loads(line) for line in stream if line.strip()), args.date)
@@ -61,6 +78,14 @@ def main():
     args.output.write_text(json.dumps(result, separators=(',', ':')) + '\n', encoding='utf-8')
     print(f"{result['date']}: {result['sourceRecordCount']} source records, "
           f"{len(result['bars'])} minute bars, volume {sum(bar['volume'] for bar in result['bars'])}")
+    if args.seconds_output:
+        with args.source.open(encoding='utf-8') as stream:
+            seconds = aggregate_session((json.loads(line) for line in stream if line.strip()), args.date,
+                                        interval='1s', start_time=args.seconds_start, end_time=args.seconds_end)
+        seconds['sourceFile'] = args.source.name
+        args.seconds_output.parent.mkdir(parents=True, exist_ok=True)
+        args.seconds_output.write_text(json.dumps(seconds, separators=(',', ':')) + '\n', encoding='utf-8')
+        print(f"{seconds['date']}: {len(seconds['bars'])} second bars")
 
 
 if __name__ == '__main__':
