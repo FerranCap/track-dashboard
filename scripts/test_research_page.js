@@ -223,7 +223,10 @@ async function main() {
   assert.equal(test.requests.length, 5, 'Returning to the first day must reuse its own cached data');
   assertSynchronized(test);
 
-  for (const date of ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09']) {
+  const octoberDates = index.sessions.filter(entry => entry.date.startsWith('2026-10')).map(entry => entry.date);
+  assert.equal(octoberDates.length, 22);
+  assert.equal(new Set(octoberDates).size, 22);
+  for (const date of octoberDates.filter(date => date > '2026-10-02')) {
     test.calls.length = 0;
     const previousRequests = test.requests.length;
     const button = test.elements.get('research-calendar').children.find(item => item.dataset.researchDate === date);
@@ -240,7 +243,7 @@ async function main() {
     await button.handlers.click();
     assert.equal(test.run('researchData'), null);
     await button.handlers.click();
-    assert.equal(test.requests.length, previousRequests + 2, 'Reselecting a week session must use its cached data');
+    assert.equal(test.requests.length, previousRequests + 2, 'Reselecting a session must use its cached data');
   }
 
   const retry = harness();
