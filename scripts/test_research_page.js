@@ -86,7 +86,7 @@ async function main() {
   await test.run('initializeResearch()');
   assert.deepEqual(test.requests.map(request => request.url), ['data/research/sessions.json']);
   const buttons = test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate);
-  assert.equal(buttons.length, 2);
+  assert.equal(buttons.length, index.sessions.filter(entry => entry.date.startsWith('2026-10')).length);
   assert.equal(buttons[0].dataset.researchDate, '2026-10-01');
   await buttons[0].handlers.click();
   assert.equal(test.requests.length, 3);
@@ -202,7 +202,7 @@ async function main() {
   assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, 0);
   test.elements.get('research-month-next').handlers.click();
   assert.equal(test.run('researchMonth'), '2026-10');
-  assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, 2);
+  assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, index.sessions.filter(entry => entry.date.startsWith('2026-10')).length);
   test.run("renderResearchCalendar('2026-12')");
   test.elements.get('research-month-next').handlers.click();
   assert.equal(test.run('researchMonth'), '2027-01');
@@ -222,6 +222,26 @@ async function main() {
   await test.run("loadResearchSession('2026-10-01')");
   assert.equal(test.requests.length, 5, 'Returning to the first day must reuse its own cached data');
   assertSynchronized(test);
+
+  for (const date of ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09']) {
+    test.calls.length = 0;
+    const previousRequests = test.requests.length;
+    const button = test.elements.get('research-calendar').children.find(item => item.dataset.researchDate === date);
+    assert.ok(button, `${date} must be selectable in the calendar`);
+    await button.handlers.click();
+    assert.equal(button['aria-pressed'], 'true');
+    assert.equal(test.run('researchData.date'), date);
+    assert.equal(test.run('researchSecondData.date'), date);
+    assert.equal(test.requests.length, previousRequests + 2, 'Selecting a new day must load only its two files');
+    const source = JSON.parse(read(`data/research/nvda-${date}-1s.json`));
+    assertSynchronized(test, source);
+    test.run('zoomResearch(.2)');
+    assertSynchronized(test, source);
+    await button.handlers.click();
+    assert.equal(test.run('researchData'), null);
+    await button.handlers.click();
+    assert.equal(test.requests.length, previousRequests + 2, 'Reselecting a week session must use its cached data');
+  }
 
   const retry = harness();
   await retry.run('initializeResearch()');
