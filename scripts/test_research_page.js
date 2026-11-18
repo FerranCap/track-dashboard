@@ -48,6 +48,8 @@ function harness(manifest = index) {
       assert.match(url, /^data\/research\/nvda-\d{4}-\d{2}-\d{2}-1[ms]\.json\?v=/);
       if (failNext && (failNext === true || url.includes(failNext))) { failNext = false; return { ok: false, status: 503 }; }
       const date = /nvda-(\d{4}-\d{2}-\d{2})/.exec(url)[1];
+      const fixtureFile = `data/research/${url.split('/').at(-1).split('?')[0]}`;
+      if (fs.existsSync(path.join(root, fixtureFile))) return { ok: true, json: async () => JSON.parse(read(fixtureFile)) };
       const fixture = url.includes('-1s.json') ? secondSession : session;
       return { ok: true, json: async () => date === session.date ? fixture : {
         ...fixture, date, bars: [{ ...fixture.bars[0], time: Date.parse(`${date}T14:30:00Z`) / 1000 }]
@@ -58,11 +60,11 @@ function harness(manifest = index) {
   return { run: code => vm.runInContext(code, context), requests, elements, calls, fail(match = true) { failNext = match; } };
 }
 
-function assertSynchronized(test) {
+function assertSynchronized(test, source = secondSession) {
   test.run('drawResearchChart()');
   const range = test.run('researchVisibleRange()');
   const actual = JSON.parse(test.run('JSON.stringify(researchCharts.second.visibleBars.map(bar => bar.time))'));
-  const expected = secondSession.bars.filter(bar => bar.time >= range.first && bar.time < range.last).map(bar => bar.time);
+  const expected = source.bars.filter(bar => bar.time >= range.first && bar.time < range.last).map(bar => bar.time);
   assert.deepEqual(actual, expected, 'Seconds pane must contain exactly the source bars within the minute viewport');
   assert.equal(test.run('researchCharts.minute.geometry.first'), test.run('researchCharts.second.geometry.first'));
   assert.equal(test.run('researchCharts.minute.geometry.last'), test.run('researchCharts.second.geometry.last'));
@@ -84,7 +86,7 @@ async function main() {
   await test.run('initializeResearch()');
   assert.deepEqual(test.requests.map(request => request.url), ['data/research/sessions.json']);
   const buttons = test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate);
-  assert.equal(buttons.length, 1);
+  assert.equal(buttons.length, 2);
   assert.equal(buttons[0].dataset.researchDate, '2026-10-01');
   await buttons[0].handlers.click();
   assert.equal(test.requests.length, 3);
@@ -96,7 +98,7 @@ async function main() {
   assertSynchronized(test);
   await test.run("loadResearchSession('2026-10-01')");
   assert.equal(test.requests.length, 3, 'A repeated selection must reuse both cached datasets');
-  await test.run("loadResearchSession('2026-10-02')");
+  await test.run("loadResearchSession('2026-10-03')");
   assert.equal(test.requests.length, 3, 'An unavailable day must not request a file');
   test.run('zoomResearch(.5)');
   assert.equal(test.elements.get('research-position')['aria-disabled'], 'false');
@@ -200,11 +202,26 @@ async function main() {
   assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, 0);
   test.elements.get('research-month-next').handlers.click();
   assert.equal(test.run('researchMonth'), '2026-10');
-  assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, 1);
+  assert.equal(test.elements.get('research-calendar').children.filter(item => item.dataset.researchDate).length, 2);
   test.run("renderResearchCalendar('2026-12')");
   test.elements.get('research-month-next').handlers.click();
   assert.equal(test.run('researchMonth'), '2027-01');
   assert.equal(test.requests.length, 3, 'Navigating months must not load session files');
+  test.run("renderResearchCalendar('2026-10')");
+  const dayTwo = test.elements.get('research-calendar').children.find(item => item.dataset.researchDate === '2026-10-02');
+  await dayTwo.handlers.click();
+  assert.equal(dayTwo['aria-pressed'], 'true');
+  assert.equal(test.run('researchData.date'), '2026-10-02');
+  assert.equal(test.run('researchSecondData.date'), '2026-10-02');
+  assert.match(test.elements.get('research-chart-title').textContent, /02\/10\/2026/);
+  assert.equal(test.requests.length, 5);
+  const dayTwoSeconds = JSON.parse(read('data/research/nvda-2026-10-02-1s.json'));
+  assertSynchronized(test, dayTwoSeconds);
+  test.run('zoomResearch(.2)');
+  assertSynchronized(test, dayTwoSeconds);
+  await test.run("loadResearchSession('2026-10-01')");
+  assert.equal(test.requests.length, 5, 'Returning to the first day must reuse its own cached data');
+  assertSynchronized(test);
 
   const retry = harness();
   await retry.run('initializeResearch()');
