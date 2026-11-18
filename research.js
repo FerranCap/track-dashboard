@@ -1,6 +1,7 @@
 'use strict';
 
-const RESEARCH_DATE = '2026-10-01';
+const researchSessions = new Map();
+const researchCache = new Map();
 const researchTime = new Intl.DateTimeFormat('es-ES', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 let researchData = null;
 let researchLoading = false;
@@ -8,6 +9,15 @@ let researchStart = 0;
 let researchWindow = 0;
 let researchSpan = 0;
 let researchHover = null;
+let researchFrame = null;
+
+function scheduleResearchChart() {
+  if (researchFrame !== null) return;
+  researchFrame = requestAnimationFrame(() => {
+    researchFrame = null;
+    drawResearchChart();
+  });
+}
 
 function researchClock(time) {
   return researchTime.format(new Date(time * 1000));
@@ -48,7 +58,7 @@ function drawResearchChart() {
   ctx.save();
   ctx.beginPath(); ctx.rect(left, top, right - left, volumeBottom - top); ctx.clip();
   for (const bar of bars) {
-    const clock = researchClock(bar.time);
+    const clock = bar.clock;
     if (clock < '09:30' || clock >= '16:00') {
       ctx.fillStyle = '#19263b';
       ctx.fillRect(x(bar.time) - (right - left) / researchWindow / 2, top, (right - left) / researchWindow + 1, volumeBottom - top);
@@ -94,24 +104,35 @@ function drawResearchChart() {
   slider.disabled = researchWindow >= researchSpan;
 }
 
-async function loadResearchSession() {
+async function loadResearchSession(date) {
   if (researchLoading) return;
+  const session = researchSessions.get(date);
+  if (!session) return;
   const status = document.getElementById('research-status');
   researchLoading = true;
   status.textContent = 'Cargando sesión…';
   try {
-    if (!researchData) {
-      const response = await fetch(`data/research/nvda-${RESEARCH_DATE}-1m.json`);
+    if (!researchCache.has(date)) {
+      const response = await fetch(`data/research/${session.file}?v=${encodeURIComponent(session.version)}`, { cache: 'default' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      if (data.date !== RESEARCH_DATE || data.timezone !== 'America/New_York' || !data.bars?.length) throw new Error('Invalid session');
-      researchData = data;
+      if (data.symbol !== 'NVDA' || data.interval !== '1m' || data.date !== date || data.timezone !== 'America/New_York' || !data.bars?.length) throw new Error('Invalid session');
+      const bars = data.bars.map((bar, index) => {
+        const prices = Object.fromEntries(['open', 'high', 'low', 'close'].map(key => [key, Number(bar[key])]));
+        if (!Number.isInteger(bar.time) || bar.time % 60 !== 0 || (index > 0 && bar.time <= data.bars[index - 1].time)
+          || Object.values(prices).some(price => !Number.isFinite(price) || price <= 0)
+          || !Number.isSafeInteger(bar.volume) || bar.volume < 0) throw new Error('Invalid minute bar');
+        return { ...bar, ...prices, clock: researchClock(bar.time) };
+      });
+      researchCache.set(date, { ...data, bars });
     }
+    researchData = researchCache.get(date);
     researchStart = 0;
     researchSpan = (researchData.bars.at(-1).time - researchData.bars[0].time) / 60 + 1;
     researchWindow = researchSpan;
-    document.getElementById('research-session-day').setAttribute('aria-pressed', 'true');
-    document.getElementById('research-chart-title').textContent = 'NVDA · 01/10/2026 · 1 minuto';
+    document.querySelectorAll('[data-research-date]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.researchDate === date)));
+    document.getElementById('research-chart-title').textContent = `NVDA · ${date.split('-').reverse().join('/')} · 1 minuto`;
+    document.getElementById('research-bar-details').textContent = 'Premercado, sesión regular y posmercado · America/New_York';
     status.textContent = `${researchClock(researchData.bars[0].time)}–${researchClock(researchData.bars.at(-1).time)} NY · ${researchData.bars.length} velas`;
     for (const id of ['research-zoom-in', 'research-zoom-out', 'research-reset']) document.getElementById(id).disabled = false;
     drawResearchChart();
@@ -131,22 +152,35 @@ function zoomResearch(factor) {
   drawResearchChart();
 }
 
-function initializeResearch() {
+function renderResearchCalendar(month) {
   const calendar = document.getElementById('research-calendar');
+  calendar.replaceChildren();
+  const [year, number] = month.split('-').map(Number);
+  document.getElementById('research-month').textContent = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month}-01T12:00:00Z`));
+  const count = [...researchSessions.keys()].filter(date => date.startsWith(month)).length;
+  document.getElementById('research-availability').textContent = `${count} ${count === 1 ? 'día disponible' : 'días disponibles'}`;
   for (const label of ['L', 'M', 'X', 'J', 'V', 'S', 'D']) {
     const weekday = document.createElement('span'); weekday.textContent = label; calendar.append(weekday);
   }
-  for (let i = 0; i < 3; i++) { const blank = document.createElement('span'); blank.setAttribute('aria-hidden', 'true'); calendar.append(blank); }
-  for (let day = 1; day <= 31; day++) {
+  const offset = (new Date(Date.UTC(year, number - 1, 1)).getUTCDay() + 6) % 7;
+  const days = new Date(Date.UTC(year, number, 0)).getUTCDate();
+  for (let i = 0; i < offset; i++) { const blank = document.createElement('span'); blank.setAttribute('aria-hidden', 'true'); calendar.append(blank); }
+  for (let day = 1; day <= days; day++) {
+    const date = `${month}-${String(day).padStart(2, '0')}`;
+    const available = researchSessions.has(date);
     const button = document.createElement('button');
-    button.type = 'button'; button.textContent = day; button.disabled = day !== 1;
-    button.setAttribute('aria-label', `${String(day).padStart(2, '0')}/10/2026${day === 1 ? ' · Datos disponibles' : ' · Sin datos cargados'}`);
-    if (day === 1) {
-      button.id = 'research-session-day'; button.setAttribute('aria-pressed', 'false');
-      button.addEventListener('click', loadResearchSession);
+    button.type = 'button'; button.textContent = day; button.disabled = !available;
+    button.setAttribute('aria-label', `${date.split('-').reverse().join('/')}${available ? ' · Datos disponibles' : ' · Sin datos cargados'}`);
+    if (available) {
+      button.dataset.researchDate = date;
+      button.setAttribute('aria-pressed', String(researchData?.date === date));
+      button.addEventListener('click', () => loadResearchSession(date));
     }
     calendar.append(button);
   }
+}
+
+async function initializeResearch() {
   document.getElementById('research-zoom-in').addEventListener('click', () => zoomResearch(.5));
   document.getElementById('research-zoom-out').addEventListener('click', () => zoomResearch(2));
   document.getElementById('research-reset').addEventListener('click', () => { researchStart = 0; researchWindow = researchSpan; researchHover = null; drawResearchChart(); });
@@ -155,14 +189,39 @@ function initializeResearch() {
   canvas.addEventListener('pointermove', event => {
     const bounds = canvas.getBoundingClientRect();
     researchHover = Math.max(0, Math.min(.999999, (event.clientX - bounds.left - 12) / (bounds.width - 77)));
-    drawResearchChart();
+    scheduleResearchChart();
   });
-  canvas.addEventListener('pointerleave', () => { researchHover = null; drawResearchChart(); });
+  canvas.addEventListener('pointerleave', () => { researchHover = null; scheduleResearchChart(); });
   canvas.addEventListener('keydown', event => {
     if (!researchData || !['ArrowLeft', 'ArrowRight', '+', '-'].includes(event.key)) return;
     event.preventDefault();
     if (event.key === '+' || event.key === '-') zoomResearch(event.key === '+' ? .5 : 2);
     else { researchStart = Math.max(0, Math.min(researchSpan - researchWindow, researchStart + (event.key === 'ArrowRight' ? 1 : -1) * Math.max(1, Math.round(researchWindow / 10)))); drawResearchChart(); }
   });
-  new ResizeObserver(drawResearchChart).observe(document.getElementById('research-chart'));
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(scheduleResearchChart).observe(document.getElementById('research-chart'));
+  else window.addEventListener('resize', scheduleResearchChart);
+  scheduleResearchChart();
+  try {
+    const response = await fetch('data/research/sessions.json', { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const index = await response.json();
+    if (index.symbol !== 'NVDA' || index.timezone !== 'America/New_York' || index.interval !== '1m' || !index.sessions?.length) throw new Error('Invalid calendar');
+    for (const session of index.sessions) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(session.date) || !/^nvda-\d{4}-\d{2}-\d{2}-1m\.json$/.test(session.file) || !session.version || researchSessions.has(session.date)) throw new Error('Invalid session index');
+      researchSessions.set(session.date, session);
+    }
+    const months = [...new Set([...researchSessions.keys()].sort().map(date => date.slice(0, 7)))];
+    const select = document.getElementById('research-month-select');
+    for (const month of months) {
+      const option = document.createElement('option'); option.value = month; option.textContent = month.split('-').reverse().join('/'); select.append(option);
+    }
+    select.value = months.at(-1); select.disabled = false;
+    select.addEventListener('change', () => renderResearchCalendar(select.value));
+    renderResearchCalendar(select.value);
+  } catch {
+    document.getElementById('research-availability').textContent = 'No se pudo cargar el calendario.';
+    document.getElementById('research-status').textContent = 'Recarga la página para reintentar.';
+  }
 }
+
+document.addEventListener('DOMContentLoaded', initializeResearch);

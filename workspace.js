@@ -1,7 +1,6 @@
 'use strict';
 
 const VIEW_DETAILS = {
-  nvidia: ['Nvidia', 'Investigación y desarrollo.'],
   watchlist: ['Watchlist', ''],
   hotkeys: ['Hotkeys', 'Configura tus botones y genera el archivo para DAS Trader.'],
   journal: ['Diario', ''],
@@ -109,7 +108,7 @@ function activateView() {
   $('page-description').textContent = VIEW_DETAILS[active][1];
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
   document.body.classList.toggle('watchlist-active', active === 'watchlist');
-  $('data-selection').hidden = ['data', 'compare', 'watchlist', 'hotkeys', 'nvidia'].includes(active);
+  $('data-selection').hidden = ['data', 'compare', 'watchlist', 'hotkeys'].includes(active);
   refreshCharts();
 }
 
@@ -469,7 +468,6 @@ function renderComparisons() {
 }
 
 function initializeWorkspace() {
-  initializeResearch();
   initializeHotkeys();
   initializeJournal();
   initializeWatchlist();

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Nvidia · I+D | Track</title>
+  <link rel="stylesheet" href="research.css?v=20261118-2">
+  <script src="research.js?v=20261118-2" defer></script>
+</head>
+<body>
+<header class="research-header"><a href="index.html#general">← Dashboard</a><span>Track · I+D</span></header>
+<main class="research-main">
+<div class="research-intro"><div><p class="research-eyebrow">INVESTIGACIÓN Y DESARROLLO</p><h1>Nvidia</h1></div><span class="research-timezone">America/New_York · USD</span></div>
+<div class="research-layout">
+<section class="panel research-calendar" aria-labelledby="research-month">
+<h2 id="research-month">Calendario</h2>
+<label class="research-month-control" for="research-month-select">Mes<select id="research-month-select" disabled></select></label>
+<p id="research-availability" class="mini-caption">Cargando calendario…</p>
+<div id="research-calendar" class="research-days" aria-label="Sesiones disponibles"></div>
+<p class="mini-caption">Selecciona un día marcado para abrir su gráfico.</p>
+</section>
+<section class="panel research-chart-panel" aria-labelledby="research-chart-title">
+<div class="panel-head"><div><h2 id="research-chart-title">NVDA · 1 minuto</h2><p id="research-status" class="mini-caption" role="status">Selecciona un día en el calendario.</p></div>
+<div class="research-controls"><button id="research-zoom-in" type="button" disabled aria-label="Ampliar gráfico">+</button><button id="research-zoom-out" type="button" disabled aria-label="Reducir gráfico">−</button><button id="research-reset" type="button" disabled>Todo el día</button></div></div>
+<p id="research-bar-details" class="research-bar-details" aria-live="off">Premercado, sesión regular y posmercado · America/New_York</p>
+<div id="research-chart" class="research-chart"><canvas id="research-canvas" tabindex="0" role="img" aria-label="Gráfico de velas de un minuto y volumen de Nvidia, horario de Nueva York"></canvas></div>
+<label class="research-scroll" for="research-position">Recorrer sesión<input id="research-position" type="range" min="0" max="0" value="0" disabled></label>
+<p class="mini-caption">Horario de Nueva York · Precios en USD · Volumen de Nasdaq (XNAS.ITCH). Los minutos sin operaciones quedan vacíos.</p>
+</section>
+</div>
+</main>
+</body>
+</html>
