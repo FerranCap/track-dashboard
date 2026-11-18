@@ -1041,6 +1041,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-17"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-18",
+      "rest": 6,
+      "energy": 5,
+      "stress": 7,
+      "wellbeing": 5,
+      "expectations": 6,
+      "confidence": 6,
+      "fundamentalAnalysis": 5,
+      "fundamentalTracking": 5,
+      "volume": 0,
+      "managementLevels": 0,
+      "riskReward": 0,
+      "technicalTracking": 0,
+      "exitDiscipline": 0,
+      "entryDiscipline": 0,
+      "sizing": 0,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 1.1111111111111112,
+      "comment": "No hubo nada simplemente mire bien los plays y no me puse donde me podia quedar atrapado rompiendo el RR ni donde los locates me quitaban minimo el 30% del profit.",
+      "errorScore": 0,
+      "sizeBefore": 4.956322467817294,
+      "sizeAfter": 5.038927842280915,
+      "sizeAdded": 0.08260537446362104,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-18"
+      }
     }
   ]
 }
