@@ -32,12 +32,12 @@ const evaluate = source => vm.runInContext(source, context);
 
 async function run() {
   await evaluate('initializeJournal()');
-  assert.equal(data.sessions.length, 35);
-  assert.equal(data.sessions.filter(row => row.status === 'evaluated').length, 23);
+  assert.equal(data.sessions.length, 36);
+  assert.equal(data.sessions.filter(row => row.status === 'evaluated').length, 24);
   assert.equal(data.sessions.filter(row => row.status === 'paused').length, 5);
   assert.equal(data.sessions.filter(row => row.status === 'incomplete').length, 6);
-  assert.equal(new Set(data.sessions.map(row => row.date)).size, 35);
-  assert.ok(element('journal-status').textContent.includes('23 con nota'));
+  assert.equal(new Set(data.sessions.map(row => row.date)).size, 36);
+  assert.ok(element('journal-status').textContent.includes('24 con nota'));
   assert.equal(evaluate('journalMonth'), evaluate('journalCurrentMonth()'));
   evaluate("journalMonth = '2026-11'; renderJournal()");
   assert.ok(element('journal-calendar').innerHTML.includes('26/11/2026'));
@@ -135,7 +135,7 @@ async function run() {
   assert.equal(evaluate("journalAmount({date: '2026-09-17', sizeAfter: 0}, 'sizeAfter')"), 0);
   assert.equal(evaluate("journalAmount({date: '2026-09-17', sizeAfter: '-'}, 'sizeAfter')"), '-');
   assert.ok(element('journal-session-detail').innerHTML.includes('0,015021 R'));
-  assert.ok(element('journal-summary').innerHTML.includes('0,016796 R'));
+  assert.ok(element('journal-summary').innerHTML.includes('0,017076 R'));
   assert.ok(element('journal-chart-grid').innerHTML.includes('Evolución del size · R'));
   assert.ok(!/NaN|Infinity|undefined/.test(element('journal-chart-grid').innerHTML));
   assert.equal(evaluate("journalChartDefinitions().find(chart => chart.id === 'sizePercent').series[0].value(journalData.sessions[0])"), originalSizePercent);
@@ -175,7 +175,7 @@ async function run() {
   const savedDraft = JSON.parse(storage.get('track-journal-entry-2026-11-16'));
   assert.equal(savedDraft.sizeBefore, 3);
   assert.equal(savedDraft.comment, 'Daily journal comment');
-  element('journal-entry-date').value = '19/11/2026';
+  element('journal-entry-date').value = '20/11/2026';
   element('journal-entry-date').handlers.change();
   assert.equal(element('journal-entry-energy').value, '');
   element('journal-entry-date').value = '16/11/2026';

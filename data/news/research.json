@@ -12636,6 +12636,92 @@
         "Longbridge November 16 report is established from an indexed dated listing only; direct retrieval serves stale November 11 data. Body unavailable and clock zone unconfirmed.",
         "Current name and BVI domicile corrected from the November 5 Cayman snapshot. The registry has one profile per symbol, so earlier OMH trades also use the current incorporation country; raw trade records and accounting remain unchanged."
       ]
+    },
+    {
+      "symbol": "ANT",
+      "issuerCik": "2130357",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-19",
+      "coverage": "partial",
+      "scope": "November 19 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-fc6755f5b6147881254deb46": "2026-11-19T11:56:21-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=ANT",
+          "access": "inaccessible",
+          "note": "Started with issuer news listing; ANT listing unavailable."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ANT/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo request returned HTTP 429."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm",
+          "access": "publication_reviewed",
+          "note": "SEC document identifies itself as an Issuer Free Writing Prospectus dated November 18, 2026. Exact filing clock unavailable; date-only matching."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+          "access": "publication_reviewed",
+          "note": "Original GlobeNewswire distributor page explicitly states November 19, 2026 08:10 ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Finviz ANT listing unavailable; SEC filings and original distributor release reviewed instead.",
+        "GraniteShares release chronology conflict retained in sourceWarnings."
+      ]
+    },
+    {
+      "symbol": "SEAT",
+      "issuerCik": "1856031",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-19",
+      "coverage": "partial",
+      "scope": "November 19 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-9355300f3a9f085c428c47c4": "2026-11-19T08:08:08-05:00",
+        "broker-9c3905da2f8faefe90ac8f33": "2026-11-19T08:16:16-05:00",
+        "broker-234f51bede012505fa860ec2": "2026-11-19T08:44:07-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=SEAT",
+          "access": "page_reviewed",
+          "note": "Reviewed issuer release and followed original sources."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SEAT/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo request returned HTTP 429."
+        },
+        {
+          "url": "https://finviz.com/news/425031/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization",
+          "access": "publication_reviewed",
+          "note": "Finviz issuer-release reproduction explicitly dates publication November 19, 2026, 6:30 AM; issuer page corroborates the date. Clock zone not independently confirmed; use date only."
+        },
+        {
+          "url": "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn",
+          "access": "publication_reviewed",
+          "note": "Original RTTNews publication explicitly states Published: 11/19/2026 7:47 AM ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Issuer release clock has no independently confirmed timezone; same-day date matches do not establish publication before entry.",
+        "Original GlobeNewswire release inaccessible; original issuer page and Finviz reproduction reviewed."
+      ]
     }
   ],
   "matchingPolicy": {

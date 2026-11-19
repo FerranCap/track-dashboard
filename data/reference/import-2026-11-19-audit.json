@@ -1,0 +1,102 @@
+{
+  "checkedOn": "2026-11-19",
+  "session": "2026-11-19",
+  "source": "Trades_19.csv",
+  "sourceSha256": "36fd4c8905753260f55f5eb3685f3e491068bb1574cf1cdf8c34b2f603172094",
+  "baseline": {
+    "trades": 1583,
+    "executions": 17852,
+    "pnl": "1989.002383"
+  },
+  "imported": {
+    "trades": 4,
+    "executions": 54,
+    "reportedPnL": "-91.99",
+    "signedECN": "-0.9475",
+    "commission": "0.9475",
+    "pnl": "-92.9375",
+    "records": [
+      {
+        "id": "broker-9355300f3a9f085c428c47c4",
+        "date": "2026-11-19",
+        "opened": "2026-11-19T08:08:08-05:00",
+        "closed": "2026-11-19T08:13:07-05:00",
+        "symbol": "SEAT",
+        "side": "BUY",
+        "pnl": -33.76,
+        "country": null,
+        "entryPrice": 2.283333,
+        "entryQty": 192.0,
+        "fees": 0.48,
+        "executionCount": 3,
+        "holdMinutes": 4.9833,
+        "mae": null,
+        "mfe": null
+      },
+      {
+        "id": "broker-9c3905da2f8faefe90ac8f33",
+        "date": "2026-11-19",
+        "opened": "2026-11-19T08:16:16-05:00",
+        "closed": "2026-11-19T08:43:38-05:00",
+        "symbol": "SEAT",
+        "side": "SELL",
+        "pnl": 7.17,
+        "country": null,
+        "entryPrice": 2.111124,
+        "entryQty": 169.0,
+        "fees": 0.28,
+        "executionCount": 23,
+        "holdMinutes": 27.3667,
+        "mae": null,
+        "mfe": null
+      },
+      {
+        "id": "broker-234f51bede012505fa860ec2",
+        "date": "2026-11-19",
+        "opened": "2026-11-19T08:44:07-05:00",
+        "closed": "2026-11-19T08:55:28-05:00",
+        "symbol": "SEAT",
+        "side": "SELL",
+        "pnl": -7.09,
+        "country": null,
+        "entryPrice": 2.195625,
+        "entryQty": 64.0,
+        "fees": 0.09,
+        "executionCount": 10,
+        "holdMinutes": 11.35,
+        "mae": null,
+        "mfe": null
+      },
+      {
+        "id": "broker-fc6755f5b6147881254deb46",
+        "date": "2026-11-19",
+        "opened": "2026-11-19T11:56:21-05:00",
+        "closed": "2026-11-19T12:03:38-05:00",
+        "symbol": "ANT",
+        "side": "BUY",
+        "pnl": -59.2575,
+        "country": null,
+        "entryPrice": 105.167727,
+        "entryQty": 22.0,
+        "fees": 0.0975,
+        "executionCount": 18,
+        "holdMinutes": 7.2833,
+        "mae": null,
+        "mfe": null
+      }
+    ]
+  },
+  "newSymbols": [
+    "ANT",
+    "SEAT"
+  ],
+  "verification": {
+    "previousTradesUnchanged": true,
+    "previousJournalSessionsUnchanged": true,
+    "previousNewsLinksUnchanged": true,
+    "sourceDatesVerified": "All 54 Cloid values begin C261119; source times America/New_York.",
+    "newPublications": 4,
+    "newNewsLinks": 8,
+    "newDateFallbackLinks": 4
+  }
+}

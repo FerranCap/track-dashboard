@@ -410,5 +410,17 @@
     "cik": "2092967",
     "source_url": "https://www.sec.gov/Archives/edgar/data/2092967/000121390026050657/ea0287802-20fr12ba1_fort.htm",
     "note": "SEC registration cover and November 16 MD&A identify Nasdaq FRTT as Fort Technology Inc.; reviewed 2026-11-17."
+  },
+  "ANT": {
+    "cik_str": 2130357,
+    "ticker": "ANT",
+    "title": "Anthropic, PBC",
+    "source_url": "https://www.nasdaqtrader.com/TraderNews.aspx?id=DTN2026-28"
+  },
+  "SEAT": {
+    "cik_str": 1856031,
+    "ticker": "SEAT",
+    "title": "Vivid Seats Inc.",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1856031/000114036126044808/ef20085996_8-k.htm"
   }
 }

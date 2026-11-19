@@ -1075,6 +1075,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-18"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-19",
+      "rest": 6,
+      "energy": 6,
+      "stress": 6,
+      "wellbeing": 5,
+      "expectations": 6,
+      "confidence": 7,
+      "fundamentalAnalysis": 0,
+      "fundamentalTracking": 0,
+      "volume": 0,
+      "managementLevels": 0,
+      "riskReward": 0,
+      "technicalTracking": 0,
+      "exitDiscipline": 5,
+      "entryDiscipline": 5,
+      "sizing": 5,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 1.6666666666666667,
+      "comment": "El error ha sido mas que nada no poner un size proporcional al play pero la gestion del size dentro del play tampoco me ha parecido mal. Creo que he gestionado el core bastante bien de hecho. He hecho un play que sale del playbook y es el que me ha quitado R de verdad pero no me importa quitarlo del track. El tema esta en poner demasiado size en ese play por ser de test. Seguimos!",
+      "errorScore": 6,
+      "sizeBefore": 5.038927842280915,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-19"
+      },
+      "sizeAfter": 5.122909972985597,
+      "sizeAdded": 0.08398213070468152
     }
   ]
 }

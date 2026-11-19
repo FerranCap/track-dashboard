@@ -18,6 +18,7 @@
     "AKAN",
     "ALP",
     "AMIX",
+    "ANT",
     "APUS",
     "ARAI",
     "ARAY",
@@ -199,6 +200,7 @@
     "SDEV",
     "SDOT",
     "SDST",
+    "SEAT",
     "SHPH",
     "SKYQ",
     "SLE",
@@ -251,7 +253,7 @@
     "ZTG",
     "ZYBT"
   ],
-  "tradeAccountingSha256": "99e54a213aa42b9a0093a56996938d22732bbed176e46fea69cb027a906a504c",
+  "tradeAccountingSha256": "aa31f671339279d17615265b5cb9ab188e9dd7ea9e14a4e5961865ab8cf0bca8",
   "articles": [
     {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
@@ -10919,6 +10921,114 @@
       "sourceWarnings": [
         "The release financial-statement link points to the parent CIK, not Fort. Conditional financing and contingent shares are not treated as completed transactions."
       ]
+    },
+    {
+      "id": "ant-20261118-ipo-pricing-fwp",
+      "eventId": "ant-20261118-ipo-pricing",
+      "symbol": "ANT",
+      "issuerName": "Anthropic, PBC",
+      "issuerCik": "2130357",
+      "headline": "Anthropic issuer free writing prospectus: IPO pricing",
+      "publishedAt": null,
+      "publicationDate": "2026-11-18",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "author": "Anthropic, PBC",
+      "kind": "regulatory_filing",
+      "category": "ipo",
+      "summary": "Anthropic publishes final IPO terms and a November 19 trade date. Settlement is scheduled for November 20; the document does not establish settlement completion. Publication hour is unconfirmed.",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm"
+      ],
+      "timestampEvidence": "SEC document identifies itself as an Issuer Free Writing Prospectus dated November 18, 2026. Exact filing clock unavailable; date-only matching.",
+      "verificationStatus": "verified_date",
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "seat-20261119-recapitalization-release",
+      "eventId": "seat-20261119-recapitalization",
+      "symbol": "SEAT",
+      "issuerName": "Vivid Seats Inc.",
+      "issuerCik": "1856031",
+      "headline": "Vivid Seats Enters Into Transaction Support Agreement for Comprehensive Recapitalization",
+      "publishedAt": null,
+      "publicationDate": "2026-11-19",
+      "timePrecision": "day",
+      "publisher": "GlobeNewswire",
+      "author": "Vivid Seats Inc.",
+      "kind": "issuer_release",
+      "category": "recapitalization",
+      "summary": "Vivid Seats announces a lender agreement for a debt-for-equity recapitalization. Closing is conditional and expected in Q1 2027; signing does not establish completion. Publication before entry is not established because the 06:30 clock has no confirmed timezone in the accessible reproduction.",
+      "url": "https://finviz.com/news/425031/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization",
+      "sourceUrls": [
+        "https://investors.vividseats.com/news-releases/news-release-details/vivid-seats-enters-transaction-support-agreement-comprehensive",
+        "https://www.globenewswire.com/news-release/2026/11/19/3406397/0/en/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization.html",
+        "https://www.sec.gov/Archives/edgar/data/1856031/000114036126044808/ef20085996_8-k.htm"
+      ],
+      "timestampEvidence": "Finviz issuer-release reproduction explicitly dates publication November 19, 2026, 6:30 AM; issuer page corroborates the date. Clock zone not independently confirmed; use date only.",
+      "verificationStatus": "verified_date",
+      "auditMetadata": {
+        "reportedClock": "06:30 AM",
+        "timezoneConfirmed": false
+      },
+      "sourceWarnings": [
+        "Same-day date match: publication before entry is not established.",
+        "Direct GlobeNewswire page inaccessible; issuer page and full Finviz reproduction reviewed."
+      ],
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "seat-20261119-recapitalization-rttnews",
+      "eventId": "seat-20261119-recapitalization",
+      "symbol": "SEAT",
+      "issuerName": "Vivid Seats Inc.",
+      "issuerCik": "1856031",
+      "headline": "Vivid Seats Reaches Recapitalization Agreement To Cut Debt By $232 Mln; Shares Jump In Premarket",
+      "publishedAt": "2026-11-19T07:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "RTTNews",
+      "author": "RTTNews Staff Writer",
+      "kind": "issuer_reporting",
+      "category": "recapitalization",
+      "summary": "RTTNews separately reports the proposed lender recapitalization and a premarket price change. The agreement remains subject to closing; the price observation does not establish causation.",
+      "url": "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn",
+      "sourceUrls": [
+        "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn"
+      ],
+      "timestampEvidence": "Original RTTNews publication explicitly states Published: 11/19/2026 7:47 AM ET.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "ant-20261119-graniteshares-etfs-release",
+      "eventId": "ant-20261119-leveraged-etfs",
+      "symbol": "ANT",
+      "issuerName": "Anthropic, PBC",
+      "issuerCik": "2130357",
+      "headline": "Anthropic (ANT) Debuts on Nasdaq Today; GraniteShares' 2x Long and 2x Short Anthropic ETFs Expected to Launch November 23",
+      "publishedAt": "2026-11-19T08:10:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "GraniteShares",
+      "kind": "issuer_reporting",
+      "category": "etf_launch",
+      "summary": "GraniteShares announces planned leveraged ETFs referencing Anthropic. The release describes the Nasdaq debut as already occurring despite its 08:10 ET publication before the regular market opens; do not use that wording to establish the first trade time or ETF launch completion.",
+      "url": "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+        "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm"
+      ],
+      "timestampEvidence": "Original GlobeNewswire distributor page explicitly states November 19, 2026 08:10 ET.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "The release describes the debut as completed at 08:10 ET, before regular market open. Publication existence and timestamp are verified; that chronology is not independently verified."
+      ],
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
     }
   ],
   "trades": [
@@ -30508,6 +30618,130 @@
       "eventCount": 2,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-9355300f3a9f085c428c47c4",
+      "symbol": "SEAT",
+      "entryAt": "2026-11-19T08:08:08-05:00",
+      "windowStartAt": "2026-11-17T13:08:08+00:00",
+      "windowEndAt": "2026-11-19T13:08:08+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-19",
+      "articles": [
+        {
+          "articleId": "seat-20261119-recapitalization-release",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "seat-20261119-recapitalization-rttnews",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 1208.0,
+          "ageSecondsMax": 1268.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-9c3905da2f8faefe90ac8f33",
+      "symbol": "SEAT",
+      "entryAt": "2026-11-19T08:16:16-05:00",
+      "windowStartAt": "2026-11-17T13:16:16+00:00",
+      "windowEndAt": "2026-11-19T13:16:16+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-19",
+      "articles": [
+        {
+          "articleId": "seat-20261119-recapitalization-release",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "seat-20261119-recapitalization-rttnews",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 1696.0,
+          "ageSecondsMax": 1756.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-234f51bede012505fa860ec2",
+      "symbol": "SEAT",
+      "entryAt": "2026-11-19T08:44:07-05:00",
+      "windowStartAt": "2026-11-17T13:44:07+00:00",
+      "windowEndAt": "2026-11-19T13:44:07+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-19",
+      "articles": [
+        {
+          "articleId": "seat-20261119-recapitalization-release",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "seat-20261119-recapitalization-rttnews",
+          "eventId": "seat-20261119-recapitalization",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 3367.0,
+          "ageSecondsMax": 3427.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-fc6755f5b6147881254deb46",
+      "symbol": "ANT",
+      "entryAt": "2026-11-19T11:56:21-05:00",
+      "windowStartAt": "2026-11-17T16:56:21+00:00",
+      "windowEndAt": "2026-11-19T16:56:21+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-19",
+      "articles": [
+        {
+          "articleId": "ant-20261118-ipo-pricing-fwp",
+          "eventId": "ant-20261118-ipo-pricing",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "ant-20261119-graniteshares-etfs-release",
+          "eventId": "ant-20261119-leveraged-etfs",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 13521.0,
+          "ageSecondsMax": 13581.0
+        }
+      ],
+      "eventCount": 2,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
     }
   ],
   "reviews": [
@@ -43146,14 +43380,100 @@
         "Longbridge November 16 report is established from an indexed dated listing only; direct retrieval serves stale November 11 data. Body unavailable and clock zone unconfirmed.",
         "Current name and BVI domicile corrected from the November 5 Cayman snapshot. The registry has one profile per symbol, so earlier OMH trades also use the current incorporation country; raw trade records and accounting remain unchanged."
       ]
+    },
+    {
+      "symbol": "ANT",
+      "issuerCik": "2130357",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-19",
+      "coverage": "partial",
+      "scope": "November 19 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-fc6755f5b6147881254deb46": "2026-11-19T11:56:21-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=ANT",
+          "access": "inaccessible",
+          "note": "Started with issuer news listing; ANT listing unavailable."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/ANT/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo request returned HTTP 429."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm",
+          "access": "publication_reviewed",
+          "note": "SEC document identifies itself as an Issuer Free Writing Prospectus dated November 18, 2026. Exact filing clock unavailable; date-only matching."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+          "access": "publication_reviewed",
+          "note": "Original GlobeNewswire distributor page explicitly states November 19, 2026 08:10 ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Finviz ANT listing unavailable; SEC filings and original distributor release reviewed instead.",
+        "GraniteShares release chronology conflict retained in sourceWarnings."
+      ]
+    },
+    {
+      "symbol": "SEAT",
+      "issuerCik": "1856031",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-19",
+      "coverage": "partial",
+      "scope": "November 19 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-9355300f3a9f085c428c47c4": "2026-11-19T08:08:08-05:00",
+        "broker-9c3905da2f8faefe90ac8f33": "2026-11-19T08:16:16-05:00",
+        "broker-234f51bede012505fa860ec2": "2026-11-19T08:44:07-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=SEAT",
+          "access": "page_reviewed",
+          "note": "Reviewed issuer release and followed original sources."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/SEAT/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo request returned HTTP 429."
+        },
+        {
+          "url": "https://finviz.com/news/425031/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization",
+          "access": "publication_reviewed",
+          "note": "Finviz issuer-release reproduction explicitly dates publication November 19, 2026, 6:30 AM; issuer page corroborates the date. Clock zone not independently confirmed; use date only."
+        },
+        {
+          "url": "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn",
+          "access": "publication_reviewed",
+          "note": "Original RTTNews publication explicitly states Published: 11/19/2026 7:47 AM ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archive coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Yahoo direct access returned HTTP 429.",
+        "Issuer release clock has no independently confirmed timezone; same-day date matches do not establish publication before entry.",
+        "Original GlobeNewswire release inaccessible; original issuer page and Finviz reproduction reviewed."
+      ]
     }
   ],
   "counts": {
-    "trades": 872,
-    "articles": 406,
-    "events": 349,
-    "tradeArticleLinks": 887,
-    "dateFallbackLinks": 281,
-    "tradesWithNews": 604
+    "trades": 876,
+    "articles": 410,
+    "events": 352,
+    "tradeArticleLinks": 895,
+    "dateFallbackLinks": 285,
+    "tradesWithNews": 608
   }
 }

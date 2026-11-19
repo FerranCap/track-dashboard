@@ -10667,6 +10667,114 @@
       ],
       "publicationDate": "2026-11-16",
       "reportedPublicationClock": "10:02 AM (timezone unconfirmed)"
+    },
+    {
+      "id": "seat-20261119-recapitalization-release",
+      "eventId": "seat-20261119-recapitalization",
+      "symbol": "SEAT",
+      "issuerName": "Vivid Seats Inc.",
+      "issuerCik": "1856031",
+      "headline": "Vivid Seats Enters Into Transaction Support Agreement for Comprehensive Recapitalization",
+      "publishedAt": null,
+      "publicationDate": "2026-11-19",
+      "timePrecision": "day",
+      "publisher": "GlobeNewswire",
+      "author": "Vivid Seats Inc.",
+      "kind": "issuer_release",
+      "category": "recapitalization",
+      "summary": "Vivid Seats announces a lender agreement for a debt-for-equity recapitalization. Closing is conditional and expected in Q1 2027; signing does not establish completion. Publication before entry is not established because the 06:30 clock has no confirmed timezone in the accessible reproduction.",
+      "url": "https://finviz.com/news/425031/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization",
+      "sourceUrls": [
+        "https://investors.vividseats.com/news-releases/news-release-details/vivid-seats-enters-transaction-support-agreement-comprehensive",
+        "https://www.globenewswire.com/news-release/2026/11/19/3406397/0/en/vivid-seats-enters-into-transaction-support-agreement-for-comprehensive-recapitalization.html",
+        "https://www.sec.gov/Archives/edgar/data/1856031/000114036126044808/ef20085996_8-k.htm"
+      ],
+      "timestampEvidence": "Finviz issuer-release reproduction explicitly dates publication November 19, 2026, 6:30 AM; issuer page corroborates the date. Clock zone not independently confirmed; use date only.",
+      "verificationStatus": "verified_date",
+      "auditMetadata": {
+        "reportedClock": "06:30 AM",
+        "timezoneConfirmed": false
+      },
+      "sourceWarnings": [
+        "Same-day date match: publication before entry is not established.",
+        "Direct GlobeNewswire page inaccessible; issuer page and full Finviz reproduction reviewed."
+      ],
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "seat-20261119-recapitalization-rttnews",
+      "eventId": "seat-20261119-recapitalization",
+      "symbol": "SEAT",
+      "issuerName": "Vivid Seats Inc.",
+      "issuerCik": "1856031",
+      "headline": "Vivid Seats Reaches Recapitalization Agreement To Cut Debt By $232 Mln; Shares Jump In Premarket",
+      "publishedAt": "2026-11-19T07:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "RTTNews",
+      "author": "RTTNews Staff Writer",
+      "kind": "issuer_reporting",
+      "category": "recapitalization",
+      "summary": "RTTNews separately reports the proposed lender recapitalization and a premarket price change. The agreement remains subject to closing; the price observation does not establish causation.",
+      "url": "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn",
+      "sourceUrls": [
+        "https://www.rttnews.com/3716384/vivid-seats-reaches-recapitalization-agreement-to-cut-debt-by-232-mln-shares-jump-in-premarket.aspx?type=bn"
+      ],
+      "timestampEvidence": "Original RTTNews publication explicitly states Published: 11/19/2026 7:47 AM ET.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "ant-20261118-ipo-pricing-fwp",
+      "eventId": "ant-20261118-ipo-pricing",
+      "symbol": "ANT",
+      "issuerName": "Anthropic, PBC",
+      "issuerCik": "2130357",
+      "headline": "Anthropic issuer free writing prospectus: IPO pricing",
+      "publishedAt": null,
+      "publicationDate": "2026-11-18",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "author": "Anthropic, PBC",
+      "kind": "regulatory_filing",
+      "category": "ipo",
+      "summary": "Anthropic publishes final IPO terms and a November 19 trade date. Settlement is scheduled for November 20; the document does not establish settlement completion. Publication hour is unconfirmed.",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm"
+      ],
+      "timestampEvidence": "SEC document identifies itself as an Issuer Free Writing Prospectus dated November 18, 2026. Exact filing clock unavailable; date-only matching.",
+      "verificationStatus": "verified_date",
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "ant-20261119-graniteshares-etfs-release",
+      "eventId": "ant-20261119-leveraged-etfs",
+      "symbol": "ANT",
+      "issuerName": "Anthropic, PBC",
+      "issuerCik": "2130357",
+      "headline": "Anthropic (ANT) Debuts on Nasdaq Today; GraniteShares' 2x Long and 2x Short Anthropic ETFs Expected to Launch November 23",
+      "publishedAt": "2026-11-19T08:10:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "author": "GraniteShares",
+      "kind": "issuer_reporting",
+      "category": "etf_launch",
+      "summary": "GraniteShares announces planned leveraged ETFs referencing Anthropic. The release describes the Nasdaq debut as already occurring despite its 08:10 ET publication before the regular market opens; do not use that wording to establish the first trade time or ETF launch completion.",
+      "url": "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/11/19/3406547/0/en/anthropic-ant-debuts-on-nasdaq-today-graniteshares-2x-long-and-2x-short-anthropic-etfs-expected-to-launch-november-23.html",
+        "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm"
+      ],
+      "timestampEvidence": "Original GlobeNewswire distributor page explicitly states November 19, 2026 08:10 ET.",
+      "verificationStatus": "verified_publication",
+      "sourceWarnings": [
+        "The release describes the debut as completed at 08:10 ET, before regular market open. Publication existence and timestamp are verified; that chronology is not independently verified."
+      ],
+      "checkedOn": "2026-11-19",
+      "contentAsOfEntryVerified": false
     }
   ]
 }
