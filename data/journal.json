@@ -1109,6 +1109,40 @@
       },
       "sizeAfter": 5.122909972985597,
       "sizeAdded": 0.08398213070468152
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-20",
+      "rest": 7,
+      "energy": 7,
+      "stress": 5,
+      "wellbeing": 7,
+      "expectations": 6,
+      "confidence": 7,
+      "fundamentalAnalysis": 2,
+      "fundamentalTracking": 1,
+      "volume": 0,
+      "managementLevels": 0,
+      "riskReward": 0,
+      "technicalTracking": 0,
+      "exitDiscipline": 0,
+      "entryDiscipline": 0,
+      "sizing": 0,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 0.3333333333333333,
+      "comment": "Dia sin oportunidades. Bien leidos los stocks que se han presentados aunque se me ha escapado un detalle de insiders chinos pero he sido estricto con no tocar el stock.",
+      "errorScore": 0,
+      "sizeBefore": 5.122909972985597,
+      "sizeAfter": 5.148524522850525,
+      "sizeAdded": 0.025614549864927838,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-20"
+      }
     }
   ]
 }
