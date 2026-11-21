@@ -3,5 +3,6 @@
   { "effectiveDate": "2025-09-01", "risk": 50 },
   { "effectiveDate": "2025-10-01", "risk": 100 },
   { "effectiveDate": "2026-01-01", "risk": 200 },
-  { "effectiveDate": "2026-04-01", "risk": 300 }
+  { "effectiveDate": "2026-04-01", "risk": 300 },
+  { "effectiveDate": "2026-11-23", "risk": 154.45573568551575 }
 ]
