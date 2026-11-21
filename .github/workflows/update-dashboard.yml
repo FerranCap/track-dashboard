@@ -87,6 +87,32 @@ jobs:
         with:
           name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: site
+      - name: Wait for website artifact availability
+        uses: actions/github-script@v7
+        env:
+          PAGES_ARTIFACT_NAME: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+        with:
+          script: |
+            const name = process.env.PAGES_ARTIFACT_NAME;
+            for (let attempt = 1; attempt <= 12; attempt++) {
+              const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100
+              });
+              const matches = artifacts.filter(artifact => artifact.name === name && !artifact.expired);
+              if (matches.length > 1) {
+                throw new Error(`Multiple active artifacts named ${name} were found.`);
+              }
+              if (matches.length === 1) {
+                core.info(`Website artifact is available: ${matches[0].id}`);
+                return;
+              }
+              core.info(`Artifact ${name} is not visible yet (${attempt}/12).`);
+              if (attempt < 12) await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            throw new Error(`Artifact ${name} is unavailable after waiting. Check the upload step and rerun all jobs.`);
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
