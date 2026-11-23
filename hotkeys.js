@@ -1,6 +1,7 @@
 'use strict';
 
 const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk';
+const HOTKEYS_DAILY_STOP_MULTIPLIER = 30;
 const HOTKEYS_STORAGE = 'track-das-hotkeys-v12';
 const HOTKEYS_UPDATED_ON = '2026-11-17';
 const HOTKEYS_ROUTE_RULE = 'if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}';
@@ -266,6 +267,8 @@ function hotkeysApplyVariables(entries, values) {
 
 function hotkeysRenderVariables() {
   const fields = hotkeysVariableDefinitions(hotkeysEntries);
+  document.getElementById('hotkeys-daily-stop-multiplier').value = String(HOTKEYS_DAILY_STOP_MULTIPLIER);
+  document.getElementById('hotkeys-daily-stop-note').textContent = `Stop diario = ${HOTKEYS_DAILY_STOP_MULTIPLIER} × $RiskScale${hotkeysJournalSize ? ` = ${(HOTKEYS_DAILY_STOP_MULTIPLIER * hotkeysJournalSize.sizeAfter).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD. Se aplica a la siguiente sesión.` : '. Pendiente de un size válido del diario.'}`;
   document.getElementById('hotkeys-risk-scale').value = hotkeysJournalSize ? hotkeysJournalSize.sizeAfter.toFixed(3) : 'No disponible';
   hotkeysMessage('hotkeys-risk-scale-note', hotkeysJournalSize ? `Size después de la sesión del ${hotkeysJournalSize.date.split('-').reverse().join('/')}.` : hotkeysJournalError, !hotkeysJournalSize);
   document.getElementById('hotkeys-variable-fields').innerHTML = [...new Set(fields.map(field => field.group))].map(group => `<fieldset class="hotkeys-variable-group"><legend>${group}</legend><div class="hotkeys-form-grid">${fields.filter(field => field.group === group).map(field => `<label for="hotkeys-variable-${field.id}">${hotkeysEscape(field.label)}<input id="hotkeys-variable-${field.id}" value="${hotkeysEscape(field.value)}" ${field.min === undefined ? 'type="text" placeholder="Varios valores"' : `type="number" step="any" min="${field.min}" ${field.max === undefined ? '' : `max="${field.max}"`} required`}></label>`).join('')}</div></fieldset>`).join('');
