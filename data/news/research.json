@@ -12722,6 +12722,197 @@
         "Issuer release clock has no independently confirmed timezone; same-day date matches do not establish publication before entry.",
         "Original GlobeNewswire release inaccessible; original issuer page and Finviz reproduction reviewed."
       ]
+    },
+    {
+      "symbol": "BNAI",
+      "issuerCik": "1838163",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-e60729354bf667863b0e753e": "2026-11-23T10:52:54-05:00",
+        "broker-6015f42fb217f30122763ff6": "2026-11-23T11:05:49-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=BNAI",
+          "access": "page_reviewed",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BNAI/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-reports-third-quarter-2026-results-302947983.html",
+          "access": "publication_reviewed",
+          "note": "Original PR Newswire distributor page explicitly states Nov 23, 2026, 06:35 ET; StreetInsider syndication corroborates 6:35 AM EST."
+        },
+        {
+          "url": "https://www.streetinsider.com/Earnings/Brand%2BEngagement%2BNetwork%2B%28BNAI%29%2Breported%2BQ3%2BRevenue/27384010.html",
+          "access": "publication_reviewed",
+          "note": "Original page explicitly states November 23, 2026 6:38 AM EST."
+        },
+        {
+          "url": "https://www.rttnews.com/3717111/brand-engagement-network-reports-narrower-loss-in-q3.aspx?type=ern",
+          "access": "indexed_publication",
+          "note": "Search-indexed original publisher byline explicitly states Published: 11/23/2026 6:56 AM ET."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/BRAND%2BENGAGEMENT%2BNETWORK%2B%28%24BNAI%29%2BReleases%2BQ3%2B2026%2BEarnings",
+          "access": "publication_reviewed",
+          "note": "Original page explicitly states Nov. 23, 2026 noon UTC."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted."
+      ]
+    },
+    {
+      "symbol": "NVDA",
+      "issuerCik": "1045810",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-2389e020c2c08bd5be59fb09": "2026-11-23T09:08:35-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=NVDA",
+          "access": "page_reviewed",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/NVDA/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/nov23pressrelease.htm",
+          "access": "publication_reviewed",
+          "note": "SEC-hosted issuer exhibit and issuer news archive identify the release as November 23, 2026. The prior-day board action is not the publication date."
+        },
+        {
+          "url": "https://optionspilot.app/blog/trump-urges-nvidia-board-rehire-jensen-huang-nvda-up-8-percent-premarket-past-monday-expiring-straddle-inside-holiday-week-straddle-nvda-options-nov-23-2026",
+          "access": "publication_reviewed",
+          "note": "Original byline explicitly states November 23, 2026 at 2:05 AM PST."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-crashed-48-now-004700969.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-21T19:47:00-05:00."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-logs-2008-scale-024700203.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T21:47:00-05:00."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/leadership-risk-vs-record-numbers-183003092.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T13:30:00-05:00."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "nvda-20261123-after-entry-reuters",
+          "url": "https://finance.yahoo.com/news/nvidia-reinstates-jensen-huang-ceo-135916841.html",
+          "resolution": "excluded_after_entry",
+          "publishedAt": "2026-11-23T09:30:00-05:00",
+          "reason": "Known timestamp is after the 09:08:35 first entry; date fallback prohibited."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted.",
+        "Issuer release uses same-day date matching with publication before entry unconfirmed. Known 09:11 ET StockAnalysis and 09:30 EST Reuters reports are after the 09:08:35 entry and excluded without date fallback. November 17 earnings and November 19 issuer announcements are outside the window."
+      ]
+    },
+    {
+      "symbol": "PAAI",
+      "issuerCik": "894871",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-9c1182ac5cd2e503e85c8ba5": "2026-11-23T12:35:09-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=PAAI",
+          "access": "retrieval_restricted",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PAAI/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://investors.paradium.ai/news-and-events/news-releases/",
+          "access": "page_reviewed",
+          "note": "No dated releases rendered in the retrieved archive."
+        },
+        {
+          "url": "https://www.marketbeat.com/stocks/NYSEAMERICAN/PAAI/news/",
+          "access": "page_reviewed",
+          "note": "Visible latest publication dated November 16, outside the eligible window. Older Arena name reconciled using SEC name-change filing."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted.",
+        "No eligible dated issuer publication established in consulted sources. Live quote/scanner pages are not treated as issuer news; inaccessible sources leave coverage partial."
+      ]
+    },
+    {
+      "symbol": "WETO",
+      "issuerCik": "1941158",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-8cef81064e81e5a41814a6e4": "2026-11-23T09:36:42-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=WETO",
+          "access": "retrieval_restricted",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/WETO/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63522419/11-industrials-stocks-moving-monday-s-pre-market-session",
+          "access": "publication_reviewed",
+          "note": "Original Benzinga byline explicitly states November 23, 2026, 7:05 AM ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted."
+      ]
     }
   ],
   "matchingPolicy": {

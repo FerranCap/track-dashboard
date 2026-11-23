@@ -1350,5 +1350,28 @@
     "security_basis": "Filing cover and registered security identify Class A common stock; direct equity, not ADS/ADR.",
     "vie_basis": "No conclusive issuer-specific VIE arrangement or explicit absence established. A generic consolidation policy does not establish an actual VIE.",
     "historical_note": "Reviewed November 19, 2026 for the first imported trades in this symbol."
+  },
+  "PAAI": {
+    "issuer_name": "Paradium.AI, Inc.",
+    "cik": "894871",
+    "incorporation_country": "United States",
+    "incorporation_jurisdiction": "Delaware",
+    "headquarters_country": "United States",
+    "operating_country": "United States",
+    "security_type": "direct_equity",
+    "vie_status": "unknown",
+    "incorporation_status": "filing_cover",
+    "operations_status": "reviewed",
+    "structure_status": "cover_table",
+    "source_profile_url": "https://data.sec.gov/submissions/CIK0000894871.json",
+    "source_filing_url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+    "source_filing_date": "2026-11-09",
+    "identity_source_url": "https://www.sec.gov/Archives/edgar/data/894871/000149315226042207/form8-k.htm",
+    "checked_on": "2026-11-23",
+    "operations_basis": "The September 2026 Form 10-Q locates long-lived assets and operating leases in the United States and reports most revenue from the United States. Principal operating-base classification, not exclusive exposure.",
+    "security_basis": "The Form 10-Q cover identifies PAAI as common stock on NYSE American, not ADS/ADR.",
+    "vie_basis": "No conclusive issuer-specific VIE statement established in the reviewed Form 10-Q. Absence of a mention does not establish absence of VIEs.",
+    "historical_note": "Renamed from The Arena Group Holdings, Inc. effective August 31, 2026, replacing AREN with PAAI; September 10, 2026 Form 8-K documents the unchanged common stock. Reviewed November 23, 2026.",
+    "notes": "Reviewed SEC quarterly report, name-change Form 8-K and issuer investor FAQs via web evidence after local SEC retrieval was restricted. Incorporation and operating country are independently supported. Sources: https://www.sec.gov/Archives/edgar/data/894871/000149315226042207/form8-k.htm ; https://investors.paradium.ai/ir-resources/investor-faqs/ . VIE remains unknown."
   }
 }

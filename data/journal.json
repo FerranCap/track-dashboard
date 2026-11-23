@@ -1143,6 +1143,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-20"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-23",
+      "rest": 5,
+      "energy": 5,
+      "stress": 5,
+      "wellbeing": 5,
+      "expectations": 5,
+      "confidence": 5,
+      "fundamentalAnalysis": 6,
+      "fundamentalTracking": 6,
+      "volume": 3,
+      "managementLevels": 6,
+      "riskReward": 6,
+      "technicalTracking": 6,
+      "exitDiscipline": 6,
+      "entryDiscipline": 6,
+      "sizing": 2,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 5.222222222222222,
+      "comment": "Error en no poner size y en plantear un trade de BO. Lo bueno es que todos los trades han sido bien ejecutados y filtrados en si. Pero el BO ya es un play que no entra dentro de mi playbook asi que error mediano por testear eso con un size minimamente relevante.",
+      "errorScore": 5,
+      "sizeBefore": 5.148524522850525,
+      "sizeAfter": 5.421682351701762,
+      "sizeAdded": 0.27315782885123685,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-23"
+      }
     }
   ]
 }

@@ -37,6 +37,7 @@
     "BIYA",
     "BKYI",
     "BMGL",
+    "BNAI",
     "BRLS",
     "BRTX",
     "BTCT",
@@ -167,6 +168,7 @@
     "ORIS",
     "OSRH",
     "OTLK",
+    "PAAI",
     "PAPL",
     "PAVS",
     "PBM",
@@ -237,6 +239,7 @@
     "VRAX",
     "VSA",
     "WBUY",
+    "WETO",
     "WFF",
     "WLDS",
     "WNW",
@@ -253,7 +256,7 @@
     "ZTG",
     "ZYBT"
   ],
-  "tradeAccountingSha256": "aa31f671339279d17615265b5cb9ab188e9dd7ea9e14a4e5961865ab8cf0bca8",
+  "tradeAccountingSha256": "e1b1eb4a020ccb5f0f505f72a7c89898186a00d4fd3e91481bba200dd3381a06",
   "articles": [
     {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
@@ -11029,6 +11032,258 @@
       ],
       "checkedOn": "2026-11-19",
       "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "nvda-20261121-valuation-commentary",
+      "eventId": "nvda-20261121-valuation-commentary",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Nvidia Stock Has Crashed 48% and Now Trades at 15 Times Earnings, Its Cheapest in More Than a Decade and Cheaper Than Microsoft and Broadcom",
+      "publishedAt": "2026-11-21T19:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Yahoo Finance syndication",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "Jeremy Phillips discusses Nvidia valuation after its selloff. Forecasts and valuation assumptions are publisher commentary, not verified future results.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-crashed-48-now-004700969.html",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-crashed-48-now-004700969.html"
+      ],
+      "timestampEvidence": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-21T19:47:00-05:00.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Direct Yahoo retrieval returned HTTP 429. Publication identity and timestamp were established from indexed evidence; full article text and its pre-entry version were not independently verified."
+      ]
+    },
+    {
+      "id": "nvda-20261122-leadership-commentary",
+      "eventId": "nvda-20261122-leadership-commentary",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Leadership Risk vs. Record Numbers: Nvidia Posted $115 Billion in Revenue in Its First Report Without Jensen Huang. What It Means for NVDA Stock.",
+      "publishedAt": "2026-11-22T13:30:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Yahoo Finance syndication",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "Jabran Kundi discusses the previously released quarterly figures and leadership uncertainty. The underlying earnings occurred earlier; this independently dated commentary is the counted publication.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/leadership-risk-vs-record-numbers-183003092.html",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/leadership-risk-vs-record-numbers-183003092.html"
+      ],
+      "timestampEvidence": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T13:30:00-05:00.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Direct Yahoo retrieval returned HTTP 429. Publication identity and timestamp were established from indexed evidence; full article text and its pre-entry version were not independently verified."
+      ]
+    },
+    {
+      "id": "nvda-20261122-losing-streak",
+      "eventId": "nvda-20261122-losing-streak",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Nvidia stock logs 2008-scale losing streak even as interim CEO delivers beat",
+      "publishedAt": "2026-11-22T21:47:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Yahoo Finance syndication",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "Moz Farooque and Robert Davey discuss the recent selloff and leadership uncertainty. This is retrospective market commentary, not a new earnings publication.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-logs-2008-scale-024700203.html",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-logs-2008-scale-024700203.html"
+      ],
+      "timestampEvidence": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T21:47:00-05:00.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Direct Yahoo retrieval returned HTTP 429. Publication identity and timestamp were established from indexed evidence; full article text and its pre-entry version were not independently verified."
+      ]
+    },
+    {
+      "id": "nvda-20261123-huang-release",
+      "eventId": "nvda-20261123-huang-return",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "NVIDIA Board Reinstates Jensen Huang as President, CEO and Board Director",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "NVIDIA",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "NVIDIA announces Huang's reinstatement and continuing independent investigations. The associated 8-K dates the board action November 22, whereas the release is dated November 23. Publication hour was not independently confirmed; the same-day match does not establish publication before the 09:08 entry.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/nov23pressrelease.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/nov23pressrelease.htm",
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/nvda-20261122.htm",
+        "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors-november-11-2026"
+      ],
+      "timestampEvidence": "SEC-hosted issuer exhibit and issuer news archive identify the release as November 23, 2026. The prior-day board action is not the publication date.",
+      "verificationStatus": "verified_date",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "publicationDate": "2026-11-23",
+      "sourceWarnings": [
+        "Publication time unconfirmed; same-day date-only match does not establish pre-entry availability. Original distributor and direct issuer release retrieval were inaccessible."
+      ]
+    },
+    {
+      "id": "nvda-20261123-optionspilot-trump",
+      "eventId": "nvda-20261123-huang-return",
+      "symbol": "NVDA",
+      "issuerName": "NVIDIA Corporation",
+      "issuerCik": "1045810",
+      "headline": "Trump Tells Nvidia's Board to Rehire Huang. NVDA Gaps 8% Premarket, Past Monday's Expiring Straddle but Inside the Holiday-Week One",
+      "publishedAt": "2026-11-23T02:05:00-08:00",
+      "timePrecision": "minute",
+      "publisher": "OptionsPilot",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "OptionsPilot discusses reported pressure for Huang's return and option pricing. Its assertion that no reinstatement had been announced describes its early-morning reporting, not subsequent events.",
+      "url": "https://optionspilot.app/blog/trump-urges-nvidia-board-rehire-jensen-huang-nvda-up-8-percent-premarket-past-monday-expiring-straddle-inside-holiday-week-straddle-nvda-options-nov-23-2026",
+      "sourceUrls": [
+        "https://optionspilot.app/blog/trump-urges-nvidia-board-rehire-jensen-huang-nvda-up-8-percent-premarket-past-monday-expiring-straddle-inside-holiday-week-straddle-nvda-options-nov-23-2026"
+      ],
+      "timestampEvidence": "Original byline explicitly states November 23, 2026 at 2:05 AM PST.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Reported quotes include a 05:08 ET price later than the stated 05:05 ET publication. No archived pre-entry text was obtained."
+      ]
+    },
+    {
+      "id": "bnai-20261123-results-release",
+      "eventId": "bnai-20261123-q3-results",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Brand Engagement Network Reports Third Quarter 2026 Results",
+      "publishedAt": "2026-11-23T06:35:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "PR Newswire",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "BEN reports quarterly revenue of $1.96 million, 69% gross margin and a $1.26 million net loss. It attributes the revenue increase to MYDAS and delays expected paid transportation advertising to Q1 2027.",
+      "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-reports-third-quarter-2026-results-302947983.html",
+      "sourceUrls": [
+        "https://www.prnewswire.com/news-releases/brand-engagement-network-reports-third-quarter-2026-results-302947983.html",
+        "https://finviz.com/news/426017/brand-engagement-network-reports-third-quarter-2026-results",
+        "https://www.streetinsider.com/PRNewswire/Brand%2BEngagement%2BNetwork%2BReports%2BThird%2BQuarter%2B2026%2BResults/27384006.html"
+      ],
+      "timestampEvidence": "Original PR Newswire distributor page explicitly states Nov 23, 2026, 06:35 ET; StreetInsider syndication corroborates 6:35 AM EST.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false
+    },
+    {
+      "id": "bnai-20261123-streetinsider-results",
+      "eventId": "bnai-20261123-q3-results",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Brand Engagement Network (BNAI) reported Q3 Revenue",
+      "publishedAt": "2026-11-23T06:38:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "StreetInsider",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "StreetInsider reports quarterly revenue of $1.96 million versus its quoted $2 million consensus. Quiver quotes a different $1.938 million consensus; estimates are publisher-specific.",
+      "url": "https://www.streetinsider.com/Earnings/Brand%2BEngagement%2BNetwork%2B%28BNAI%29%2Breported%2BQ3%2BRevenue/27384010.html",
+      "sourceUrls": [
+        "https://www.streetinsider.com/Earnings/Brand%2BEngagement%2BNetwork%2B%28BNAI%29%2Breported%2BQ3%2BRevenue/27384010.html"
+      ],
+      "timestampEvidence": "Original page explicitly states November 23, 2026 6:38 AM EST.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Consensus estimates differ across publishers; no single estimate is treated as independently verified."
+      ]
+    },
+    {
+      "id": "bnai-20261123-rtt-results",
+      "eventId": "bnai-20261123-q3-results",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Brand Engagement Network Reports Narrower Loss In Q3",
+      "publishedAt": "2026-11-23T06:56:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "RTTNews",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "RTTNews reports a narrower quarterly loss and higher revenue following the MYDAS addition. The indexed byline establishes publication; direct article retrieval failed.",
+      "url": "https://www.rttnews.com/3717111/brand-engagement-network-reports-narrower-loss-in-q3.aspx?type=ern",
+      "sourceUrls": [
+        "https://www.rttnews.com/3717111/brand-engagement-network-reports-narrower-loss-in-q3.aspx?type=ern"
+      ],
+      "timestampEvidence": "Search-indexed original publisher byline explicitly states Published: 11/23/2026 6:56 AM ET.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Direct retrieval returned a cache miss; review used indexed original-publisher evidence."
+      ]
+    },
+    {
+      "id": "bnai-20261123-quiver-results",
+      "eventId": "bnai-20261123-q3-results",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "BRAND ENGAGEMENT NETWORK ($BNAI) Releases Q3 2026 Earnings",
+      "publishedAt": "2026-11-23T12:00:00+00:00",
+      "timePrecision": "minute",
+      "publisher": "Quiver Quantitative",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "Quiver reports a $0.17 per-share loss and $1.96 million revenue, compared with its $1.938 million revenue estimate. Its automated data disclaimer and differing publisher estimates remain relevant.",
+      "url": "https://www.quiverquant.com/news/BRAND%2BENGAGEMENT%2BNETWORK%2B%28%24BNAI%29%2BReleases%2BQ3%2B2026%2BEarnings",
+      "sourceUrls": [
+        "https://www.quiverquant.com/news/BRAND%2BENGAGEMENT%2BNETWORK%2B%28%24BNAI%29%2BReleases%2BQ3%2B2026%2BEarnings"
+      ],
+      "timestampEvidence": "Original page explicitly states Nov. 23, 2026 noon UTC.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Automated earnings report; quoted consensus differs from StreetInsider."
+      ]
+    },
+    {
+      "id": "weto-20261123-benzinga-premarket",
+      "eventId": "weto-20261123-benzinga-premarket",
+      "symbol": "WETO",
+      "issuerName": "Wetour Robotics Ltd",
+      "issuerCik": "1941158",
+      "headline": "11 Industrials Stocks Moving In Monday's Pre-Market Session",
+      "publishedAt": "2026-11-23T07:05:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Benzinga",
+      "kind": "issuer_reporting",
+      "category": "company_news",
+      "summary": "Benzinga lists Wetour among premarket gainers. This is automated market-move reporting, with differing live quote figures in the header and body; it establishes a publication, not a corporate catalyst.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63522419/11-industrials-stocks-moving-monday-s-pre-market-session",
+      "sourceUrls": [
+        "https://www.benzinga.com/trading-ideas/movers/26/11/63522419/11-industrials-stocks-moving-monday-s-pre-market-session"
+      ],
+      "timestampEvidence": "Original Benzinga byline explicitly states November 23, 2026, 7:05 AM ET.",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-23",
+      "contentAsOfEntryVerified": false,
+      "sourceWarnings": [
+        "Automated content; header and body display different price moves. No issuer announcement or price cause established."
+      ]
     }
   ],
   "trades": [
@@ -12825,6 +13080,20 @@
       "unresolvedCandidateIds": []
     },
     {
+      "tradeId": "cmmdrwmfb07iil3l3xbfgwnum",
+      "symbol": "BNAI",
+      "entryAt": "2025-12-29T08:04:01-05:00",
+      "windowStartAt": "2025-12-27T13:04:01+00:00",
+      "windowEndAt": "2025-12-29T13:04:01+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
       "tradeId": "cmmdrwmfe07kcl3l3h971zc5t",
       "symbol": "AMIX",
       "entryAt": "2025-12-30T08:56:22-05:00",
@@ -13880,6 +14149,48 @@
       "entryAt": "2026-03-18T09:21:14-04:00",
       "windowStartAt": "2026-03-16T13:21:14+00:00",
       "windowEndAt": "2026-03-18T13:21:14+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmyuwxy1000d1riss0yop1ng",
+      "symbol": "WETO",
+      "entryAt": "2026-03-19T11:23:31-04:00",
+      "windowStartAt": "2026-03-17T15:23:31+00:00",
+      "windowEndAt": "2026-03-19T15:23:31+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmyuwxy1000e1risgpvitm1t",
+      "symbol": "WETO",
+      "entryAt": "2026-03-19T11:52:01-04:00",
+      "windowStartAt": "2026-03-17T15:52:01+00:00",
+      "windowEndAt": "2026-03-19T15:52:01+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmyuwxy1000g1ris1i7rr4lb",
+      "symbol": "WETO",
+      "entryAt": "2026-03-19T13:39:58-04:00",
+      "windowStartAt": "2026-03-17T17:39:58+00:00",
+      "windowEndAt": "2026-03-19T17:39:58+00:00",
       "status": "pending_verification",
       "reviewStatus": "not_reviewed",
       "reviewedOn": null,
@@ -30742,6 +31053,180 @@
       "eventCount": 2,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-2389e020c2c08bd5be59fb09",
+      "symbol": "NVDA",
+      "entryAt": "2026-11-23T09:08:35-05:00",
+      "windowStartAt": "2026-11-21T14:08:35+00:00",
+      "windowEndAt": "2026-11-23T14:08:35+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-23",
+      "articles": [
+        {
+          "articleId": "nvda-20261121-valuation-commentary",
+          "eventId": "nvda-20261121-valuation-commentary",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 134435.0,
+          "ageSecondsMax": 134495.0
+        },
+        {
+          "articleId": "nvda-20261122-leadership-commentary",
+          "eventId": "nvda-20261122-leadership-commentary",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 70655.0,
+          "ageSecondsMax": 70715.0
+        },
+        {
+          "articleId": "nvda-20261122-losing-streak",
+          "eventId": "nvda-20261122-losing-streak",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 40835.0,
+          "ageSecondsMax": 40895.0
+        },
+        {
+          "articleId": "nvda-20261123-huang-release",
+          "eventId": "nvda-20261123-huang-return",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "nvda-20261123-optionspilot-trump",
+          "eventId": "nvda-20261123-huang-return",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 14555.0,
+          "ageSecondsMax": 14615.0
+        }
+      ],
+      "eventCount": 4,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-8cef81064e81e5a41814a6e4",
+      "symbol": "WETO",
+      "entryAt": "2026-11-23T09:36:42-05:00",
+      "windowStartAt": "2026-11-21T14:36:42+00:00",
+      "windowEndAt": "2026-11-23T14:36:42+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-23",
+      "articles": [
+        {
+          "articleId": "weto-20261123-benzinga-premarket",
+          "eventId": "weto-20261123-benzinga-premarket",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 9042.0,
+          "ageSecondsMax": 9102.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-e60729354bf667863b0e753e",
+      "symbol": "BNAI",
+      "entryAt": "2026-11-23T10:52:54-05:00",
+      "windowStartAt": "2026-11-21T15:52:54+00:00",
+      "windowEndAt": "2026-11-23T15:52:54+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-23",
+      "articles": [
+        {
+          "articleId": "bnai-20261123-results-release",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 15414.0,
+          "ageSecondsMax": 15474.0
+        },
+        {
+          "articleId": "bnai-20261123-streetinsider-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 15234.0,
+          "ageSecondsMax": 15294.0
+        },
+        {
+          "articleId": "bnai-20261123-rtt-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 14154.0,
+          "ageSecondsMax": 14214.0
+        },
+        {
+          "articleId": "bnai-20261123-quiver-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 13914.0,
+          "ageSecondsMax": 13974.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-6015f42fb217f30122763ff6",
+      "symbol": "BNAI",
+      "entryAt": "2026-11-23T11:05:49-05:00",
+      "windowStartAt": "2026-11-21T16:05:49+00:00",
+      "windowEndAt": "2026-11-23T16:05:49+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-23",
+      "articles": [
+        {
+          "articleId": "bnai-20261123-results-release",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 16189.0,
+          "ageSecondsMax": 16249.0
+        },
+        {
+          "articleId": "bnai-20261123-streetinsider-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 16009.0,
+          "ageSecondsMax": 16069.0
+        },
+        {
+          "articleId": "bnai-20261123-rtt-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 14929.0,
+          "ageSecondsMax": 14989.0
+        },
+        {
+          "articleId": "bnai-20261123-quiver-results",
+          "eventId": "bnai-20261123-q3-results",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 14689.0,
+          "ageSecondsMax": 14749.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-9c1182ac5cd2e503e85c8ba5",
+      "symbol": "PAAI",
+      "entryAt": "2026-11-23T12:35:09-05:00",
+      "windowStartAt": "2026-11-21T17:35:09+00:00",
+      "windowEndAt": "2026-11-23T17:35:09+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-23",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
     }
   ],
   "reviews": [
@@ -43466,14 +43951,205 @@
         "Issuer release clock has no independently confirmed timezone; same-day date matches do not establish publication before entry.",
         "Original GlobeNewswire release inaccessible; original issuer page and Finviz reproduction reviewed."
       ]
+    },
+    {
+      "symbol": "BNAI",
+      "issuerCik": "1838163",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-e60729354bf667863b0e753e": "2026-11-23T10:52:54-05:00",
+        "broker-6015f42fb217f30122763ff6": "2026-11-23T11:05:49-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=BNAI",
+          "access": "page_reviewed",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BNAI/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-reports-third-quarter-2026-results-302947983.html",
+          "access": "publication_reviewed",
+          "note": "Original PR Newswire distributor page explicitly states Nov 23, 2026, 06:35 ET; StreetInsider syndication corroborates 6:35 AM EST."
+        },
+        {
+          "url": "https://www.streetinsider.com/Earnings/Brand%2BEngagement%2BNetwork%2B%28BNAI%29%2Breported%2BQ3%2BRevenue/27384010.html",
+          "access": "publication_reviewed",
+          "note": "Original page explicitly states November 23, 2026 6:38 AM EST."
+        },
+        {
+          "url": "https://www.rttnews.com/3717111/brand-engagement-network-reports-narrower-loss-in-q3.aspx?type=ern",
+          "access": "indexed_publication",
+          "note": "Search-indexed original publisher byline explicitly states Published: 11/23/2026 6:56 AM ET."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/BRAND%2BENGAGEMENT%2BNETWORK%2B%28%24BNAI%29%2BReleases%2BQ3%2B2026%2BEarnings",
+          "access": "publication_reviewed",
+          "note": "Original page explicitly states Nov. 23, 2026 noon UTC."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted."
+      ]
+    },
+    {
+      "symbol": "NVDA",
+      "issuerCik": "1045810",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-2389e020c2c08bd5be59fb09": "2026-11-23T09:08:35-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=NVDA",
+          "access": "page_reviewed",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/NVDA/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/nov23pressrelease.htm",
+          "access": "publication_reviewed",
+          "note": "SEC-hosted issuer exhibit and issuer news archive identify the release as November 23, 2026. The prior-day board action is not the publication date."
+        },
+        {
+          "url": "https://optionspilot.app/blog/trump-urges-nvidia-board-rehire-jensen-huang-nvda-up-8-percent-premarket-past-monday-expiring-straddle-inside-holiday-week-straddle-nvda-options-nov-23-2026",
+          "access": "publication_reviewed",
+          "note": "Original byline explicitly states November 23, 2026 at 2:05 AM PST."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-crashed-48-now-004700969.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-21T19:47:00-05:00."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-stock-logs-2008-scale-024700203.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T21:47:00-05:00."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/leadership-risk-vs-record-numbers-183003092.html",
+          "access": "indexed_publication",
+          "note": "Search-indexed Yahoo publication provides the full date, clock and explicit EST timezone: 2026-11-22T13:30:00-05:00."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "nvda-20261123-after-entry-reuters",
+          "url": "https://finance.yahoo.com/news/nvidia-reinstates-jensen-huang-ceo-135916841.html",
+          "resolution": "excluded_after_entry",
+          "publishedAt": "2026-11-23T09:30:00-05:00",
+          "reason": "Known timestamp is after the 09:08:35 first entry; date fallback prohibited."
+        }
+      ],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted.",
+        "Issuer release uses same-day date matching with publication before entry unconfirmed. Known 09:11 ET StockAnalysis and 09:30 EST Reuters reports are after the 09:08:35 entry and excluded without date fallback. November 17 earnings and November 19 issuer announcements are outside the window."
+      ]
+    },
+    {
+      "symbol": "PAAI",
+      "issuerCik": "894871",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-9c1182ac5cd2e503e85c8ba5": "2026-11-23T12:35:09-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=PAAI",
+          "access": "retrieval_restricted",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/PAAI/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://investors.paradium.ai/news-and-events/news-releases/",
+          "access": "page_reviewed",
+          "note": "No dated releases rendered in the retrieved archive."
+        },
+        {
+          "url": "https://www.marketbeat.com/stocks/NYSEAMERICAN/PAAI/news/",
+          "access": "page_reviewed",
+          "note": "Visible latest publication dated November 16, outside the eligible window. Older Arena name reconciled using SEC name-change filing."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted.",
+        "No eligible dated issuer publication established in consulted sources. Live quote/scanner pages are not treated as issuer news; inaccessible sources leave coverage partial."
+      ]
+    },
+    {
+      "symbol": "WETO",
+      "issuerCik": "1941158",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-23",
+      "coverage": "partial",
+      "scope": "November 23 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-8cef81064e81e5a41814a6e4": "2026-11-23T09:36:42-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=WETO",
+          "access": "retrieval_restricted",
+          "note": "Started review with Finviz; followed identifiable publications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/WETO/news/",
+          "access": "http_429",
+          "note": "Direct Yahoo retrieval was restricted; indexed publication evidence used where available."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/11/63522419/11-industrials-stocks-moving-monday-s-pre-market-session",
+          "access": "publication_reviewed",
+          "note": "Original Benzinga byline explicitly states November 23, 2026, 7:05 AM ET."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
+        "Direct Yahoo retrieval was restricted."
+      ]
     }
   ],
   "counts": {
-    "trades": 876,
-    "articles": 410,
-    "events": 352,
-    "tradeArticleLinks": 895,
-    "dateFallbackLinks": 285,
-    "tradesWithNews": 608
+    "trades": 885,
+    "articles": 420,
+    "events": 358,
+    "tradeArticleLinks": 909,
+    "dateFallbackLinks": 286,
+    "tradesWithNews": 612
   }
 }
