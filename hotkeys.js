@@ -1,15 +1,15 @@
 'use strict';
 
-const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk';
+const HOTKEYS_SOURCE = 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v14.htk';
 const HOTKEYS_DAILY_STOP_MULTIPLIER = 30;
 const HOTKEYS_STORAGE = 'track-das-hotkeys-v12';
-const HOTKEYS_UPDATED_ON = '2026-11-17';
+const HOTKEYS_UPDATED_ON = '2026-11-23';
 const HOTKEYS_ROUTE_RULE = 'if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}';
 const HOTKEYS_RISK_PAIRS = [[2, 9], [1, 14]];
 const HOTKEYS_LAYOUT = [
   ['Alt+1', 'Panic', 'danger'], ['Alt+2', 'C', 'neutral'], ['Alt+3', 'B', 'neutral'], ['Alt+4', 'Market', 'neutral'], ['Alt+Q', 'Clear', 'neutral'],
-  ['Alt+5', 'Config', 'neutral'], ['Alt+6', 'Buy 20%', 'buy'], ['Alt+7', 'Buy 50%', 'buy'], ['Alt+8', 'Buy 100%', 'buy'], ['Alt+E', 'Entry B', 'buy'],
-  ['Alt+9', 'Test T', 'neutral'], ['Alt+0', 'Sell 20%', 'sell'], ['Alt+[', 'Sell 50%', 'sell'], ['Alt+]', 'Sell 100%', 'sell'], ['Alt+R', 'Entry C', 'buy']
+  ['Alt+5', 'Config', 'neutral'], ['Alt+6', 'Buy 20%', 'buy'], ['Alt+7', 'Buy 50%', 'buy'], ['Alt+8', 'Buy 100%', 'buy'], ['Alt+E', 'Entry B', 'entry'],
+  ['Alt+9', 'Test T', 'neutral'], ['Alt+0', 'Sell 20%', 'sell'], ['Alt+[', 'Sell 50%', 'sell'], ['Alt+]', 'Sell 100%', 'sell'], ['Alt+R', 'Entry C', 'entry']
 ];
 let hotkeysDefaults = [];
 let hotkeysEntries = [];
@@ -129,11 +129,11 @@ function hotkeysParameterDefinitions(script) {
     if (!matches.length || !matches.every(match => match[1] === matches[0][1])) return [];
     return [{ ...definition, value: definition.min === undefined ? matches[0][1] : Number(matches[0][1]) * (definition.scale || 1) }];
   });
-  const entries = [...script.matchAll(/Share=\$RiskScale\*\$RiskMultiplier\/\$Distance(?:\*([0-9.]+))?;/g)];
-  if (entries.length === 2) {
-    for (let index = 0; index < 2; index++) parameters.push({ id: `entry-${index}`, label: `Factor de entrada ${index === 0 ? 'long' : 'short'}`, value: Number(entries[index][1] || 1), min: 0.000001 });
-  }
   return parameters;
+}
+
+function hotkeysFixedEntryFactor(script) {
+  return script.replace(/Share=\$RiskScale\*\$RiskMultiplier\/\$Distance\*[0-9.]+;/g, 'Share=$RiskScale*$RiskMultiplier/$Distance;');
 }
 
 function hotkeysApplyParameter(script, id, rawValue) {
@@ -142,11 +142,6 @@ function hotkeysApplyParameter(script, id, rawValue) {
   const value = parameter.min === undefined ? rawValue.trim() : Number(rawValue);
   if (parameter.min === undefined ? !/^[A-Za-z0-9_+]+$/.test(value) : rawValue.trim() === '' || !Number.isFinite(value) || value < parameter.min || (parameter.max !== undefined && value > parameter.max)) {
     throw new Error(`Valor no válido para ${parameter.label}.`);
-  }
-  if (id.startsWith('entry-')) {
-    let index = 0;
-    return script.replace(/Share=\$RiskScale\*\$RiskMultiplier\/\$Distance(?:\*[0-9.]+)?;/g, match => index++ === Number(id.slice(-1))
-      ? `Share=$RiskScale*$RiskMultiplier/$Distance${value === 1 ? '' : `*${value}`};` : match);
   }
   return script.replace(parameter.pattern, () => `${parameter.prefix}${parameter.min === undefined ? value : value / (parameter.scale || 1)}${parameter.suffix}`);
 }
@@ -175,7 +170,7 @@ function hotkeysMessage(id, message, error = false) {
 
 function hotkeysPersist(entries) {
   try {
-    localStorage.setItem(HOTKEYS_STORAGE, JSON.stringify({ schemaVersion: 1, routingVersion: 1, entries }));
+    localStorage.setItem(HOTKEYS_STORAGE, JSON.stringify({ schemaVersion: 1, routingVersion: 1, riskDefaultsVersion: 1, entries }));
     return true;
   } catch { return false; }
 }
@@ -335,6 +330,7 @@ function hotkeysSaveEditor() {
     const entries = hotkeysSynchronizeRisk(hotkeysEntries.map(entry => {
       if (entry.id !== hotkeysSelectedId) return entry;
       const updated = { ...entry, ...Object.fromEntries(['label', 'key', 'name', 'script'].map(field => [field, document.getElementById(`hotkeys-${field}`).value.trim()])) };
+      if ([9, 14].includes(entry.slot)) updated.script = hotkeysFixedEntryFactor(updated.script);
       if (entry.slot === null) updated.label = updated.name;
       return updated;
     }), hotkeysSelectedId);
@@ -366,6 +362,11 @@ async function initializeHotkeys() {
         hotkeysValidate(saved.entries);
         if (saved.schemaVersion !== 1 || saved.entries.length !== hotkeysDefaults.length || !saved.entries.every((entry, index) => entry.id === hotkeysDefaults[index].id && entry.slot === hotkeysDefaults[index].slot)) throw new Error('Invalid saved layout');
         hotkeysEntries = saved.entries;
+        if (saved.riskDefaultsVersion !== 1) {
+          hotkeysEntries = hotkeysEntries.map(entry => [1, 2, 9, 14].includes(entry.slot)
+            ? { ...entry, script: hotkeysApplyParameter(entry.script, 'risk', [1, 14].includes(entry.slot) ? '8' : '12') } : entry);
+          if (!hotkeysPersist(hotkeysEntries)) storageWarning = ' Riesgo actualizado en esta sesión; no se pudo guardar en el navegador.';
+        }
         if (saved.routingVersion !== 1) {
           hotkeysEntries = hotkeysEntries.map(entry => entry.slot !== null && !/if\(Last<1\)\{Route=/.test(entry.script) && /Route=EDGAL;/.test(entry.script)
             ? { ...entry, script: entry.script.replace(/Route=EDGAL;/g, HOTKEYS_ROUTE_RULE) } : entry);
@@ -374,6 +375,13 @@ async function initializeHotkeys() {
       }
     } catch { storageWarning = ' La configuración guardada no está disponible o no es válida; se muestra el archivo original.'; }
     let synchronized = false;
+    hotkeysEntries = hotkeysEntries.map(entry => {
+      if (![9, 14].includes(entry.slot)) return entry;
+      const script = hotkeysFixedEntryFactor(entry.script);
+      if (script === entry.script) return entry;
+      synchronized = true;
+      return { ...entry, script };
+    });
     for (const [slot, partnerSlot] of HOTKEYS_RISK_PAIRS) {
       const selected = hotkeysEntries.find(entry => entry.slot === slot);
       const partner = hotkeysEntries.find(entry => entry.slot === partnerSlot);

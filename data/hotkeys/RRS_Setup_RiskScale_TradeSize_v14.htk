@@ -1,0 +1,69 @@
+Alt+Q:Cancel All Orders Current Ticker:CXL ALLSYMB;
+Alt+1:Panic:PANIC;
+Alt+9:Test T:~ 234:$StopPrice=Price;if(Last==$StopPrice){return;}if(La
+st>$StopPrice){if(Last<1){Route=EDGAL;}else{Route=S
+AGEREB;}Price=Bid;Share=1;TIF=DAY+;BUY=Send;}else{i
+f(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=As
+k;Share=1;TIF=DAY+;SELL=Send;}
+Alt+5:Set RiskScale:$RiskScale=Input("RiskScale","Enter RiskScale:");
+Alt+2:Shares C Long Short:~ 217:$RiskMultiplier=8;$StopPrice=Price;if(Last>$StopPri
+ce){$EntryPrice=Bid;}else{$EntryPrice=Ask;}$Distanc
+e=ABS($StopPrice-$EntryPrice);if($Distance<=0){retu
+rn;}Share=$RiskScale*$RiskMultiplier/$Distance;$Tra
+deSize=Share;
+Alt+3:Shares B Long Short:~ 218:$RiskMultiplier=12;$StopPrice=Price;if(Last>$StopPr
+ice){$EntryPrice=Bid;}else{$EntryPrice=Ask;}$Distan
+ce=ABS($StopPrice-$EntryPrice);if($Distance<=0){ret
+urn;}Share=$RiskScale*$RiskMultiplier/$Distance;$Tr
+adeSize=Share;
+Alt+E:ENTRY Size B Auto Long Short:~ 531:$RiskMultiplier=12;$StopPrice=Price;if(Last==$StopP
+rice){return;}if(Last>$StopPrice){$EntryPrice=Bid;$
+Distance=ABS($StopPrice-$EntryPrice);if($Distance<=
+0){return;}Share=$RiskScale*$RiskMultiplier/$Distan
+ce;$TradeSize=Share;if(Last<1){Route=EDGAL;}else{Ro
+ute=SAGEREB;}Price=$EntryPrice;TIF=DAY+;BUY=Send;}e
+lse{$EntryPrice=Ask;$Distance=ABS($StopPrice-$Entry
+Price);if($Distance<=0){return;}Share=$RiskScale*$R
+iskMultiplier/$Distance;$TradeSize=Share;if(Last<1)
+{Route=EDGAL;}else{Route=SAGEREB;}Price=$EntryPrice
+;TIF=DAY+;SELL=Send;}
+Alt+R:ENTRY Size C Auto Long Short:~ 530:$RiskMultiplier=8;$StopPrice=Price;if(Last==$StopPr
+ice){return;}if(Last>$StopPrice){$EntryPrice=Bid;$D
+istance=ABS($StopPrice-$EntryPrice);if($Distance<=0
+){return;}Share=$RiskScale*$RiskMultiplier/$Distanc
+e;$TradeSize=Share;if(Last<1){Route=EDGAL;}else{Rou
+te=SAGEREB;}Price=$EntryPrice;TIF=DAY+;BUY=Send;}el
+se{$EntryPrice=Ask;$Distance=ABS($StopPrice-$EntryP
+rice);if($Distance<=0){return;}Share=$RiskScale*$Ri
+skMultiplier/$Distance;$TradeSize=Share;if(Last<1){
+Route=EDGAL;}else{Route=SAGEREB;}Price=$EntryPrice;
+TIF=DAY+;SELL=Send;}
+Alt+4:Close Market:~ 306:$MYPOS=GetAccountObj(Account).GetPosition(Symbol).s
+hare;if($MYPOS==0){return;}$Delta=Last*0.03;if($MYP
+OS>0){$Price=Bid-$Delta;}else{$Price=Ask+$Delta;}if
+($Price<1){$Price=Round($Price,4);}else{$Price=Roun
+d($Price,2);}Share=Pos;if(Last<1){Route=EDGAL;}else
+{Route=SAGEREB;}Price=$Price;TIF=DAY+;Send=Reverse;
+Alt+6:Close 20% short:~ 86:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=B
+id;Share=Pos*0.2;Buy=Send;TIF=DAY+;
+Alt+7:Close 50% short:~ 86:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=B
+id;Share=Pos*0.5;Buy=Send;TIF=DAY+;
+Alt+8:Close 100% short:~ 84:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=B
+id;Share=Pos*1;Buy=Send;TIF=DAY+;
+Alt+0:Close 20% long:~ 87:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=A
+sk;Share=Pos*0.2;Sell=Send;TIF=DAY+;
+Alt+[:Close 50% long:~ 87:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=A
+sk;Share=Pos*0.5;Sell=Send;TIF=DAY+;
+Alt+]:Close 100% long:~ 85:if(Last<1){Route=EDGAL;}else{Route=SAGEREB;}Price=A
+sk;Share=Pos*1;Sell=Send;TIF=DAY+;
+Alt+F:List:Route=EDGAL;Price=0.01;Share=1;BUY=Send;TIF=DAY+;
+Alt+A:Top alert:~ 137:AlertName=AboveKey;AlertType=LastPrice;AlertOperato
+r=">=";AutoReset=no;PopupWindow=no;AutoDelete=yes;L
+oop=no;Speak=yes;Sound=no;AddAlert;
+Alt+S:Bottom alert:~ 138:AlertName=BelowKey;AlertType=LastPrice;AlertOperato
+r="<=";AutoReset=no;PopupWindow=yes;AutoDelete=yes;
+Loop=no;Speak=yes;Sound=no;AddAlert;
+Alt+D:HLine:HorizontalLine
+Alt+Z:Text:Text
+Alt+C:RR:FibonacciLine
+Alt+X:Rectangle:Rectangle

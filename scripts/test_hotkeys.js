@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
-const original = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk'));
+const original = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v14.htk'));
 const elements = new Map();
 const storage = new Map();
 let downloads = [];
@@ -46,7 +46,7 @@ function select(slot) {
 async function run() {
   context.legacySource = original.toString('latin1');
   const legacy = JSON.parse(evaluate('JSON.stringify(hotkeysParse(legacySource))'));
-  for (const entry of legacy.filter(entry => [2, 9].includes(entry.slot))) entry.script = entry.script.replace('$RiskMultiplier=25;', '$RiskMultiplier=35;');
+  for (const entry of legacy.filter(entry => [2, 9].includes(entry.slot))) entry.script = entry.script.replace('$RiskMultiplier=12;', '$RiskMultiplier=35;');
   storage.set('track-das-hotkeys-v1', JSON.stringify({ schemaVersion: 1, entries: legacy }));
   await evaluate('initializeHotkeys()');
   assert.equal(evaluate('hotkeysSelectedId'), '');
@@ -54,8 +54,8 @@ async function run() {
   assert.equal(element('hotkeys-editor-panel').hidden, false);
   assert.equal(element('hotkeys-risk-scale').value, '5.422');
   assert.ok(element('hotkeys-risk-scale-note').textContent.includes('23/11/2026'));
-  assert.equal(element('hotkeys-variable-risk-b').value, '25');
-  assert.equal(element('hotkeys-variable-risk-c').value, '17');
+  assert.equal(element('hotkeys-variable-risk-b').value, '12');
+  assert.equal(element('hotkeys-variable-risk-c').value, '8');
   assert.equal(element('hotkeys-editor-content').hidden, true);
   assert.ok(!element('hotkeys-deck').innerHTML.includes('aria-pressed="true"'));
   select(0);
@@ -72,9 +72,9 @@ async function run() {
   select(2);
   element('hotkeys-restore').handlers.click();
   select(2);
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 2))'), 25, 'Old browser drafts must not override the current v13 file');
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 1))'), 17);
-  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 17/11/2026');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 2))'), 12, 'Old browser drafts must not override the current v14 file');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 1))'), 8);
+  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 23/11/2026');
   assert.equal(JSON.parse(storage.get('track-das-hotkeys-v1')).entries.find(entry => entry.slot === 2).script.includes('$RiskMultiplier=35;'), true, 'Old configuration remains untouched');
   assert.equal(evaluate('hotkeysEntries.length'), 22);
   assert.equal(evaluate('hotkeysEntries.filter(entry => entry.slot !== null).length'), 15);
@@ -86,9 +86,28 @@ async function run() {
   context.previousSource = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v12.htk'), 'latin1');
   const previousEntries = JSON.parse(evaluate('JSON.stringify(hotkeysParse(previousSource))'));
   const currentEntries = JSON.parse(evaluate('JSON.stringify(hotkeysEntries)'));
+  context.v13Source = fs.readFileSync(path.join(root, 'data/hotkeys/RRS_Setup_RiskScale_TradeSize_v13.htk'), 'latin1');
+  const v13Entries = JSON.parse(evaluate('JSON.stringify(hotkeysParse(v13Source))'));
+  for (const entry of currentEntries) {
+    const previous = v13Entries.find(item => item.id === entry.id);
+    const multiplier = [1, 14].includes(entry.slot) ? 8 : 12;
+    assert.equal(entry.script, [1, 2, 9, 14].includes(entry.slot)
+      ? previous.script.replace(/\$RiskMultiplier=[0-9.]+;/, `$RiskMultiplier=${multiplier};`) : previous.script,
+    'v14 changes only the four authorized risk multipliers');
+    if (![1, 2, 9, 14].includes(entry.slot)) continue;
+    for (const [last, bid, ask, stop] of [[10, 9.9, 10.1, 9.5], [10, 9.9, 10.1, 10.5]]) {
+      const sizingContext = vm.createContext({ Last: last, Bid: bid, Ask: ask, Price: stop,
+        $RiskScale: 5.421682351701762, ABS: Math.abs, EDGAL: 'EDGAL', SAGEREB: 'SAGEREB', Send: true });
+      vm.runInContext(`(function(){${entry.script.replaceAll('TIF=DAY+;', 'TIF="DAY+";')}})()`, sizingContext);
+      const distance = Math.abs(stop - (last > stop ? bid : ask));
+      assert.ok(Math.abs(sizingContext.Share * distance - 5.421682351701762 * multiplier) < 1e-10,
+        'Long and short shares budget RiskScale times the selected multiplier at the stop');
+    }
+  }
   const tradingSlots = [3, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   for (const entry of currentEntries) {
-    const previous = previousEntries.find(item => item.id === entry.id);
+    const previous = { ...previousEntries.find(item => item.id === entry.id) };
+    if ([1, 2, 9, 14].includes(entry.slot)) previous.script = previous.script.replace(/\$RiskMultiplier=[0-9.]+;/, `$RiskMultiplier=${[1, 14].includes(entry.slot) ? 8 : 12};`);
     assert.equal(entry.script.split(evaluate('HOTKEYS_ROUTE_RULE')).join('Route=EDGAL;'), previous.script,
       'Only routing changes; entry prices, sizing and closing behavior stay identical');
     if (!tradingSlots.includes(entry.slot)) {
@@ -121,7 +140,7 @@ async function run() {
   assert.throws(() => evaluate("hotkeysEncode('\u{1f600}')"), /Windows-1252/);
 
   element('hotkeys-generate').handlers.click();
-  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 17/11/2026');
+  assert.equal(element('hotkeys-status').textContent, 'Última actualización: 23/11/2026');
   assert.deepEqual(Buffer.from(await downloads[0].arrayBuffer()), original);
   assert.equal(downloadNames[0], 'RRS_Setup_RiskScale_TradeSize_custom.htk');
   element('hotkeys-variable-risk-b').value = '30';
@@ -144,8 +163,8 @@ async function run() {
   assert.equal(downloads.length, variableDownloads);
   assert.equal(evaluate('hotkeysSelectedId'), '', 'Invalid variables must keep the overview open');
   assert.equal(evaluate('hotkeysSerialize(hotkeysEntries)'), beforeInvalidVariables, 'Failed variable changes are atomic');
-  element('hotkeys-variable-risk-b').value = '25';
-  element('hotkeys-variable-risk-c').value = '17';
+  element('hotkeys-variable-risk-b').value = '12';
+  element('hotkeys-variable-risk-c').value = '8';
   element('hotkeys-variables-form').handlers.submit({ preventDefault() {} });
   assert.deepEqual(Buffer.from(evaluate('hotkeysEncode(hotkeysSerialize(hotkeysEntries))')), original);
   context.variableSource = evaluate('JSON.stringify(hotkeysEntries)');
@@ -171,15 +190,12 @@ async function run() {
   assert.equal(element('hotkeys-label-field').hidden, false);
   assert.equal(element('hotkeys-label').disabled, false);
   select(9);
-  assert.equal(element('hotkeys-param-entry-0').value, '1');
-  assert.equal(element('hotkeys-param-entry-1').value, '1');
-  element('hotkeys-param-entry-0').value = '0.6';
-  element('hotkeys-parameter-fields').handlers.change({ target: Object.assign(element('hotkeys-param-entry-0'), { dataset: { hotkeyParameter: 'entry-0' } }) });
-  assert.ok(element('hotkeys-script').value.includes('/$Distance*0.6;'));
-  assert.ok(element('hotkeys-script').value.includes('else{$EntryPrice=Ask;'));
+  assert.ok(!element('hotkeys-parameter-fields').innerHTML.includes('entry-0'));
+  assert.ok(!element('hotkeys-variable-fields').innerHTML.includes('Factor de entrada'));
+  edit('script', element('hotkeys-script').value.replace('/$Distance;', '/$Distance*0.6;'));
   select(14);
-  assert.equal(element('hotkeys-param-entry-0').value, '1');
-  assert.equal(element('hotkeys-param-entry-1').value, '1');
+  assert.ok(!element('hotkeys-parameter-fields').innerHTML.includes('entry-1'));
+  assert.ok(!evaluate('hotkeysEntries.find(entry => entry.slot === 9).script').includes('/$Distance*'));
   select(6);
   assert.equal(element('hotkeys-param-close').value, '20');
   element('hotkeys-param-close').value = '30';
@@ -221,14 +237,14 @@ async function run() {
   storageBlocked = false;
   element('hotkeys-restore').handlers.click();
   assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 6).script'), evaluate('hotkeysDefaults.find(entry => entry.slot === 6).script'));
-  assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes("/$Distance*0.6;")'), true, 'Restoring one button preserves all other edits');
+  assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes("/$Distance*0.6;")'), false, 'Restoring one button retains the fixed entry factor');
 
   select(2);
   element('hotkeys-param-risk').value = '42';
   evaluate('hotkeysDirty = true');
   select(9);
   assert.equal(element('hotkeys-param-risk').value, '42', 'B multiplier changes must update Entry B');
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 1))'), 17, 'B changes must not affect C');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 1))'), 8, 'B changes must not affect C');
   edit('script', element('hotkeys-script').value.replace('$RiskMultiplier=42;', '$RiskMultiplier=45;'));
   select(2);
   assert.equal(element('hotkeys-param-risk').value, '45', 'Editing Entry B script must update B');
@@ -243,25 +259,29 @@ async function run() {
   assert.equal(element('hotkeys-param-risk').value, '18', 'Entry C changes must update C');
   assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 2))'), 45);
   element('hotkeys-restore').handlers.click();
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 14))'), 17, 'Restoring C must synchronize its paired multiplier');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 14))'), 8, 'Restoring C must synchronize its paired multiplier');
   select(2);
   element('hotkeys-restore').handlers.click();
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 25);
-  assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes("/$Distance*0.6;")'), true, 'Risk synchronization must preserve entry factors');
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 12);
+  assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes("/$Distance*0.6;")'), false, 'Entry factors remain fixed at one');
   const saved = JSON.parse(storage.get('track-das-hotkeys-v12'));
-  saved.entries.find(entry => entry.slot === 9).script = saved.entries.find(entry => entry.slot === 9).script.replace('$RiskMultiplier=25;', '$RiskMultiplier=99;');
+  saved.entries.find(entry => entry.slot === 9).script = saved.entries.find(entry => entry.slot === 9).script.replace('$RiskMultiplier=12;', '$RiskMultiplier=99;');
   storage.set('track-das-hotkeys-v12', JSON.stringify(saved));
   await evaluate('initializeHotkeys()');
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 25, 'Existing saved mismatches must adopt the corresponding sizing multiplier');
-  assert.equal(JSON.parse(storage.get('track-das-hotkeys-v12')).entries.find(entry => entry.slot === 9).script.includes('$RiskMultiplier=25;'), true);
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 12, 'Existing saved mismatches must adopt the corresponding sizing multiplier');
+  assert.equal(JSON.parse(storage.get('track-das-hotkeys-v12')).entries.find(entry => entry.slot === 9).script.includes('$RiskMultiplier=12;'), true);
   context.mismatchedEntries = saved.entries;
   assert.throws(() => evaluate('hotkeysSerialize(mismatchedEntries)'), /compartir/);
   const migrationEntries = previousEntries.map(entry => ({ ...entry, label: `${entry.label} saved`,
     script: entry.script.replace('$RiskMultiplier=25;', '$RiskMultiplier=31;') }));
+  migrationEntries.find(entry => entry.slot === 9).script = migrationEntries.find(entry => entry.slot === 9).script.replaceAll('/$Distance;', '/$Distance*0.6;');
   migrationEntries.find(entry => entry.slot === 10).script = migrationEntries.find(entry => entry.slot === 10).script.replaceAll('Route=EDGAL;', 'Route=CUSTOM;');
   storage.set('track-das-hotkeys-v12', JSON.stringify({ schemaVersion: 1, entries: migrationEntries }));
   await evaluate('initializeHotkeys()');
-  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 31);
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 9))'), 12);
+  assert.equal(evaluate('hotkeysRiskValue(hotkeysEntries.find(entry => entry.slot === 14))'), 8);
+  assert.equal(JSON.parse(storage.get('track-das-hotkeys-v12')).riskDefaultsVersion, 1);
+  assert.ok(!evaluate('hotkeysEntries.find(entry => entry.slot === 9).script').includes('/$Distance*'));
   assert.ok(evaluate('hotkeysEntries.find(entry => entry.slot === 9).script.includes(HOTKEYS_ROUTE_RULE)'));
   assert.ok(evaluate('hotkeysEntries.find(entry => entry.slot === 10).script.includes("Route=CUSTOM;")'));
   assert.equal(evaluate('hotkeysEntries.find(entry => entry.slot === 9).label'), 'Entry B saved');

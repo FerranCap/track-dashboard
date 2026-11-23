@@ -13,6 +13,7 @@
 .hotkeys-key[data-tone="buy"]{--key-color:#75ddbc}
 .hotkeys-key[data-tone="sell"]{--key-color:#efa393}
 .hotkeys-key[data-tone="neutral"]{--key-color:#aab6ca}
+.hotkeys-key[data-tone="entry"]{--key-color:#b59aff}
 .hotkeys-key:hover{background:color-mix(in srgb,var(--key-color) 22%,#1b2b40);transform:translateY(-2px)}
 .hotkeys-key[aria-pressed="true"]{outline:2px solid var(--key-color);outline-offset:3px;background:color-mix(in srgb,var(--key-color) 30%,#142036)}
 .hotkeys-key strong{font-size:clamp(11px,1.2vw,17px);line-height:1.25;overflow-wrap:anywhere;text-align:center}
