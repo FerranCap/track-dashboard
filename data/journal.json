@@ -1177,6 +1177,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-23"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-24",
+      "rest": 6,
+      "energy": 6,
+      "stress": 4,
+      "wellbeing": 6,
+      "expectations": 6,
+      "confidence": 6,
+      "fundamentalAnalysis": 6,
+      "fundamentalTracking": 6,
+      "volume": 6,
+      "managementLevels": 5,
+      "riskReward": 5,
+      "technicalTracking": 5,
+      "exitDiscipline": 5,
+      "entryDiscipline": 5,
+      "sizing": 5,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 5.333333333333333,
+      "comment": "Donde veo un opsible error en la session de hoy es en no tradear setups muy C aunque sea con un share. Pero realmente no me habrian dado profit ni tradeandolos en serio por ser bastante pennys. Asi que tampoco siento que haya desaprovechado el dia. Dia sin oportunidades practicamente.",
+      "errorScore": 3,
+      "sizeBefore": 5.421682351701762,
+      "sizeAfter": 5.715356812418941,
+      "sizeAdded": 0.2936744607171793,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-24"
+      }
     }
   ]
 }

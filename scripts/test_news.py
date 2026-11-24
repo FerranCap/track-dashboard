@@ -156,14 +156,14 @@ class NewsContextTests(unittest.TestCase):
         generated = read(ROOT / 'data/news/trade-context.json')
         articles = read(ROOT / 'data/news/articles.json')['articles']
         reviews = read(ROOT / 'data/news/research.json')['reviews']
-        self.assertEqual(generated['counts'], {'trades': 885, 'articles': 420, 'events': 358,
+        self.assertEqual(generated['counts'], {'trades': 887, 'articles': 420, 'events': 358,
                                               'tradeArticleLinks': 909, 'dateFallbackLinks': 286,
                                               'tradesWithNews': 612})
         entries = {trade['id']: trade for trade in dataset['trades']}
         reviewed = {trade_id for review in reviews for trade_id, opened in review['tradeEntries'].items()
                     if trade_id in entries and entries[trade_id]['opened'] == opened}
-        self.assertEqual(len(reviewed), 666)
-        self.assertEqual(len(reviews), 299)
+        self.assertEqual(len(reviewed), 668)
+        self.assertEqual(len(reviews), 300)
         recent = [trade for trade in generated['trades'] if trade['symbol'] == 'LABT' and trade['entryAt'].startswith('2026-11-05')]
         self.assertEqual(len(recent), 7)
         self.assertTrue(all([link['articleId'] for link in trade['articles']] == ['labt-20261105-series-c-redemption-release'] for trade in recent))

@@ -256,7 +256,7 @@
     "ZTG",
     "ZYBT"
   ],
-  "tradeAccountingSha256": "e1b1eb4a020ccb5f0f505f72a7c89898186a00d4fd3e91481bba200dd3381a06",
+  "tradeAccountingSha256": "fbf190fed89b0ff4df9295e7bc2842ed66cd883d9339a7b9c9789e23b3236620",
   "articles": [
     {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
@@ -31227,6 +31227,34 @@
       "eventCount": 0,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-8841bb40e7d93aa198be6000",
+      "symbol": "AKAN",
+      "entryAt": "2026-11-24T09:43:08-05:00",
+      "windowStartAt": "2026-11-22T14:43:08+00:00",
+      "windowEndAt": "2026-11-24T14:43:08+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-24",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-2505e68c7dd0dfbe7f3d9e96",
+      "symbol": "AKAN",
+      "entryAt": "2026-11-24T09:48:37-05:00",
+      "windowStartAt": "2026-11-22T14:48:37+00:00",
+      "windowEndAt": "2026-11-24T14:48:37+00:00",
+      "status": "none_found_in_reviewed_sources",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-24",
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
     }
   ],
   "reviews": [
@@ -44142,10 +44170,65 @@
         "Partial source review, not exhaustive archived coverage or evidence of price causation. No archived pre-entry body obtained.",
         "Direct Yahoo retrieval was restricted."
       ]
+    },
+    {
+      "symbol": "AKAN",
+      "issuerCik": "1888014",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-24",
+      "coverage": "partial",
+      "scope": "November 24 broker import: every first position-cycle entry for this symbol.",
+      "tradeEntries": {
+        "broker-8841bb40e7d93aa198be6000": "2026-11-24T09:43:08-05:00",
+        "broker-2505e68c7dd0dfbe7f3d9e96": "2026-11-24T09:48:37-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=AKAN",
+          "access": "page_reviewed",
+          "note": "News list reviewed; latest listed publication is September 4, 2026, outside both entry windows. The live 11:04 AM ET summary is after both entries."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/AKAN/news/",
+          "access": "http_429",
+          "note": "Direct retrieval restricted; no eligible publication established from indexed results."
+        },
+        {
+          "url": "https://www.akandacorp.com",
+          "access": "retrieval_restricted",
+          "note": "Issuer website inaccessible through research tool."
+        },
+        {
+          "url": "https://www.newsfilecorp.com/company/10194/Akanda-Corp",
+          "access": "verification_required",
+          "note": "Distributor archive requires JavaScript robot verification; indexed releases found are outside the eligible window."
+        },
+        {
+          "url": "https://www.quiverquant.com/news/Why%2BAkanda%2B%28AKAN%29%2BStock%2BIs%2BUp%2BToday",
+          "access": "indexed_publication",
+          "note": "Indexed original publication states November 24, 2026 at 3:33 p.m. UTC, after both entries. Direct original retrieval unavailable."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [
+        {
+          "id": "akan-20261124-quiver-after-entry",
+          "url": "https://www.quiverquant.com/news/Why%2BAkanda%2B%28AKAN%29%2BStock%2BIs%2BUp%2BToday",
+          "headline": "Why Akanda (AKAN) Stock Is Up Today",
+          "resolution": "excluded_after_entry",
+          "publishedAt": "2026-11-24T15:33:00+00:00",
+          "reason": "Indexed source explicitly states 3:33 p.m. UTC (10:33 EST), after first entries at 09:43:08 and 09:48:37 EST. Known timestamp cannot use date fallback."
+        }
+      ],
+      "limitations": [
+        "Partial review, not exhaustive archived coverage or evidence of price causation. No eligible dated publication established in consulted sources.",
+        "Yahoo retrieval restricted; issuer website unavailable and Newsfile archive required robot verification. No archived pre-entry body obtained."
+      ]
     }
   ],
   "counts": {
-    "trades": 885,
+    "trades": 887,
     "articles": 420,
     "events": 358,
     "tradeArticleLinks": 909,
