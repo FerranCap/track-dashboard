@@ -12968,6 +12968,59 @@
         "Partial review, not exhaustive archived coverage or evidence of price causation. No eligible dated publication established in consulted sources.",
         "Yahoo retrieval restricted; issuer website unavailable and Newsfile archive required robot verification. No archived pre-entry body obtained."
       ]
+    },
+    {
+      "symbol": "BENF",
+      "issuerCik": "1775734",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-24",
+      "coverage": "partial",
+      "scope": "November 24 additional broker trades: exact first entry of each new position cycle. Earlier reviews and AKAN trades preserved.",
+      "tradeEntries": {
+        "broker-b68854261cf0890d8c24c91e": "2026-11-24T13:25:12-05:00",
+        "broker-f0161001a2d55f14b47242f2": "2026-11-24T13:45:11-05:00",
+        "broker-375a767587e103ce22c52aea": "2026-11-24T13:49:30-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=BENF",
+          "access": "page_reviewed",
+          "note": "Started with dated news list; November 24 release and InvestorsHub report qualify. November 16 earnings and earlier releases are outside these windows."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/BENF/news/",
+          "access": "http_429",
+          "note": "Direct news retrieval restricted; indexed dated publication evidence used separately."
+        },
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/11/24/3409149/0/en/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery.html",
+          "access": "indexed_publication",
+          "note": "Original indexed header confirms November 24 07:30 ET. Direct retrieval unavailable; complete release reviewed in Finviz syndication."
+        },
+        {
+          "url": "https://finviz.com/news/426677/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery",
+          "access": "publication_reviewed",
+          "note": "Full release distinguishes procedural intervention approval from unresolved merits and requested relief."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/beneficient-files-complaint-seeking-hclp-152914886.html",
+          "access": "indexed_publication",
+          "note": "Indexed original syndication shows Fiona Craig byline, 10:29 AM EST and article contents. Direct retrieval unavailable."
+        },
+        {
+          "url": "https://screwstreet.com/news/beneficient-regulatory-approval-2026-11-24",
+          "access": "indexed_publication",
+          "note": "Indexed original page gives separate 07:47 AM ET publication time. Exchange mislabel disclosed in article warnings."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive coverage or evidence of price causation. No archived pre-entry text obtained.",
+        "Direct Yahoo retrieval restricted; original GlobeNewswire, Yahoo article and Screw Street direct retrieval unavailable. Indexed publication evidence and Finviz syndication used.",
+        "Three reports share one litigation event; no debt cancellation or recovery inferred. Known publication clocks qualify all three new entries; no date-only fallback used."
+      ]
     }
   ],
   "matchingPolicy": {

@@ -11027,6 +11027,84 @@
       "sourceWarnings": [
         "Direct Yahoo retrieval returned HTTP 429. Publication identity and timestamp were established from indexed evidence; full article text and its pre-entry version were not independently verified."
       ]
+    },
+    {
+      "eventId": "benf-20261124-hclp-complaint",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "timePrecision": "minute",
+      "category": "company_news",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-24",
+      "contentAsOfEntryVerified": false,
+      "id": "benf-20261124-hclp-complaint-release",
+      "headline": "Beneficient Secures Court Approval to Pursue HCLP Debt Cancellation and $211 Million Recovery",
+      "publishedAt": "2026-11-24T07:30:00-05:00",
+      "publisher": "GlobeNewswire / Beneficient",
+      "kind": "issuer_release",
+      "summary": "Beneficient announces its November 19 complaint seeking cancellation of disputed HCLP debt and recovery of approximately $211 million previously paid. The November 17 ruling permitted intervention only; it did not decide the merits or grant cancellation or recovery. The company alleges former CEO Heppner fabricated the debt and warns relief is uncertain.",
+      "url": "https://www.globenewswire.com/news-release/2026/11/24/3409149/0/en/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/11/24/3409149/0/en/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery.html",
+        "https://finviz.com/news/426677/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery"
+      ],
+      "timestampEvidence": "Original GlobeNewswire indexed header explicitly states November 24, 2026 07:30 ET; Finviz reproduces the dated issuer release. Publication date differs from the November 17 ruling and November 19 complaint.",
+      "sourceWarnings": [
+        "The court approved intervention only. Debt cancellation and recovery remain requested relief, not completed outcomes. Direct GlobeNewswire retrieval unavailable; original indexed header and Finviz full-text syndication reviewed. No archived pre-entry text verified."
+      ]
+    },
+    {
+      "eventId": "benf-20261124-hclp-complaint",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "timePrecision": "minute",
+      "category": "company_news",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-24",
+      "contentAsOfEntryVerified": false,
+      "id": "benf-20261124-hclp-investorshub-report",
+      "headline": "Beneficient Files Complaint Seeking HCLP Debt Cancellation and Recovery of US$211 Million",
+      "publishedAt": "2026-11-24T10:29:00-05:00",
+      "publisher": "InvestorsHub / Fiona Craig (Yahoo Finance syndication)",
+      "kind": "issuer_reporting",
+      "summary": "Fiona Craig reports the HCLP complaint and requested recovery following permission to intervene. The report explicitly distinguishes the procedural ruling from an unresolved decision on the claims; neither cancellation nor recovery is established.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/beneficient-files-complaint-seeking-hclp-152914886.html",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/beneficient-files-complaint-seeking-hclp-152914886.html",
+        "https://finviz.com/news/426944/beneficient-files-complaint-seeking-hclp-debt-cancellation-and-recovery-of-us211-million"
+      ],
+      "timestampEvidence": "Yahoo indexed byline explicitly states Tue, November 24, 2026 at 10:29 AM EST; Finviz lists the same headline at 10:29 AM under InvestorsHub.",
+      "sourceWarnings": [
+        "Direct Yahoo and Finviz article retrieval unavailable; indexed Yahoo byline and text plus Finviz news listing reviewed. No archived pre-entry text verified."
+      ]
+    },
+    {
+      "eventId": "benf-20261124-hclp-complaint",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "timePrecision": "minute",
+      "category": "company_news",
+      "verificationStatus": "verified_publication",
+      "checkedOn": "2026-11-24",
+      "contentAsOfEntryVerified": false,
+      "id": "benf-20261124-hclp-screwstreet-report",
+      "headline": "Beneficient secures court approval to pursue $211 million debt recovery",
+      "publishedAt": "2026-11-24T07:47:00-05:00",
+      "publisher": "Screw Street Newsroom",
+      "kind": "issuer_reporting",
+      "summary": "Automated filing report describes permission to intervene and the requested HCLP debt cancellation and recovery. It does not establish successful cancellation or payment. The report incorrectly labels BENF as NYSE in its body; the issuer release identifies Nasdaq.",
+      "url": "https://screwstreet.com/news/beneficient-regulatory-approval-2026-11-24",
+      "sourceUrls": [
+        "https://screwstreet.com/news/beneficient-regulatory-approval-2026-11-24",
+        "https://www.globenewswire.com/news-release/2026/11/24/3409149/0/en/beneficient-secures-court-approval-to-pursue-hclp-debt-cancellation-and-211-million-recovery.html"
+      ],
+      "timestampEvidence": "Indexed original page explicitly separates SEC filing 24 Nov 2026, 7:45 AM ET from Published 24 Nov 2026, 7:47 AM ET. The publication clock is used for matching.",
+      "sourceWarnings": [
+        "Automated, not individually edited reporting. Body labels BENF NYSE, conflicting with Nasdaq in the issuer release. Direct original retrieval unavailable; indexed text reviewed. No archived pre-entry text verified."
+      ]
     }
   ]
 }
