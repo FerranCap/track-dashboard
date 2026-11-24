@@ -83,9 +83,10 @@ function assertOpeningMinute(test, source) {
 
 async function main() {
   const html = read('research.html');
-  assert.deepEqual([...html.matchAll(/<script[^>]+src="([^"?]+)/g)].map(match => match[1]), ['research.js']);
-  assert.deepEqual([...html.matchAll(/<link[^>]+href="([^"?]+)/g)].map(match => match[1]), ['research.css']);
-  assert.match(read('index.html'), /href="research.html"/);
+  const activeHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+  assert.deepEqual([...activeHtml.matchAll(/<script[^>]+src="([^"?]+)/g)].map(match => match[1]), []);
+  assert.deepEqual([...activeHtml.matchAll(/<link[^>]+href="([^"?]+)/g)].map(match => match[1]), []);
+  assert.doesNotMatch(read('index.html').replace(/<!--[\s\S]*?-->/g, ''), /href="research.html"|location\.replace\('research.html'\)/);
   assert.doesNotMatch(read('index.html'), /src="research.js|id="view-nvidia"/);
   assert.doesNotMatch(read('workspace.js'), /initializeResearch/);
   assert.doesNotMatch(html, /research-zoom-in|research-zoom-out|research-reset/);

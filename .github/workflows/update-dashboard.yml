@@ -71,9 +71,10 @@ jobs:
           cp hotkeys.js hotkeys.css site/
           cp data/hotkeys/*.htk site/data/hotkeys/
           cp date-fields.js site/
-          cp research.html research.js research.css site/
-          mkdir -p site/data/research
-          cp data/research/*.json site/data/research/
+          # Research temporarily disabled.
+          # cp research.html research.js research.css site/
+          # mkdir -p site/data/research
+          # cp data/research/*.json site/data/research/
           cp data/trades.json site/data/trades.json
           cp data/session-risk.json site/data/session-risk.json
           cp data/journal.json site/data/journal.json

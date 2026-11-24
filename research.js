@@ -402,4 +402,5 @@ async function initializeResearch() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', initializeResearch);
+// Research temporarily disabled.
+// document.addEventListener('DOMContentLoaded', initializeResearch);

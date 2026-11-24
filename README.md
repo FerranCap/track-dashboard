@@ -114,7 +114,9 @@ Watchlist Country options are ranked by the full history closed-trade count, usi
 
 ## Research calendar
 
-I+D > Nvidia opens `research.html`, an independent static page with its own script and styles. It does not load trade history, news, journal data or dashboard studies. Existing `index.html#nvidia` links redirect to this page. Serve the project over HTTP, as with the dashboard.
+Research is temporarily disabled: navigation, legacy redirect, page content, asset loading, initialization and deployment packaging are commented out. Source code and datasets are retained for reactivation.
+
+When enabled, I+D > Nvidia opens `research.html`, an independent static page with its own script and styles. It does not load trade history, news, journal data or dashboard studies. Existing `index.html#nvidia` links redirect to this page. Serve the project over HTTP, as with the dashboard.
 
 `data/research/sessions.json` lists available sessions. Opening the page fetches only this small index. Selecting a date fetches that day's minute bars; repeat selections reuse the in-memory cache. Daily file URLs include the index entry's `version` so corrected data can invalidate browser caches without disabling normal caching. The session index revalidates on page load.
 
@@ -124,7 +126,7 @@ Both charts contain only 09:20 inclusive through 11:00 exclusive in New York. Th
 
 The seconds chart marks the high and low of the selected day's 09:30 New York minute (09:30:00 through 09:30:59). The amber High 09:30 and blue Low 09:30 lines use the canonical minute bar, independently checked against the original second bars. These fixed reference levels follow the selected date and remain available when panning beyond the opening minute; levels outside the visible Y range are not drawn. A missing opening minute produces no inferred levels.
 
-All 22 trading sessions in October 2026 and the 12 November sessions through November 17 are available. The supplied export ends on November 17; later November sessions are not included. Source gaps remain empty; no missing candles are synthesized. All chart times use `America/New_York`, including daylight saving changes. The complete original Databento export stays outside the website. To prepare another day, run `python scripts/build_research_bars.py SOURCE.json --date YYYY-MM-DD --output data/research/nvda-YYYY-MM-DD-1m.json --seconds-output data/research/nvda-YYYY-MM-DD-1s.json --start 09:20 --end 11:00`, then add its `date`, `file`, `secondsFile` and `version` to the session index. Increment that version whenever replacing a daily file. Only list reconciled sessions. The calendar derives available months and days from the index. GitHub Pages packaging includes the independent page and daily files.
+All 22 trading sessions in October 2026 and the 12 November sessions through November 17 are available. The supplied export ends on November 17; later November sessions are not included. Source gaps remain empty; no missing candles are synthesized. All chart times use `America/New_York`, including daylight saving changes. The complete original Databento export stays outside the website. To prepare another day, run `python scripts/build_research_bars.py SOURCE.json --date YYYY-MM-DD --output data/research/nvda-YYYY-MM-DD-1m.json --seconds-output data/research/nvda-YYYY-MM-DD-1s.json --start 09:20 --end 11:00`, then add its `date`, `file`, `secondsFile` and `version` to the session index. Increment that version whenever replacing a daily file. Only list reconciled sessions. The calendar derives available months and days from the index. When enabled, GitHub Pages packaging includes the independent page and daily files.
 
 ## DAS hotkeys
 
