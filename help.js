@@ -228,9 +228,6 @@ function initializeHelp() {
     'consistency-concentration': 'Agrupa por ticker, país de constitución, franja de entrada de 5 minutos en Nueva York o día de cierre. El peso se calcula sobre la suma de beneficios positivos de los grupos; las pérdidas no se usan como denominador.',
     'consistency-horizon': 'Número de operaciones de cada uno de los 500 escenarios. Se sortean sesiones históricas con reemplazo, conservando el orden de sus trades y recortando el último bloque. La misma selección produce resultados repetibles. No es una previsión ni una rentabilidad sobre capital.',
     'data-check-pending': 'Actualiza los datos publicados y repite la comprobación de todos los tickers del historial. No investiga ni asigna países automáticamente.',
-    'data-news-refresh': 'Recarga el historial y el contexto de noticias publicado para actualizar el progreso. No busca noticias nuevas en internet por sí mismo. Conserva los filtros de análisis.',
-    'data-news-search': 'Busca ticker o empresa entre los pendientes de noticias de todo el historial. La búsqueda no modifica el porcentaje de progreso ni los filtros de análisis.',
-    'data-news-kind': 'Muestra todos los pendientes de noticias, los tickers sin revisar, los parcialmente revisados o los que tienen publicaciones por verificar. El 100 % exige revisar todas las entradas actuales y resolver los candidatos.',
     'data-pending-search': 'Busca un ticker o nombre de empresa en los pendientes de todo el historial, sin aplicar los filtros globales de análisis.',
     'data-pending-kind': 'Muestra tickers sin país de constitución o solo aquellos sin ficha. Otros campos incompletos se conservan en la base de emisores y no cuentan como tickers sin identificar.',
     search: 'Busca símbolos dentro de las operaciones que cumplen los filtros globales.'

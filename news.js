@@ -123,42 +123,6 @@ function auditNewsCoverage(source) {
   }).sort((left, right) => right.lastPending.localeCompare(left.lastPending) || left.symbol.localeCompare(right.symbol));
 }
 
-function renderNewsCoverage() {
-  const audit = auditNewsCoverage(dataset);
-  const complete = audit.filter(entry => entry.complete).length;
-  const reviewed = audit.reduce((total, entry) => total + entry.reviewed, 0);
-  const count = audit.reduce((total, entry) => total + entry.total, 0);
-  const candidates = audit.reduce((total, entry) => total + entry.candidates, 0);
-  const percentage = audit.length ? complete / audit.length * 100 : 0;
-  $('data-news-complete').hidden = !issuerNewsAvailable || !audit.length || complete !== audit.length;
-  $('data-news-stats').innerHTML = [
-    ['Tickers revisados', issuerNewsAvailable ? `${complete} / ${audit.length}` : '—', 'Tickers con todas sus primeras entradas revisadas para 48 h y sin candidatos pendientes. Se usa todo el historial, sin filtros de análisis.'],
-    ['Operaciones revisadas', issuerNewsAvailable ? `${reviewed} / ${count}` : '—', 'Entradas revisadas con el mismo ID y la misma fecha y hora de apertura que en el historial actual. Los trades nuevos o corregidos necesitan revisión propia.'],
-    ['Operaciones pendientes', issuerNewsAvailable ? String(count - reviewed) : '—', 'Operaciones que aún no tienen una revisión válida de noticias para su entrada. Sin revisar no significa sin noticias.'],
-    ['Candidatos por verificar', issuerNewsAvailable ? String(candidates) : '—', 'Publicaciones localizadas con identidad, fecha o zona horaria todavía sin resolver. No se cuentan como noticias confirmadas.']
-  ].map(args => consistencyMetric(...args)).join('');
-  $('data-news-progress').value = percentage;
-  $('data-news-progress-label').textContent = issuerNewsAvailable
-    ? `${num(percentage, 1)} % de tickers revisados · ${complete} de ${audit.length} completos · ${reviewed} de ${count} operaciones revisadas`
-    : 'Noticias no disponibles: no se puede comprobar el progreso.';
-  $('data-news-status').textContent = issuerNewsAvailable
-    ? 'Una revisión puede concluir sin noticias encontradas en las fuentes consultadas. El 100 % indica que todas las entradas están revisadas y no hay candidatos pendientes; no garantiza un archivo de noticias exhaustivo. Los filtros y la búsqueda no cambian este progreso.'
-    : 'No se han podido cargar las noticias. Actualiza la comprobación para reintentar; no se considera que los tickers estén revisados.';
-  $('data-news-refresh').disabled = !dataset;
-  const query = ($('data-news-search').value || '').trim().toLowerCase();
-  const kind = $('data-news-kind').value || 'all';
-  const pending = audit.filter(entry => !entry.complete);
-  const matches = pending.filter(entry => (!query || `${entry.symbol} ${entry.issuer}`.toLowerCase().includes(query))
-    && (kind === 'unreviewed' ? entry.reviewed === 0 : kind === 'partial' ? entry.reviewed > 0 && entry.pending > 0 : kind === 'verification' ? entry.candidates > 0 : true));
-  $('data-news-pending').hidden = issuerNewsAvailable && pending.length === 0;
-  $('data-news-count').textContent = `${matches.length} mostrados · ${pending.length} tickers pendientes en el historial`;
-  $('data-news-table').innerHTML = !issuerNewsAvailable ? '<p class="muted">Carga de noticias no disponible; no se puede verificar el estado de las entradas.</p>' : matches.length ? tableMarkup([
-    'Ticker', 'Emisor', 'Estado de noticias', 'Operaciones', 'Revisadas', 'Pendientes', 'Candidatos', 'Noticias', 'Primera entrada pendiente', 'Última entrada pendiente'
-  ], matches.map(entry => [entry.symbol, entry.issuer, entry.candidates ? entry.pending ? 'Revisión y verificación pendientes' : 'Verificación pendiente' : entry.reviewed ? 'Revisión parcial' : 'Sin revisar',
-    entry.total, entry.reviewed, entry.pending, entry.candidates, entry.articles === null ? '—' : entry.articles, entry.firstPending || '—', entry.lastPending || '—'
-  ])) : '<p class="muted">No hay tickers pendientes que coincidan con esta búsqueda y tipo de pendiente.</p>';
-}
-
 function newsSourceLink(url, label) {
   try {
     const parsed = new URL(url);
