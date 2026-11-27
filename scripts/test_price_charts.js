@@ -31,7 +31,8 @@ for (const trade of trades) {
     assert.equal(result.window.end,window.end);
     const svg = run('priceChartSvg(tradePriceBars(payload,trade).bars,tradePriceWindow(trade),tradePriceFills(executionPayload,trade).fills,"BENF")');
     assert(svg.includes('trade-fill-marker'));
-    assert(svg.includes('Volumen por minuto'));
+    assert(!svg.includes('Volumen por minuto'));
+    assert(svg.includes('#baff45') || svg.includes('#ff5252')); 
     assert(!/NaN|Infinity/.test(svg));
   }
 }

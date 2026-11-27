@@ -62,7 +62,7 @@ function tradePriceFills(payload, trade) {
 }
 
 function priceChartSvg(bars, window, fills, title) {
-  const width = 1000, height = 410, left = 72, right = 970, top = 46, bottom = 285, volumeTop = 318, volumeBottom = 365;
+  const width = 1000, height = 500, left = 72, right = 970, top = 36, bottom = 360, volumeTop = 385, volumeBottom = 450;
   const prices = [...bars.flatMap(bar => [bar.low, bar.high]), ...fills.map(fill => Number(fill.price))];
   const minimum = Math.min(...prices), maximum = Math.max(...prices);
   const padding = Math.max((maximum - minimum) * .15, maximum * .001, .00001);
@@ -79,10 +79,10 @@ function priceChartSvg(bars, window, fills, title) {
     const value = low + (high - low) * i / 4;
     svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+4}" text-anchor="end" fill="#a6b9ce" font-size="11">${price(value)}</text>`;
   }
-  svg += `<text x="${left}" y="23" fill="#a6b9ce" font-size="12">Precio · USD</text><text x="${left}" y="${volumeTop-9}" fill="#a6b9ce" font-size="11">Volumen por minuto · acciones</text>`;
+  svg += `<text x="${left}" y="23" fill="#a6b9ce" font-size="12">Precio · USD</text>`;
   for (let i = 0; i <= 5; i++) {
     const time = window.start + (window.end - window.start) * i / 5;
-    svg += `<text x="${x(time)}" y="391" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="11">${clock(time)}</text>`;
+    svg += `<text x="${x(time)}" y="480" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="11">${clock(time)}</text>`;
   }
   for (const bar of bars) {
     const cx = x(bar.time + 30), color = bar.close >= bar.open ? '#36d49b' : '#ff6c81';
@@ -92,32 +92,17 @@ function priceChartSvg(bars, window, fills, title) {
   }
   for (const interval of window.intervals) for (const [time, color] of [[interval.opened, '#f6c66b'], [interval.closed, '#87b8ff']]) svg += `<line x1="${x(time)}" x2="${x(time)}" y1="${top}" y2="${volumeBottom}" stroke="${color}" stroke-dasharray="4 5" opacity=".65"/>`;
   for (const fill of fills) {
-    const cx = x(fill.time), cy = y(Number(fill.price)), entry = fill.role === 'entry', color = entry ? '#f6c66b' : '#87b8ff';
+    const cx = x(fill.time), cy = y(Number(fill.price)), entry = fill.role === 'entry', color = fill.side === 'BUY' ? '#baff45' : '#ff5252';
     const direction = fill.side === 'BUY' ? 1 : -1;
     const tip = `${entry?'Entrada':'Salida'} · ${fill.side==='BUY'?'Compra':'Venta'} · ${new Date(fill.time*1000).toLocaleTimeString('es-ES',{timeZone:'America/New_York',hourCycle:'h23'})} NY · ${fill.quantity} acciones · $${fill.price}`;
-    svg += `<path class="trade-fill-marker" d="M ${cx} ${cy} l -6 ${direction*10} h 12 Z" fill="${color}" stroke="#0b1320" stroke-width="1.3"><title>${esc(tip)}</title></path>`;
+    svg += `<path class="trade-fill-marker" d="M ${cx} ${cy} l -6 ${direction*10} h 12 Z" fill="${color}" stroke="#ffffff" stroke-width="1.5"><title>${esc(tip)}</title></path>`;
   }
   svg += `<line class="trade-price-crosshair" x1="0" x2="0" y1="${top}" y2="${volumeBottom}" stroke="#b8cce8" stroke-dasharray="3 4" visibility="hidden"/></svg>`;
   return svg;
 }
 
-function bindPriceReadout(host, bars, window) {
-  const svg = host.querySelector('svg'), crosshair = host.querySelector('.trade-price-crosshair');
-  const output = host.closest('.calendar-ticker-price').querySelector('.trade-price-readout');
-  svg.addEventListener('pointermove', event => {
-    const point = svg.createSVGPoint(); point.x = event.clientX; point.y = event.clientY;
-    const x = point.matrixTransform(svg.getScreenCTM().inverse()).x;
-    const time = window.start + (x - 72) / 898 * (window.end - window.start);
-    const minute = Math.floor(time/60)*60, bar = bars.find(item => item.time === minute);
-    if (x < 72 || x > 970) return;
-    crosshair.setAttribute('x1', x); crosshair.setAttribute('x2', x); crosshair.setAttribute('visibility', 'visible');
-    output.textContent = `${tradePriceClock.format(new Date(minute*1000))} NY · ${bar ? `O ${bar.open} · H ${bar.high} · L ${bar.low} · C ${bar.close} USD · Vol ${bar.volume.toLocaleString('es-ES')}` : 'Sin vela disponible en esta fuente'}`;
-  });
-  svg.addEventListener('pointerleave', () => crosshair.setAttribute('visibility', 'hidden'));
-}
-
 function calendarPriceMarkup(index) {
-  return `<section id="calendar-ticker-price-${index}" class="calendar-ticker-price" aria-label="Velas y ejecuciones del ticker"><div class="trade-price-heading"><h5>Velas · 1 minuto</h5><label>Fuente<select class="trade-price-source" disabled></select></label><button class="trade-price-retry secondary" type="button">Reintentar</button></div><p class="trade-price-summary mini-caption"></p><div class="trade-price-legend"><span><i class="trade-entry-dot"></i>Entrada</span><span><i class="trade-exit-dot"></i>Salida</span><span>USD · Nueva York · margen fijo de 15 min</span></div><div class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y todas las ejecuciones del ticker"></div><p class="trade-price-readout"></p><p class="trade-price-status mini-caption" role="status"></p></section>`;
+  return `<section id="calendar-ticker-price-${index}" class="calendar-ticker-price" aria-label="Velas y ejecuciones del ticker"><div class="trade-price-heading"><p class="trade-price-summary mini-caption"></p><label>Fuente<select class="trade-price-source" disabled></select></label><button class="trade-price-retry secondary" type="button" aria-label="Reintentar" title="Reintentar"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y todas las ejecuciones del ticker"></div><p class="trade-price-status mini-caption" role="status"></p></section>`;
 }
 
 async function renderCalendarTradeChart(rows = tradePriceRows) {
@@ -129,7 +114,6 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
     if (!panel) return;
     const select = panel.querySelector('.trade-price-source');
     const status = panel.querySelector('.trade-price-status'), host = panel.querySelector('.trade-price-chart');
-    const readout = panel.querySelector('.trade-price-readout');
     const current = () => request === tradePriceRequest && panel.isConnected;
     const retry = panel.querySelector('.trade-price-retry');
     select.onchange = () => { tradePriceSources.set(symbol, select.value); renderCalendarTradeChart(); };
@@ -137,7 +121,6 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
     status.textContent = 'Cargando datos de precios…';
     host.replaceChildren();
     select.replaceChildren(); select.disabled = true;
-    readout.textContent = '';
     panel.querySelector('.trade-price-summary').textContent = `${symbol} · ${trades.length} ${trades.length === 1 ? 'trade' : 'trades'} · ${signed(trades.reduce((total, trade) => total + trade.pnl, 0))}`;
     try {
       const priceIndex = await fetchPriceFile('data/prices/index.json');

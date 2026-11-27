@@ -448,12 +448,14 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 
 .calendar-ticker-price{padding:0 12px 14px;border-top:1px solid #29394e;margin-top:4px}
 .trade-price-heading{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 6px}
-.trade-price-heading h5{font-size:11px;color:#9db7d8;font-weight:500;margin:0 auto 0 0}
+.trade-price-heading .trade-price-summary{margin:0 auto 0 0}
 .trade-price-heading label{display:flex;align-items:center;gap:6px;font-size:11px;color:#a6b9ce}
 .trade-price-heading select{min-height:28px;max-width:230px;padding:4px 6px;font-size:11px}
-.trade-price-heading button{font-size:10px;padding:5px 8px}
+.trade-price-heading button{display:grid;place-items:center;padding:6px}
 .calendar-ticker-price .trade-price-legend{gap:10px;margin:8px 0;font-size:10px}
-.calendar-ticker-price .trade-candle-svg{width:100%;min-width:0;height:250px}
+.calendar-ticker-price .trade-candle-svg{width:100%;min-width:0;height:300px}
 .calendar-ticker-price .trade-price-readout{font-size:10px;margin:6px 0;min-height:16px}
 .calendar-ticker-price .trade-price-status{font-size:10px;line-height:1.5}
-@media(max-width:600px){.calendar-ticker-price .trade-candle-svg{min-width:520px;height:220px}.trade-price-heading label{flex:1}.trade-price-heading select{max-width:100%}}
+@media(max-width:600px){.calendar-ticker-price .trade-candle-svg{min-width:520px;height:270px}.trade-price-heading label{flex:1}.trade-price-heading select{max-width:100%}}
+
+.calendar-ticker-price .trade-price-status:empty{display:none}
