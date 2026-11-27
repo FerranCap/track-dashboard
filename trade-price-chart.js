@@ -77,12 +77,11 @@ function priceChartSvg(bars, window, fills, title) {
   for (const interval of window.intervals) svg += `<rect x="${x(interval.opened)}" y="${top}" width="${Math.max(1,x(interval.closed)-x(interval.opened))}" height="${bottom-top}" fill="#7caaff" opacity=".07"/>`;
   for (let i = 0; i <= 4; i++) {
     const value = low + (high - low) * i / 4;
-    svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+4}" text-anchor="end" fill="#a6b9ce" font-size="11">${price(value)}</text>`;
+    svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+5}" text-anchor="end" fill="#a6b9ce" font-size="16">${price(value)}</text>`;
   }
-  svg += `<text x="${left}" y="23" fill="#a6b9ce" font-size="12">Precio · USD</text>`;
   for (let i = 0; i <= 5; i++) {
     const time = window.start + (window.end - window.start) * i / 5;
-    svg += `<text x="${x(time)}" y="480" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="11">${clock(time)}</text>`;
+    svg += `<text x="${x(time)}" y="480" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="16">${clock(time)}</text>`;
   }
   for (const bar of bars) {
     const cx = x(bar.time + 30), color = bar.close >= bar.open ? '#36d49b' : '#ff6c81';
@@ -102,7 +101,35 @@ function priceChartSvg(bars, window, fills, title) {
 }
 
 function calendarPriceMarkup(index) {
-  return `<section id="calendar-ticker-price-${index}" class="calendar-ticker-price" aria-label="Velas y ejecuciones del ticker"><div class="trade-price-heading"><p class="trade-price-summary mini-caption"></p><label>Fuente<select class="trade-price-source" disabled></select></label><button class="trade-price-retry secondary" type="button" aria-label="Reintentar" title="Reintentar"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y todas las ejecuciones del ticker"></div><p class="trade-price-status mini-caption" role="status"></p></section>`;
+  return `<section id="calendar-ticker-price-${index}" class="calendar-ticker-price" aria-label="Velas y ejecuciones del ticker"><div class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y todas las ejecuciones del ticker"></div><p class="trade-price-status mini-caption" role="status"></p><div class="trade-price-heading"><label>Fuente<select class="trade-price-source" disabled></select></label><button class="trade-price-retry secondary" type="button" aria-label="Reintentar" title="Reintentar"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></section>`;
+}
+
+function minutePnlCurve(trades, bars, executionGroups) {
+  if (!executionGroups.every(group => group.complete)) return null;
+  const entries = trades.map((trade, index) => ({ trade, fills: executionGroups[index].fills.slice().sort((a, b) => a.time - b.time) }));
+  if (entries.some(({ trade }) => pnlDisplayUnit === 'r' && !sessionRiskAt(tradePriceDate(trade)))) return null;
+  const start = Math.min(...trades.map(trade => Date.parse(trade.opened) / 1000));
+  const end = Math.max(...trades.map(trade => Date.parse(trade.closed) / 1000));
+  const times = [...new Set([start, end, ...bars.map(bar => bar.time + 60).filter(time => time > start && time < end), ...trades.map(trade => Date.parse(trade.closed) / 1000)])].sort((a, b) => a - b);
+  return times.map(time => {
+    const bar = bars.filter(item => item.time + 60 <= time).at(-1);
+    let total = 0;
+    for (const { trade, fills } of entries) {
+      const opened = Date.parse(trade.opened) / 1000, closed = Date.parse(trade.closed) / 1000;
+      if (time < opened) continue;
+      if (time >= closed) { total += trade.pnl; continue; }
+      if (!bar || bar.time + 60 < opened) continue;
+      let cash = 0, quantity = 0;
+      for (const fill of fills) if (fill.time <= time) {
+        const signedQuantity = Number(fill.quantity) * (fill.side === 'BUY' ? 1 : -1);
+        quantity += signedQuantity;
+        cash -= signedQuantity * Number(fill.price);
+      }
+      const risk = pnlDisplayUnit === 'r' ? sessionRiskAt(tradePriceDate(trade)).risk : 1;
+      total += (cash + quantity * bar.close) / risk;
+    }
+    return [new Date(time * 1000).toISOString(), total];
+  });
 }
 
 async function renderCalendarTradeChart(rows = tradePriceRows) {
@@ -121,7 +148,6 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
     status.textContent = 'Cargando datos de precios…';
     host.replaceChildren();
     select.replaceChildren(); select.disabled = true;
-    panel.querySelector('.trade-price-summary').textContent = `${symbol} · ${trades.length} ${trades.length === 1 ? 'trade' : 'trades'} · ${signed(trades.reduce((total, trade) => total + trade.pnl, 0))}`;
     try {
       const priceIndex = await fetchPriceFile('data/prices/index.json');
       if (!current()) return;
@@ -159,9 +185,9 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
       const minutes = new Set();
       for (const interval of window.intervals) for (let time = Math.floor(interval.opened / 60) * 60; time <= Math.floor(interval.closed / 60) * 60; time += 60) minutes.add(time);
       const available = bars.filter(bar => minutes.has(bar.time)).length;
-      status.textContent = `${bars.length} velas · ${available}/${minutes.size} minutos operados con vela. ${executions.every(item => item.complete) ? `${fills.length} ejecuciones reales.` : 'Ejecuciones incompletas o no disponibles.'} Los huecos no se rellenan. Precios sin ajustar.`;
-      readout.textContent = 'Pasa el cursor para ver OHLC y volumen.';
-      bindPriceReadout(host, bars, window);
+      status.textContent = available < minutes.size || !executions.every(item => item.complete) ? `Datos incompletos: ${available}/${minutes.size} minutos operados con vela${executions.every(item => item.complete) ? '' : '; faltan ejecuciones'}.` : '';
+      const points = minutePnlCurve(trades, bars, executions);
+      if (points) renderChart(`calendar-ticker-chart-${index}`, [{ values: points, color: '#29d17e' }], { currency: true, timeAxis: true, labels: points.map(point => tradePriceClock.format(new Date(point[0]))), explanation: 'Estimación intratrade con ejecuciones y cierres de velas de un minuto; costes y PnL registrados se reflejan al cerrar cada operación. No se rellenan velas ausentes.' });
     } catch (error) {
       if (!current()) return;
       status.textContent = 'No se pudieron cargar los precios. Pulsa Reintentar.';
