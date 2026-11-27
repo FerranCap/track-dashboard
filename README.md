@@ -151,3 +151,11 @@ Browser configuration remains under `track-das-hotkeys-v12` to preserve edits. S
 The v14 defaults use `$RiskMultiplier=8` for C and Entry C, and `12` for B and Entry B. Shares equal `$RiskScale * $RiskMultiplier / ABS($StopPrice - $EntryPrice)`, using Bid for long entries and Ask for short entries. Saved browser settings adopt these four multipliers once, marked by `riskDefaultsVersion`, preserving other parameters and later multiplier edits. The read-only daily stop reference displays `30 * RiskScale` for the next session.
 
 Entry B and Entry C always use an entry factor of 1 for long and short positions. The factor controls are removed; loading saved settings and saving scripts removes legacy numeric entry factors without changing the B/C risk multipliers.
+
+## SEC capital history
+
+Tickers includes a **Capital SEC** disclosure before News, with dated share
+counts, public float, estimates and capital events. Initial reviewed coverage is
+AMD and BENF; other symbols remain unreviewed. See
+[the SEC database workflow](data/sec/README.md) for evidence rules and updates.
+Run `python scripts/build_sec_capital.py` after changing trades or SEC evidence.

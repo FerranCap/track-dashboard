@@ -19,6 +19,7 @@ on:
       - 'optimal.js'
       - 'swing.js'
       - 'news.js'
+      - 'sec-capital.js'
       - 'filters.js'
       - 'date-fields.js'
       - 'help.js'
@@ -60,13 +61,15 @@ jobs:
         run: python scripts/build_data.py
       - name: Generate trade news context
         run: python scripts/build_news.py --hours 48
+      - name: Generate SEC capital references
+        run: python scripts/build_sec_capital.py
       - name: Validate generated dataset
         run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Assemble website
         run: |
-          mkdir -p site/data/reference site/data/news site/data/hotkeys
+          mkdir -p site/data/reference site/data/news site/data/hotkeys site/data/sec
           cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
-          cp projection.js swing.js optimal.js watchlist.js site/
+          cp projection.js swing.js optimal.js watchlist.js sec-capital.js site/
           cp journal.js journal.css site/
           cp hotkeys.js hotkeys.css site/
           cp data/hotkeys/*.htk site/data/hotkeys/
@@ -79,6 +82,7 @@ jobs:
           cp data/session-risk.json site/data/session-risk.json
           cp data/journal.json site/data/journal.json
           cp data/news/trade-context.json site/data/news/trade-context.json
+          cp data/sec/*.json site/data/sec/
           cp data/reference/ticker-profiles.csv data/reference/research-summary.json site/data/reference/
           touch site/.nojekyll
       - name: Configure GitHub Pages

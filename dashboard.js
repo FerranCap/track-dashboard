@@ -271,11 +271,12 @@ async function loadData(options = {}){
   const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
-    const [response, newsPayload, riskHistory] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews(), fetchSessionRisk()]);
+    const [response, newsPayload, riskHistory, secCapitalPayload] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews(), fetchSessionRisk(), fetchSecCapital()]);
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
     updateIssuerNews(newsPayload, next);
+    updateSecCapital(secCapitalPayload, next);
     dataset=next;sessionRiskHistory=riskHistory;populateFilters(dataset.trades, Boolean(options.preserveFilters));
     $('search').value=previousSearch;
     $('last-updated').textContent=`Datos generados: ${new Date(next.generatedAt).toLocaleString('es-ES')}`;

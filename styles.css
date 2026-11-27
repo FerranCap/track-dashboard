@@ -375,3 +375,14 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 
 .watchlist-table input{text-align:center}
 .watchlist-table textarea{text-align:left}
+
+.sec-capital-cell{min-width:160px;vertical-align:top}
+.sec-capital-cell summary{cursor:pointer;color:#a8caff;white-space:nowrap}
+.sec-capital-detail{width:clamp(280px,38vw,620px);max-width:75vw;padding:14px;white-space:normal;background:#101a29;border:1px solid #344b69;border-radius:8px;margin-top:10px;line-height:1.5;font-size:14px}
+.sec-capital-detail h4{margin:16px 0 6px;font-size:14px}
+.sec-capital-detail p{margin:6px 0}
+.sec-capital-reference{padding:10px;border:1px solid #344b69;border-radius:6px}
+.sec-capital-history{list-style:none;padding:0;margin:0}
+.sec-capital-history>li{padding:10px 0;border-bottom:1px solid #344b69}
+.sec-capital-history>li>strong,.sec-capital-history>li>span,.sec-capital-history>li>small{display:block}
+.sec-capital-detail small{font-size:12px}

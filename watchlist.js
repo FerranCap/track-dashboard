@@ -326,8 +326,8 @@ function initializeWatchlist() {
       finvizLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Finviz (nueva pesta\u00f1a)`);
       const yahooLink = document.createElement('a');
       yahooLink.className = 'watchlist-link';
-      yahooLink.textContent = 'Yahoo Finance';
-      yahooLink.href = `https://finance.yahoo.com/quote/${encodeURIComponent(entry.ticker)}/`;
+      yahooLink.textContent = 'Yahoo';
+      yahooLink.href = `https://finance.yahoo.com/quote/${encodeURIComponent(entry.ticker)}/key-statistics/`;
       yahooLink.target = '_blank';
       yahooLink.rel = 'noopener noreferrer';
       yahooLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Yahoo Finance (nueva pesta\u00f1a)`);

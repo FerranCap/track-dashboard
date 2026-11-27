@@ -2,6 +2,23 @@
 
 Codigo siempre en ingles. Comentarios breves y sin emoticonos.
 
+## SEC capital history
+
+`data/sec/capital-history.json` is the reviewed source for historical share counts,
+public float, capital estimates and capital events. The initial pilot covers AMD
+and BENF; QQQ is excluded. Follow `data/sec/README.md` when extending coverage.
+Preserve source precision, share classes, split bases, observation dates and SEC
+publication evidence. Never substitute public float in USD for a share count,
+potential dilution for issued shares, or a quoted-class estimate for total issuer
+market cap. Unknown or unreviewed values are not zero.
+
+After trade imports or corrections, run `python scripts/build_sec_capital.py`
+after the final trade rebuild to refresh the entry references. Run it after SEC
+evidence changes too. Do not edit `data/sec/trade-capital.json` manually. The
+builder calculates from reviewed evidence; it does not research new filings.
+Keep coverage limitations explicit and run the existing checks. SEC-only changes
+must preserve trade accounting, journal, risk and news data.
+
 ## Journal entries from screenshots
 
 The Diario > Entrada tab is a browser-local draft form. The user fills it in and sends a screenshot in chat to have the session recorded in the project. Drafts do not update the repository, Google Sheets or the published website automatically. All entry-form monetary amounts are USD, independently of the dashboard USD/R display mode.

@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "issuers": {
+    "AMD": {
+      "cik": "2488",
+      "securityType": "direct_equity",
+      "marketCapMethod": "single_common_class",
+      "coverage": "partial",
+      "reviewedOn": "2026-11-27",
+      "scope": "Pilot review of the 2025 annual report and 2026 third-quarter report. This is not a complete review of intervening filings or all historical trades.",
+      "limitations": [
+        "The public float value is rounded in the source. Dividing it by the stated price produces an approximate non-affiliate share count for June 2025, not the float on the trade date.",
+        "Entry market cap uses the latest reviewed share count available before entry. Intervening issuances, repurchases and other capital changes are not exhaustively reconciled."
+      ],
+      "filings": {
+        "amd-2025-10k": {
+          "accession": "0000002488-26-000018",
+          "form": "10-K",
+          "filedOn": "2026-02-04",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.html"
+        },
+        "amd-2026-q3": {
+          "accession": "0000002488-26-000191",
+          "form": "10-Q",
+          "filedOn": "2026-11-04",
+          "acceptedAt": "2026-11-03T18:00:17-05:00",
+          "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000191/amd-20260926.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000191/0000002488-26-000191-index.html"
+        }
+      },
+      "observations": [
+        {
+          "id": "amd-public-float-20250628",
+          "metric": "publicFloatValue",
+          "value": 232300000000,
+          "unit": "USD",
+          "asOf": "2025-06-28",
+          "basis": "reported",
+          "filingId": "amd-2025-10k",
+          "evidence": "Cover page: approximately USD 232.3 billion of common stock held by non-affiliates as of June 28, 2025, using the June 27 closing price of USD 143.81.",
+          "precision": "rounded_to_0.1_billion"
+        },
+        {
+          "id": "amd-float-shares-20250628",
+          "metric": "floatShares",
+          "value": 1615325777.0669634,
+          "unit": "shares",
+          "asOf": "2025-06-28",
+          "basis": "estimated",
+          "filingId": "amd-2025-10k",
+          "evidence": "Approximate non-affiliate shares = rounded declared public float value / stated closing price. Not a verified tradable float at entry.",
+          "calculation": {
+            "publicFloatValue": 232300000000,
+            "price": 143.81,
+            "priceAsOf": "2025-06-27"
+          }
+        },
+        {
+          "id": "amd-shares-20260130",
+          "metric": "sharesOutstanding",
+          "value": 1630410843,
+          "unit": "shares",
+          "asOf": "2026-01-30",
+          "basis": "reported",
+          "filingId": "amd-2025-10k",
+          "evidence": "Cover page: 1,630,410,843 common shares outstanding as of January 30, 2026."
+        },
+        {
+          "id": "amd-shares-20261028",
+          "metric": "sharesOutstanding",
+          "value": 1640087251,
+          "unit": "shares",
+          "asOf": "2026-10-28",
+          "basis": "reported",
+          "filingId": "amd-2026-q3",
+          "evidence": "Cover page: 1,640,087,251 common shares outstanding as of October 28, 2026."
+        }
+      ],
+      "events": [
+        {
+          "asOf": "2026-09-26",
+          "type": "conditional_warrants",
+          "filingId": "amd-2026-q3",
+          "affectsShareBasis": false,
+          "description": "The report describes two customer warrants, each for up to 160 million common shares at USD 0.01, subject to conditions. Potential shares are not added to outstanding shares or market cap."
+        }
+      ]
+    },
+    "BENF": {
+      "cik": "1775734",
+      "securityType": "direct_equity",
+      "marketCapMethod": "quoted_class_only",
+      "quotedShareClass": "Class A",
+      "coverage": "partial",
+      "reviewedOn": "2026-11-27",
+      "scope": "Pilot review of the March 2026 annual report, September 2026 quarterly report and July 2026 resale registration. Intervening filings and the complete capital chain have not been exhaustively reviewed.",
+      "limitations": [
+        "Class A is the quoted BENF security. Class B is recorded separately; the Class A entry estimate is not total issuer equity value.",
+        "The September 2025 non-affiliate value and price in the annual report are reverse-split adjusted. Their quotient is a historical approximation, not the tradable float in November 2026.",
+        "Registered resale shares and potential preferred conversions are not assumed to have been issued or to be freely tradable. Changes between the latest reviewed share count and each entry remain unverified."
+      ],
+      "filings": {
+        "benf-2026-10k": {
+          "accession": "0001775734-26-000018",
+          "form": "10-K",
+          "filedOn": "2026-06-30",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000018/ben-20260331.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000018/0001775734-26-000018-index.html"
+        },
+        "benf-2026-q2": {
+          "accession": "0001775734-26-000039",
+          "form": "10-Q",
+          "filedOn": "2026-11-16",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000039/ben-20260930.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000039/0001775734-26-000039-index.html"
+        },
+        "benf-2026-s1": {
+          "accession": "0001493152-26-035225",
+          "form": "S-1",
+          "filedOn": "2026-07-29",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1775734/000149315226035225/forms-1.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1775734/000149315226035225/0001493152-26-035225-index.html"
+        }
+      },
+      "observations": [
+        {
+          "id": "benf-public-float-20250930",
+          "metric": "publicFloatValue",
+          "value": 8647572,
+          "unit": "USD",
+          "asOf": "2025-09-30",
+          "basis": "reported",
+          "shareClass": "Class A",
+          "filingId": "benf-2026-10k",
+          "evidence": "Cover: non-affiliate Class A value USD 8,647,572 at a USD 7.61 closing price; both price and share count are reverse-split adjusted."
+        },
+        {
+          "id": "benf-float-shares-20250930",
+          "metric": "floatShares",
+          "value": 1136343.232588699,
+          "unit": "shares",
+          "asOf": "2025-09-30",
+          "basis": "estimated",
+          "shareClass": "Class A",
+          "filingId": "benf-2026-10k",
+          "evidence": "Approximate non-affiliate Class A shares from the declared value divided by its stated price. The source uses reverse-split-adjusted units.",
+          "shareBasisDate": "2025-12-15",
+          "calculation": {
+            "publicFloatValue": 8647572,
+            "price": 7.61,
+            "priceAsOf": "2025-09-30"
+          }
+        },
+        {
+          "id": "benf-class-a-20260622",
+          "metric": "sharesOutstanding",
+          "value": 14488560,
+          "unit": "shares",
+          "asOf": "2026-06-22",
+          "basis": "reported",
+          "shareClass": "Class A",
+          "filingId": "benf-2026-10k",
+          "evidence": "Cover: 14,488,560 Class A shares outstanding."
+        },
+        {
+          "id": "benf-class-b-20260622",
+          "metric": "sharesOutstanding",
+          "value": 29908,
+          "unit": "shares",
+          "asOf": "2026-06-22",
+          "basis": "reported",
+          "shareClass": "Class B",
+          "filingId": "benf-2026-10k",
+          "evidence": "Cover: 29,908 Class B shares outstanding."
+        },
+        {
+          "id": "benf-class-a-20261109",
+          "metric": "sharesOutstanding",
+          "value": 19146748,
+          "unit": "shares",
+          "asOf": "2026-11-09",
+          "basis": "reported",
+          "shareClass": "Class A",
+          "filingId": "benf-2026-q2",
+          "evidence": "Cover: 19,146,748 Class A shares outstanding."
+        },
+        {
+          "id": "benf-class-b-20261109",
+          "metric": "sharesOutstanding",
+          "value": 29908,
+          "unit": "shares",
+          "asOf": "2026-11-09",
+          "basis": "reported",
+          "shareClass": "Class B",
+          "filingId": "benf-2026-q2",
+          "evidence": "Cover: 29,908 Class B shares outstanding."
+        }
+      ],
+      "events": [
+        {
+          "asOf": "2025-12-15",
+          "type": "reverse_split",
+          "filingId": "benf-2026-q2",
+          "affectsShareBasis": true,
+          "description": "Common stock began trading on a one-for-eight reverse-split basis on December 15, 2025. Later disclosed share counts use that basis."
+        },
+        {
+          "asOf": "2026-07-29",
+          "type": "resale_registration",
+          "filingId": "benf-2026-s1",
+          "affectsShareBasis": false,
+          "description": "S-1 registers resale of up to 55,671,296 Class A shares. Registration is not evidence that all shares were issued or sold."
+        },
+        {
+          "asOf": "2026-09-30",
+          "type": "conditional_conversion",
+          "filingId": "benf-2026-q2",
+          "affectsShareBasis": false,
+          "description": "The quarterly report states a maximum of 17,290,913 Class A shares potentially issuable upon conversion of outstanding Series B preferred stock. These potential shares are excluded from outstanding common shares."
+        }
+      ]
+    }
+  }
+}

@@ -14,6 +14,7 @@ function helpKey(label) {
 function helpText(label) {
   const key = helpKey(label);
   const rules = [
+    [/^capital sec$/, 'Historial documentado de acciones, public float, capitalización y eventos de capital. Cada cifra muestra la fecha del dato y de su publicación. Las estimaciones usan únicamente documentos disponibles antes de la entrada y conservan las limitaciones de cobertura. Importes en USD.'],
     [/^perdida media · % de r$/, 'Pérdida media entre trades perdedores, como porcentaje de la R vigente en la entrada. No es una pérdida máxima individual.'],
     [/^size vs\. historico$/, 'Multiplicador común respecto al tamaño histórico filtrado: porcentaje de pérdida media del escenario dividido por el porcentaje histórico.'],
     [/^ganancia media proyectada · r$/, 'Media de PnL/R de entrada entre ganadoras, multiplicada por el tamaño del escenario. Se expresa en R.'],

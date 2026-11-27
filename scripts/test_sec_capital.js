@@ -1,0 +1,38 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const root = path.join(__dirname, '..');
+const dataset = JSON.parse(fs.readFileSync(path.join(root, 'data/trades.json'), 'utf8'));
+const payload = JSON.parse(fs.readFileSync(path.join(root, 'data/sec/trade-capital.json'), 'utf8'));
+const context = vm.createContext({ console, Intl, Map, Date, fetch: async () => ({ ok: false }),
+  esc: value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;'),
+  dataset, payload });
+vm.runInContext(fs.readFileSync(path.join(root, 'sec-capital.js'), 'utf8'), context);
+const run = code => vm.runInContext(code, context);
+run('updateSecCapital(payload, dataset)');
+const amd = run('issuerSecCapitalCell(dataset.tickerProfiles.AMD, dataset.trades)');
+assert.match(amd, /<details><summary>Ver SEC/);
+assert.match(amd, /Capitalización estimada a la entrada/);
+assert.match(amd, /Public float declarado/);
+assert.match(amd, /28 días/);
+assert.match(amd, /2026-11-25|25\/11\/2026/);
+assert.match(amd, /target="_blank" rel="noopener noreferrer"/);
+const benf = run('issuerSecCapitalCell(dataset.tickerProfiles.BENF, dataset.trades)');
+assert.match(benf, /Valor estimado de Class A/);
+assert.match(benf, /Class B/);
+assert.match(benf, /reverse-split/);
+assert.match(run('issuerSecCapitalCell(dataset.tickerProfiles.QQQ, dataset.trades)'), /Sin revisar/);
+assert.match(run('issuerSecCapitalCell(dataset.tickerProfiles.ABTS, dataset.trades)'), /Sin revisar/);
+assert.match(run('issuerSecCapitalCell(dataset.tickerProfiles.AMD, dataset.trades.filter(t => t.opened < "2026-02-01"))'), /Sin estimación|Historial publicado/);
+run('payload.issuers.AMD.scope = "<script>alert(1)</script>"; updateSecCapital(payload, dataset)');
+assert.doesNotMatch(run('issuerSecCapitalCell(dataset.tickerProfiles.AMD, dataset.trades)'), /<script>/);
+run('payload.trades.forEach(t => { t.entryAt = "2000-01-01"; }); updateSecCapital(payload, dataset)');
+assert.match(run('issuerSecCapitalCell(dataset.tickerProfiles.AMD, dataset.trades)'), /Sin estimación/);
+run('updateSecCapital(null, dataset)');
+assert.match(run('issuerSecCapitalCell(dataset.tickerProfiles.AMD, dataset.trades)'), /SEC no disponible/);
+const workspace = fs.readFileSync(path.join(root, 'workspace.js'), 'utf8');
+assert.match(workspace, /'Capital SEC', 'Noticias'/);
+assert.match(workspace, /issuerSecCapitalCell\(profile, rows\).*issuerNewsCell\(profile\)/);
+console.log('SEC capital disclosure checks passed.');
