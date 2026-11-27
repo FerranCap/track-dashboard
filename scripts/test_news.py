@@ -156,7 +156,7 @@ class NewsContextTests(unittest.TestCase):
         generated = read(ROOT / 'data/news/trade-context.json')
         articles = read(ROOT / 'data/news/articles.json')['articles']
         reviews = read(ROOT / 'data/news/research.json')['reviews']
-        self.assertEqual(generated['counts'], {'trades': 892, 'articles': 433, 'events': 369,
+        self.assertEqual(generated['counts'], {'trades': 894, 'articles': 433, 'events': 369,
                                               'tradeArticleLinks': 928, 'dateFallbackLinks': 294,
                                               'tradesWithNews': 617})
         entries = {trade['id']: trade for trade in dataset['trades']}

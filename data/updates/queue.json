@@ -1,8 +1,124 @@
 {
   "schemaVersion": 1,
   "policyVersion": 1,
-  "tradeFingerprint": "306216ed7ddd49d4d8daa45481649292da0c402fe09e066e40f405c404b606fe",
+  "tradeFingerprint": "67f8cbbbfa7ad83f29efd0de6bb353f9e29b7e40bbb2a42980a1af014c0ef3a8",
   "jobs": [
+    {
+      "id": "sec-b41bc3c354f76123e4c9",
+      "fingerprint": "b41bc3c354f76123e4c91dd742bd9f7925a8fbcc4d4d4a0e903d6719dea79150",
+      "domain": "sec",
+      "cik": "1687277",
+      "issuerNames": [
+        "ReTo Eco-Solutions, Inc."
+      ],
+      "symbols": [
+        "RETO"
+      ],
+      "entries": [
+        {
+          "id": "cmu2y0ob50dck467qivw8pqw8",
+          "symbol": "RETO",
+          "opened": "2026-09-15T11:17:30-04:00"
+        },
+        {
+          "id": "cmu2y0ob50dcl467qmtfhfi77",
+          "symbol": "RETO",
+          "opened": "2026-09-15T11:18:18-04:00"
+        },
+        {
+          "id": "cmu2y0ob50dcm467q9cx24cex",
+          "symbol": "RETO",
+          "opened": "2026-09-15T11:20:53-04:00"
+        },
+        {
+          "id": "cmu2y0ob50dcn467qjwq5v9jl",
+          "symbol": "RETO",
+          "opened": "2026-09-15T11:35:32-04:00"
+        },
+        {
+          "id": "cmu2y0ob50dco467qad98flq4",
+          "symbol": "RETO",
+          "opened": "2026-09-15T11:57:52-04:00"
+        },
+        {
+          "id": "broker-22bf436f4f776783a627dd9d",
+          "symbol": "RETO",
+          "opened": "2026-11-27T11:49:18-05:00"
+        },
+        {
+          "id": "broker-ff87c4b52efab78e09402721",
+          "symbol": "RETO",
+          "opened": "2026-11-27T12:17:41-05:00"
+        }
+      ],
+      "missingFields": [
+        "floatShares",
+        "publicFloatValue",
+        "sharesOutstanding"
+      ],
+      "filingEvidence": [
+        {
+          "symbol": "RETO",
+          "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
+          "filedOn": "2026-05-01"
+        }
+      ]
+    },
+    {
+      "id": "prices-d48ac6bbaa3ab53c905e",
+      "fingerprint": "d48ac6bbaa3ab53c905e54ea091ac5674d594ddd937a6da8fb84bc89c0cc0632",
+      "domain": "prices",
+      "cik": "1687277",
+      "issuerNames": [
+        "ReTo Eco-Solutions, Inc."
+      ],
+      "symbols": [
+        "RETO"
+      ],
+      "entries": [
+        {
+          "id": "broker-22bf436f4f776783a627dd9d",
+          "symbol": "RETO",
+          "opened": "2026-11-27T11:49:18-05:00"
+        },
+        {
+          "id": "broker-ff87c4b52efab78e09402721",
+          "symbol": "RETO",
+          "opened": "2026-11-27T12:17:41-05:00"
+        }
+      ],
+      "start": "2026-11-22T00:00:00-05:00",
+      "end": "2026-11-29T00:00:00-05:00",
+      "dataset": "XNAS.ITCH",
+      "schema": "ohlcv-1m",
+      "windowBasis": "calendar_days"
+    },
+    {
+      "id": "news-f01cd11b5d1d8b4a652d",
+      "fingerprint": "f01cd11b5d1d8b4a652d9abb62a145499f632b000b1a9e459d88cfc08247aff8",
+      "domain": "news",
+      "cik": "1687277",
+      "issuerNames": [
+        "ReTo Eco-Solutions, Inc."
+      ],
+      "symbols": [
+        "RETO"
+      ],
+      "entries": [
+        {
+          "id": "broker-22bf436f4f776783a627dd9d",
+          "symbol": "RETO",
+          "opened": "2026-11-27T11:49:18-05:00"
+        },
+        {
+          "id": "broker-ff87c4b52efab78e09402721",
+          "symbol": "RETO",
+          "opened": "2026-11-27T12:17:41-05:00"
+        }
+      ],
+      "start": "2026-11-25T11:49:18-05:00",
+      "end": "2026-11-27T12:17:41-05:00"
+    },
     {
       "id": "prices-b9e94079317d6c949533",
       "fingerprint": "b9e94079317d6c949533d4c2bd0dbcd1297bf9762cab7b226b0f38189499f2c9",
@@ -6563,57 +6679,6 @@
       "dataset": "XNAS.ITCH",
       "schema": "ohlcv-1m",
       "windowBasis": "calendar_days"
-    },
-    {
-      "id": "sec-0253f589b513f5951c34",
-      "fingerprint": "0253f589b513f5951c34adf10821b4dc3acfc09b8973d809596155e0d160f5f8",
-      "domain": "sec",
-      "cik": "1687277",
-      "issuerNames": [
-        "ReTo Eco-Solutions, Inc."
-      ],
-      "symbols": [
-        "RETO"
-      ],
-      "entries": [
-        {
-          "id": "cmu2y0ob50dck467qivw8pqw8",
-          "symbol": "RETO",
-          "opened": "2026-09-15T11:17:30-04:00"
-        },
-        {
-          "id": "cmu2y0ob50dcl467qmtfhfi77",
-          "symbol": "RETO",
-          "opened": "2026-09-15T11:18:18-04:00"
-        },
-        {
-          "id": "cmu2y0ob50dcm467q9cx24cex",
-          "symbol": "RETO",
-          "opened": "2026-09-15T11:20:53-04:00"
-        },
-        {
-          "id": "cmu2y0ob50dcn467qjwq5v9jl",
-          "symbol": "RETO",
-          "opened": "2026-09-15T11:35:32-04:00"
-        },
-        {
-          "id": "cmu2y0ob50dco467qad98flq4",
-          "symbol": "RETO",
-          "opened": "2026-09-15T11:57:52-04:00"
-        }
-      ],
-      "missingFields": [
-        "floatShares",
-        "publicFloatValue",
-        "sharesOutstanding"
-      ],
-      "filingEvidence": [
-        {
-          "symbol": "RETO",
-          "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
-          "filedOn": "2026-05-01"
-        }
-      ]
     },
     {
       "id": "prices-4c11a0ef0aa0c9031aaa",
@@ -54781,8 +54846,8 @@
     }
   ],
   "counts": {
-    "news": 441,
+    "news": 442,
     "sec": 498,
-    "prices": 733
+    "prices": 734
   }
 }

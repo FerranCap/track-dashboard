@@ -58,5 +58,27 @@
     "sourceAgeUnverified": true,
     "access": "legacy_cache",
     "attempts": 0
+  },
+  "8963da2f5c4aacc6134ac3561fb9137c0c4654c2dbf531db73d3a2df17c9c809": {
+    "url": "https://finviz.com/stock?t=RETO",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-28T21:56:34.078079+00:00"
+  },
+  "7b6a64b59b15e6ffec40cdb85f65056c056ddd95ff86cd7b82bfe4efc2158cca": {
+    "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=RETO&region=US&lang=en-US",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-28T21:56:34.123085+00:00"
+  },
+  "33d48dfa8a517a689d0f7e9bd868605caae920364ebc6a99215ad48eb5b1a40a": {
+    "url": "https://data.sec.gov/submissions/CIK0001687277.json",
+    "sha256": "ac8c57f7d5fda4f276d8cdb0bf1509c92e36db1625a7d21b1be5613ff114067c",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
   }
 }

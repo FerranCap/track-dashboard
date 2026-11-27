@@ -98,6 +98,43 @@
         "sec-filing-0f781f482d28667eff74cc52"
       ],
       "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
+    },
+    "news-f01cd11b5d1d8b4a652d": {
+      "status": "partial_collection",
+      "collectedAt": "2026-11-27T21:56:34.619080+00:00",
+      "receipts": [
+        {
+          "url": "https://finviz.com/stock?t=RETO",
+          "attempts": 1,
+          "status": null,
+          "failureType": "URLError",
+          "retryAfter": "2026-11-28T21:56:34.078079+00:00",
+          "access": "failed",
+          "provider": "finviz",
+          "coverage": "recent_listing_not_exhaustive_historical_search"
+        },
+        {
+          "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=RETO&region=US&lang=en-US",
+          "attempts": 1,
+          "status": null,
+          "failureType": "URLError",
+          "retryAfter": "2026-11-28T21:56:34.123085+00:00",
+          "access": "failed",
+          "provider": "yahoo",
+          "coverage": "recent_listing_not_exhaustive_historical_search"
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001687277.json",
+          "sha256": "ac8c57f7d5fda4f276d8cdb0bf1509c92e36db1625a7d21b1be5613ff114067c",
+          "fetchedAt": null,
+          "sourceAgeUnverified": true,
+          "access": "legacy_cache",
+          "attempts": 0,
+          "provider": "sec"
+        }
+      ],
+      "candidateIds": [],
+      "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
     }
   }
 }

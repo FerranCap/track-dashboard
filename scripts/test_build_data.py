@@ -30,8 +30,8 @@ class DatasetTests(unittest.TestCase):
     def test_counts_and_pnl(self):
         self.assertEqual(Counter(trade['side'] for trade in self.trades)['BUY'] +
                          Counter(trade['side'] for trade in self.trades)['SELL'], len(self.trades))
-        self.assertEqual(len(self.trades), 1599)
-        self.assertEqual(round(sum(trade['pnl'] for trade in self.trades), 2), 1899.21)
+        self.assertEqual(len(self.trades), 1601)
+        self.assertEqual(round(sum(trade['pnl'] for trade in self.trades), 2), 1899.81)
         self.assertLessEqual(self.data['uniqueExecutionRows'], self.data['executionRows'])
 
 

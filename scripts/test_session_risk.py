@@ -17,6 +17,7 @@ class SessionRiskTests(unittest.TestCase):
             {'effectiveDate': '2026-11-23', 'risk': 154.45573568551575},
             {'effectiveDate': '2026-11-24', 'risk': 162.65047055105285},
             {'effectiveDate': '2026-11-25', 'risk': 171.46070437256822},
+            {'effectiveDate': '2026-11-30', 'risk': 175.7472219818824},
         ])
         dates = [date.fromisoformat(entry['effectiveDate']) for entry in history]
         self.assertEqual(dates, sorted(set(dates)))
