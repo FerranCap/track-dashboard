@@ -1211,6 +1211,40 @@
         "type": "user_screenshot",
         "reviewedOn": "2026-11-24"
       }
+    },
+    {
+      "sourceRow": null,
+      "status": "evaluated",
+      "date": "2026-11-25",
+      "rest": 4,
+      "energy": 4,
+      "stress": 4,
+      "wellbeing": 4,
+      "expectations": 4,
+      "confidence": 4,
+      "fundamentalAnalysis": 0,
+      "fundamentalTracking": 0,
+      "volume": 0,
+      "managementLevels": 0,
+      "riskReward": 0,
+      "technicalTracking": 0,
+      "exitDiscipline": 0,
+      "entryDiscipline": 0,
+      "sizing": 0,
+      "discretionary": null,
+      "systematic": null,
+      "overall": 0,
+      "comment": "Dia sin oportunidad en las horas que he podido estar centrado en este trabajo. No me pongo mala nota ni nada simplemente no he tenido una disponibilidad que se adapte a la session de hoy. Bien practicadas las big caps.",
+      "errorScore": 0,
+      "sizeBefore": 5.715356812418941,
+      "sizeAfter": 5.715356812418941,
+      "sizeAdded": 0,
+      "previousTechnical": null,
+      "previousFocus": null,
+      "sourceEvidence": {
+        "type": "user_screenshot",
+        "reviewedOn": "2026-11-25"
+      }
     }
   ]
 }

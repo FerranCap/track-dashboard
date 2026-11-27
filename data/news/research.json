@@ -13021,6 +13021,118 @@
         "Direct Yahoo retrieval restricted; original GlobeNewswire, Yahoo article and Screw Street direct retrieval unavailable. Indexed publication evidence and Finviz syndication used.",
         "Three reports share one litigation event; no debt cancellation or recovery inferred. Known publication clocks qualify all three new entries; no date-only fallback used."
       ]
+    },
+    {
+      "symbol": "AMD",
+      "issuerCik": "2488",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-25",
+      "coverage": "partial",
+      "scope": "November 25 broker import: exact first entry of the completed position cycle.",
+      "tradeEntries": {
+        "broker-7257a920f347bc0eb3d34f6a": "2026-11-25T09:36:00-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=AMD",
+          "access": "page_reviewed",
+          "note": "Started with dated issuer news list; selected issuer-specific publications followed to original reports or syndications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/AMD/news/",
+          "access": "retrieval_restricted",
+          "note": "Direct Yahoo retrieval restricted; identifiable indexed publication evidence used separately."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/amd-registers-337-million-shares-232224001.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Yahoo indexed original header explicitly states November 23, 2026 at 6:22 PM EST, consistent with the Finviz dated listing."
+        },
+        {
+          "url": "https://finviz.com/news/426367/amd-stock-a-favorite-among-options-bears",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication reviewed: November 23, 2026, 1:44 PM; timezone not explicit, so date-only matching is used."
+        },
+        {
+          "url": "https://www.investing.com/news/stock-market-news/amd-nearterm-technical-setup-bearish-bias-with-oversold-bounce-potential-93CH-5048295",
+          "access": "publication_reviewed",
+          "note": "Original publication header November 24 at 08:26 AM has no explicit timezone; Finviz listing reports 08:56 AM. The 08:23 AM EST in the body is a quote observation, not publication evidence. Date is established; conflicting clocks are not used."
+        },
+        {
+          "url": "https://www.digitimes.com/news/a20261124PD228/intel-amd-production-ceo-2027.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Dated Finviz AMD listing: November 24, 2026, 07:42 PM. Original link redirects to an access-denied page; date and issuer-specific publication existence remain identifiable."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/article/nvidia-amd-broadcom-lead-chip-stocks-lower-as-ai-trade-comes-under-pressure-141635463.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Finviz AMD listing dates this publication November 24, 2026, 04:03 PM; timezone and original publication clock could not be independently confirmed."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/article/jensen-huang-is-back-at-nvidia-should-amd-be-worried-130012666.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Finviz AMD listing dates the article November 24, 2026, 08:00 AM. No independently verified publication timezone."
+        },
+        {
+          "url": "https://finviz.com/news/427219/us-semiconductor-stocks-extend-losses-as-ai-investment-concerns-tariff-risks-and-rate-expectations-weigh-on-markets",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 25, 2026, 6:34 AM. Publication timezone is not explicit; same-day date fallback is used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive coverage. Other syndicated market headlines were not fully reviewed. No archived pre-entry body obtained; no price causation inferred.",
+        "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
+        "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
+      ]
+    },
+    {
+      "symbol": "QQQ",
+      "issuerCik": "1067839",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-25",
+      "coverage": "partial",
+      "scope": "November 25 broker import: exact first entry of the completed position cycle.",
+      "tradeEntries": {
+        "broker-591d1cba6e9fb4ccdc6b33d4": "2026-11-25T09:50:08-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=QQQ",
+          "access": "page_reviewed",
+          "note": "Started with dated issuer news list; selected issuer-specific publications followed to original reports or syndications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/QQQ/news/",
+          "access": "retrieval_restricted",
+          "note": "Direct Yahoo retrieval restricted; identifiable indexed publication evidence used separately."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/etfs-pull-57b-despite-tech-230924421.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Yahoo indexed syndication explicitly states November 23, 2026 at 6:09 PM EST; indexed full text identifies QQQ. Original etf.com archive also identifies the publication."
+        },
+        {
+          "url": "https://finviz.com/news/426965/pre-markets-seeking-post-nvidia-equilibrium",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 24, 2026, 9:26 AM. Publication timezone is not explicit, so date-only matching is used."
+        },
+        {
+          "url": "https://finviz.com/news/427389/cornucopia-of-econ-data-ahead-of-thanksgiving",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 25, 2026, 9:27 AM. Original Zacks retrieval unavailable. Timezone not explicitly established; same-day date fallback is used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive coverage. Other syndicated market headlines were not fully reviewed. No archived pre-entry body obtained; no price causation inferred.",
+        "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
+        "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
+      ]
     }
   ],
   "matchingPolicy": {

@@ -203,6 +203,16 @@ checkConsistency(issuerMarkup.includes('>Noticias<') && !issuerMarkup.includes('
 checkConsistency(issuerMarkup.includes('9 noticias') && issuerMarkup.includes('7 temas'), 'News counts deduplicate publications across linked trades');
 checkConsistency(issuerMarkup.includes('<summary>Detalle</summary>') && issuerMarkup.includes('news-linked-trades') && issuerMarkup.includes('https://finviz.com/news/'), 'Expanded news includes publication details, source links and matched entries');
 checkConsistency(issuerMarkup.includes('Incluida por fecha') && !issuerMarkup.includes('publicaciones pendientes') && issuerMarkup.includes('7 de 7 operaciones revisadas'), 'Date-only candidates use the explicit fallback without invented hours');
+const amdNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.AMD)", calendarContext);
+checkConsistency(amdNewsMarkup.includes('7 noticias') && amdNewsMarkup.includes('1 de 1 operaciones revisadas'), 'AMD import shows seven publications and its exact entry review');
+const qqqNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.QQQ)", calendarContext);
+checkConsistency(qqqNewsMarkup.includes('3 noticias') && qqqNewsMarkup.includes('Coincidencia del mismo d'), 'QQQ import shows three publications and discloses same-day ordering uncertainty');
+calendarElements.get('issuer-search').value = 'QQQ';
+calendarVm.runInContext('renderIssuerProfiles(dataset.trades)', calendarContext);
+const qqqIssuerMarkup = calendarElements.get('issuer-table').innerHTML;
+checkConsistency(qqqIssuerMarkup.includes('>ETF</td>') && qqqIssuerMarkup.includes('https://www.invesco.com/content/dam/invesco/'), 'QQQ displays its ETF structure and primary prospectus link');
+calendarElements.get('issuer-search').value = 'VIVK';
+calendarVm.runInContext('renderIssuerProfiles(dataset.trades)', calendarContext);
 const labtNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.LABT)", calendarContext);
 checkConsistency(labtNewsMarkup.includes('2 noticias') && labtNewsMarkup.includes('8 de 8 operaciones revisadas'), 'LABT publications are deduplicated and all exact entries retain their reviews');
 checkConsistency(calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.PLCE)", calendarContext).includes('2 noticias'), 'PLCE distinguishes the leadership filing and separately published bankruptcy report');
@@ -211,7 +221,7 @@ checkConsistency(dkiNewsMarkup.includes('2 noticias') && dkiNewsMarkup.includes(
 const vcigNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VCIG)", calendarContext);
 checkConsistency(vcigNewsMarkup.includes('1 noticia') && vcigNewsMarkup.includes('Limitaciones de la fuente') && !vcigNewsMarkup.includes('publicación pendiente'), 'VCIG publication counts with source discrepancies visible');
 calendarVm.runInContext('globalThis.newsAudit = auditNewsCoverage(dataset); renderNewsCoverage()', calendarContext);
-checkConsistency(calendarContext.newsAudit.length === 507 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 671, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
+checkConsistency(calendarContext.newsAudit.length === 509 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 673, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
 checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 926, 'News audit preserves all unreviewed entries');
 checkConsistency(calendarContext.newsAudit.filter(entry => entry.reviewed === 0 && !entry.articles).every(entry => entry.articles === null), 'Unresearched tickers show unknown news counts rather than zero publications');
 checkConsistency(calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').pending === 0 && calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').complete, 'LABT coverage includes every exact entry in the reviewed sources');

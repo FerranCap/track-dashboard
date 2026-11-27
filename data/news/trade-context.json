@@ -17,6 +17,7 @@
     "AIXI",
     "AKAN",
     "ALP",
+    "AMD",
     "AMIX",
     "ANT",
     "APUS",
@@ -184,6 +185,7 @@
     "PRFX",
     "QCLS",
     "QNRX",
+    "QQQ",
     "QTEX",
     "QUCY",
     "RAYA",
@@ -256,7 +258,7 @@
     "ZTG",
     "ZYBT"
   ],
-  "tradeAccountingSha256": "09c3a9ab044c8652be3be20a804172024803e63a39fd318480b0f3b1e3ffed33",
+  "tradeAccountingSha256": "70c38a8829f94a41545c4dac363957de196f79412d8442c7a029415d91cda1a9",
   "articles": [
     {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
@@ -11109,6 +11111,31 @@
       ]
     },
     {
+      "id": "amd-20261123-options-bears-report",
+      "eventId": "amd-20261123-options-bears-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "AMD Stock A Favorite Among Options Bears",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Schaeffer's Research",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Patrick Martin discusses bearish AMD options activity during a semiconductor rebound. This is market commentary, not an issuer announcement or evidence of what caused the trade outcome.",
+      "url": "https://finviz.com/news/426367/amd-stock-a-favorite-among-options-bears",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Full Finviz syndication reviewed: November 23, 2026, 1:44 PM; timezone not explicit, so date-only matching is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [],
+      "publicationDate": "2026-11-23",
+      "matchingBasis": "publication_date"
+    },
+    {
       "id": "nvda-20261123-huang-release",
       "eventId": "nvda-20261123-huang-return",
       "symbol": "NVDA",
@@ -11286,6 +11313,191 @@
       ]
     },
     {
+      "id": "qqq-20261123-weekly-etf-flows-report",
+      "eventId": "qqq-20261123-weekly-etf-flows-report",
+      "symbol": "QQQ",
+      "issuerName": "Invesco QQQ Trust, Series 1",
+      "issuerCik": "1067839",
+      "headline": "ETFs Pull In $57B Despite Tech Rout",
+      "publishedAt": "2026-11-23T18:09:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "etf.com",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Sumit Roy reports weekly ETF flows and specifically identifies QQQ redemptions. This is a publication about prior-week flow data; the publication date, not the underlying flow period, controls matching.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/etfs-pull-57b-despite-tech-230924421.html",
+      "sourceUrls": [
+        "https://prod-green.etf.com/sections/weekly-etf-flows/etfs-pull-57b-despite-tech-rout",
+        "https://finviz.com/quote.ashx?t=QQQ"
+      ],
+      "timestampEvidence": "Yahoo indexed syndication explicitly states November 23, 2026 at 6:09 PM EST; indexed full text identifies QQQ. Original etf.com archive also identifies the publication.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Yahoo direct retrieval returned HTTP 429 and original etf.com archive HTTP 403; indexed syndication used. No archived pre-entry text obtained."
+      ]
+    },
+    {
+      "id": "amd-20261123-warrant-resale-report",
+      "eventId": "amd-20261123-warrant-resale-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "AMD registers up to 337 million shares for resale tied to OpenAI, Meta warrants",
+      "publishedAt": "2026-11-23T18:22:00-05:00",
+      "timePrecision": "minute",
+      "publisher": "Investing.com",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Investing.com reports a resale registration connected to OpenAI and Meta warrants. The underlying registration and full article were not independently retrieved; this does not establish warrant exercise, completed share sales or a completed transaction.",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/amd-registers-337-million-shares-232224001.html",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Yahoo indexed original header explicitly states November 23, 2026 at 6:22 PM EST, consistent with the Finviz dated listing.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Yahoo direct retrieval returned HTTP 429. Publication existence and timestamp established from indexed header; underlying filing and financial claims not independently verified."
+      ]
+    },
+    {
+      "id": "amd-20261124-chip-selloff-report",
+      "eventId": "amd-20261124-chip-selloff-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "Nvidia, AMD, Broadcom lead chip stocks lower as AI trade comes under pressure",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Yahoo Finance",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Yahoo Finance publishes an AMD-specific semiconductor selloff report. The dated headline is verified in the news listing; the full original body was unavailable.",
+      "url": "https://finance.yahoo.com/markets/article/nvidia-amd-broadcom-lead-chip-stocks-lower-as-ai-trade-comes-under-pressure-141635463.html",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Finviz AMD listing dates this publication November 24, 2026, 04:03 PM; timezone and original publication clock could not be independently confirmed.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Direct Yahoo article retrieval returned HTTP 429. Full contents and point-in-time revisions were not verified."
+      ],
+      "publicationDate": "2026-11-24",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "amd-20261124-competitive-outlook-report",
+      "eventId": "amd-20261124-competitive-outlook-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "Jensen Huang is back at Nvidia. Should AMD be worried?",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Yahoo Finance",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Yahoo Finance publishes commentary explicitly discussing AMD and Nvidia competition. Only the dated publication and headline were established; underlying leadership claims and article contents were not independently verified.",
+      "url": "https://finance.yahoo.com/markets/stocks/article/jensen-huang-is-back-at-nvidia-should-amd-be-worried-130012666.html",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Finviz AMD listing dates the article November 24, 2026, 08:00 AM. No independently verified publication timezone.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Direct Yahoo retrieval returned HTTP 429. Headline claims remain attributed to the publisher."
+      ],
+      "publicationDate": "2026-11-24",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "amd-20261124-intel-process-report",
+      "eventId": "amd-20261124-intel-process-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "Intel 18A yield hits 70%, targets AMD with 14A process",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "DigiTimes",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "DigiTimes publishes a report identifying AMD as a competitive target of Intel process developments. The headline claims, including yield figures, were not independently verified because the original body was access denied.",
+      "url": "https://www.digitimes.com/news/a20261124PD228/intel-amd-production-ceo-2027.html",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Dated Finviz AMD listing: November 24, 2026, 07:42 PM. Original link redirects to an access-denied page; date and issuer-specific publication existence remain identifiable.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Original body access denied. Reported figures are publisher claims, not verified manufacturing results."
+      ],
+      "publicationDate": "2026-11-24",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "amd-20261124-technical-setup-report",
+      "eventId": "amd-20261124-technical-setup-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "AMD near-term technical setup: bearish bias with oversold bounce potential",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Investing.com",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Investing.com describes a bearish AMD technical trend with potential for an oversold rebound. Technical commentary is attributed to the publisher and is not a confirmed reversal.",
+      "url": "https://www.investing.com/news/stock-market-news/amd-nearterm-technical-setup-bearish-bias-with-oversold-bounce-potential-93CH-5048295",
+      "sourceUrls": [
+        "https://finance.yahoo.com/markets/stocks/articles/amd-near-term-technical-setup-135646943.html",
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Original publication header November 24 at 08:26 AM has no explicit timezone; Finviz listing reports 08:56 AM. The 08:23 AM EST in the body is a quote observation, not publication evidence. Date is established; conflicting clocks are not used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [
+        "Original header and syndication list different clocks without confirmed publication timezone. Both establish November 24; date-only matching is used."
+      ],
+      "publicationDate": "2026-11-24",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "qqq-20261124-premarket-equilibrium-report",
+      "eventId": "qqq-20261124-premarket-equilibrium-report",
+      "symbol": "QQQ",
+      "issuerName": "Invesco QQQ Trust, Series 1",
+      "issuerCik": "1067839",
+      "headline": "Pre-Markets Seeking Post-NVIDIA Equilibrium",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Zacks",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Mark Vickery discusses broad premarket conditions and explicitly includes Invesco QQQ. This is market context rather than a QQQ portfolio or structural announcement.",
+      "url": "https://finviz.com/news/426965/pre-markets-seeking-post-nvidia-equilibrium",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=QQQ"
+      ],
+      "timestampEvidence": "Full Finviz syndication header: November 24, 2026, 9:26 AM. Publication timezone is not explicit, so date-only matching is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [],
+      "publicationDate": "2026-11-24",
+      "matchingBasis": "publication_date"
+    },
+    {
       "eventId": "benf-20261124-hclp-complaint",
       "symbol": "BENF",
       "issuerName": "Beneficient",
@@ -11362,6 +11574,57 @@
       "sourceWarnings": [
         "Direct Yahoo and Finviz article retrieval unavailable; indexed Yahoo byline and text plus Finviz news listing reviewed. No archived pre-entry text verified."
       ]
+    },
+    {
+      "id": "amd-20261125-semiconductor-premarket-report",
+      "eventId": "amd-20261125-semiconductor-premarket-report",
+      "symbol": "AMD",
+      "issuerName": "Advanced Micro Devices, Inc.",
+      "issuerCik": "2488",
+      "headline": "US Semiconductor Stocks Extend Losses as AI Investment Concerns, Tariff Risks and Rate Expectations Weigh on Markets",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "InvestorsHub",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Fiona Craig reports premarket selling in AMD and other semiconductor stocks, discussing AI financing concerns and trade uncertainty. These explanations and macroeconomic claims are attributed to the publisher, not verified causes of price moves. Same-day publication-date match; publication before entry is not established.",
+      "url": "https://finviz.com/news/427219/us-semiconductor-stocks-extend-losses-as-ai-investment-concerns-tariff-risks-and-rate-expectations-weigh-on-markets",
+      "sourceUrls": [
+        "https://finviz.com/quote.ashx?t=AMD"
+      ],
+      "timestampEvidence": "Full Finviz syndication header: November 25, 2026, 6:34 AM. Publication timezone is not explicit; same-day date fallback is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [],
+      "publicationDate": "2026-11-25",
+      "matchingBasis": "publication_date"
+    },
+    {
+      "id": "qqq-20261125-thanksgiving-economic-data-report",
+      "eventId": "qqq-20261125-thanksgiving-economic-data-report",
+      "symbol": "QQQ",
+      "issuerName": "Invesco QQQ Trust, Series 1",
+      "issuerCik": "1067839",
+      "headline": "Cornucopia of Econ Data Ahead of Thanksgiving",
+      "publishedAt": null,
+      "timePrecision": "day",
+      "publisher": "Zacks",
+      "kind": "media_report",
+      "category": "market_context",
+      "summary": "Mark Vickery discusses the pre-Thanksgiving economic calendar and explicitly includes Invesco QQQ. Macroeconomic statistics are attributed to Zacks and were not independently validated. Same-day publication-date match; publication before entry is not established.",
+      "url": "https://finviz.com/news/427389/cornucopia-of-econ-data-ahead-of-thanksgiving",
+      "sourceUrls": [
+        "https://www.zacks.com/stock/news/3035259/cornucopia-of-econ-data-ahead-of-thanksgiving?cid=CS-FINVIZ-FT-ahead_of_wall_street-3035259",
+        "https://finviz.com/quote.ashx?t=QQQ"
+      ],
+      "timestampEvidence": "Full Finviz syndication header: November 25, 2026, 9:27 AM. Original Zacks retrieval unavailable. Timezone not explicitly established; same-day date fallback is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-25",
+      "sourceWarnings": [],
+      "publicationDate": "2026-11-25",
+      "matchingBasis": "publication_date"
     }
   ],
   "trades": [
@@ -31441,6 +31704,122 @@
       "eventCount": 1,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-7257a920f347bc0eb3d34f6a",
+      "symbol": "AMD",
+      "entryAt": "2026-11-25T09:36:00-05:00",
+      "windowStartAt": "2026-11-23T14:36:00+00:00",
+      "windowEndAt": "2026-11-25T14:36:00+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-25",
+      "articles": [
+        {
+          "articleId": "amd-20261123-options-bears-report",
+          "eventId": "amd-20261123-options-bears-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 2,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "amd-20261123-warrant-resale-report",
+          "eventId": "amd-20261123-warrant-resale-report",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 141180.0,
+          "ageSecondsMax": 141240.0
+        },
+        {
+          "articleId": "amd-20261124-chip-selloff-report",
+          "eventId": "amd-20261124-chip-selloff-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "amd-20261124-competitive-outlook-report",
+          "eventId": "amd-20261124-competitive-outlook-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "amd-20261124-intel-process-report",
+          "eventId": "amd-20261124-intel-process-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "amd-20261124-technical-setup-report",
+          "eventId": "amd-20261124-technical-setup-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "amd-20261125-semiconductor-premarket-report",
+          "eventId": "amd-20261125-semiconductor-premarket-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        }
+      ],
+      "eventCount": 7,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "broker-591d1cba6e9fb4ccdc6b33d4",
+      "symbol": "QQQ",
+      "entryAt": "2026-11-25T09:50:08-05:00",
+      "windowStartAt": "2026-11-23T14:50:08+00:00",
+      "windowEndAt": "2026-11-25T14:50:08+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-25",
+      "articles": [
+        {
+          "articleId": "qqq-20261123-weekly-etf-flows-report",
+          "eventId": "qqq-20261123-weekly-etf-flows-report",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 142808.0,
+          "ageSecondsMax": 142868.0
+        },
+        {
+          "articleId": "qqq-20261124-premarket-equilibrium-report",
+          "eventId": "qqq-20261124-premarket-equilibrium-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 1,
+          "publicationBeforeEntryUnconfirmed": false,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "qqq-20261125-thanksgiving-economic-data-report",
+          "eventId": "qqq-20261125-thanksgiving-economic-data-report",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        }
+      ],
+      "eventCount": 3,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
     }
   ],
   "reviews": [
@@ -44464,14 +44843,126 @@
         "Direct Yahoo retrieval restricted; original GlobeNewswire, Yahoo article and Screw Street direct retrieval unavailable. Indexed publication evidence and Finviz syndication used.",
         "Three reports share one litigation event; no debt cancellation or recovery inferred. Known publication clocks qualify all three new entries; no date-only fallback used."
       ]
+    },
+    {
+      "symbol": "AMD",
+      "issuerCik": "2488",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-25",
+      "coverage": "partial",
+      "scope": "November 25 broker import: exact first entry of the completed position cycle.",
+      "tradeEntries": {
+        "broker-7257a920f347bc0eb3d34f6a": "2026-11-25T09:36:00-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=AMD",
+          "access": "page_reviewed",
+          "note": "Started with dated issuer news list; selected issuer-specific publications followed to original reports or syndications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/AMD/news/",
+          "access": "retrieval_restricted",
+          "note": "Direct Yahoo retrieval restricted; identifiable indexed publication evidence used separately."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/amd-registers-337-million-shares-232224001.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Yahoo indexed original header explicitly states November 23, 2026 at 6:22 PM EST, consistent with the Finviz dated listing."
+        },
+        {
+          "url": "https://finviz.com/news/426367/amd-stock-a-favorite-among-options-bears",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication reviewed: November 23, 2026, 1:44 PM; timezone not explicit, so date-only matching is used."
+        },
+        {
+          "url": "https://www.investing.com/news/stock-market-news/amd-nearterm-technical-setup-bearish-bias-with-oversold-bounce-potential-93CH-5048295",
+          "access": "publication_reviewed",
+          "note": "Original publication header November 24 at 08:26 AM has no explicit timezone; Finviz listing reports 08:56 AM. The 08:23 AM EST in the body is a quote observation, not publication evidence. Date is established; conflicting clocks are not used."
+        },
+        {
+          "url": "https://www.digitimes.com/news/a20261124PD228/intel-amd-production-ceo-2027.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Dated Finviz AMD listing: November 24, 2026, 07:42 PM. Original link redirects to an access-denied page; date and issuer-specific publication existence remain identifiable."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/article/nvidia-amd-broadcom-lead-chip-stocks-lower-as-ai-trade-comes-under-pressure-141635463.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Finviz AMD listing dates this publication November 24, 2026, 04:03 PM; timezone and original publication clock could not be independently confirmed."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/article/jensen-huang-is-back-at-nvidia-should-amd-be-worried-130012666.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Finviz AMD listing dates the article November 24, 2026, 08:00 AM. No independently verified publication timezone."
+        },
+        {
+          "url": "https://finviz.com/news/427219/us-semiconductor-stocks-extend-losses-as-ai-investment-concerns-tariff-risks-and-rate-expectations-weigh-on-markets",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 25, 2026, 6:34 AM. Publication timezone is not explicit; same-day date fallback is used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive coverage. Other syndicated market headlines were not fully reviewed. No archived pre-entry body obtained; no price causation inferred.",
+        "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
+        "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
+      ]
+    },
+    {
+      "symbol": "QQQ",
+      "issuerCik": "1067839",
+      "windowHours": 48,
+      "dateFallbackDays": 2,
+      "checkedOn": "2026-11-25",
+      "coverage": "partial",
+      "scope": "November 25 broker import: exact first entry of the completed position cycle.",
+      "tradeEntries": {
+        "broker-591d1cba6e9fb4ccdc6b33d4": "2026-11-25T09:50:08-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/quote.ashx?t=QQQ",
+          "access": "page_reviewed",
+          "note": "Started with dated issuer news list; selected issuer-specific publications followed to original reports or syndications."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/QQQ/news/",
+          "access": "retrieval_restricted",
+          "note": "Direct Yahoo retrieval restricted; identifiable indexed publication evidence used separately."
+        },
+        {
+          "url": "https://finance.yahoo.com/markets/stocks/articles/etfs-pull-57b-despite-tech-230924421.html",
+          "access": "publication_evidence_reviewed",
+          "note": "Yahoo indexed syndication explicitly states November 23, 2026 at 6:09 PM EST; indexed full text identifies QQQ. Original etf.com archive also identifies the publication."
+        },
+        {
+          "url": "https://finviz.com/news/426965/pre-markets-seeking-post-nvidia-equilibrium",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 24, 2026, 9:26 AM. Publication timezone is not explicit, so date-only matching is used."
+        },
+        {
+          "url": "https://finviz.com/news/427389/cornucopia-of-econ-data-ahead-of-thanksgiving",
+          "access": "publication_reviewed",
+          "note": "Full Finviz syndication header: November 25, 2026, 9:27 AM. Original Zacks retrieval unavailable. Timezone not explicitly established; same-day date fallback is used."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "resolvedCandidates": [],
+      "limitations": [
+        "Partial source review, not exhaustive coverage. Other syndicated market headlines were not fully reviewed. No archived pre-entry body obtained; no price causation inferred.",
+        "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
+        "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
+      ]
     }
   ],
   "counts": {
-    "trades": 890,
-    "articles": 423,
-    "events": 359,
-    "tradeArticleLinks": 918,
-    "dateFallbackLinks": 286,
-    "tradesWithNews": 615
+    "trades": 892,
+    "articles": 433,
+    "events": 369,
+    "tradeArticleLinks": 928,
+    "dateFallbackLinks": 294,
+    "tradesWithNews": 617
   }
 }

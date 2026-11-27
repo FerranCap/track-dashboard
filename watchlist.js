@@ -324,6 +324,13 @@ function initializeWatchlist() {
       finvizLink.target = '_blank';
       finvizLink.rel = 'noopener noreferrer';
       finvizLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Finviz (nueva pesta\u00f1a)`);
+      const yahooLink = document.createElement('a');
+      yahooLink.className = 'watchlist-link';
+      yahooLink.textContent = 'Yahoo Finance';
+      yahooLink.href = `https://finance.yahoo.com/quote/${encodeURIComponent(entry.ticker)}/`;
+      yahooLink.target = '_blank';
+      yahooLink.rel = 'noopener noreferrer';
+      yahooLink.setAttribute('aria-label', `Abrir ${entry.ticker} en Yahoo Finance (nueva pesta\u00f1a)`);
       const quantLink = document.createElement('a');
       quantLink.className = 'watchlist-link';
       quantLink.textContent = 'Quant';
@@ -340,7 +347,7 @@ function initializeWatchlist() {
           openWebPanel(link, linksRow, entry.ticker);
         });
       }
-      linksCell.append(dilutionLink, document.createTextNode(' '), finvizLink, document.createTextNode(' '), quantLink);
+      linksCell.append(dilutionLink, document.createTextNode(' '), finvizLink, document.createTextNode(' '), yahooLink, document.createTextNode(' '), quantLink);
       linksRow.append(tickerSpacer, linksCell);
       body.append(linksRow);
       const detailRow = document.createElement('tr');

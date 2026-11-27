@@ -53,7 +53,7 @@ async function run() {
   assert.equal(element('hotkeys-variables-panel').hidden, false);
   assert.equal(element('hotkeys-editor-panel').hidden, false);
   assert.equal(element('hotkeys-risk-scale').value, '5.715');
-  assert.ok(element('hotkeys-risk-scale-note').textContent.includes('24/11/2026'));
+  assert.ok(element('hotkeys-risk-scale-note').textContent.includes('25/11/2026'));
   assert.equal(element('hotkeys-variable-risk-b').value, '12');
   assert.equal(element('hotkeys-variable-risk-c').value, '8');
   assert.equal(element('hotkeys-editor-content').hidden, true);
