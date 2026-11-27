@@ -19,7 +19,7 @@ class PriceChartTests(unittest.TestCase):
         session = index['tickers']['BENF']['2026-11-24']
         self.assertEqual({s['dataset']: s['barCount'] for s in session['sources']},
                          {'XNAS.ITCH': 703, 'XNAS.BASIC': 695, 'EQUS.MINI': 576})
-        self.assertEqual(check(), 5)
+        self.assertEqual(check(), 33)
         for source in session['sources']:
             path = ROOT / source['file']
             self.assertTrue(path.is_relative_to(ROOT / 'data/prices/tickers/BENF/2026-11-24'))
@@ -55,10 +55,10 @@ class PriceChartTests(unittest.TestCase):
     def test_website_package_contains_only_indexed_browser_files(self):
         with tempfile.TemporaryDirectory() as directory:
             destination = Path(directory)
-            self.assertEqual(check(destination=destination), 5)
-            self.assertEqual(check(destination), 5)
+            self.assertEqual(check(destination=destination), 33)
+            self.assertEqual(check(destination), 33)
             files = [path for path in destination.rglob('*') if path.is_file()]
-            self.assertEqual(len(files), 5)
+            self.assertEqual(len(files), 33)
             self.assertTrue(all(path.suffix == '.json' for path in files))
             self.assertFalse(any(path.name.endswith('.manifest.json') for path in files))
 

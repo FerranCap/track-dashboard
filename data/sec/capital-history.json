@@ -224,6 +224,72 @@
           "description": "The quarterly report states a maximum of 17,290,913 Class A shares potentially issuable upon conversion of outstanding Series B preferred stock. These potential shares are excluded from outstanding common shares."
         }
       ]
+    },
+    "AKAN": {
+      "cik": "1888014",
+      "securityType": "direct_equity",
+      "marketCapMethod": "unreviewed",
+      "coverage": "partial",
+      "reviewedOn": "2026-11-27",
+      "scope": "Targeted June 2026 annual report review; later filings and capital changes remain unreviewed.",
+      "limitations": [
+        "Common and Class B Special Shares retained separately; no total issuer market cap inferred.",
+        "Cover reports 1,983,546 common shares at December 31, 2025; financial statements retrospectively adjust for subsequent reverse splits. These bases are not combined.",
+        "June counts do not establish shares or float at later trade entries. Later issuances and splits remain unreviewed.",
+        "Public float and non-affiliate shares remain unknown."
+      ],
+      "filings": {
+        "akan-2025-20f": {
+          "accession": "0001213900-26-066800",
+          "form": "20-F",
+          "filedOn": "2026-06-09",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/ea0288681-20f_akanda.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/0001213900-26-066800-index.html"
+        }
+      },
+      "observations": [
+        {
+          "id": "akan-common-20260608",
+          "metric": "sharesOutstanding",
+          "value": 540841,
+          "unit": "shares",
+          "asOf": "2026-06-08",
+          "basis": "reported",
+          "filingId": "akan-2025-20f",
+          "shareClass": "Common Shares",
+          "precision": "approximately",
+          "evidence": "Item 10.A reports approximately 540,841 Common Shares and 244,814 Class B Special Shares issued and outstanding on June 8, 2026. Potential conversions excluded."
+        },
+        {
+          "id": "akan-class-b-20260608",
+          "metric": "sharesOutstanding",
+          "value": 244814,
+          "unit": "shares",
+          "asOf": "2026-06-08",
+          "basis": "reported",
+          "filingId": "akan-2025-20f",
+          "shareClass": "Class B Special Shares",
+          "precision": "approximately",
+          "evidence": "Item 10.A reports approximately 540,841 Common Shares and 244,814 Class B Special Shares issued and outstanding on June 8, 2026. Potential conversions excluded."
+        }
+      ],
+      "events": [
+        {
+          "asOf": "2026-01-12",
+          "type": "reverse_split",
+          "filingId": "akan-2025-20f",
+          "affectsShareBasis": true,
+          "description": "1-for-5 Common Shares reverse split; fractional shares rounded down. Financial statement share data retrospectively adjusted."
+        },
+        {
+          "asOf": "2026-04-13",
+          "type": "reverse_split",
+          "filingId": "akan-2025-20f",
+          "affectsShareBasis": true,
+          "description": "1-for-4.5 Common Shares reverse split; fractional shares rounded down. Financial statement share data retrospectively adjusted."
+        }
+      ]
     }
   }
 }

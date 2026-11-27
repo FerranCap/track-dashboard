@@ -127,7 +127,6 @@ function renderCalendarPnlChart(id, rows, scope) {
 }
 
 function renderCalendarDay(rows) {
-  if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart(rows);
   for (const id of chartConfigs.keys()) if (id.startsWith('calendar-ticker-chart-')) chartConfigs.delete(id);
   const hasTrades = rows.length > 0;
   $('calendar-day-summary').hidden = !hasTrades;
@@ -139,6 +138,7 @@ function renderCalendarDay(rows) {
     $('calendar-symbol-cards').innerHTML = '';
     $('calendar-day-metrics').innerHTML = '';
     renderChart('calendar-day-chart', [], { currency: true, empty: 'Selecciona un día con operaciones.' });
+    if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart([]);
     return;
   }
   const stats = statistics(rows);
@@ -158,15 +158,15 @@ function renderCalendarDay(rows) {
       const metrics = calendarMetricRows(sample, `${scope}; solo ${label}`, 'PnL', false).map(args => consistencyMetric(...args)).join('');
       return `<section class="calendar-ticker-side" aria-label="${esc(symbol)} ${label}"><h5 class="${side === 'BUY' ? 'long' : 'short'}">${label}</h5><p>${sideStats.wins.length} ganadoras / ${sideStats.losses.length} perdedoras / ${sideStats.scratches.length} a cero</p><div class="calendar-ticker-metrics">${metrics}</div></section>`;
     }).filter(Boolean);
-    return `<article class="calendar-symbol-card"><div><h4>${esc(symbol)} <small>${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}</small></h4><strong class="${cssSign(sum(trades))}" tabindex="0" ${helpAttributes(`${symbol}: suma del PnL de ${trades.length} trades cerrados el ${date}, con los filtros actuales. Las comisiones incluidas no se restan otra vez.`)}>${esc(signed(sum(trades)))}</strong></div><div class="calendar-ticker-side-groups${sides.length === 1 ? ' single-side' : ''}">${sides.join('')}</div><div class="calendar-ticker-equity"><h5>Curva de PnL · ${esc(symbol)}</h5><div id="calendar-ticker-chart-${index}" class="chart" role="img" aria-label="Curva de PnL de ${esc(symbol)} el ${date}"></div></div></article>`;
+    return `<article class="calendar-symbol-card"><div><h4>${esc(symbol)} <small>${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}</small></h4><strong class="${cssSign(sum(trades))}" tabindex="0" ${helpAttributes(`${symbol}: suma del PnL de ${trades.length} trades cerrados el ${date}, con los filtros actuales. Las comisiones incluidas no se restan otra vez.`)}>${esc(signed(sum(trades)))}</strong></div><div class="calendar-ticker-side-groups${sides.length === 1 ? ' single-side' : ''}">${sides.join('')}</div><div class="calendar-ticker-equity"><h5>Curva de PnL · ${esc(symbol)}</h5><div id="calendar-ticker-chart-${index}" class="chart" role="img" aria-label="Curva de PnL de ${esc(symbol)} el ${date}"></div></div>${typeof calendarPriceMarkup === 'function' ? calendarPriceMarkup(index) : ''}</article>`;
   }).join('');
   tickerGroups.forEach(([symbol, trades], index) => renderCalendarPnlChart(`calendar-ticker-chart-${index}`, trades, `${symbol}, sesión del ${date}; solo sus trades de este día`));
+  if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart(rows);
   $('calendar-day-metrics').innerHTML = calendarMetricRows(rows, `Sesión del ${date}; todos los tickers seleccionados`, 'PnL del día').map(args => consistencyMetric(...args)).join('');
   renderCalendarPnlChart('calendar-day-chart', rows, `Sesión del ${date}; todos los tickers seleccionados`);
 }
 
 function initializeCalendarOverview() {
-  if (typeof initializeTradePriceChart === 'function') initializeTradePriceChart();
   $('calendar-results-period').addEventListener('change', () => renderCalendarResults(filtered));
   for (const [id, step] of [['calendar-overview-prev', -6], ['calendar-overview-next', 6]]) {
     $(id).addEventListener('click', () => {

@@ -29,7 +29,7 @@ class DataCompletenessTests(unittest.TestCase):
         self.assertEqual(result['fields']['floatShares'], ['AMD', 'BENF'])
         self.assertEqual(result['fields']['marketCap'], ['AMD'])
         self.assertEqual(result['fields']['quotedClassValue'], ['BENF'])
-        self.assertEqual(result['fields']['prices1m'], ['BENF', 'NVDA'])
+        self.assertEqual(result['fields']['prices1m'], ['AKAN', 'BENF', 'NVDA'])
         self.assertEqual(result['fields']['prices1s'], ['NVDA'])
         reviewed = {entry['symbol'] for entry in self.news['trades'] if entry.get('reviewedOn')
                     and entry.get('reviewStatus') != 'not_reviewed'}

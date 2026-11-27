@@ -1419,5 +1419,12 @@
     "vie_basis": "No conclusive fund-specific VIE determination established from the prospectus.",
     "historical_note": "Reviewed November 25, 2026. December 22, 2025 prospectus includes an April 30, 2026 supplement. Do not retain the superseded UIT classification for this trade.",
     "notes": "Issuer prospectus establishes US/New York legal domicile and ETF structure. Principal operating country, fund headquarters and VIE remain unconfirmed. Sponsor or portfolio countries are not used as replacements."
+  },
+  "AKAN": {
+    "operating_country": "Canada; Mexico",
+    "operations_status": "explicit_filing",
+    "checked_on": "2026-11-27",
+    "operations_basis": "2025 Form 20-F: operations primarily in Canada and Mexico; 2025 revenue from First Towers operations in Mexico. https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/ea0288681-20f_akanda.htm",
+    "historical_note": "Snapshot checked on 2026-11-05; not a point-in-time legal opinion for every trade. Review corporate reorganizations and ticker changes before historical attribution. June 2026 annual report describes Canada and Mexico operations after First Towers transaction; historical attribution requires review."
   }
 }

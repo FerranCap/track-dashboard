@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "reviewer": "",
   "reviewedOn": "2026-11-27",
-  "items": [],
+  "items": [
+    {
+      "candidateId": "sec-filing-0f781f482d28667eff74cc52",
+      "evidenceHash": "621fdca85246561e3fbe34168f52aaa4043b3a9379e29dc183205ed33ad10341",
+      "action": "pending"
+    }
+  ],
   "jobReviews": []
 }

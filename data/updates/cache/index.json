@@ -43,5 +43,20 @@
     "status": 403,
     "failureType": "HTTPError",
     "retryAfter": "2026-11-28T15:12:48.920140+00:00"
+  },
+  "bddcb7e98bebe69062551055a3de36f8e16aa2b092375194ab753ede2990c543": {
+    "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001888014.json",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-28T18:03:28.090638+00:00"
+  },
+  "fc865e248663e0d985135976fd926ef440fc740294378120bf347e34dd489b4b": {
+    "url": "https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/ea0288681-20f_akanda.htm",
+    "sha256": "2773a69feed035c500c3b0dd6141fa38086d6e4088bf4b2f65b57deda3b9845e",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
   }
 }

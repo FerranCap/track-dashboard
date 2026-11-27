@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceGeneratedAt": "2026-11-25T21:26:36+00:00",
+  "sourceGeneratedAt": "2026-11-27T18:07:04+00:00",
   "tradeCount": 1599,
   "symbols": [
     "ABTS",
@@ -2573,6 +2573,7 @@
       "AIOS",
       "AIRS",
       "AIXI",
+      "AKAN",
       "ALBT",
       "ALLR",
       "AMCI",
@@ -3913,6 +3914,7 @@
       "ZYBT"
     ],
     "sharesOutstanding": [
+      "AKAN",
       "AMD",
       "BENF"
     ],
@@ -3931,6 +3933,7 @@
       "BENF"
     ],
     "capitalEvents": [
+      "AKAN",
       "AMD",
       "BENF"
     ],
@@ -4188,6 +4191,7 @@
       "ZYBT"
     ],
     "prices1m": [
+      "AKAN",
       "BENF",
       "NVDA"
     ],

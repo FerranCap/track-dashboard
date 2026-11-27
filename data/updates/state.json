@@ -72,6 +72,32 @@
       ],
       "candidateIds": [],
       "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
+    },
+    "sec-4275ae8c54f5144bae55": {
+      "status": "partial_collection",
+      "collectedAt": "2026-11-27T18:03:29.950671+00:00",
+      "receipts": [
+        {
+          "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001888014.json",
+          "attempts": 1,
+          "status": null,
+          "failureType": "URLError",
+          "retryAfter": "2026-11-28T18:03:28.090638+00:00",
+          "access": "failed"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/ea0288681-20f_akanda.htm",
+          "sha256": "2773a69feed035c500c3b0dd6141fa38086d6e4088bf4b2f65b57deda3b9845e",
+          "fetchedAt": null,
+          "sourceAgeUnverified": true,
+          "access": "legacy_cache",
+          "attempts": 0
+        }
+      ],
+      "candidateIds": [
+        "sec-filing-0f781f482d28667eff74cc52"
+      ],
+      "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
     }
   }
 }

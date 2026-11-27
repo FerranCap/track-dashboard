@@ -24,7 +24,7 @@
     "dataset": "XNAS.ITCH",
     "schemas": ["ohlcv-1m"],
     "beforeCalendarDays": 5,
-    "afterCalendarDays": 5,
+    "afterCalendarDays": 1,
     "maximumCostUsd": 0
   },
   "review": {

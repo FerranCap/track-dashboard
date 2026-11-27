@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-cfe9d42104df7cfdb5b2",
+  "jobFingerprint": "cfe9d42104df7cfdb5b2c49ff40cee199e52546d629a941afc8b364f7fdacadf",
+  "provider": "databento",
+  "dataset": "XNAS.ITCH",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "AKAN"
+  ],
+  "requestedSymbols": [
+    "AKAN"
+  ],
+  "start": "2026-08-30T00:00:00-04:00",
+  "end": "2026-09-10T00:00:00-04:00",
+  "downloadedAt": "2026-11-27T18:06:41.413344+00:00",
+  "rowCount": 1495,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/AKAN/2026-08-30/databento/XNAS.ITCH/ohlcv-1m/prices-cfe9d42104df7cfdb5b2-3a8cb95ff315.dbn.zst",
+  "normalizedFile": "data/prices/tickers/AKAN/2026-08-30/databento/XNAS.ITCH/ohlcv-1m/prices-cfe9d42104df7cfdb5b2-3a8cb95ff315.parquet",
+  "checksums": {
+    "raw": "45140a47c4ae72c994b3b46fa647cb6fdd670bbb14993049e4582411773da03f",
+    "normalized": "b1a2f3bc7b421bcb3effa2e9ea1db23ad186718ec2fd5c819faba9c93937d6ac"
+  },
+  "normalizedBytes": 34713,
+  "estimatedCostUsd": 0.000935643911,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

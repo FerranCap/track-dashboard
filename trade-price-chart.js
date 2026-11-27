@@ -3,9 +3,8 @@
 const tradePriceCache = new Map();
 const tradePriceClock = new Intl.DateTimeFormat('es-ES', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 let tradePriceRequest = 0;
-let tradePriceSelection = '';
-let tradePriceSource = 'databento:XNAS.BASIC';
-let tradePriceMargin = 5;
+const tradePriceSources = new Map();
+const tradePriceMargin = 15;
 let tradePriceRows = [];
 
 function resetTradePriceData() {
@@ -28,15 +27,23 @@ function tradePriceDate(trade) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(trade.opened));
 }
 
-function tradePriceWindow(trade, minutes = 5) {
-  const opened = Date.parse(trade.opened) / 1000, closed = Date.parse(trade.closed) / 1000;
-  if (!Number.isFinite(opened) || !Number.isFinite(closed) || closed < opened) throw new Error('Invalid trade interval');
-  return { start: Math.floor(opened / 60) * 60 - minutes * 60, end: Math.floor(closed / 60) * 60 + (minutes + 1) * 60, opened, closed };
+function tradePriceWindow(input) {
+  const trades = Array.isArray(input) ? input : [input];
+  if (!trades.length) throw new Error('Empty trade interval');
+  const intervals = trades.map(trade => {
+    const opened = Date.parse(trade.opened) / 1000, closed = Date.parse(trade.closed) / 1000;
+    if (!Number.isFinite(opened) || !Number.isFinite(closed) || closed < opened) throw new Error('Invalid trade interval');
+    return { opened, closed };
+  });
+  const opened = Math.min(...intervals.map(item => item.opened));
+  const closed = Math.max(...intervals.map(item => item.closed));
+  return { start: Math.floor(opened / 60) * 60 - tradePriceMargin * 60, end: Math.floor(closed / 60) * 60 + (tradePriceMargin + 1) * 60, opened, closed, intervals };
 }
 
-function tradePriceBars(payload, trade, minutes = 5) {
-  if (payload.schemaVersion !== 1 || payload.interval !== '1m' || payload.symbol !== trade.symbol || payload.date !== tradePriceDate(trade) || !Array.isArray(payload.bars)) throw new Error('Price series does not match the trade');
-  const window = tradePriceWindow(trade, minutes);
+function tradePriceBars(payload, input) {
+  const trades = Array.isArray(input) ? input : [input];
+  if (!trades.length || payload.schemaVersion !== 1 || payload.interval !== '1m' || !Array.isArray(payload.bars) || trades.some(trade => payload.symbol !== trade.symbol || payload.date !== tradePriceDate(trade))) throw new Error('Price series does not match the trades');
+  const window = tradePriceWindow(trades);
   let previous = -Infinity;
   const bars = payload.bars.map(bar => {
     const value = { time: bar.time, volume: bar.volume, ...Object.fromEntries(['open', 'high', 'low', 'close'].map(key => [key, Number(bar[key])])) };
@@ -66,7 +73,8 @@ function priceChartSvg(bars, window, fills, title) {
   const price = value => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 5 }).format(value);
   const clock = time => tradePriceClock.format(new Date(time * 1000));
   const maxVolume = Math.max(1, ...bars.map(bar => bar.volume));
-  let svg = `<svg class="trade-candle-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title)}"><title>${esc(title)}</title><rect x="${left}" y="${top}" width="${right-left}" height="${volumeBottom-top}" fill="#101b2b"/><rect x="${x(window.opened)}" y="${top}" width="${Math.max(1,x(window.closed)-x(window.opened))}" height="${bottom-top}" fill="#7caaff" opacity=".07"/>`;
+  let svg = `<svg class="trade-candle-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title)}"><title>${esc(title)}</title><rect x="${left}" y="${top}" width="${right-left}" height="${volumeBottom-top}" fill="#101b2b"/>`;
+  for (const interval of window.intervals) svg += `<rect x="${x(interval.opened)}" y="${top}" width="${Math.max(1,x(interval.closed)-x(interval.opened))}" height="${bottom-top}" fill="#7caaff" opacity=".07"/>`;
   for (let i = 0; i <= 4; i++) {
     const value = low + (high - low) * i / 4;
     svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+4}" text-anchor="end" fill="#a6b9ce" font-size="11">${price(value)}</text>`;
@@ -82,7 +90,7 @@ function priceChartSvg(bars, window, fills, title) {
     const volumeHeight = bar.volume / maxVolume * (volumeBottom-volumeTop);
     svg += `<g><title>${esc(tip)}</title><line x1="${cx}" x2="${cx}" y1="${y(bar.high)}" y2="${y(bar.low)}" stroke="${color}" stroke-width="1.3"/><rect x="${cx-candleWidth/2}" y="${Math.min(y(bar.open),y(bar.close))}" width="${candleWidth}" height="${Math.max(1.3,Math.abs(y(bar.open)-y(bar.close)))}" fill="${color}"/><rect x="${cx-candleWidth/2}" y="${volumeBottom-volumeHeight}" width="${candleWidth}" height="${Math.max(.5,volumeHeight)}" fill="${color}" opacity=".5"/></g>`;
   }
-  for (const [time, color] of [[window.opened, '#f6c66b'], [window.closed, '#87b8ff']]) svg += `<line x1="${x(time)}" x2="${x(time)}" y1="${top}" y2="${volumeBottom}" stroke="${color}" stroke-dasharray="4 5" opacity=".65"/>`;
+  for (const interval of window.intervals) for (const [time, color] of [[interval.opened, '#f6c66b'], [interval.closed, '#87b8ff']]) svg += `<line x1="${x(time)}" x2="${x(time)}" y1="${top}" y2="${volumeBottom}" stroke="${color}" stroke-dasharray="4 5" opacity=".65"/>`;
   for (const fill of fills) {
     const cx = x(fill.time), cy = y(Number(fill.price)), entry = fill.role === 'entry', color = entry ? '#f6c66b' : '#87b8ff';
     const direction = fill.side === 'BUY' ? 1 : -1;
@@ -95,7 +103,7 @@ function priceChartSvg(bars, window, fills, title) {
 
 function bindPriceReadout(host, bars, window) {
   const svg = host.querySelector('svg'), crosshair = host.querySelector('.trade-price-crosshair');
-  const output = document.getElementById('calendar-price-readout');
+  const output = host.closest('.calendar-ticker-price').querySelector('.trade-price-readout');
   svg.addEventListener('pointermove', event => {
     const point = svg.createSVGPoint(); point.x = event.clientX; point.y = event.clientY;
     const x = point.matrixTransform(svg.getScreenCTM().inverse()).x;
@@ -108,60 +116,73 @@ function bindPriceReadout(host, bars, window) {
   svg.addEventListener('pointerleave', () => crosshair.setAttribute('visibility', 'hidden'));
 }
 
-async function renderCalendarTradeChart(rows = tradePriceRows) {
-  const panel = document.getElementById('calendar-price-panel');
-  if (!panel) return;
-  tradePriceRows = rows;
-  const request = ++tradePriceRequest;
-  panel.hidden = !rows.length;
-  if (!rows.length) return;
-  const select = document.getElementById('calendar-price-trade'), sourceSelect = document.getElementById('calendar-price-source');
-  const status = document.getElementById('calendar-price-status'), host = document.getElementById('calendar-price-chart');
-  status.textContent = 'Cargando datos de precios…';
-  host.replaceChildren();
-  sourceSelect.replaceChildren(); sourceSelect.disabled = true;
-  document.getElementById('calendar-price-readout').textContent = '';
-  try {
-    const index = await fetchPriceFile('data/prices/index.json');
-    if (request !== tradePriceRequest) return;
-    if (index.schemaVersion !== 1 || index.interval !== '1m') throw new Error('Invalid price index');
-    if (!rows.some(trade => trade.id === tradePriceSelection)) tradePriceSelection = (rows.find(trade => index.tickers?.[trade.symbol]?.[tradePriceDate(trade)]) || rows[0]).id;
-    select.innerHTML = rows.map(trade => `<option value="${esc(trade.id)}"${trade.id === tradePriceSelection?' selected':''}>${esc(trade.symbol)} · ${trade.side === 'BUY'?'Long':'Short'} · ${esc(trade.opened.slice(11,19))}–${esc(trade.closed.slice(11,19))} NY</option>`).join('');
-    const trade = rows.find(item => item.id === tradePriceSelection);
-    const date = tradePriceDate(trade), session = index.tickers?.[trade.symbol]?.[date];
-    document.getElementById('calendar-price-summary').textContent = `${trade.symbol} · ${date.split('-').reverse().join('/')} · ${trade.side === 'BUY'?'Long':'Short'} · ${signed(trade.pnl)} · ${tradePriceMargin} min de margen a cada lado`;
-    if (!session?.sources?.length) {
-      sourceSelect.innerHTML = '<option>Sin fuentes disponibles</option>';
-      status.textContent = `No hay velas de 1 minuto guardadas para ${trade.symbol} el ${date.split('-').reverse().join('/')}.`;
-      return;
-    }
-    if (!session.sources.some(source => source.id === tradePriceSource)) tradePriceSource = session.sources[0].id;
-    sourceSelect.innerHTML = session.sources.map(source => `<option value="${esc(source.id)}"${source.id === tradePriceSource?' selected':''}>${esc(source.label)} · ${esc(source.dataset)}</option>`).join('');
-    sourceSelect.disabled = false;
-    const source = session.sources.find(item => item.id === tradePriceSource);
-    const [payload, executionPayload] = await Promise.all([fetchPriceFile(source.file), fetchPriceFile(session.executionsFile).catch(() => null)]);
-    if (request !== tradePriceRequest) return;
-    if (payload.dataset !== source.dataset || payload.provider !== source.provider) throw new Error('Price source mismatch');
-    const { bars, window } = tradePriceBars(payload, trade, tradePriceMargin);
-    const { fills, complete } = tradePriceFills(executionPayload, trade);
-    if (!bars.length) { status.textContent = 'Esta fuente no tiene velas en el intervalo del trade. Prueba otra fuente.'; return; }
-    const title = `${trade.symbol}, ${source.label}, velas de 1 minuto, ${tradePriceClock.format(new Date(window.start*1000))} a ${tradePriceClock.format(new Date(window.end*1000))}, hora de Nueva York`;
-    host.innerHTML = priceChartSvg(bars, window, fills, title);
-    const available = bars.filter(bar => bar.time >= Math.floor(window.opened/60)*60 && bar.time <= Math.floor(window.closed/60)*60).length;
-    const expected = Math.floor(window.closed/60)-Math.floor(window.opened/60)+1;
-    status.textContent = `${bars.length} velas visibles · ${available}/${expected} minutos del trade con vela. ${complete ? `${fills.length} ejecuciones reales marcadas.` : 'Ejecuciones incompletas o no disponibles; no se estiman precios de salida.'} Los huecos no se rellenan. Fuentes separadas, precios USD sin ajustar.`;
-    document.getElementById('calendar-price-readout').textContent = 'Pasa el cursor sobre las velas para ver OHLC y volumen. Horario de Nueva York.';
-    bindPriceReadout(host, bars, window);
-  } catch (error) {
-    if (request !== tradePriceRequest) return;
-    status.textContent = 'No se pudieron cargar los precios. Pulsa Reintentar.';
-    console.error('Trade price chart:', error);
-  }
+function calendarPriceMarkup(index) {
+  return `<section id="calendar-ticker-price-${index}" class="calendar-ticker-price" aria-label="Velas y ejecuciones del ticker"><div class="trade-price-heading"><h5>Velas · 1 minuto</h5><label>Fuente<select class="trade-price-source" disabled></select></label><button class="trade-price-retry secondary" type="button">Reintentar</button></div><p class="trade-price-summary mini-caption"></p><div class="trade-price-legend"><span><i class="trade-entry-dot"></i>Entrada</span><span><i class="trade-exit-dot"></i>Salida</span><span>USD · Nueva York · margen fijo de 15 min</span></div><div class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y todas las ejecuciones del ticker"></div><p class="trade-price-readout"></p><p class="trade-price-status mini-caption" role="status"></p></section>`;
 }
 
-function initializeTradePriceChart() {
-  document.getElementById('calendar-price-trade').addEventListener('change', event => { tradePriceSelection = event.target.value; renderCalendarTradeChart(); });
-  document.getElementById('calendar-price-source').addEventListener('change', event => { tradePriceSource = event.target.value; renderCalendarTradeChart(); });
-  document.getElementById('calendar-price-margin').addEventListener('change', event => { tradePriceMargin = Number(event.target.value); renderCalendarTradeChart(); });
-  document.getElementById('calendar-price-retry').addEventListener('click', () => { tradePriceCache.clear(); renderCalendarTradeChart(); });
+async function renderCalendarTradeChart(rows = tradePriceRows) {
+  tradePriceRows = rows;
+  const request = ++tradePriceRequest;
+  const groups = groupedStatistics(rows, trade => trade.symbol);
+  await Promise.all(groups.map(async ([symbol, trades], index) => {
+    const panel = document.getElementById(`calendar-ticker-price-${index}`);
+    if (!panel) return;
+    const select = panel.querySelector('.trade-price-source');
+    const status = panel.querySelector('.trade-price-status'), host = panel.querySelector('.trade-price-chart');
+    const readout = panel.querySelector('.trade-price-readout');
+    const current = () => request === tradePriceRequest && panel.isConnected;
+    const retry = panel.querySelector('.trade-price-retry');
+    select.onchange = () => { tradePriceSources.set(symbol, select.value); renderCalendarTradeChart(); };
+    retry.onclick = () => { tradePriceCache.clear(); renderCalendarTradeChart(); };
+    status.textContent = 'Cargando datos de precios…';
+    host.replaceChildren();
+    select.replaceChildren(); select.disabled = true;
+    readout.textContent = '';
+    panel.querySelector('.trade-price-summary').textContent = `${symbol} · ${trades.length} ${trades.length === 1 ? 'trade' : 'trades'} · ${signed(trades.reduce((total, trade) => total + trade.pnl, 0))}`;
+    try {
+      const priceIndex = await fetchPriceFile('data/prices/index.json');
+      if (!current()) return;
+      if (priceIndex.schemaVersion !== 1 || priceIndex.interval !== '1m') throw new Error('Invalid price index');
+      const dates = [...new Set(trades.map(tradePriceDate))];
+      const sessions = dates.map(date => priceIndex.tickers?.[symbol]?.[date]);
+      const sources = (sessions[0]?.sources || []).filter(source => sessions.every(session => session?.sources?.some(item => item.id === source.id)));
+      if (!sources.length) {
+        select.innerHTML = '<option>Sin fuentes disponibles</option>';
+        status.textContent = `No hay velas de 1 minuto guardadas para todos los trades de ${symbol} de este día.`;
+        return;
+      }
+      let sourceId = tradePriceSources.get(symbol) || 'databento:XNAS.BASIC';
+      if (!sources.some(source => source.id === sourceId)) sourceId = sources[0].id;
+      tradePriceSources.set(symbol, sourceId);
+      select.innerHTML = sources.map(source => `<option value="${esc(source.id)}"${source.id === sourceId ? ' selected' : ''}>${esc(source.label)} · ${esc(source.dataset)}</option>`).join('');
+      select.disabled = sources.length === 1;
+      const source = sources.find(item => item.id === sourceId);
+      const results = await Promise.all(sessions.map(async (session, i) => {
+        const dailySource = session.sources.find(item => item.id === sourceId);
+        const [payload, executions] = await Promise.all([fetchPriceFile(dailySource.file), fetchPriceFile(session.executionsFile).catch(() => null)]);
+        if (payload.dataset !== source.dataset || payload.provider !== source.provider) throw new Error('Price source mismatch');
+        const dailyTrades = trades.filter(trade => tradePriceDate(trade) === dates[i]);
+        const data = tradePriceBars(payload, dailyTrades);
+        return { bars: data.bars, executions: dailyTrades.map(trade => tradePriceFills(executions, trade)) };
+      }));
+      if (!current()) return;
+      const window = tradePriceWindow(trades);
+      const bars = results.flatMap(result => result.bars).sort((a, b) => a.time - b.time);
+      const executions = results.flatMap(result => result.executions);
+      const fills = executions.flatMap(result => result.fills);
+      if (!bars.length) { status.textContent = 'Esta fuente no tiene velas en el intervalo de los trades.'; return; }
+      const title = `${symbol}, ${trades.length} trades, ${source.label}, velas de 1 minuto, ${tradePriceClock.format(new Date(window.start * 1000))} a ${tradePriceClock.format(new Date(window.end * 1000))}, hora de Nueva York`;
+      host.innerHTML = priceChartSvg(bars, window, fills, title);
+      const minutes = new Set();
+      for (const interval of window.intervals) for (let time = Math.floor(interval.opened / 60) * 60; time <= Math.floor(interval.closed / 60) * 60; time += 60) minutes.add(time);
+      const available = bars.filter(bar => minutes.has(bar.time)).length;
+      status.textContent = `${bars.length} velas · ${available}/${minutes.size} minutos operados con vela. ${executions.every(item => item.complete) ? `${fills.length} ejecuciones reales.` : 'Ejecuciones incompletas o no disponibles.'} Los huecos no se rellenan. Precios sin ajustar.`;
+      readout.textContent = 'Pasa el cursor para ver OHLC y volumen.';
+      bindPriceReadout(host, bars, window);
+    } catch (error) {
+      if (!current()) return;
+      status.textContent = 'No se pudieron cargar los precios. Pulsa Reintentar.';
+      console.error('Ticker price chart:', error);
+    }
+  }));
 }

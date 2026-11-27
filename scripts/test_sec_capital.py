@@ -16,9 +16,14 @@ class SecCapitalTests(unittest.TestCase):
         self.history = json.loads((ROOT / 'data/sec/capital-history.json').read_text(encoding='utf-8'))
         self.dataset = json.loads((ROOT / 'data/trades.json').read_text(encoding='utf-8'))
 
-    def test_pilot_matches_latest_two_distinct_traded_symbols(self):
+    def test_reviewed_coverage_preserves_pilot_and_akan(self):
         symbols = list(dict.fromkeys(t['symbol'] for t in sorted(self.dataset['trades'], key=lambda t: t['opened'], reverse=True) if t['date'] <= '2026-11-25' and t['symbol'] != 'QQQ'))
-        self.assertEqual(set(symbols[:2]), set(self.history['issuers']))
+        self.assertTrue(set(symbols[:2]) <= set(self.history['issuers']))
+        self.assertEqual(set(self.history['issuers']), {'AMD', 'BENF', 'AKAN'})
+        akan = self.history['issuers']['AKAN']
+        self.assertEqual([(x['shareClass'], x['value']) for x in akan['observations']],
+                         [('Common Shares', 540841), ('Class B Special Shares', 244814)])
+        self.assertEqual(akan['marketCapMethod'], 'unreviewed')
         generated = build_context(self.history, self.dataset)
         self.assertEqual(generated, json.loads((ROOT / 'data/sec/trade-capital.json').read_text(encoding='utf-8')))
 

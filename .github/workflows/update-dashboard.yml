@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'data/**'
+      - '!data/research/**'
       - '!data/updates/**'
       - '!data/prices/raw/**'
       - '!data/prices/bars/**'
@@ -36,9 +37,6 @@ on:
       - 'duration.js'
       - 'studies.js'
       - 'styles.css'
-      - 'research.html'
-      - 'research.js'
-      - 'research.css'
   workflow_dispatch:
 
 permissions:
@@ -85,10 +83,7 @@ jobs:
           cp hotkeys.js hotkeys.css site/
           cp data/hotkeys/*.htk site/data/hotkeys/
           cp date-fields.js site/
-          # Research temporarily disabled.
-          # cp research.html research.js research.css site/
-          # mkdir -p site/data/research
-          # cp data/research/*.json site/data/research/
+          # Archived research files remain repository-only.
           cp data/trades.json site/data/trades.json
           cp data/session-risk.json site/data/session-risk.json
           cp data/journal.json site/data/journal.json

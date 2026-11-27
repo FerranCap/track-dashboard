@@ -28,7 +28,23 @@ the explicit price command, provider cost preflight and execution flag; the
 default cost ceiling is zero. Do not publish, commit or push collection output
 unless requested or already authorized.
 
+## Databento update scope
+
+Do not download or refresh Databento data when recording or importing a session,
+including journal entries and daily trade files. Session uploads may happen
+during the trading day. Defer Databento updates until the user explicitly asks
+to update trades or tickers for previous days. That historical-update request
+does not waive the price-command, provider cost preflight, execution-flag or
+cost-ceiling requirements above.
+
 ## Ticker data completeness
+
+The retired I+D section and its NVDA series in `data/research/` are
+repository-only archives. Preserve these files for possible future use, but do
+not load them in the active website or include `data/research/`, `research.html`,
+`research.js` or `research.css` in website packages. Do not reactivate I+D unless
+the user requests it. This restriction does not apply to active trade charts
+under `data/prices/` or curated news research under `data/news/`.
 
 After updates to trades, issuer profiles, SEC capital references, news context
 or normalized historical prices, run `python scripts/build_data_completeness.py`

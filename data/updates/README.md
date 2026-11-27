@@ -158,8 +158,9 @@ reconciliation; they are not automated guesses.
 
 ## Databento prices
 
-Price jobs default to one-minute XNAS.ITCH bars and five **calendar** days on each
-side of the trading day. This is explicit, not an invented exchange calendar.
+Price jobs default to one-minute XNAS.ITCH bars, five **calendar** days before
+the trading day and one calendar day after it. This is explicit, not an invented
+exchange calendar.
 Dataset and window settings are configurable. Existing research chart snippets
 are not assumed to cover whole sessions. Already validated overlapping download
 windows are reused; each download processes the first remaining gap.
