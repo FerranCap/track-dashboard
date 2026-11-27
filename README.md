@@ -191,3 +191,22 @@ cohort uses the full history independently of the dashboard date filters.
 Missing coverage is explicit; other Watchlist fields are not similarity
 criteria. Results describe the user's trading history, not price forecasts.
 Search adjustments are temporary; the existing Watchlist storage is unchanged.
+
+## Ticker data completeness
+
+Tickers shows one presence bar per issuer, capital, news or price field. The
+denominator includes every distinct traded symbol, including symbols without a
+profile, independently of analysis filters and issuer search. A ticker counts
+once per field when at least one valid value exists; this is not a measure of
+historical completeness or research quality. Estimated values count, unknowns
+do not. Quoted-class values remain separate from total issuer capitalization.
+News counts reviewed entry context even when no publications were found.
+
+Run `python scripts/build_data_completeness.py` after updating trades, profiles,
+SEC references, news context or normalized price files. It inventories existing
+one-minute/one-second OHLCV JSON under `data/research/` and `data/prices/`; empty
+manifests are not price data. A future Parquet importer must register its coverage
+when that storage workflow is introduced. The generated
+`data/reference/data-completeness.json` is packaged by deployment and rejected by
+the interface if its trade snapshot does not match. Raw price files need not be
+published to display their presence in the inventory.

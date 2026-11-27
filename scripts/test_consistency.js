@@ -123,7 +123,7 @@ const calendarContext = calendarVm.createContext({ URL, document: { getElementBy
 } } });
 const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'dashboard.js'), 'utf8');
 calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
-for (const file of ['date-fields.js', 'news.js', 'sec-capital.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
+for (const file of ['date-fields.js', 'news.js', 'sec-capital.js', 'data-completeness.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
 calendarVm.runInContext('const renderedCalendarCharts = new Map(), renderedCalendarOptions = new Map(); renderChart = (id, series, opts) => { renderedCalendarCharts.set(id, series); renderedCalendarOptions.set(id, opts); };', calendarContext);
 calendarContext.riskFixture = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'session-risk.json'), 'utf8'));
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2024-12-31', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');

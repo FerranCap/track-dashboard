@@ -425,3 +425,22 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-similar-references>li{border-top:1px solid #344b69;padding:10px 0;font-size:12px}
 @media(max-width:1200px){.watchlist-similar-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.watchlist-similar-controls>button{margin-top:0;align-self:center}}
 @media(max-width:650px){.watchlist-similar-controls{grid-template-columns:minmax(0,1fr)}.watchlist-similar-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.data-completeness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.data-completeness-item{min-width:0;border:1px solid #334760;border-radius:8px;background:#121f31}
+.data-completeness-item>summary{padding:12px;cursor:pointer;color:#b9cce1;font-size:14px}
+.data-completeness-label{display:inline-flex;justify-content:space-between;gap:12px;width:calc(100% - 20px);vertical-align:middle}
+.data-completeness-label strong{white-space:nowrap;font-size:13px;color:#dce9fa;font-variant-numeric:tabular-nums}
+.data-completeness-item progress{display:block;appearance:none;width:100%;height:9px;margin-top:10px;border:0;border-radius:6px;overflow:hidden;background:#304058;accent-color:#8bbaff}
+.data-completeness-item progress::-webkit-progress-bar{background:#304058;border-radius:6px}
+.data-completeness-item progress::-webkit-progress-value{background:#8bbaff;border-radius:6px}
+.data-completeness-item progress::-moz-progress-bar{background:#8bbaff;border-radius:6px}
+.data-completeness-item.complete progress{accent-color:#35cba0}
+.data-completeness-item.complete progress::-webkit-progress-value{background:#35cba0}
+.data-completeness-item.complete progress::-moz-progress-bar{background:#35cba0}
+.data-completeness-detail{padding:0 14px 14px;font-size:12px;line-height:1.6}
+.data-completeness-detail>p{color:#91a4be;margin:0 0 10px}
+.data-completeness-detail details{margin-top:8px}
+.data-completeness-detail summary{cursor:pointer;color:#a7cdff}
+.data-completeness-detail details>p{max-height:180px;overflow:auto;overflow-wrap:anywhere;margin:8px 0;padding:8px;background:#0e1827;border-radius:5px}
+@media(max-width:760px){.data-completeness-grid{grid-template-columns:minmax(0,1fr)}.data-completeness-label{gap:8px;font-size:12px}.data-completeness-label strong{font-size:12px}}

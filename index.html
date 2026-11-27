@@ -9,7 +9,7 @@
   <script>if (location.hash === '#nvidia') location.replace('research.html');</script>
   -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261127-watchlist-similar-1">
+  <link rel="stylesheet" href="styles.css?v=20261127-data-completeness-1">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
   <link rel="stylesheet" href="hotkeys.css?v=20261123-2">
 </head>
@@ -516,6 +516,10 @@
 </div>
 </section>
 <section class="section panel">
+<h2>Datos completados</h2>
+<div id="data-completeness"><p class="muted">Esperando al inventario de datos.</p></div>
+</section>
+<section class="section panel">
 <div class="panel-head"><div><h2>Base de datos de emisores</h2><small id="issuer-count"></small></div><a class="download-link" href="data/reference/ticker-profiles.csv" download>Descargar CSV</a></div>
 <p>El país de constitución es el único dato usado para agrupar resultados e identificar tickers. La jurisdicción detallada, país de operación, sede y tipo de valor son informativos. Noticias usa las 48 horas exactas antes de cada entrada; si falta hora o zona confirmada, cuenta por fecha el mismo día o los dos anteriores. Una coincidencia del mismo día no confirma que la publicación precediera a la entrada. Las discrepancias se describen en cada noticia. Sin revisar indica que aún no se ha investigado.</p>
 <label class="issuer-search">Buscar ticker o empresa<input id="issuer-search" type="search" placeholder="Símbolo o empresa"></label>
@@ -765,6 +769,7 @@
 <script src="date-fields.js?v=20261115-european-dates-1" defer></script>
 <script src="filters.js?v=20261115-european-dates-14" defer></script>
 <script src="sec-capital.js?v=20261127-1" defer></script>
+<script src="data-completeness.js?v=20261127-1" defer></script>
 <script src="news.js?v=20261106-news-policy-51" defer></script>
 <script src="swing.js?v=20261110-historical-r-66" defer></script>
 <script src="projection.js?v=20261117-average-size-2" defer></script>
@@ -773,9 +778,9 @@
 <script src="watchlist.js?v=20261127-similar-1" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
 <script src="hotkeys.js?v=20261123-4" defer></script>
-<script src="workspace.js?v=20261127-sec-capital-1" defer>
+<script src="workspace.js?v=20261127-data-completeness-1" defer>
 </script>
-<script src="dashboard.js?v=20261127-sec-capital-1" defer>
+<script src="dashboard.js?v=20261127-data-completeness-1" defer>
 </script>
 </body>
 </html>

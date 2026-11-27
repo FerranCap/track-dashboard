@@ -2,6 +2,16 @@
 
 Codigo siempre en ingles. Comentarios breves y sin emoticonos.
 
+## Ticker data completeness
+
+After updates to trades, issuer profiles, SEC capital references, news context
+or normalized historical prices, run `python scripts/build_data_completeness.py`
+after the relevant data builders. Do not edit
+`data/reference/data-completeness.json` manually. Its per-field ticker counts
+measure data presence, not quality or complete historical coverage. Preserve
+valid zero values and keep missing/unknown values distinct. A reviewed news
+entry without publications is known context, not unresearched data.
+
 ## SEC capital history
 
 `data/sec/capital-history.json` is the reviewed source for historical share counts,

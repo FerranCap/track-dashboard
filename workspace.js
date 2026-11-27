@@ -243,6 +243,7 @@ function renderCountries(rows) {
 }
 
 function renderIssuerProfiles(rows) {
+  renderDataCompleteness();
   const symbols = new Set(rows.map(trade => trade.symbol));
   const query = $('issuer-search').value.toLowerCase().trim();
   const profiles = Object.values(dataset?.tickerProfiles || {}).filter(profile => symbols.has(profile.symbol) && (!query || `${profile.symbol} ${profile.issuer_name}`.toLowerCase().includes(query))).sort((a, b) => a.symbol.localeCompare(b.symbol));
