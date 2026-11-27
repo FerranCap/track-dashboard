@@ -11,6 +11,7 @@ const JOURNAL_DEFAULT_CHARTS = journalChartDefinitions().map(chart => chart.id);
 const JOURNAL_COLORS = ['#78adff', '#47d2b4', '#f0ba72'];
 let journalData = null;
 let journalSelectedDate = '';
+let journalSelectionCleared = false;
 let journalMonth = '';
 let journalView = 'sessions';
 let journalSelectedCharts = new Set(JOURNAL_DEFAULT_CHARTS);
@@ -148,7 +149,7 @@ function journalChartSvg(definition, rows) {
 function renderJournalDetail(rows) {
   const host = document.getElementById('journal-session-detail');
   const row = rows.find(item => item.date === journalSelectedDate);
-  if (!row) { host.innerHTML = '<h2>Ficha de la sesión</h2><p class="journal-empty">No hay sesiones en este intervalo.</p>'; return; }
+  if (!row) { host.innerHTML = `<h2>Ficha de la sesión</h2><p class="journal-empty">${journalSelectionCleared ? 'Selecciona un día para ver su ficha.' : 'No hay sesiones en este intervalo.'}</p>`; return; }
   const field = (label, value) => `<div><dt>${journalEscape(label)}</dt><dd>${journalNumber(value)}</dd></div>`;
   const amount = (label, key) => `<div><dt>${journalEscape(label)}</dt><dd>${journalFormatAmount(row, key)}</dd></div>`;
   const sizeAddedPercent = Number.isFinite(row.sizeAdded) && Number.isFinite(row.sizeBefore) && row.sizeBefore > 0 ? row.sizeAdded / row.sizeBefore * 100 : null;
@@ -165,7 +166,7 @@ function renderJournal() {
   const rows = journalFilteredRows();
   if (!journalMonth) journalMonth = journalCurrentMonth();
   const monthRows = rows.filter(row => row.date.startsWith(journalMonth));
-  if (!monthRows.some(row => row.date === journalSelectedDate)) journalSelectedDate = monthRows.filter(row => row.status === 'evaluated').at(-1)?.date || monthRows.at(-1)?.date || '';
+  if (!journalSelectionCleared && !monthRows.some(row => row.date === journalSelectedDate)) journalSelectedDate = monthRows.filter(row => row.status === 'evaluated').at(-1)?.date || monthRows.at(-1)?.date || '';
   const evaluated = rows.filter(row => Number.isFinite(row.overall));
   const lastSizeRow = rows.filter(row => Number.isFinite(row.sizeAfter)).at(-1);
   const average = evaluated.length ? evaluated.reduce((sum, row) => sum + row.overall, 0) / evaluated.length : null;
@@ -293,8 +294,10 @@ async function initializeJournal() {
   const selectDay = event => {
     const button = event.target.closest('[data-journal-date]');
     if (button && !button.disabled && journalData && journalFilteredRows().some(row => row.date === button.dataset.journalDate)) {
-      journalSelectedDate = button.dataset.journalDate;
-      journalMonth = journalSelectedDate.slice(0, 7);
+      const date = button.dataset.journalDate;
+      journalSelectionCleared = date === journalSelectedDate;
+      journalSelectedDate = journalSelectionCleared ? '' : date;
+      journalMonth = date.slice(0, 7);
       renderJournal();
     }
   };
@@ -303,12 +306,14 @@ async function initializeJournal() {
     if (!/^\d{4}-\d{2}$/.test(event.target.value)) return;
     journalMonth = event.target.value;
     journalSelectedDate = '';
+    journalSelectionCleared = false;
     renderJournal();
   });
   for (const [id, offset] of [['journal-month-prev', -1], ['journal-month-next', 1]]) document.getElementById(id).addEventListener('click', () => {
     if (!journalData) return;
     journalMonth = journalShiftMonth(journalMonth || journalCurrentMonth(), offset);
     journalSelectedDate = '';
+    journalSelectionCleared = false;
     renderJournal();
   });
   try {
