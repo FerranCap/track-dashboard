@@ -102,7 +102,7 @@ function calendarMetricRows(rows, scope, pnlLabel = 'PnL', includeDirections = t
     ['Operaciones', String(rows.length), 'Número de trades cerrados únicos. Las ejecuciones parciales no se cuentan como trades adicionales.'],
     ['Win rate', pct(stats.wins.length, rows.length), `${stats.wins.length} ganadoras ÷ ${rows.length} trades × 100. Incluye ${stats.scratches.length} trades a cero en el denominador.`],
     [pnlLabel, signed(stats.pnl), 'Suma del PnL registrado. Se conservan los costes incluidos en el dato original y no se restan las comisiones de nuevo.'],
-    ['Comisiones', usdMoney(stats.fees), 'Suma de Commission de las ejecuciones únicas. Es un desglose informativo de los costes registrados; no se vuelve a descontar del PnL.'],
+    ['Comisiones', money(stats.fees), 'Suma de Commission de las ejecuciones únicas. En R, cada comisión se divide por la R vigente en la entrada del trade. No se vuelve a descontar del PnL.'],
     ['Profit factor', ratioValue(stats.pf), 'Suma de PnL positivos ÷ valor absoluto de la suma de PnL negativos. Sin pérdidas y con ganancias se muestra ∞; sin resultados calculables se muestra —.'],
     ...(includeDirections ? [['Long', long.length ? signed(sum(long)) : '—', 'Suma del PnL de los trades BUY (Long).'],
     ['Short', short.length ? signed(sum(short)) : '—', 'Suma del PnL de los trades SELL (Short).']] : [])
@@ -123,7 +123,7 @@ function calendarPnlCurve(rows) {
 
 function renderCalendarPnlChart(id, rows, scope) {
   const points = calendarPnlCurve(rows);
-  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, labels: points.map(point => point[0].slice(11, 19)), explanation: `${scope}. Suma acumulada del PnL de los trades cerrados, empezando en cero y ordenados por instante de cierre. El eje horizontal avanza por cierres, no proporcionalmente al tiempo. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
+  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, axisLeft: id.startsWith('calendar-ticker-chart-') ? 56 : 78, timeAxis: true, timeTicks: true, explanation: `${scope}. Suma acumulada del PnL de los trades cerrados. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
 }
 
 function renderCalendarDay(rows) {
@@ -154,11 +154,10 @@ function renderCalendarDay(rows) {
       const sample = trades.filter(trade => trade.side === side);
       if (!sample.length) return '';
       const label = side === 'BUY' ? 'Long' : 'Short';
-      const sideStats = statistics(sample);
       const metrics = calendarMetricRows(sample, `${scope}; solo ${label}`, 'PnL', false).map(args => consistencyMetric(...args)).join('');
-      return `<section class="calendar-ticker-side" aria-label="${esc(symbol)} ${label}"><h5 class="${side === 'BUY' ? 'long' : 'short'}">${label}</h5><p>${sideStats.wins.length} ganadoras / ${sideStats.losses.length} perdedoras / ${sideStats.scratches.length} a cero</p><div class="calendar-ticker-metrics">${metrics}</div></section>`;
+      return `<section class="calendar-ticker-side" aria-label="${esc(symbol)} ${label}"><h5 class="${side === 'BUY' ? 'long' : 'short'}">${label}</h5><div class="calendar-ticker-metrics">${metrics}</div></section>`;
     }).filter(Boolean);
-    return `<article class="calendar-symbol-card"><div><h4>${esc(symbol)} <small>${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}</small></h4><strong class="${cssSign(sum(trades))}" tabindex="0" ${helpAttributes(`${symbol}: suma del PnL de ${trades.length} trades cerrados el ${date}, con los filtros actuales. Las comisiones incluidas no se restan otra vez.`)}>${esc(signed(sum(trades)))}</strong></div><div class="calendar-ticker-side-groups${sides.length === 1 ? ' single-side' : ''}">${sides.join('')}</div><div class="calendar-ticker-equity"><h5>Curva de PnL · ${esc(symbol)}</h5><div id="calendar-ticker-chart-${index}" class="chart" role="img" aria-label="Curva de PnL de ${esc(symbol)} el ${date}"></div></div>${typeof calendarPriceMarkup === 'function' ? calendarPriceMarkup(index) : ''}</article>`;
+    return `<article class="calendar-symbol-card"><div><h4>${esc(symbol)} <small>${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}</small></h4><strong class="${cssSign(sum(trades))}" tabindex="0" ${helpAttributes(`${symbol}: suma del PnL de ${trades.length} trades cerrados el ${date}, con los filtros actuales. Las comisiones incluidas no se restan otra vez.`)}>${esc(signed(sum(trades)))}</strong></div><div class="calendar-ticker-side-groups${sides.length === 1 ? ' single-side' : ''}">${sides.join('')}</div><div class="calendar-ticker-equity"><div id="calendar-ticker-chart-${index}" class="chart" role="img" aria-label="Curva de PnL de ${esc(symbol)} el ${date}"></div></div>${typeof calendarPriceMarkup === 'function' ? calendarPriceMarkup(index) : ''}</article>`;
   }).join('');
   tickerGroups.forEach(([symbol, trades], index) => renderCalendarPnlChart(`calendar-ticker-chart-${index}`, trades, `${symbol}, sesión del ${date}; solo sus trades de este día`));
   if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart(rows);

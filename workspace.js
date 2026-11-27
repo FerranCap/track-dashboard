@@ -24,7 +24,7 @@ let sessionRiskHistory = [];
 let pnlDisplayUnit = 'usd';
 
 function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistory) {
-  if (unit === 'usd') return rows.map(trade => Object.hasOwn(trade, 'pnlUsd') ? { ...trade, pnl: trade.pnlUsd } : trade);
+  if (unit === 'usd') return rows.map(trade => Object.hasOwn(trade, 'pnlUsd') ? { ...trade, pnl: trade.pnlUsd, fees: trade.feesUsd ?? trade.fees } : trade);
   const formatter = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
   return rows.flatMap(trade => {
     const opened = new Date(trade.opened);
@@ -32,7 +32,7 @@ function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistor
     const risk = trade.projectedRisk ?? (date ? sessionRiskAt(date, history)?.risk : null);
     const pnlUsd = trade.pnlUsd ?? trade.pnl;
     return Number.isFinite(risk) && risk > 0 && Number.isFinite(pnlUsd)
-      ? [{ ...trade, pnl: pnlUsd / risk, pnlUsd, pnlRisk: risk }] : [];
+      ? [{ ...trade, pnl: pnlUsd / risk, pnlUsd, pnlRisk: risk, fees: Number.isFinite(trade.feesUsd ?? trade.fees) ? (trade.feesUsd ?? trade.fees) / risk : trade.fees, feesUsd: trade.feesUsd ?? trade.fees }] : [];
   });
 }
 
@@ -152,7 +152,7 @@ function renderWorkspace(rows) {
     ['PnL total', signed(s.pnl), cssSign(s.pnl)], ['Operaciones', integerFormat.format(rows.length)],
     ['Días operados', s.daily.length], ['Símbolos', new Set(rows.map(t => t.symbol)).size],
     ['Win rate', pct(s.wins.length, rows.length)], ['Profit factor', ratioValue(s.pf)],
-    ['PnL medio / operación', rows.length ? money(s.expectancy) : '—'], ['Comisiones · USD', usdMoney(s.fees), '', 'Incluidas en el resultado; no se descuentan de nuevo'],
+    ['PnL medio / operación', rows.length ? money(s.expectancy) : '—'], ['Comisiones', money(s.fees), '', 'Incluidas en el resultado; no se descuentan de nuevo'],
     ['Volumen de entrada', integerFormat.format(s.entryVolumes), '', 'Acciones'],
     ['PnL medio / acción', s.entryVolumes ? money(s.pnl / s.entryVolumes) : '—'],
     ['Operaciones / día', s.daily.length ? num(rows.length / s.daily.length, 1) : '—'],

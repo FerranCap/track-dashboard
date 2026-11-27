@@ -21,7 +21,9 @@ function runPnlUnitChecks(check, evaluate) {
   check(evaluate('statistics(rTrades).expectancy') === 0.5, 'Average PnL uses normalized per-trade R');
   check(evaluate("money(sum(rTrades))") === '1.50 R', 'R totals display R units');
   check(evaluate("usdMoney(rTrades[0].entryPrice)") === '$5.00', 'Entry prices remain USD');
-  check(evaluate("usdMoney(statistics(rTrades).fees)") === '$6.00', 'Fees remain USD and are not subtracted again');
+  check(evaluate("money(statistics(rTrades).fees)") === '0.10 R', 'Fees use each trade’s historical risk and are not subtracted again');
+  check(evaluate("JSON.stringify(displayPnlRows(rTrades, 'usd').map(trade => trade.fees))") === '[1,2,3]', 'Switching back restores original fee amounts');
+  check(evaluate("Math.abs(statistics(displayPnlRows(rTrades, 'r')).fees - 0.1) < 1e-12"), 'Repeated conversion does not divide fees twice');
   check(evaluate("JSON.stringify(displayPnlRows(rTrades, 'usd').map(trade => trade.pnl))") === '[20,-25,300]', 'Switching back restores original dollars');
   check(evaluate('sum(displayPnlRows(rTrades, "r"))') === 1.5, 'Repeated display conversion cannot divide twice');
   check(evaluate('JSON.stringify(unitTrades) === unitSnapshot'), 'Source accounting is immutable');

@@ -131,7 +131,7 @@ function renderDurationStudies(rows) {
     'Duración', 'Operaciones', 'Ganadoras', 'Perdedoras', 'A cero', 'Win rate', 'PnL', 'PnL medio', 'Ganancia media', 'Pérdida media', 'RR realizado', 'Profit factor',
     'Comisiones', 'Acciones totales', 'Acciones medias', 'Trades con acciones', 'PnL / acción', 'Duración mediana (min)', 'Muestra'
   ], groups.map(group => [group.name, group.count, group.wins, group.losses, group.scratches, `${num(group.winRate, 1)}%`, signed(group.pnl), money(group.average), money(group.winAverage),
-    group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), usdMoney(group.fees),
+    group.lossAverage === null ? '—' : money(-group.lossAverage), group.rr === null ? '—' : `${num(group.rr)} : 1`, ratioValue(group.pf), money(group.fees),
     group.quantity === null ? '—' : num(group.quantity, 0), num(group.averageQuantity, 1), group.quantityCount, money(group.pnlPerShare), num(group.median, 2), group.count < 20 ? 'Reducida (<20)' : '20 o más'
   ])) : '<p class="muted">Sin operaciones para estos filtros.</p>';
 }

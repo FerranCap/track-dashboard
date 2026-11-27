@@ -107,7 +107,7 @@ function helpText(label) {
     [/rachas/, 'Número de secuencias consecutivas de operaciones del resultado indicado y media de operaciones por secuencia. Las operaciones a cero interrumpen las rachas.'],
     [/mejor operacion|largest gain|best day/, 'Mayor PnL observado: de una operación en «Mejor operación», o de la suma diaria en «Best Day». Se calcula dentro del conjunto seleccionado.'],
     [/peor operacion|largest loss|worst day/, 'Menor PnL observado: de una operación en «Peor operación», o de la suma diaria en «Worst Day». Se calcula dentro del conjunto seleccionado.'],
-    [/comisiones|total fees/, 'Suma de las comisiones de ejecuciones únicas asociadas a las operaciones. Las ejecuciones repetidas entre exportaciones se deduplican. No se descuentan de nuevo del PnL del CSV.'],
+    [/comisiones|total fees/, 'Suma de las comisiones de ejecuciones únicas asociadas a las operaciones. En R, cada comisión se divide por la R vigente en la entrada de su operación. No se descuentan de nuevo del PnL del CSV.'],
     [/volumen de entrada|shares/, 'Suma de cantidades de las ejecuciones de entrada, en acciones. Para cada trade se consideran entradas las ejecuciones cuyo lado coincide con la dirección de apertura.'],
     [/entrada|entry/, 'Precio de entrada = suma de (precio × cantidad) de las ejecuciones de entrada ÷ suma de sus cantidades. Es un precio medio ponderado, en USD.'],
     [/dias operados|trading days/, 'Número de fechas de cierre distintas con al menos una operación. Las fechas se expresan en la zona horaria de Nueva York.'],

@@ -61,27 +61,45 @@ function tradePriceFills(payload, trade) {
   return { complete: entry.complete && fills.length === entry.fills.length, fills };
 }
 
-function priceChartSvg(bars, window, fills, title) {
-  const width = 1000, height = 500, left = 72, right = 970, top = 36, bottom = 360, volumeTop = 385, volumeBottom = 450;
+function priceChartSvg(bars, window, fills, title, trades = []) {
+  const width = 1000, left = 107, right = 958;
+  const x = time => left + (time - window.start) / (window.end - window.start) * (right - left);
+  const lanes = [];
+  const labels = trades.map(trade => {
+    const label = signed(trade.pnl);
+    const halfWidth = Math.max(30, label.length * 6.5);
+    const center = Math.max(left + halfWidth, Math.min(right - halfWidth, x((Date.parse(trade.opened) + Date.parse(trade.closed)) / 2000)));
+    return { trade, label, center, halfWidth };
+  }).sort((a, b) => a.center - b.center).map(item => {
+    let lane = lanes.findIndex(end => end + 8 <= item.center - item.halfWidth);
+    if (lane < 0) lane = lanes.length;
+    lanes[lane] = item.center + item.halfWidth;
+    return { ...item, lane };
+  });
+  const offset = lanes.length * 26;
+  const height = 500 + offset, top = 36 + offset, bottom = 360 + offset, volumeTop = 385 + offset, volumeBottom = 450 + offset;
   const prices = [...bars.flatMap(bar => [bar.low, bar.high]), ...fills.map(fill => Number(fill.price))];
   const minimum = Math.min(...prices), maximum = Math.max(...prices);
   const padding = Math.max((maximum - minimum) * .15, maximum * .001, .00001);
   const low = minimum - padding, high = maximum + padding;
-  const x = time => left + (time - window.start) / (window.end - window.start) * (right - left);
   const y = price => bottom - (price - low) / (high - low) * (bottom - top);
   const candleWidth = Math.min(18, (right - left) / ((window.end - window.start) / 60) * .68);
-  const price = value => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 5 }).format(value);
+  const price = value => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
   const clock = time => tradePriceClock.format(new Date(time * 1000));
   const maxVolume = Math.max(1, ...bars.map(bar => bar.volume));
   let svg = `<svg class="trade-candle-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title)}"><title>${esc(title)}</title><rect x="${left}" y="${top}" width="${right-left}" height="${volumeBottom-top}" fill="#101b2b"/>`;
+  for (const item of labels) {
+    const color = item.trade.pnl > 0 ? '#36d49b' : item.trade.pnl < 0 ? '#ff8190' : '#a6b9ce';
+    svg += `<text class="trade-pnl-label" x="${item.center}" y="${top - 12 - item.lane * 26}" text-anchor="middle" fill="${color}" font-size="21"><title>${esc(`Resultado del trade: ${item.label}`)}</title>${esc(item.label)}</text>`;
+  }
   for (const interval of window.intervals) svg += `<rect x="${x(interval.opened)}" y="${top}" width="${Math.max(1,x(interval.closed)-x(interval.opened))}" height="${bottom-top}" fill="#7caaff" opacity=".07"/>`;
   for (let i = 0; i <= 4; i++) {
     const value = low + (high - low) * i / 4;
-    svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+5}" text-anchor="end" fill="#a6b9ce" font-size="16">${price(value)}</text>`;
+    svg += `<line x1="${left}" x2="${right}" y1="${y(value)}" y2="${y(value)}" stroke="#26354a"/><text x="${left-10}" y="${y(value)+7}" text-anchor="end" fill="#a6b9ce" font-size="21">${price(value)}</text>`;
   }
   for (let i = 0; i <= 5; i++) {
     const time = window.start + (window.end - window.start) * i / 5;
-    svg += `<text x="${x(time)}" y="480" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="16">${clock(time)}</text>`;
+    svg += `<text x="${x(time)}" y="${480 + offset}" text-anchor="${i===0?'start':i===5?'end':'middle'}" fill="#a6b9ce" font-size="21">${clock(time)}</text>`;
   }
   for (const bar of bars) {
     const cx = x(bar.time + 30), color = bar.close >= bar.open ? '#36d49b' : '#ff6c81';
@@ -136,7 +154,7 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
   tradePriceRows = rows;
   const request = ++tradePriceRequest;
   const groups = groupedStatistics(rows, trade => trade.symbol);
-  await Promise.all(groups.map(async ([symbol, trades], index) => {
+  const groupResults = await Promise.all(groups.map(async ([symbol, trades], index) => {
     const panel = document.getElementById(`calendar-ticker-price-${index}`);
     if (!panel) return;
     const select = panel.querySelector('.trade-price-source');
@@ -181,17 +199,29 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
       const fills = executions.flatMap(result => result.fills);
       if (!bars.length) { status.textContent = 'Esta fuente no tiene velas en el intervalo de los trades.'; return; }
       const title = `${symbol}, ${trades.length} trades, ${source.label}, velas de 1 minuto, ${tradePriceClock.format(new Date(window.start * 1000))} a ${tradePriceClock.format(new Date(window.end * 1000))}, hora de Nueva York`;
-      host.innerHTML = priceChartSvg(bars, window, fills, title);
+      host.innerHTML = priceChartSvg(bars, window, fills, title, trades);
       const minutes = new Set();
       for (const interval of window.intervals) for (let time = Math.floor(interval.opened / 60) * 60; time <= Math.floor(interval.closed / 60) * 60; time += 60) minutes.add(time);
       const available = bars.filter(bar => minutes.has(bar.time)).length;
       status.textContent = available < minutes.size || !executions.every(item => item.complete) ? `Datos incompletos: ${available}/${minutes.size} minutos operados con vela${executions.every(item => item.complete) ? '' : '; faltan ejecuciones'}.` : '';
       const points = minutePnlCurve(trades, bars, executions);
-      if (points) renderChart(`calendar-ticker-chart-${index}`, [{ values: points, color: '#29d17e' }], { currency: true, timeAxis: true, labels: points.map(point => tradePriceClock.format(new Date(point[0]))), explanation: 'Estimación intratrade con ejecuciones y cierres de velas de un minuto; costes y PnL registrados se reflejan al cerrar cada operación. No se rellenan velas ausentes.' });
+      if (points) renderChart(`calendar-ticker-chart-${index}`, [{ values: points, color: '#29d17e' }], { currency: true, axisLeft: 56, timeAxis: true, labels: points.map(point => tradePriceClock.format(new Date(point[0]))), explanation: 'Estimación intratrade con ejecuciones y cierres de velas de un minuto; costes y PnL registrados se reflejan al cerrar cada operación. No se rellenan velas ausentes.' });
+      return points;
     } catch (error) {
       if (!current()) return;
       status.textContent = 'No se pudieron cargar los precios. Pulsa Reintentar.';
       console.error('Ticker price chart:', error);
     }
   }));
+  if (request !== tradePriceRequest || !rows.length || !groupResults.some(Boolean)) return;
+  const curves = groups.map(([, trades], index) => groupResults[index] || calendarPnlCurve(trades));
+  const times = [...new Set(curves.flatMap(curve => curve.map(point => Date.parse(point[0]))))].sort((a, b) => a - b);
+  const positions = curves.map(() => 0), values = curves.map(() => 0);
+  const points = times.map(time => {
+    for (let i = 0; i < curves.length; i++) {
+      while (positions[i] < curves[i].length && Date.parse(curves[i][positions[i]][0]) <= time) values[i] = curves[i][positions[i]++][1];
+    }
+    return [new Date(time).toISOString(), values.reduce((sum, value) => sum + value, 0)];
+  });
+  renderChart('calendar-day-chart', [{ values: points, color: '#29d17e' }], { currency: true, timeAxis: true, timeTicks: true, explanation: 'PnL acumulado de la sesión. Donde hay velas y ejecuciones completas se estima el resultado intratrade; en los demás casos se muestra el PnL al cierre. Los costes y el resultado registrados se reflejan al cerrar cada operación.' });
 }

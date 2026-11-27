@@ -143,7 +143,7 @@ function svgChart(series,opts={}){
   if (opts.scatter) return durationScatterSvg(series, opts);
   series = series.map(s => ({ ...s, values: s.values.filter(p => Number.isFinite(p[1])) }));
   if(!series.length || !series.some(s=>s.values.length))return `<span>${esc(opts.empty || 'Sin operaciones para estos filtros')}</span>`;
-  const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=78,r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
+  const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=opts.axisLeft ?? 78,r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
   const all=series.flatMap(s=>s.values.map(p=>p[1]));
   let low=Math.min(0,...all),high=Math.max(0,...all);
   if(Number.isFinite(opts.max))high=Math.max(high,opts.max);
@@ -183,6 +183,18 @@ function svgChart(series,opts={}){
     }
   }
   const labels=series.find(s=>s.values.length===count).values;
+  if (opts.timeTicks && lastTime > firstTime) {
+    const span = lastTime - firstTime;
+    const desired = Math.max(2, Math.floor(plotW / 85));
+    const steps = [60000, 120000, 300000, 600000, 900000, 1800000, 3600000, 7200000, 14400000, 28800000, 86400000];
+    const step = steps.find(value => value >= span / desired) || steps.at(-1);
+    const clock = new Intl.DateTimeFormat('es-ES', {timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'});
+    for (let time = Math.ceil(firstTime / step) * step; time <= lastTime; time += step) {
+      const position = l + (time-firstTime)/(lastTime-firstTime)*plotW;
+      shapes += `<text x="${position}" y="${H-12}" fill="#97aec8" font-size="11" text-anchor="middle">${clock.format(new Date(time))}</text>`;
+    }
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(opts.title||'Trading chart')}">${shapes}</svg>`;
+  }
   const labelWidth=Math.max(65,...labels.map((p,i)=>chartLabel(opts.labels?.[i]||p[0]).length*6.5+18));
   const ticks=Math.min(8,labels.length,Math.max(1,Math.floor(plotW/(labelWidth*1.5))+1));
   for(let j=0;j<ticks;j++){
