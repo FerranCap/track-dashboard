@@ -159,3 +159,35 @@ counts, public float, estimates and capital events. Initial reviewed coverage is
 AMD and BENF; other symbols remain unreviewed. See
 [the SEC database workflow](data/sec/README.md) for evidence rules and updates.
 Run `python scripts/build_sec_capital.py` after changing trades or SEC evidence.
+
+## Historical market prices
+
+New historical ticker downloads belong in [`data/prices/`](data/prices/README.md),
+with original files, normalized bars and import manifests kept separate. The
+existing NVDA research JSON files remain in `data/research/`. The price directory
+is reserved storage; imports, Git LFS and a local query engine are not configured
+automatically.
+
+## Watchlist similar tickers
+
+Each Watchlist row has a collapsed similarity panel immediately below its
+external links. The search initially uses the entry's incorporation country and
+float/market-cap ranges from 70% to 130% of its entered values. Search controls
+are independent of the entry: edit country, enable or disable each numeric
+criterion, and adjust either endpoint with the two range handles or number
+inputs. Reset restores the current entry values and the initial 30% margins.
+Unmodified searches follow entry edits; customized searches remain independent.
+
+Matches exclude the current ticker and known aliases of the same issuer. Every
+enabled criterion must match. Numeric evidence must have been published before
+the historical entry; unknown values do not match. Quoted-class values are not
+compared with total issuer market cap, and float share bases cannot cross a
+known unreconciled split. The country uses the reviewed issuer profile snapshot.
+Float estimates may be old; the panel retains observation dates and sources.
+
+Results include only matching trades, with historical USD/R statistics, issuer
+profiles, capital references and curated news linked to those entries. The
+cohort uses the full history independently of the dashboard date filters.
+Missing coverage is explicit; other Watchlist fields are not similarity
+criteria. Results describe the user's trading history, not price forecasts.
+Search adjustments are temporary; the existing Watchlist storage is unchanged.

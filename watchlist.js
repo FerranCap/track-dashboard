@@ -29,10 +29,21 @@ function initializeWatchlist() {
   const layoutKey = 'track-watchlist-columns-v4';
   const tradeDetails = new Map();
   const countryControls = [];
+  const similarityPanels = new Map();
+  let similaritySource;
+  let similarityRecords = [];
   let webPanel = null;
   let activeWebLink = null;
   let entries = [];
   let storageReadable = true;
+
+  function getSimilarityRecords() {
+    if (similaritySource !== dataset) {
+      similaritySource = dataset;
+      similarityRecords = buildWatchlistSimilarityIndex(dataset, secCapitalIssuers, secCapitalTrades);
+    }
+    return similarityRecords;
+  }
 
   function applyColumnWidths(widths) {
     const total = widths.reduce((sum, width) => sum + width, 0);
@@ -211,7 +222,7 @@ function initializeWatchlist() {
     panel.append(toolbar, hint, frame);
     cell.append(panel);
     webPanel.append(cell);
-    linksRow.after(webPanel);
+    (similarityPanels.get(ticker)?.row || linksRow).after(webPanel);
     link.setAttribute('aria-expanded', 'true');
     link.setAttribute('aria-controls', panel.id);
     document.body.classList.add('watchlist-web-open');
@@ -227,13 +238,17 @@ function initializeWatchlist() {
     const toolbar = view.querySelector('.watchlist-toolbar');
     const expandedHeight = [...tradeDetails.values()].reduce((total, item) => total + (item.row.hidden ? 0 : item.row.offsetHeight), 0);
     const linksHeight = [...body.querySelectorAll('.watchlist-links-row')].reduce((total, row) => total + row.offsetHeight, 0);
-    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - linksHeight - 28;
-    view.style.setProperty('--watchlist-row-height', `${Math.min(42, Math.max(10, Math.floor(available / Math.max(1, entries.length))))}px`);
+    const similarityHeight = [...similarityPanels.values()].reduce((total, item) => total + item.row.offsetHeight, 0);
+    const similarityOpen = [...similarityPanels.values()].some(item => item.disclosure.open);
+    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - linksHeight - similarityHeight - 28;
+    view.style.setProperty('--watchlist-row-height', `${similarityOpen ? 42 : Math.min(42, Math.max(10, Math.floor(available / Math.max(1, entries.length))))}px`);
   }
 
   function render() {
     closeWebPanel();
     tradeDetails.clear();
+    const previousSimilarityPanels = new Map(similarityPanels);
+    similarityPanels.clear();
     countryControls.length = 0;
     body.replaceChildren();
     document.getElementById('watchlist-add').disabled = !storageReadable || entries.length >= maxTickers;
@@ -285,6 +300,7 @@ function initializeWatchlist() {
           entry[key] = control.value;
           updateFieldHighlight(control, key);
           save();
+          similarityPanels.get(entry.ticker)?.refresh();
         });
         cell.append(control);
         row.append(cell);
@@ -350,6 +366,15 @@ function initializeWatchlist() {
       linksCell.append(dilutionLink, document.createTextNode(' '), finvizLink, document.createTextNode(' '), yahooLink, document.createTextNode(' '), quantLink);
       linksRow.append(tickerSpacer, linksCell);
       body.append(linksRow);
+      const similar = previousSimilarityPanels.get(entry.ticker) || createWatchlistSimilarPanel(entry, {
+        columnCount: fields.length + 2,
+        getCountries: countryOptions,
+        getSource: () => dataset,
+        getRecords: getSimilarityRecords,
+        onLayout: () => requestAnimationFrame(fitRows)
+      });
+      similarityPanels.set(entry.ticker, similar);
+      body.append(similar.row);
       const detailRow = document.createElement('tr');
       detailRow.className = 'watchlist-trade-details';
       detailRow.id = `watchlist-trades-${index}`;
@@ -378,6 +403,7 @@ function initializeWatchlist() {
   updateWatchlistTradeStats = () => {
     const options = countryOptions();
     for (const { control, entry } of countryControls) populateOptions(control, options, entry.country);
+    for (const item of similarityPanels.values()) item.refresh();
     for (const [ticker, item] of tradeDetails) {
       const history = (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
       item.button.hidden = history.length === 0;

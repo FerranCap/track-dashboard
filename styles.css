@@ -386,3 +386,42 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .sec-capital-history>li{padding:10px 0;border-bottom:1px solid #344b69}
 .sec-capital-history>li>strong,.sec-capital-history>li>span,.sec-capital-history>li>small{display:block}
 .sec-capital-detail small{font-size:12px}
+
+.watchlist-table .watchlist-similar-row>td{height:auto;padding:0 2px 8px;vertical-align:top}
+.watchlist-similar{border:1px solid #304762;border-radius:6px;background:#101b2b}
+.watchlist-similar>summary{padding:8px 10px;color:#a7cdff;font-size:12px;line-height:1.5;cursor:pointer;white-space:normal}
+.watchlist-similar-panel{padding:12px;font-size:14px;line-height:1.5}
+.watchlist-similar-controls{display:grid;grid-template-columns:minmax(150px,.8fr) repeat(2,minmax(230px,1fr)) auto;gap:14px;align-items:start}
+.watchlist-similar-controls>label,.watchlist-range-endpoints label{display:grid;gap:5px;color:#a9bdd5;font-size:12px}
+.watchlist-table .watchlist-similar input[type=number],.watchlist-table .watchlist-similar select{height:32px;min-height:32px;font-size:14px;padding:4px 8px;text-align:left;background-color:#0b1523}
+.watchlist-similar-range{min-width:0;margin:0;padding:8px 12px;border:1px solid #344b69;border-radius:6px}
+.watchlist-similar-range legend{padding:0 4px;font-size:12px;color:#c8dcf8}
+.watchlist-similar-range legend label{display:flex;align-items:center;gap:4px}
+.watchlist-table .watchlist-similar input[type=checkbox]{display:inline-block;width:16px;height:16px;min-height:16px;margin:0;appearance:auto;accent-color:#8bbaff}
+.watchlist-range-endpoints{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.watchlist-range-track{position:relative;height:4px;margin:20px 0 14px;background:#344b69;border-radius:3px}
+.watchlist-range-selection{position:absolute;height:4px;background:#8bbaff;border-radius:3px}
+.watchlist-table .watchlist-similar input[type=range]{position:absolute;inset:-12px 0 auto;appearance:none;-webkit-appearance:none;pointer-events:none;width:100%;height:28px;min-height:28px;padding:0;margin:0;border:0;background:transparent;box-shadow:none}
+.watchlist-similar input[type=range]::-webkit-slider-runnable-track{height:4px;background:transparent}
+.watchlist-similar input[type=range]::-moz-range-track{height:4px;background:transparent}
+.watchlist-similar input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;pointer-events:auto;width:16px;height:16px;border:2px solid #c9e0ff;border-radius:50%;background:#446eaa;margin-top:-6px;cursor:ew-resize}
+.watchlist-similar input[type=range]::-moz-range-thumb{pointer-events:auto;width:13px;height:13px;border:2px solid #c9e0ff;border-radius:50%;background:#446eaa;cursor:ew-resize}
+.watchlist-similar input[type=range]:disabled::-webkit-slider-thumb{pointer-events:none;opacity:.4}
+.watchlist-similar input[type=range]:disabled::-moz-range-thumb{pointer-events:none;opacity:.4}
+.watchlist-similar input[type=range]:focus-visible{z-index:2;outline:1px solid #8bbaff!important;outline-offset:2px}
+.watchlist-range-caption,.watchlist-similar-note{font-size:12px;color:#a9bdd5}
+.watchlist-similar-controls>button{margin-top:23px;font-size:12px}
+.watchlist-similar-results{max-height:65vh;overflow-y:auto;padding-right:6px;overscroll-behavior:contain}
+.watchlist-similar-results p{margin:8px 0;font-size:12px}
+.watchlist-similar-stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:12px 0}
+.watchlist-similar-stats dt{font-size:12px;color:#91a4be}
+.watchlist-similar-stats dd{margin:3px 0 0;font-size:14px;color:#dce9fa}
+.watchlist-similar-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,390px),1fr));gap:12px}
+.watchlist-similar-card{min-width:0;padding:12px;border:1px solid #344b69;border-radius:6px;background:#122035}
+.watchlist-similar-card h4{margin:0;font-size:14px;color:#dce9fa}
+.watchlist-similar-card summary{font-size:12px;cursor:pointer;color:#a7cdff}
+.watchlist-similar-card .watchlist-similar-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.watchlist-similar-references{list-style:none;padding:0;margin:10px 0}
+.watchlist-similar-references>li{border-top:1px solid #344b69;padding:10px 0;font-size:12px}
+@media(max-width:1200px){.watchlist-similar-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.watchlist-similar-controls>button{margin-top:0;align-self:center}}
+@media(max-width:650px){.watchlist-similar-controls{grid-template-columns:minmax(0,1fr)}.watchlist-similar-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}

@@ -11,6 +11,7 @@ on:
       - 'dashboard.js'
       - 'workspace.js'
       - 'watchlist.js'
+      - 'watchlist-similar.js'
       - 'journal.js'
       - 'journal.css'
       - 'hotkeys.js'
@@ -69,7 +70,7 @@ jobs:
         run: |
           mkdir -p site/data/reference site/data/news site/data/hotkeys site/data/sec
           cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
-          cp projection.js swing.js optimal.js watchlist.js sec-capital.js site/
+          cp projection.js swing.js optimal.js watchlist.js watchlist-similar.js sec-capital.js site/
           cp journal.js journal.css site/
           cp hotkeys.js hotkeys.css site/
           cp data/hotkeys/*.htk site/data/hotkeys/
