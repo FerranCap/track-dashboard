@@ -75,12 +75,15 @@ async function checkTickerPanels() {
   context.document = { getElementById(id) { return panels[Number(id.split('-').at(-1))]; } };
   context.groupedStatistics = rows => [...new Map([...new Set(rows.map(t => t.symbol))].map(symbol => [symbol, rows.filter(t => t.symbol === symbol)]))];
   context.signed = value => String(value);
+  context.pnlDisplayUnit = 'usd';
+  context.renderChart = (id, series, options) => { context.renderedCurve = { id, series, options }; };
   context.fetch = async file => ({ ok: true, json: async () => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8')) });
   context.rows = [...trades, { ...trades[0], id: 'missing', symbol: 'MISSING' }];
   await run('renderCalendarTradeChart(rows)');
   const markup = panels[0].querySelector('.trade-price-chart').innerHTML;
   assert.equal((markup.match(/class="trade-fill-marker"/g) || []).length, combined.length);
-  assert(panels[0].querySelector('.trade-price-summary').textContent.includes(`${trades.length} trades`));
+  assert.equal(context.renderedCurve.id, 'calendar-ticker-chart-0');
+  assert(context.renderedCurve.series[0].values.length > trades.length);
   assert(panels[1].querySelector('.trade-price-status').textContent.includes('MISSING'));
   assert.equal(panels[1].querySelector('.trade-price-chart').innerHTML, '');
   assert.equal(panels[0].querySelector('.trade-price-source').disabled, false);

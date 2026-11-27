@@ -222,7 +222,7 @@ const vcigNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerPro
 checkConsistency(vcigNewsMarkup.includes('1 noticia') && vcigNewsMarkup.includes('Limitaciones de la fuente') && !vcigNewsMarkup.includes('publicación pendiente'), 'VCIG publication counts with source discrepancies visible');
 calendarVm.runInContext('globalThis.newsAudit = auditNewsCoverage(dataset)', calendarContext);
 checkConsistency(calendarContext.newsAudit.length === 509 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 673, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
-checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 926, 'News audit preserves all unreviewed entries');
+checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 928, 'News audit preserves all unreviewed entries');
 checkConsistency(calendarContext.newsAudit.filter(entry => entry.reviewed === 0 && !entry.articles).every(entry => entry.articles === null), 'Unresearched tickers show unknown news counts rather than zero publications');
 checkConsistency(calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').pending === 0 && calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').complete, 'LABT coverage includes every exact entry in the reviewed sources');
 checkConsistency(calendarContext.newsAudit.some(entry => !entry.complete), 'Partial news history remains incomplete');
