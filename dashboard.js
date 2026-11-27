@@ -268,6 +268,7 @@ function renderTable(){
   $('prev').disabled=page===0;$('next').disabled=page>=maxPage;
 }
 async function loadData(options = {}){
+  if (typeof resetTradePriceData === 'function') resetTradePriceData();
   const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{

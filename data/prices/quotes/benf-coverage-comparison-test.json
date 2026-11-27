@@ -1,0 +1,59 @@
+{
+  "symbol": "BENF",
+  "schema": "ohlcv-1m",
+  "mode": "cost_metadata_only",
+  "sessions": [
+    {
+      "dataset": "EQUS.MINI",
+      "date": "2025-10-31",
+      "estimatedCostUsd": 0.00035610795,
+      "status": "quoted"
+    },
+    {
+      "dataset": "EQUS.MINI",
+      "date": "2026-02-18",
+      "estimatedCostUsd": 0.000296652317,
+      "status": "quoted"
+    },
+    {
+      "dataset": "EQUS.MINI",
+      "date": "2026-09-23",
+      "estimatedCostUsd": 0.000286012888,
+      "status": "quoted"
+    },
+    {
+      "dataset": "EQUS.MINI",
+      "date": "2026-11-24",
+      "estimatedCostUsd": 0.000360488892,
+      "status": "quoted"
+    },
+    {
+      "dataset": "XNAS.BASIC",
+      "date": "2025-10-31",
+      "estimatedCostUsd": 0.000564515591,
+      "status": "quoted"
+    },
+    {
+      "dataset": "XNAS.BASIC",
+      "date": "2026-02-18",
+      "estimatedCostUsd": 0.000547617674,
+      "status": "quoted"
+    },
+    {
+      "dataset": "XNAS.BASIC",
+      "date": "2026-09-23",
+      "estimatedCostUsd": 0.000395536423,
+      "status": "quoted"
+    },
+    {
+      "dataset": "XNAS.BASIC",
+      "date": "2026-11-24",
+      "estimatedCostUsd": 0.000434964895,
+      "status": "quoted"
+    }
+  ],
+  "totals": {
+    "EQUS.MINI": 0.001299262047,
+    "XNAS.BASIC": 0.0019426345830000002
+  }
+}

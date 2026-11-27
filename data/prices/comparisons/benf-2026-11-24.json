@@ -1,0 +1,35 @@
+{
+  "symbol": "BENF",
+  "session": "2026-11-24",
+  "interval": "1m",
+  "datasets": [
+    {
+      "dataset": "EQUS.MINI",
+      "bars": 576,
+      "volume": 4400149,
+      "firstBarNewYork": "2026-11-24 07:30:00-05:00",
+      "lastBarNewYork": "2026-11-24 18:23:00-05:00",
+      "parquet": "data/prices/tickers/BENF/2026-11-24/databento/EQUS.MINI/ohlcv-1m/benf-2026-11-24-equs-mini-94e0eb585fb6.parquet",
+      "estimatedCostUsd": 0.000360488892
+    },
+    {
+      "dataset": "XNAS.BASIC",
+      "bars": 695,
+      "volume": 268184579,
+      "firstBarNewYork": "2026-11-24 04:00:00-05:00",
+      "lastBarNewYork": "2026-11-24 18:59:00-05:00",
+      "parquet": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.BASIC/ohlcv-1m/benf-2026-11-24-xnas-basic-94e0eb585fb6.parquet",
+      "estimatedCostUsd": 0.000434964895
+    },
+    {
+      "dataset": "XNAS.ITCH",
+      "bars": 703,
+      "volume": 9457743,
+      "firstBarNewYork": "2026-11-24 07:30:00-05:00",
+      "lastBarNewYork": "2026-11-24 19:59:00-05:00",
+      "parquet": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.ITCH/ohlcv-1m/benf-2026-11-24-xnas-itch-94e0eb585fb6.parquet",
+      "estimatedCostUsd": 0.000439971685
+    }
+  ],
+  "limitation": "Volume totals belong to separate overlapping datasets and must not be added together."
+}

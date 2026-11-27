@@ -191,13 +191,13 @@ function initializeHelp() {
   });
   document.addEventListener('focusin', event => {
     const target = event.target.closest('[data-help]');
-    if (target) show(target); else hide();
+    if (target && target.matches(':focus-visible')) show(target); else hide();
   });
   document.addEventListener('focusout', hide);
   document.addEventListener('change', hide);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') { hide(); touchTarget = null; } });
   document.addEventListener('pointerdown', event => {
-    if (event.pointerType !== 'touch') return;
+    if (event.pointerType !== 'touch') { hide(); return; }
     const target = event.target.closest('[data-help]');
     if (!target || target === touchTarget) { hide(); touchTarget = null; }
     else { touchTarget = target; show(target, event); }

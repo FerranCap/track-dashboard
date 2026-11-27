@@ -40,6 +40,13 @@ def price_inventory(root):
             payload = load(path)
             if not isinstance(payload, dict):
                 continue
+            if payload.get('type') == 'validated_price_download' and payload.get('validatedOHLCV') and payload.get('rowCount', 0) > 0:
+                relative = payload.get('normalizedFile', '')
+                normalized = (root / relative).resolve()
+                if (normalized.is_relative_to((root / 'data/prices').resolve()) and normalized.is_file()
+                        and normalized.stat().st_size == payload.get('normalizedBytes') and payload.get('interval') in available):
+                    available[payload['interval']].update(payload.get('symbols', []))
+                continue
             symbol, interval = payload.get('symbol'), payload.get('interval')
             bars = payload.get('bars')
             if (not isinstance(symbol, str) or not symbol or interval not in available

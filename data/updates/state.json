@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "jobs": {
+    "news-cf217e8992fae649feb6": {
+      "status": "partial_collection",
+      "collectedAt": "2026-11-27T15:12:48.899141+00:00",
+      "receipts": [
+        {
+          "url": "https://finviz.com/stock?t=GCTK",
+          "attempts": 1,
+          "status": 404,
+          "failureType": "HTTPError",
+          "retryAfter": "2026-11-28T15:12:47.710561+00:00",
+          "access": "failed",
+          "provider": "finviz",
+          "coverage": "recent_listing_not_exhaustive_historical_search"
+        },
+        {
+          "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=GCTK&region=US&lang=en-US",
+          "finalUrl": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=GCTK&region=US&lang=en-US",
+          "sha256": "39e3114f00c5d008b809c19ec67a1d54e9332b7ae2be7f8689fff0a9292a4927",
+          "fetchedAt": "2026-11-27T15:12:47.926144+00:00",
+          "status": 200,
+          "attempts": 0,
+          "access": "downloaded",
+          "provider": "yahoo",
+          "coverage": "recent_listing_not_exhaustive_historical_search"
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001506983.json",
+          "sha256": "d5f967062b5ce8d70112066983788d2dd74490366f983f86376e7a1ca6fa44d6",
+          "fetchedAt": null,
+          "sourceAgeUnverified": true,
+          "access": "legacy_cache",
+          "attempts": 0,
+          "provider": "sec"
+        }
+      ],
+      "candidateIds": [
+        "news-e4136096e0ee487c24e2f820"
+      ],
+      "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
+    },
+    "sec-7d8287e2052a56917626": {
+      "status": "deferred",
+      "collectedAt": "2026-11-27T15:02:36.731174+00:00",
+      "receipts": [
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001775734.json",
+          "access": "request_budget_exhausted"
+        },
+        {
+          "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001775734.json",
+          "access": "request_budget_exhausted"
+        }
+      ],
+      "candidateIds": [],
+      "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
+    },
+    "sec-b1c445eaea37f55b728f": {
+      "status": "deferred",
+      "collectedAt": "2026-11-27T15:12:49.118185+00:00",
+      "receipts": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000018/ben-20260331.htm",
+          "attempts": 1,
+          "status": 403,
+          "failureType": "HTTPError",
+          "retryAfter": "2026-11-28T15:12:48.920140+00:00",
+          "access": "failed"
+        }
+      ],
+      "candidateIds": [],
+      "limitation": "Discovery does not establish exhaustive historical news coverage or a no-news review."
+    }
+  }
+}

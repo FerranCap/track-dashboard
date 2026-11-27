@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "benf-2026-11-24-xnas-basic",
+  "jobFingerprint": "66484ba51981ec3a920c1ce8801e329328548b86acd0ca2fb089079b6e36ed2f",
+  "provider": "databento",
+  "dataset": "XNAS.BASIC",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "BENF"
+  ],
+  "requestedSymbols": [
+    "BENF"
+  ],
+  "start": "2026-11-24T00:00:00-05:00",
+  "end": "2026-11-25T00:00:00-05:00",
+  "downloadedAt": "2026-11-27T16:09:57.193217+00:00",
+  "rowCount": 695,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.BASIC/ohlcv-1m/benf-2026-11-24-xnas-basic-94e0eb585fb6.dbn.zst",
+  "normalizedFile": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.BASIC/ohlcv-1m/benf-2026-11-24-xnas-basic-94e0eb585fb6.parquet",
+  "checksums": {
+    "raw": "535e2c82eea76dfceb1c716e5b98fb0c1e11cb4a2946d52a5634c4495887bb84",
+    "normalized": "95d1217aafd59ac9e48ca78915674a67922d89645c0edd175669e7cd8f79867b"
+  },
+  "normalizedBytes": 33371,
+  "estimatedCostUsd": 0.000434964895,
+  "limitations": [
+    "Nasdaq, Nasdaq PSX, Nasdaq Texas, FINRA/Nasdaq TRF Carteret and Chicago; not full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

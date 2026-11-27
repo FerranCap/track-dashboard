@@ -1,0 +1,39 @@
+{
+  "news-e4136096e0ee487c24e2f820": {
+    "id": "news-e4136096e0ee487c24e2f820",
+    "domain": "news",
+    "symbols": [
+      "GCTK"
+    ],
+    "cik": "1506983",
+    "jobIds": [
+      "news-cf217e8992fae649feb6"
+    ],
+    "entries": [
+      {
+        "id": "cmnc32opq0deictgz27aphx5v",
+        "symbol": "GCTK",
+        "opened": "2026-03-27T09:49:22-04:00"
+      }
+    ],
+    "headline": "SEC 8-K filed on 2026-03-27",
+    "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013095/form8-k.htm",
+    "publicationDate": "2026-03-27",
+    "publishedAt": null,
+    "publisher": "SEC EDGAR",
+    "reportedClock": "2026-03-27T12:25:24.000Z",
+    "excerpt": "Official EDGAR submissions metadata confirms the filing identity and filing date. Filing contents have not been interpreted. Acceptance time is audit metadata, not an invented publication time.",
+    "reasons": [],
+    "evidenceHash": "5a917b82104365efcd8951c952f61173d1324248b326af14e99178160002cbc7",
+    "receipt": {
+      "url": "https://data.sec.gov/submissions/CIK0001506983.json",
+      "sha256": "d5f967062b5ce8d70112066983788d2dd74490366f983f86376e7a1ca6fa44d6",
+      "fetchedAt": null
+    },
+    "proposal": {
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "ready": true
+    }
+  }
+}

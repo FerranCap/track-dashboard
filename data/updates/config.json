@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": 1,
+  "network": {
+    "maxRequests": 12,
+    "timeoutSeconds": 15,
+    "maxResponseBytes": 5000000,
+    "minimumIntervalSeconds": 0.5,
+    "cacheHours": 24,
+    "maxAttempts": 3,
+    "retryHours": 24
+  },
+  "news": {
+    "hours": 48,
+    "dateFallbackDays": 2,
+    "providers": ["finviz", "yahoo", "sec"],
+    "secForms": ["8-K", "8-K/A", "6-K", "6-K/A"]
+  },
+  "sec": {
+    "skipSecurityTypes": ["ETF"],
+    "maxFactCandidatesPerIssuer": 20
+  },
+  "prices": {
+    "dataset": "XNAS.ITCH",
+    "schemas": ["ohlcv-1m"],
+    "beforeCalendarDays": 5,
+    "afterCalendarDays": 5,
+    "maximumCostUsd": 0
+  },
+  "review": {
+    "maxItems": 10,
+    "maxCharacters": 12000,
+    "excerptCharacters": 500
+  }
+}

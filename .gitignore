@@ -1,3 +1,5 @@
 .cache/ticker-research/
 .cache/python-deps/
 __pycache__/
+data/updates/.lock
+data/updates/**/*.tmp

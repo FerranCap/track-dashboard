@@ -1,5 +1,10 @@
 # Track Dashboard
 
+Incremental collection and review use `python scripts/update_data.py status`
+and `python scripts/update_data.py run --limit 5`. See the
+[update workflow](data/updates/README.md) for persistent queues/cache, bounded
+review packets, reviewed promotion, SEC facts and cost-checked Databento jobs.
+
 [Abrir la web de Track Dashboard](https://FerranCap.github.io/track-dashboard/)
 
 Dashboard de trading para GitHub Pages. Construye `data/trades.json` desde los CSV de `data/` en cada publicación.

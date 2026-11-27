@@ -1,0 +1,63 @@
+{
+  "mode": "explicit_download",
+  "maximumTotalCostUsd": 0.0013,
+  "results": [
+    {
+      "jobId": "benf-2026-11-24-xnas-itch",
+      "estimatedCostUsd": 0.000439971685,
+      "recordCount": 703,
+      "maximumCostUsd": 0.000439971685,
+      "status": "downloaded",
+      "query": {
+        "dataset": "XNAS.ITCH",
+        "symbols": [
+          "BENF"
+        ],
+        "schema": "ohlcv-1m",
+        "start": "2026-11-24T00:00:00-05:00",
+        "end": "2026-11-25T00:00:00-05:00",
+        "stype_in": "raw_symbol"
+      },
+      "remainingSegments": 0,
+      "manifest": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.ITCH/ohlcv-1m/benf-2026-11-24-xnas-itch-94e0eb585fb6.manifest.json"
+    },
+    {
+      "jobId": "benf-2026-11-24-equs-mini",
+      "estimatedCostUsd": 0.000360488892,
+      "recordCount": 576,
+      "maximumCostUsd": 0.000360488892,
+      "status": "downloaded",
+      "query": {
+        "dataset": "EQUS.MINI",
+        "symbols": [
+          "BENF"
+        ],
+        "schema": "ohlcv-1m",
+        "start": "2026-11-24T00:00:00-05:00",
+        "end": "2026-11-25T00:00:00-05:00",
+        "stype_in": "raw_symbol"
+      },
+      "remainingSegments": 0,
+      "manifest": "data/prices/tickers/BENF/2026-11-24/databento/EQUS.MINI/ohlcv-1m/benf-2026-11-24-equs-mini-94e0eb585fb6.manifest.json"
+    },
+    {
+      "jobId": "benf-2026-11-24-xnas-basic",
+      "estimatedCostUsd": 0.000434964895,
+      "recordCount": 695,
+      "maximumCostUsd": 0.000434964895,
+      "status": "downloaded",
+      "query": {
+        "dataset": "XNAS.BASIC",
+        "symbols": [
+          "BENF"
+        ],
+        "schema": "ohlcv-1m",
+        "start": "2026-11-24T00:00:00-05:00",
+        "end": "2026-11-25T00:00:00-05:00",
+        "stype_in": "raw_symbol"
+      },
+      "remainingSegments": 0,
+      "manifest": "data/prices/tickers/BENF/2026-11-24/databento/XNAS.BASIC/ohlcv-1m/benf-2026-11-24-xnas-basic-94e0eb585fb6.manifest.json"
+    }
+  ]
+}

@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - 'data/**'
+      - '!data/updates/**'
+      - '!data/prices/raw/**'
+      - '!data/prices/bars/**'
+      - '!data/prices/quotes/**'
       - 'scripts/**'
       - '.github/workflows/update-dashboard.yml'
       - 'index.html'
@@ -28,6 +32,7 @@ on:
       - 'table-sort.js'
       - 'consistency.js'
       - 'calendar.js'
+      - 'trade-price-chart.js'
       - 'duration.js'
       - 'studies.js'
       - 'styles.css'
@@ -73,6 +78,8 @@ jobs:
         run: |
           mkdir -p site/data/reference site/data/news site/data/hotkeys site/data/sec
           cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
+          cp trade-price-chart.js site/
+          python scripts/build_price_charts.py --package site
           cp projection.js swing.js optimal.js watchlist.js watchlist-similar.js sec-capital.js data-completeness.js site/
           cp journal.js journal.css site/
           cp hotkeys.js hotkeys.css site/

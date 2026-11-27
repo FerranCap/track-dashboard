@@ -127,6 +127,7 @@ function renderCalendarPnlChart(id, rows, scope) {
 }
 
 function renderCalendarDay(rows) {
+  if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart(rows);
   for (const id of chartConfigs.keys()) if (id.startsWith('calendar-ticker-chart-')) chartConfigs.delete(id);
   const hasTrades = rows.length > 0;
   $('calendar-day-summary').hidden = !hasTrades;
@@ -165,6 +166,7 @@ function renderCalendarDay(rows) {
 }
 
 function initializeCalendarOverview() {
+  if (typeof initializeTradePriceChart === 'function') initializeTradePriceChart();
   $('calendar-results-period').addEventListener('change', () => renderCalendarResults(filtered));
   for (const [id, step] of [['calendar-overview-prev', -6], ['calendar-overview-next', 6]]) {
     $(id).addEventListener('click', () => {

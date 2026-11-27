@@ -1,0 +1,47 @@
+{
+  "77f602800882babb0cb6ab3a18f95b55c839e7ad6250d0ec98337cce22523239": {
+    "url": "https://finviz.com/quote.ashx?t=GCTK",
+    "attempts": 1,
+    "status": 404,
+    "failureType": "HTTPError",
+    "retryAfter": "2026-11-28T15:02:52.900692+00:00"
+  },
+  "49fd4cb120bed0b1ad57f9400136c5dd589313f22921b77723b20af31456b7ae": {
+    "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=GCTK&region=US&lang=en-US",
+    "finalUrl": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=GCTK&region=US&lang=en-US",
+    "sha256": "39e3114f00c5d008b809c19ec67a1d54e9332b7ae2be7f8689fff0a9292a4927",
+    "fetchedAt": "2026-11-27T15:12:47.926144+00:00",
+    "status": 200,
+    "attempts": 0
+  },
+  "e4a04c9166c9e2de248a39367bb363d9a42cf6f0bf781d021d056da211b03eaa": {
+    "url": "https://data.sec.gov/submissions/CIK0001775734.json",
+    "sha256": "f211fd70022a6efc78bb936aa156bf9a043f0d1bdc3651f3a380ec473b2d8f98",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "a0e2221bd60f336291f2acbc8f4fa995c6e16ee89ad1a8642b801defad9b2dde": {
+    "url": "https://finviz.com/stock?t=GCTK",
+    "attempts": 1,
+    "status": 404,
+    "failureType": "HTTPError",
+    "retryAfter": "2026-11-28T15:12:47.710561+00:00"
+  },
+  "522c6e32ddddaeb5cc0c3c726967416250b0f7118d40bd0526b633acf7796790": {
+    "url": "https://data.sec.gov/submissions/CIK0001506983.json",
+    "sha256": "d5f967062b5ce8d70112066983788d2dd74490366f983f86376e7a1ca6fa44d6",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "f56edfdbf8702721fb8fff555d4a7342fa5700c4baf52a4a9aafae10d29461ca": {
+    "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000018/ben-20260331.htm",
+    "attempts": 1,
+    "status": 403,
+    "failureType": "HTTPError",
+    "retryAfter": "2026-11-28T15:12:48.920140+00:00"
+  }
+}

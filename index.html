@@ -9,7 +9,7 @@
   <script>if (location.hash === '#nvidia') location.replace('research.html');</script>
   -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261127-data-completeness-1">
+  <link rel="stylesheet" href="styles.css?v=20261127-trade-prices-1">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
   <link rel="stylesheet" href="hotkeys.css?v=20261123-2">
 </head>
@@ -256,6 +256,18 @@
 </div>
 <div id="calendar-trades" class="table-wrap">
 </div>
+</section>
+<section id="calendar-price-panel" class="section panel trade-price-panel" hidden aria-labelledby="calendar-price-title">
+<div class="panel-head"><div><h2 id="calendar-price-title">Precio del trade · 1 minuto</h2><p id="calendar-price-summary" class="mini-caption"></p></div><button id="calendar-price-retry" type="button">Reintentar</button></div>
+<div class="trade-price-controls">
+<label for="calendar-price-trade">Operación<select id="calendar-price-trade"></select></label>
+<label for="calendar-price-source">Fuente del gráfico<select id="calendar-price-source" disabled></select></label>
+<label for="calendar-price-margin">Margen antes y después<select id="calendar-price-margin"><option value="5">5 minutos</option><option value="10">10 minutos</option><option value="15">15 minutos</option></select></label>
+</div>
+<div class="trade-price-legend"><span><i class="trade-entry-dot"></i>Entrada real</span><span><i class="trade-exit-dot"></i>Salida real</span><span>Zona sombreada: duración del trade · Precios USD</span></div>
+<p id="calendar-price-readout" class="trade-price-readout"></p>
+<div id="calendar-price-chart" class="trade-price-chart" tabindex="0" role="region" aria-label="Velas de un minuto y ejecuciones del trade"></div>
+<p id="calendar-price-status" class="mini-caption" role="status"></p>
 </section>
 <section class="section panel">
 <div class="panel-head">
@@ -748,12 +760,13 @@
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="calendar.js?v=20261115-calendar-green-67" defer></script>
+<script src="trade-price-chart.js?v=20261127-1" defer></script>
+<script src="calendar.js?v=20261127-trade-prices-1" defer></script>
 <script src="consistency.js?v=20261115-pnl-colors-68" defer></script>
 <script src="duration.js?v=20261115-pnl-colors-68" defer></script>
 <script src="studies.js?v=20261115-pnl-colors-68" defer></script>
 <script src="table-sort.js?v=20261111-watchlist-5" defer></script>
-<script src="help.js?v=20261127-ticker-layout-1" defer></script>
+<script src="help.js?v=20261127-calendar-focus-1" defer></script>
 <script src="date-fields.js?v=20261115-european-dates-1" defer></script>
 <script src="filters.js?v=20261115-european-dates-14" defer></script>
 <script src="sec-capital.js?v=20261127-1" defer></script>
@@ -768,7 +781,7 @@
 <script src="hotkeys.js?v=20261123-4" defer></script>
 <script src="workspace.js?v=20261127-ticker-layout-1" defer>
 </script>
-<script src="dashboard.js?v=20261127-data-completeness-1" defer>
+<script src="dashboard.js?v=20261127-trade-prices-1" defer>
 </script>
 </body>
 </html>
