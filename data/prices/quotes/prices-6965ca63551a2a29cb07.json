@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-6965ca63551a2a29cb07",
+  "estimatedCostUsd": 0.000560134649,
+  "recordCount": 895,
+  "maximumCostUsd": 0.008663812875,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.ITCH",
+    "symbols": [
+      "WETO"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-23T00:00:00-05:00",
+    "end": "2026-11-24T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

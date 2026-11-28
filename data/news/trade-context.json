@@ -94,6 +94,7 @@
     "FTFT",
     "GCDT",
     "GCL",
+    "GCTK",
     "GENK",
     "GIPR",
     "GLE",
@@ -127,6 +128,7 @@
     "LGCL",
     "LGHL",
     "LHSW",
+    "LNAI",
     "LOBO",
     "LUCY",
     "LVWR",
@@ -261,6 +263,59 @@
   "tradeAccountingSha256": "e6ebf73109e0a8ff3e2c02f42e985b6d29640ac3f69283afe1c05b4d6c85d851",
   "articles": [
     {
+      "id": "news-6934c3260523b581700a9b89",
+      "eventId": "news-6934c3260523b581700a9b89",
+      "symbol": "LNAI",
+      "issuerName": "Lunai Bioworks Inc.",
+      "issuerCik": "1527728",
+      "headline": "Lunai Bioworks Executes $20M Strategic Transaction at Fixed $1.50 Conversion, Acquiring BBB Delivery Platform for CNS Alzheimer's Therapies with Broad CNS Delivery Applications",
+      "publishedAt": "2026-03-26T08:50:00-04:00",
+      "publicationDate": "2026-03-26",
+      "timePrecision": "minute",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Lunai announced a binding $20 million agreement to acquire blood-brain barrier technology and CNS drug assets, structured using convertible preferred shares; completion remained subject to transaction risks.",
+      "url": "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html",
+      "sourceUrls": [
+        "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html"
+      ],
+      "timestampEvidence": "Original distributor displays 2026-03-26 08:50 ET; daylight time applies.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
+    },
+    {
+      "id": "news-e4136096e0ee487c24e2f820",
+      "eventId": "news-e4136096e0ee487c24e2f820",
+      "symbol": "GCTK",
+      "issuerName": "Glucotrack, Inc.",
+      "issuerCik": "1506983",
+      "headline": "SEC 8-K filed on 2026-03-27",
+      "publishedAt": null,
+      "publicationDate": "2026-03-27",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "category": "unclassified",
+      "summary": "Official SEC submissions metadata records this issuer filing. The filing date and existence are established; its contents have not been interpreted.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013095/form8-k.htm",
+      "sourceUrls": [
+        "https://data.sec.gov/submissions/CIK0001506983.json",
+        "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013095/form8-k.htm"
+      ],
+      "timestampEvidence": "SEC submissions filingDate; no publication hour assigned. EDGAR acceptance clock retained only in collection audit metadata.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Filing contents have not been reviewed; this publication does not establish a completed transaction or a price cause."
+      ]
+    },
+    {
       "id": "sst-20260327-tickerdaily-stale-insider-date",
       "headline": "Why Is System1 (SST) Stock Up 54.0% Today?",
       "publisher": "Ticker Daily",
@@ -313,6 +368,32 @@
       "category": "corporate_update",
       "verificationStatus": "verified_publication",
       "matchingBasis": "timestamp"
+    },
+    {
+      "id": "news-ef9be8b32abd8ebccb56b149",
+      "eventId": "news-ef9be8b32abd8ebccb56b149",
+      "symbol": "GCTK",
+      "issuerName": "Glucotrack, Inc.",
+      "issuerCik": "1506983",
+      "headline": "Glucotrack to File Significant IDE with FDA for US Clinical Trial in Early Q2 Based on Critical 2025 Milestones",
+      "publishedAt": "2026-03-27T08:01:00-04:00",
+      "publicationDate": "2026-03-27",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Glucotrack reported clinical and operational milestones and an aim to submit an investigational device exemption for its implantable glucose monitoring system in Q2 2026; a US trial remained subject to FDA approval.",
+      "url": "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html"
+      ],
+      "timestampEvidence": "Original distributor displays 2026-03-27 08:01 ET; daylight time applies.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
     },
     {
       "id": "astc-20260330-benzinga-movers-date",
@@ -12203,6 +12284,34 @@
       "unresolvedCandidateIds": []
     },
     {
+      "tradeId": "cmmdrwmad03djl3l3oxunqqi5",
+      "symbol": "GCTK",
+      "entryAt": "2025-09-12T11:11:39-04:00",
+      "windowStartAt": "2025-09-10T15:11:39+00:00",
+      "windowEndAt": "2025-09-12T15:11:39+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmdrwmae03dsl3l3a9uwh58f",
+      "symbol": "GCTK",
+      "entryAt": "2025-09-12T12:18:32-04:00",
+      "windowStartAt": "2025-09-10T16:18:32+00:00",
+      "windowEndAt": "2025-09-12T16:18:32+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
       "tradeId": "cmmdrwmai03h2l3l3ugafww85",
       "symbol": "MTVA",
       "entryAt": "2025-09-15T14:05:45-04:00",
@@ -14457,6 +14566,34 @@
       "unresolvedCandidateIds": []
     },
     {
+      "tradeId": "cmmw9mjq60ogpjljgcg5ub288",
+      "symbol": "LNAI",
+      "entryAt": "2026-03-17T10:03:33-04:00",
+      "windowStartAt": "2026-03-15T14:03:33+00:00",
+      "windowEndAt": "2026-03-17T14:03:33+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmmw9mjq60ogqjljg0tq7pqpe",
+      "symbol": "LNAI",
+      "entryAt": "2026-03-17T10:22:51-04:00",
+      "windowStartAt": "2026-03-15T14:22:51+00:00",
+      "windowEndAt": "2026-03-17T14:22:51+00:00",
+      "status": "pending_verification",
+      "reviewStatus": "not_reviewed",
+      "reviewedOn": null,
+      "articles": [],
+      "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
       "tradeId": "cmmw9mjq60ogrjljgtnmktxag",
       "symbol": "CREG",
       "entryAt": "2026-03-17T11:05:27-04:00",
@@ -14691,6 +14828,103 @@
       "reviewedOn": null,
       "articles": [],
       "eventCount": 0,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmnc32opq0dedctgzobnpc303",
+      "symbol": "LNAI",
+      "entryAt": "2026-03-26T09:03:05-04:00",
+      "windowStartAt": "2026-03-24T13:03:05+00:00",
+      "windowEndAt": "2026-03-26T13:03:05+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-28",
+      "articles": [
+        {
+          "articleId": "news-6934c3260523b581700a9b89",
+          "eventId": "news-6934c3260523b581700a9b89",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 725.0,
+          "ageSecondsMax": 785.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmnc32opq0degctgz4lzpcuds",
+      "symbol": "LNAI",
+      "entryAt": "2026-03-26T11:24:39-04:00",
+      "windowStartAt": "2026-03-24T15:24:39+00:00",
+      "windowEndAt": "2026-03-26T15:24:39+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-28",
+      "articles": [
+        {
+          "articleId": "news-6934c3260523b581700a9b89",
+          "eventId": "news-6934c3260523b581700a9b89",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 9219.0,
+          "ageSecondsMax": 9279.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmnc32opq0dehctgz24vgpd5b",
+      "symbol": "LNAI",
+      "entryAt": "2026-03-26T11:36:45-04:00",
+      "windowStartAt": "2026-03-24T15:36:45+00:00",
+      "windowEndAt": "2026-03-26T15:36:45+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-28",
+      "articles": [
+        {
+          "articleId": "news-6934c3260523b581700a9b89",
+          "eventId": "news-6934c3260523b581700a9b89",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 9945.0,
+          "ageSecondsMax": 10005.0
+        }
+      ],
+      "eventCount": 1,
+      "uncertainArticleIds": [],
+      "unresolvedCandidateIds": []
+    },
+    {
+      "tradeId": "cmnc32opq0deictgz27aphx5v",
+      "symbol": "GCTK",
+      "entryAt": "2026-03-27T09:49:22-04:00",
+      "windowStartAt": "2026-03-25T13:49:22+00:00",
+      "windowEndAt": "2026-03-27T13:49:22+00:00",
+      "status": "news_found",
+      "reviewStatus": "partial",
+      "reviewedOn": "2026-11-28",
+      "articles": [
+        {
+          "articleId": "news-e4136096e0ee487c24e2f820",
+          "eventId": "news-e4136096e0ee487c24e2f820",
+          "matchingBasis": "publication_date",
+          "daysBeforeEntry": 0,
+          "publicationBeforeEntryUnconfirmed": true,
+          "ageSecondsMin": null,
+          "ageSecondsMax": null
+        },
+        {
+          "articleId": "news-ef9be8b32abd8ebccb56b149",
+          "eventId": "news-ef9be8b32abd8ebccb56b149",
+          "matchingBasis": "timestamp",
+          "ageSecondsMin": 6442.0,
+          "ageSecondsMax": 6502.0
+        }
+      ],
+      "eventCount": 2,
       "uncertainArticleIds": [],
       "unresolvedCandidateIds": []
     },
@@ -44983,14 +45217,66 @@
         "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
         "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
       ]
+    },
+    {
+      "symbol": "GCTK",
+      "issuerCik": "1506983",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Incremental review of the exact entry windows in the listed sources.",
+      "pipelineJobId": "news-cf217e8992fae649feb6",
+      "jobFingerprint": "cf217e8992fae649feb619232f4a8aaf21c4fdc9c2e7ba5e54c8fc564e114c5b",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmnc32opq0deictgz27aphx5v": "2026-03-27T09:49:22-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
+    },
+    {
+      "symbol": "LNAI",
+      "issuerCik": "1527728",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Incremental review of the exact entry windows in the listed sources.",
+      "pipelineJobId": "news-86214e4f2ac788b1624f",
+      "jobFingerprint": "86214e4f2ac788b1624fd5eb6cd36cac3c7681c3e75777648d5b252ffc0e4873",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmnc32opq0dedctgzobnpc303": "2026-03-26T09:03:05-04:00",
+        "cmnc32opq0degctgz4lzpcuds": "2026-03-26T11:24:39-04:00",
+        "cmnc32opq0dehctgz24vgpd5b": "2026-03-26T11:36:45-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
     }
   ],
   "counts": {
-    "trades": 894,
-    "articles": 433,
-    "events": 369,
-    "tradeArticleLinks": 928,
-    "dateFallbackLinks": 294,
-    "tradesWithNews": 617
+    "trades": 902,
+    "articles": 436,
+    "events": 372,
+    "tradeArticleLinks": 933,
+    "dateFallbackLinks": 295,
+    "tradesWithNews": 621
   }
 }

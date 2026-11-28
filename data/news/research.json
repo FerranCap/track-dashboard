@@ -13133,6 +13133,58 @@
         "Publication dates are verified. Clocks without established publication timezone are preserved only in audit evidence; same-day date matches do not establish publication before entry.",
         "Yahoo direct access restricted; individual article sourceWarnings describe additional body restrictions and unverified claims."
       ]
+    },
+    {
+      "symbol": "GCTK",
+      "issuerCik": "1506983",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Incremental review of the exact entry windows in the listed sources.",
+      "pipelineJobId": "news-cf217e8992fae649feb6",
+      "jobFingerprint": "cf217e8992fae649feb619232f4a8aaf21c4fdc9c2e7ba5e54c8fc564e114c5b",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmnc32opq0deictgz27aphx5v": "2026-03-27T09:49:22-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
+    },
+    {
+      "symbol": "LNAI",
+      "issuerCik": "1527728",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Incremental review of the exact entry windows in the listed sources.",
+      "pipelineJobId": "news-86214e4f2ac788b1624f",
+      "jobFingerprint": "86214e4f2ac788b1624fd5eb6cd36cac3c7681c3e75777648d5b252ffc0e4873",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmnc32opq0dedctgzobnpc303": "2026-03-26T09:03:05-04:00",
+        "cmnc32opq0degctgz4lzpcuds": "2026-03-26T11:24:39-04:00",
+        "cmnc32opq0dehctgz24vgpd5b": "2026-03-26T11:36:45-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
     }
   ],
   "matchingPolicy": {

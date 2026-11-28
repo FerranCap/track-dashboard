@@ -30,6 +30,10 @@ unless requested or already authorized.
 
 ## Databento update scope
 
+Download historical prices only for the New York calendar day on which the
+ticker was traded, without surrounding days unless the user explicitly requests
+them. Preserve the configured zero-cost ceiling and provider preflight.
+
 Do not download or refresh Databento data when recording or importing a session,
 including journal entries and daily trade files. Session uploads may happen
 during the trading day. Defer Databento updates until the user explicitly asks

@@ -4026,6 +4026,7 @@
       "FTFT",
       "GCDT",
       "GCL",
+      "GCTK",
       "GENK",
       "GIPR",
       "GLE",
@@ -4059,6 +4060,7 @@
       "LGCL",
       "LGHL",
       "LHSW",
+      "LNAI",
       "LOBO",
       "LUCY",
       "LVWR",
@@ -4193,7 +4195,14 @@
     "prices1m": [
       "AKAN",
       "BENF",
-      "NVDA"
+      "BNAI",
+      "FRTT",
+      "NVDA",
+      "OMH",
+      "PAAI",
+      "RETO",
+      "SEAT",
+      "WETO"
     ],
     "prices1s": [
       "NVDA"

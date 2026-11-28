@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "news-ef9be8b32abd8ebccb56b149",
+      "evidenceHash": "b3fd5ab714f19edd3fbc23bd8afc3d2518c6e86db47ac48e6ea822d219cd9b1b",
+      "action": "accept",
+      "issuerCik": "1506983",
+      "identityEvidence": "Original distributor identifies Glucotrack, Inc. and GCTK; issuer profile CIK 1506983.",
+      "summary": "Glucotrack reported clinical and operational milestones and an aim to submit an investigational device exemption for its implantable glucose monitoring system in Q2 2026; a US trial remained subject to FDA approval.",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays 2026-03-27 08:01 ET; daylight time applies.",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
+    },
+    {
+      "candidateId": "news-6934c3260523b581700a9b89",
+      "evidenceHash": "2d020acc98642d1be7362337115c2180c6ecbefe582adf800a1d381d87c2a546",
+      "action": "accept",
+      "issuerCik": "1527728",
+      "identityEvidence": "Original distributor identifies Lunai Bioworks Inc. and LNAI; issuer profile CIK 1527728.",
+      "summary": "Lunai announced a binding $20 million agreement to acquire blood-brain barrier technology and CNS drug assets, structured using convertible preferred shares; completion remained subject to transaction risks.",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays 2026-03-26 08:50 ET; daylight time applies.",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
+    }
+  ],
+  "jobReviews": [
+    {
+      "jobId": "news-cf217e8992fae649feb6",
+      "fingerprint": "cf217e8992fae649feb619232f4a8aaf21c4fdc9c2e7ba5e54c8fc564e114c5b",
+      "windowReviewed": true,
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
+    },
+    {
+      "jobId": "news-86214e4f2ac788b1624f",
+      "fingerprint": "86214e4f2ac788b1624fd5eb6cd36cac3c7681c3e75777648d5b252ffc0e4873",
+      "windowReviewed": true,
+      "sources": [
+        {
+          "url": "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html",
+          "access": "reviewed",
+          "note": "Original distributor publication and timestamp; non-exhaustive historical research."
+        }
+      ],
+      "limitations": [
+        "Coverage is partial; other publications may exist."
+      ]
+    }
+  ]
+}

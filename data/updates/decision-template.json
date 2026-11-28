@@ -1,7 +1,18 @@
 {
   "schemaVersion": 1,
   "reviewer": "",
-  "reviewedOn": "2026-11-27",
-  "items": [],
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "sec-filing-20e726b243c266d8cdd3d198",
+      "evidenceHash": "b8c8da0095e4422dd73f6eb901b133d927f725f7c906caf942755577ca47e72c",
+      "action": "pending"
+    },
+    {
+      "candidateId": "sec-filing-3e3f3d7d936e2e483b215629",
+      "evidenceHash": "3c2f1ef67d88693fdf2575c1c0ce9c96dd734e81ea0a87120a3870f7e46c5a28",
+      "action": "pending"
+    }
+  ],
   "jobReviews": []
 }

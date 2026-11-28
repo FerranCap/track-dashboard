@@ -1,15 +1,16 @@
 {
-  "jobsProcessed": 1,
+  "jobsProcessed": 8,
   "newCandidates": 0,
-  "requests": 2,
-  "cacheHits": 1,
+  "requests": 0,
+  "cacheHits": 7,
   "modelCalls": 0,
   "limitations": [],
   "sourceAccess": {
-    "failed": 2,
-    "legacy_cache": 1
+    "deferred": 12,
+    "legacy_cache": 6,
+    "cache": 1
   },
   "reviewPacket": "data/updates/review-packet.json",
-  "reviewItems": 0,
-  "pendingCandidates": 1
+  "reviewItems": 2,
+  "pendingCandidates": 2
 }

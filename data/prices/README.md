@@ -1,7 +1,7 @@
 # Historical market prices
 
-This directory is reserved for historical ticker prices, including traded
-sessions and surrounding trading days. It is part of the repository and is not
+This directory is reserved for historical ticker prices. New downloads cover
+only the New York calendar day traded unless additional days are explicitly requested. It is part of the repository and is not
 excluded by `.gitignore`. The initial local comparison contains BENF on
 2026-11-24 in `ohlcv-1m`, separately downloaded from `XNAS.ITCH`, `XNAS.BASIC`
 and `EQUS.MINI`. Each request covers midnight to midnight in America/New_York;

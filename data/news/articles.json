@@ -11366,6 +11366,85 @@
       "sourceWarnings": [],
       "publicationDate": "2026-11-25",
       "matchingBasis": "publication_date"
+    },
+    {
+      "id": "news-e4136096e0ee487c24e2f820",
+      "eventId": "news-e4136096e0ee487c24e2f820",
+      "symbol": "GCTK",
+      "issuerName": "Glucotrack, Inc.",
+      "issuerCik": "1506983",
+      "headline": "SEC 8-K filed on 2026-03-27",
+      "publishedAt": null,
+      "publicationDate": "2026-03-27",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "category": "unclassified",
+      "summary": "Official SEC submissions metadata records this issuer filing. The filing date and existence are established; its contents have not been interpreted.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013095/form8-k.htm",
+      "sourceUrls": [
+        "https://data.sec.gov/submissions/CIK0001506983.json",
+        "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013095/form8-k.htm"
+      ],
+      "timestampEvidence": "SEC submissions filingDate; no publication hour assigned. EDGAR acceptance clock retained only in collection audit metadata.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Filing contents have not been reviewed; this publication does not establish a completed transaction or a price cause."
+      ]
+    },
+    {
+      "id": "news-ef9be8b32abd8ebccb56b149",
+      "eventId": "news-ef9be8b32abd8ebccb56b149",
+      "symbol": "GCTK",
+      "issuerName": "Glucotrack, Inc.",
+      "issuerCik": "1506983",
+      "headline": "Glucotrack to File Significant IDE with FDA for US Clinical Trial in Early Q2 Based on Critical 2025 Milestones",
+      "publishedAt": "2026-03-27T08:01:00-04:00",
+      "publicationDate": "2026-03-27",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Glucotrack reported clinical and operational milestones and an aim to submit an investigational device exemption for its implantable glucose monitoring system in Q2 2026; a US trial remained subject to FDA approval.",
+      "url": "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/03/27/3263732/0/en/Glucotrack-to-File-Significant-IDE-with-FDA-for-US-Clinical-Trial-in-Early-Q2-Based-on-Critical-2025-Milestones.html"
+      ],
+      "timestampEvidence": "Original distributor displays 2026-03-27 08:01 ET; daylight time applies.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
+    },
+    {
+      "id": "news-6934c3260523b581700a9b89",
+      "eventId": "news-6934c3260523b581700a9b89",
+      "symbol": "LNAI",
+      "issuerName": "Lunai Bioworks Inc.",
+      "issuerCik": "1527728",
+      "headline": "Lunai Bioworks Executes $20M Strategic Transaction at Fixed $1.50 Conversion, Acquiring BBB Delivery Platform for CNS Alzheimer's Therapies with Broad CNS Delivery Applications",
+      "publishedAt": "2026-03-26T08:50:00-04:00",
+      "publicationDate": "2026-03-26",
+      "timePrecision": "minute",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Lunai announced a binding $20 million agreement to acquire blood-brain barrier technology and CNS drug assets, structured using convertible preferred shares; completion remained subject to transaction risks.",
+      "url": "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html",
+      "sourceUrls": [
+        "https://www.prnewswire.com/news-releases/lunai-bioworks-executes-20m-strategic-transaction-at-fixed-1-50-conversion-acquiring-bbb-delivery-platform-for-cns-alzheimers-therapies-with-broad-cns-delivery-applications-302726205.html"
+      ],
+      "timestampEvidence": "Original distributor displays 2026-03-26 08:50 ET; daylight time applies.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Claims are attributed to the issuer and are not independent verification."
+      ]
     }
   ]
 }

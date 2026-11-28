@@ -80,5 +80,115 @@
     "sourceAgeUnverified": true,
     "access": "legacy_cache",
     "attempts": 0
+  },
+  "b7d63dae864c8fdfd93b035ac8864925ab0fc81013c0108f3bcb1a877be224aa": {
+    "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001687277.json",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:05.355256+00:00"
+  },
+  "d2b4fca1a8e01b3fccda17a7e8accaebb04a692e86bb8c8c68ec2ad6ce6f3ae0": {
+    "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
+    "sha256": "9b2d8c1402466c8665be486b76437153c1ea787e3966dbc210bbd99e00a9f3cc",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "4d32e51b82cb9f66a1dd82172945c2d5cd44170577cdeff03016eb97f1ff8758": {
+    "url": "https://finviz.com/stock?t=LNAI",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:06.267255+00:00"
+  },
+  "de454b2031acad7567336dfe84a89a98068749c2650dfb94dc30c815366498e5": {
+    "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=LNAI&region=US&lang=en-US",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:06.328257+00:00"
+  },
+  "8e4f096dc68db3045b41e8740ad6d2c1862211d6f69c61a1e1c9f7fccd77b0dd": {
+    "url": "https://data.sec.gov/submissions/CIK0001527728.json",
+    "sha256": "cb148b7a1049e601142443232de247972c5dc9b5705addf9e4c21e48a0add16e",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "0a0dc2e9c1bf856dfb615ed416f58314654e7bb18fe56a2924a0c86f5cfb8103": {
+    "url": "https://finviz.com/stock?t=EEIQ",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:47.761594+00:00"
+  },
+  "360d86ae9625ee2dbdff86f3c53e6b9b95a44dbd36588f7656d6ec5e1d119f3d": {
+    "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=EEIQ&region=US&lang=en-US",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:47.789593+00:00"
+  },
+  "8d44bd5c4d4f7e173a32f077b5a2204a2f12856da6dd798927a9d5dc31d32eb5": {
+    "url": "https://data.sec.gov/submissions/CIK0001781397.json",
+    "sha256": "1ebec153124d2d8724628e5290c1fe7516d4f49cbd696692744945a4d4b2e26d",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "c3a0e06a0609d8b772ece94dd3354635f34ac32797d51687243a624d4d88b039": {
+    "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000894871.json",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:48.291587+00:00"
+  },
+  "62489d3d8f710b935fb38b6abe33dd7f1dde11fd24018c39503ffad4bf414265": {
+    "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:48.786587+00:00"
+  },
+  "20b56b279d512a78b38ffb75e4f419ca10304ecfb792eb21dcfe908d11dc7cf7": {
+    "url": "https://finviz.com/stock?t=BATL",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:49.305588+00:00"
+  },
+  "2af3d4a829aeaa8ab1f6c5fecb761d300d7ca76b196eccac79721acee702d3e3": {
+    "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=BATL&region=US&lang=en-US",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:49.803589+00:00"
+  },
+  "0e9a2732960410823ab07ddac855a4a2f37b568fbb29b987ee2c5b35e3877aea": {
+    "url": "https://data.sec.gov/submissions/CIK0001282648.json",
+    "sha256": "a022aeab32f4eeed4e88b4054bc57aea38fa206fd11133ea0c94a385a2596bec",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
+  },
+  "edf9a6e13822f2bc9b7a72ec6fe0b71731f0b9d29e46da7552e94124d09cdcf1": {
+    "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001838163.json",
+    "attempts": 1,
+    "status": null,
+    "failureType": "URLError",
+    "retryAfter": "2026-11-29T10:06:50.360586+00:00"
+  },
+  "ab79b1d2b02b24eb61c3f05d70989fa1fed94be39a5a3dbf9d707da58a2a2961": {
+    "url": "https://www.sec.gov/Archives/edgar/data/1838163/000149315226016954/form10-k.htm",
+    "sha256": "31dcac8e5db878734dc5efa8d1a1b991d01f38ca19c3665832b4be2e6a6571c9",
+    "fetchedAt": null,
+    "sourceAgeUnverified": true,
+    "access": "legacy_cache",
+    "attempts": 0
   }
 }

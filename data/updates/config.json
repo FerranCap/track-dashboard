@@ -23,8 +23,8 @@
   "prices": {
     "dataset": "XNAS.ITCH",
     "schemas": ["ohlcv-1m"],
-    "beforeCalendarDays": 5,
-    "afterCalendarDays": 1,
+    "beforeCalendarDays": 0,
+    "afterCalendarDays": 0,
     "maximumCostUsd": 0
   },
   "review": {

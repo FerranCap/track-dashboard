@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-5d96e08ed02d89815dd4",
+  "estimatedCostUsd": 0.00038677454,
+  "recordCount": 618,
+  "maximumCostUsd": 0.00732011554,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.ITCH",
+    "symbols": [
+      "FRTT"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-17T00:00:00-05:00",
+    "end": "2026-11-18T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

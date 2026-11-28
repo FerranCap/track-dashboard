@@ -37,6 +37,11 @@ class UpdatePipelineTests(unittest.TestCase):
     def job(self):
         return next(job for job in plan_updates(self.inputs)['jobs'] if job['domain'] == 'news')
 
+    def test_price_job_covers_only_the_traded_new_york_day(self):
+        job = next(job for job in plan_updates(self.inputs)['jobs'] if job['domain'] == 'prices')
+        self.assertEqual(job['start'], '2026-11-24T00:00:00-05:00')
+        self.assertEqual(job['end'], '2026-11-25T00:00:00-05:00')
+
     def test_plan_is_deterministic_merges_windows_and_invalidates_corrected_entry(self):
         self.dataset['trades'].append({**self.trade, 'id': 'b', 'opened': '2026-11-24T11:00:00-05:00'})
         self.dataset['tradeCount'] = 2
@@ -214,7 +219,7 @@ class UpdatePipelineTests(unittest.TestCase):
         self.assertEqual(result['status'], 'cost_budget_exceeded')
         self.assertEqual(calls, [])
         self.assertEqual(price_download(self.root, job, 10, False, client)['status'], 'quote_only')
-        client.metadata.get_dataset_range = lambda **kwargs: {'start': '2020-01-01T00:00:00Z', 'end': '2026-11-24T00:00:00Z'}
+        client.metadata.get_dataset_range = lambda **kwargs: {'start': '2020-01-01T00:00:00Z', 'end': '2026-11-24T12:00:00Z'}
         self.assertEqual(price_download(self.root, job, 10, True, client)['status'], 'window_not_fully_available')
         self.assertEqual(calls, [])
 
