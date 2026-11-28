@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "tickers": {
+    "RETO": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "634fea429de90c2dd10fc672ea2b92ce52c4da82d0ebc672186b3ffe637b7cc2",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage partial; public float and later capital changes remain unreconciled.",
+      "pendingCandidates": []
+    },
+    "QQQ": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "850c7bda03d6b29d4877b6fef5440db0fefe399d95b9d056c20d4d22c6704db8",
+      "reviewedOn": "2026-11-28",
+      "note": "News research is partial; ETF SEC capital is excluded by project policy.",
+      "pendingCandidates": []
+    },
+    "AMD": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "dbd006f5cf008cab096bae16312dee4de479af341b61be304b4fcff902f78d5e",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage and intervening capital changes remain partially reviewed.",
+      "pendingCandidates": []
+    },
+    "BENF": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "7fcf16544b19e6b33e1d92dc1bae7cf875dbbb2a7de0d727b41f7f7bf46c8bfd",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage is partial; two articles have date-only matching and capital changes remain unreconciled.",
+      "pendingCandidates": []
+    },
+    "AKAN": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "6575571b1aacf69c5b9f9df08cd7a8ac59c84ba43a1445886947b24346927f04",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage is partial; public float and later capital changes remain unverified.",
+      "pendingCandidates": []
+    },
+    "PAAI": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "05d495799a12ab9218e4dfb95addc159a7dd8e45225bbb18210fe34c40ba5631",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage is partial; the 2025 non-affiliate share estimate is not the current float and later share changes remain unreconciled.",
+      "pendingCandidates": []
+    },
+    "BNAI": {
+      "status": "reviewed_limited",
+      "tradeFingerprint": "9d54d65e6a5ea3643161acbb10413e1b104d2e78ebc968c71b067e45b49b24ef",
+      "reviewedOn": "2026-11-28",
+      "note": "News coverage is partial; operating country and SEC capital history remain unverified.",
+      "pendingCandidates": [
+        "sec-filing-3e3f3d7d936e2e483b215629"
+      ]
+    }
+  }
+}

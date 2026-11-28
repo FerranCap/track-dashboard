@@ -13185,6 +13185,147 @@
       "limitations": [
         "Coverage is partial; other publications may exist."
       ]
+    },
+    {
+      "symbol": "RETO",
+      "issuerCik": "1687277",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Partial source review for the November 27 entries, including Finviz, SEPT and SEC filing listings.",
+      "pipelineJobId": "news-f01cd11b5d1d8b4a652d",
+      "jobFingerprint": "f01cd11b5d1d8b4a652d9abb62a145499f632b000b1a9e459d88cfc08247aff8",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "broker-22bf436f4f776783a627dd9d": "2026-11-27T11:49:18-05:00",
+        "broker-ff87c4b52efab78e09402721": "2026-11-27T12:17:41-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RETO",
+          "access": "reviewed",
+          "note": "News listing checked; latest directly dated issuer news predates the window."
+        },
+        {
+          "url": "https://septinvesting.com/stocks/RETO/news",
+          "access": "search_index",
+          "note": "News index last updated November 26; no publication within the applicable dates found."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RETO/sec-filing/",
+          "access": "search_index",
+          "note": "Indexed issuer filing list checked; direct Yahoo request returned HTTP 429."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source search; not exhaustive and no inference about causation.",
+        "Yahoo direct access returned HTTP 429. SEPT index was last updated November 26 and may omit November 27 publications.",
+        "No eligible dated publication found in consulted sources; other publications may exist."
+      ]
+    },
+    {
+      "symbol": "BENF",
+      "issuerCik": "1775734",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Partial historical search for the exact BENF entry using issuer releases, original reporting and SEC filings.",
+      "pipelineJobId": "news-19eb3dd4086ae4b0d9d3",
+      "jobFingerprint": "19eb3dd4086ae4b0d9d3fdf9549ad526f9506494e0f835771895c2d51b43ddd2",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmmdrwmcs05eil3l3nfhbpyx9": "2025-10-31T11:48:09-04:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://shareholders.trustben.com/",
+          "access": "reviewed",
+          "note": "Issuer investor relations listing checked."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source research; other publications may exist.",
+        "Benzinga displayed a clock without a confirmed timezone; same-day publication before entry remains unconfirmed."
+      ]
+    },
+    {
+      "symbol": "BENF",
+      "issuerCik": "1775734",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Partial historical search for the exact BENF entry using issuer releases, original reporting and SEC filings.",
+      "pipelineJobId": "news-e512b23e8d030a8ec0b2",
+      "jobFingerprint": "e512b23e8d030a8ec0b24cfb293a1217b3c9871880cea737da02a9240ac66954",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmmdufgfd09jgspybpqhllteb": "2026-02-18T10:06:27-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://shareholders.trustben.com/",
+          "access": "reviewed",
+          "note": "Issuer investor relations listing checked."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial public-source research; other publications may exist.",
+        "Benzinga displayed a clock without a confirmed timezone; same-day publication before entry remains unconfirmed."
+      ]
+    },
+    {
+      "symbol": "BNAI",
+      "issuerCik": "1838163",
+      "windowHours": 48,
+      "checkedOn": "2026-11-28",
+      "coverage": "partial",
+      "scope": "Partial historical review of the exact entry using issuer release, original reporting and filing references.",
+      "pipelineJobId": "news-45040bba28767ff80efd",
+      "jobFingerprint": "45040bba28767ff80efd69ebf21b89c77389bb9bf3dfe534c5d969c58f08892a",
+      "reviewer": "Codex",
+      "tradeEntries": {
+        "cmmdrwmfb07iil3l3xbfgwnum": "2025-12-29T08:04:01-05:00"
+      },
+      "sources": [
+        {
+          "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        }
+      ],
+      "unresolvedCandidates": [],
+      "limitations": [
+        "Partial source coverage; other reports may exist.",
+        "Benzinga clock timezone was not confirmed, so same-day publication before entry remains unverified."
+      ]
     }
   ],
   "matchingPolicy": {

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "news-108d525c0bd18421e84e7ebe",
+      "evidenceHash": "cd51ce19a68c1c2e51942e7aa6c42f4fbe11fbd46ccf4de2768e7cc2e84465a8",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Beneficient reported that Nasdaq had confirmed compliance with its periodic filing and minimum market value requirements; the separate minimum bid price requirement remained unresolved.",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    {
+      "candidateId": "news-a39cdd08e411f92164c5def5",
+      "evidenceHash": "a63b88fa432043051059aba73ac0f0616ad539292abbefabd6b41764e1f623af",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Benzinga reported the issuer had regained compliance with two Nasdaq requirements and that the minimum bid price requirement remained outstanding.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    {
+      "candidateId": "news-badc138e1ce852f22e605da9",
+      "evidenceHash": "46a341c16edf0161f1e305c455a0bbffdd69a6c52cd3033b1a0886e578c28c56",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Beneficient reported results for its fiscal third quarter ended December 31, 2025, including operating income and developments concerning litigation and debt.",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    },
+    {
+      "candidateId": "news-6f3564581a784b2c34544ee2",
+      "evidenceHash": "c60890597fe6a11e38f9eb1d6ca57d743e48dda9a7b99c973171befb3162cf53",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Benzinga reported Beneficient fiscal third-quarter results and summarized figures and the prior after-hours move.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    }
+  ],
+  "jobReviews": [
+    {
+      "jobId": "news-19eb3dd4086ae4b0d9d3",
+      "fingerprint": "19eb3dd4086ae4b0d9d3fdf9549ad526f9506494e0f835771895c2d51b43ddd2",
+      "windowReviewed": true,
+      "scope": "Partial historical search for the exact BENF entry using issuer releases, original reporting and SEC filings.",
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://shareholders.trustben.com/",
+          "access": "reviewed",
+          "note": "Issuer investor relations listing checked."
+        }
+      ],
+      "limitations": [
+        "Partial public-source research; other publications may exist.",
+        "Benzinga displayed a clock without a confirmed timezone; same-day publication before entry remains unconfirmed."
+      ]
+    },
+    {
+      "jobId": "news-e512b23e8d030a8ec0b2",
+      "fingerprint": "e512b23e8d030a8ec0b24cfb293a1217b3c9871880cea737da02a9240ac66954",
+      "windowReviewed": true,
+      "scope": "Partial historical search for the exact BENF entry using issuer releases, original reporting and SEC filings.",
+      "sources": [
+        {
+          "url": "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://shareholders.trustben.com/",
+          "access": "reviewed",
+          "note": "Issuer investor relations listing checked."
+        }
+      ],
+      "limitations": [
+        "Partial public-source research; other publications may exist.",
+        "Benzinga displayed a clock without a confirmed timezone; same-day publication before entry remains unconfirmed."
+      ]
+    }
+  ]
+}

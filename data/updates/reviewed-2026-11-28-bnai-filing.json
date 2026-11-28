@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "news-eccf79aa2569808194169e82",
+      "evidenceHash": "3d6c9a4a9d60d03d40a9cb0240f92e65b3387aa3a8c931e6fe4c0d8a153756e0",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "The filed report identifies Brand Engagement Network Inc., CIK 1838163, and Nasdaq BNAI.",
+      "summary": "Form 8-K reports the vendor services agreement and includes the associated press release.",
+      "publisher": "SEC EDGAR via OTC Markets",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "The issuer release and OTC Markets filing record identify December 29, 2025 as the filing date; the displayed received clock has no confirmed timezone.",
+      "sourceWarnings": [
+        "Same-day publication before entry is not established; the displayed filing receipt time is audit metadata."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
+    }
+  ],
+  "jobReviews": []
+}

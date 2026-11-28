@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-39d2f49ba9e83b9fd0e8",
+  "estimatedCostUsd": 0.000592052937,
+  "recordCount": 946,
+  "maximumCostUsd": 0.009176383018,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.ITCH",
+    "symbols": [
+      "AMD"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-25T00:00:00-05:00",
+    "end": "2026-11-26T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

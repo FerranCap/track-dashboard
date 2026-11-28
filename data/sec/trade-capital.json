@@ -290,6 +290,196 @@
           "description": "1-for-4.5 Common Shares reverse split; fractional shares rounded down. Financial statement share data retrospectively adjusted."
         }
       ]
+    },
+    "RETO": {
+      "cik": "1687277",
+      "securityType": "direct_equity",
+      "quotedShareClass": "Class A Shares",
+      "marketCapMethod": "unreviewed",
+      "coverage": "partial",
+      "reviewedOn": "2026-11-28",
+      "scope": "Selected 2025 annual report, May 2026 share combination and November 2026 interim report; capital changes remain incompletely reviewed.",
+      "limitations": [
+        "Dual-class issuer: Class A and Class B counts are not interchangeable; no issuer market capitalization estimate is produced.",
+        "April counts predate the May 18 split and subsequent issuances. The June count in the November report is retrospectively restated through the November 2 share combination and must not be treated as a contemporaneous September basis.",
+        "June observations are historical, not the number outstanding at the November 27 trade. Subsequent issuances and warrant exercises are not reconciled. Public float remains unknown."
+      ],
+      "filings": {
+        "reto-2025-20f": {
+          "accession": "0001213900-26-050658",
+          "form": "20-F",
+          "filedOn": "2026-05-01",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/0001213900-26-050658-index.html"
+        },
+        "reto-20260513-6k": {
+          "accession": "0001213900-26-055892",
+          "form": "6-K",
+          "filedOn": "2026-05-13",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/ea0290373-6k_retoeco.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/0001213900-26-055892-index.html"
+        },
+        "reto-20261118-6k": {
+          "accession": "0001213900-26-121874",
+          "form": "6-K",
+          "filedOn": "2026-11-18",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/ea031164201ex99-2.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/0001213900-26-121874-index.html"
+        }
+      },
+      "observations": [
+        {
+          "id": "reto-class-a-20260427",
+          "metric": "sharesOutstanding",
+          "value": 13079201,
+          "unit": "shares",
+          "asOf": "2026-04-27",
+          "shareBasisDate": "2026-04-27",
+          "basis": "reported",
+          "filingId": "reto-2025-20f",
+          "shareClass": "Class A Shares",
+          "precision": "exact",
+          "evidence": "2025 Form 20-F beneficial ownership table reports 13,079,201 Class A shares outstanding as of April 27, 2026, before the May 2026 share combination."
+        },
+        {
+          "id": "reto-class-b-20260427",
+          "metric": "sharesOutstanding",
+          "value": 1000000,
+          "unit": "shares",
+          "asOf": "2026-04-27",
+          "basis": "reported",
+          "filingId": "reto-2025-20f",
+          "shareClass": "Class B Shares",
+          "precision": "exact",
+          "evidence": "2025 Form 20-F beneficial ownership table reports 1,000,000 Class B shares outstanding as of April 27, 2026."
+        },
+        {
+          "id": "reto-class-a-20260630-restated-20261102",
+          "metric": "sharesOutstanding",
+          "value": 224053,
+          "unit": "shares",
+          "asOf": "2026-06-30",
+          "shareBasisDate": "2026-11-02",
+          "basis": "reported",
+          "filingId": "reto-20261118-6k",
+          "shareClass": "Class A Shares",
+          "precision": "exact",
+          "evidence": "November 18, 2026 interim financial statements report 224,053 Class A shares at June 30, retrospectively restated for the October 2 and November 2 share combinations. Published after September entries."
+        },
+        {
+          "id": "reto-class-b-20260630",
+          "metric": "sharesOutstanding",
+          "value": 1000000,
+          "unit": "shares",
+          "asOf": "2026-06-30",
+          "basis": "reported",
+          "filingId": "reto-20261118-6k",
+          "shareClass": "Class B Shares",
+          "precision": "exact",
+          "evidence": "November 18, 2026 interim financial statements report 1,000,000 Class B shares at June 30."
+        }
+      ],
+      "events": [
+        {
+          "asOf": "2026-05-18",
+          "type": "reverse_split",
+          "filingId": "reto-20260513-6k",
+          "affectsShareBasis": true,
+          "description": "Class A shares traded on a four-for-one post-combination basis from May 18; fractional shares rounded up."
+        },
+        {
+          "asOf": "2026-10-02",
+          "type": "reverse_split",
+          "filingId": "reto-20261118-6k",
+          "affectsShareBasis": true,
+          "description": "Class A shares traded on a twenty-for-one post-combination basis from October 2; reported retrospectively in the November 18 interim statements."
+        },
+        {
+          "asOf": "2026-11-02",
+          "type": "reverse_split",
+          "filingId": "reto-20261118-6k",
+          "affectsShareBasis": true,
+          "description": "Class A shares traded on an eight-for-one post-combination basis from November 2; reported retrospectively in the November 18 interim statements."
+        }
+      ]
+    },
+    "PAAI": {
+      "cik": "894871",
+      "securityType": "direct_equity",
+      "marketCapMethod": "unreviewed",
+      "coverage": "partial",
+      "reviewedOn": "2026-11-28",
+      "scope": "Reviewed November 2026 10-Q cover and April 2026 10-K/A cover; later share changes and trading float remain unreviewed.",
+      "limitations": [
+        "The June 2025 non-affiliate figure divided by its stated share price is a historical approximation, not the November 2026 tradable float.",
+        "The November 9 share count is not necessarily the number outstanding on November 23; intervening changes are not reconciled and no entry market cap is estimated.",
+        "The 2025 annual filing uses the former issuer name The Arena Group Holdings, Inc.; CIK 894871 is unchanged."
+      ],
+      "filings": {
+        "paai-2025-10ka": {
+          "accession": "0001628280-26-028883",
+          "form": "10-K/A",
+          "filedOn": "2026-04-30",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/aren-20251231.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/0001628280-26-028883-index.html"
+        },
+        "paai-2026q3-10q": {
+          "accession": "0001628280-26-072147",
+          "form": "10-Q",
+          "filedOn": "2026-11-09",
+          "acceptedAt": null,
+          "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+          "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/0001628280-26-072147-index.html"
+        }
+      },
+      "observations": [
+        {
+          "id": "paai-common-20261109",
+          "metric": "sharesOutstanding",
+          "value": 47610653,
+          "unit": "shares",
+          "asOf": "2026-11-09",
+          "basis": "reported",
+          "filingId": "paai-2026q3-10q",
+          "shareClass": "Common Stock",
+          "precision": "exact",
+          "evidence": "November 9 10-Q cover states 47,610,653 common shares outstanding as of November 9, 2026."
+        },
+        {
+          "id": "paai-public-float-value-20250630",
+          "metric": "publicFloatValue",
+          "value": 81343120,
+          "unit": "USD",
+          "asOf": "2025-06-30",
+          "basis": "reported",
+          "filingId": "paai-2025-10ka",
+          "shareClass": "Common Stock",
+          "precision": "as_reported",
+          "evidence": "2025 Form 10-K/A cover reports $81,343,120 aggregate market value held by non-affiliates on June 30, 2025, using $6.20 per share."
+        },
+        {
+          "id": "paai-nonaffiliate-estimate-20250630",
+          "metric": "floatShares",
+          "value": 13119858.064516129,
+          "unit": "shares",
+          "asOf": "2025-06-30",
+          "basis": "estimated",
+          "filingId": "paai-2025-10ka",
+          "shareClass": "Common Stock",
+          "precision": "approximate",
+          "evidence": "Historical non-affiliate share estimate, calculated from the disclosed market value and closing price; not a verified daily tradable float.",
+          "calculation": {
+            "publicFloatValue": 81343120,
+            "price": 6.2,
+            "priceDate": "2025-06-30"
+          }
+        }
+      ],
+      "events": []
     }
   },
   "trades": [
@@ -322,6 +512,46 @@
       "symbol": "AKAN",
       "entryAt": "2026-09-04T08:44:16-04:00",
       "sharesObservationId": "akan-common-20260608",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "cmu2y0ob50dck467qivw8pqw8",
+      "symbol": "RETO",
+      "entryAt": "2026-09-15T11:17:30-04:00",
+      "sharesObservationId": "reto-class-a-20260427",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "cmu2y0ob50dcl467qmtfhfi77",
+      "symbol": "RETO",
+      "entryAt": "2026-09-15T11:18:18-04:00",
+      "sharesObservationId": "reto-class-a-20260427",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "cmu2y0ob50dcm467q9cx24cex",
+      "symbol": "RETO",
+      "entryAt": "2026-09-15T11:20:53-04:00",
+      "sharesObservationId": "reto-class-a-20260427",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "cmu2y0ob50dcn467qjwq5v9jl",
+      "symbol": "RETO",
+      "entryAt": "2026-09-15T11:35:32-04:00",
+      "sharesObservationId": "reto-class-a-20260427",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "cmu2y0ob50dco467qad98flq4",
+      "symbol": "RETO",
+      "entryAt": "2026-09-15T11:57:52-04:00",
+      "sharesObservationId": "reto-class-a-20260427",
       "marketCapEstimate": null,
       "unavailableReason": "security_class_or_ads_basis_not_reconciled"
     },
@@ -387,6 +617,14 @@
         "limitation": "Last reviewed published share count multiplied by the trade average entry price. Changes between the share date and entry are not fully reconciled; this is not an exact historical market cap."
       },
       "unavailableReason": null
+    },
+    {
+      "tradeId": "broker-9c1182ac5cd2e503e85c8ba5",
+      "symbol": "PAAI",
+      "entryAt": "2026-11-23T12:35:09-05:00",
+      "sharesObservationId": "paai-common-20261109",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
     },
     {
       "tradeId": "broker-8841bb40e7d93aa198be6000",
@@ -487,6 +725,22 @@
         "limitation": "Last reviewed published share count multiplied by the trade average entry price. Changes between the share date and entry are not fully reconciled; this is not an exact historical market cap."
       },
       "unavailableReason": null
+    },
+    {
+      "tradeId": "broker-22bf436f4f776783a627dd9d",
+      "symbol": "RETO",
+      "entryAt": "2026-11-27T11:49:18-05:00",
+      "sharesObservationId": "reto-class-a-20260630-restated-20261102",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
+    },
+    {
+      "tradeId": "broker-ff87c4b52efab78e09402721",
+      "symbol": "RETO",
+      "entryAt": "2026-11-27T12:17:41-05:00",
+      "sharesObservationId": "reto-class-a-20260630-restated-20261102",
+      "marketCapEstimate": null,
+      "unavailableReason": "security_class_or_ads_basis_not_reconciled"
     }
   ]
 }

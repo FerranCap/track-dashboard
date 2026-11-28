@@ -18,10 +18,11 @@ if local_dependencies.is_dir():
 from build_news import build_context as build_news_context, article_issuers
 from build_sec_capital import build_context as build_capital_context
 from build_data_completeness import build_inventory, price_inventory
-from update_pipeline import (ROOT, NY, SourceCache, digest, entry_reference, load_inputs, merge_candidate,
-                             plan_updates, read_json, scope_update_plan, utcnow, write_json, write_review_packet)
+from update_pipeline import (ROOT, NY, SourceCache, active_update_plan, digest, entry_reference, load_inputs, merge_candidate,
+                             plan_updates, read_json, scope_update_plan, ticker_review_status,
+                             ticker_trade_fingerprint, utcnow, write_json, write_review_packet)
 from update_sources import canonical_url, collect_news, collect_sec, matching_entries
-from update_prices import price_download
+from update_prices import price_download, uncovered_price_windows
 
 
 def current_day():
@@ -256,7 +257,7 @@ def apply_decisions(root, decisions):
     return updates
 
 
-def collect_batch(root, plan, inputs, domains, limit, refresh=False, max_requests=None):
+def collect_batch(root, plan, inputs, domains, limit, refresh=False, max_requests=None, closed_symbols=None):
     folder = root / 'data/updates'
     state = read_json(folder / 'state.json', {'schemaVersion': 1, 'jobs': {}})
     candidates = read_json(folder / 'candidates.json', {})
@@ -298,7 +299,9 @@ def collect_batch(root, plan, inputs, domains, limit, refresh=False, max_request
     report.update(requests=cache.requests, cacheHits=cache.hits)
     report['sourceAccess'] = dict(Counter(receipt.get('access') for job in selected for receipt in state['jobs'].get(job['id'], {}).get('receipts', [])))
     report['reviewPacket'] = 'data/updates/review-packet.json'
-    report['reviewItems'] = write_review_packet(root, plan, state, candidates, inputs['config']['review'])
+    packet_candidates = {key: item for key, item in candidates.items()
+                         if not set(item.get('symbols', [])) <= (closed_symbols or set())}
+    report['reviewItems'] = write_review_packet(root, plan, state, packet_candidates, inputs['config']['review'])
     report['pendingCandidates'] = sum(candidate.get('decision') not in ('accepted', 'rejected') for candidate in candidates.values())
     write_json(folder / 'last-run.json', report)
     write_json(folder / 'state.json', state)
@@ -307,7 +310,7 @@ def collect_batch(root, plan, inputs, domains, limit, refresh=False, max_request
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('plan', 'run', 'packet', 'apply', 'rebuild', 'status', 'prices', 'inspect'))
+    parser.add_argument('command', choices=('plan', 'run', 'packet', 'apply', 'rebuild', 'status', 'prices', 'inspect', 'ticker-review'))
     parser.add_argument('--domains', default='news,sec')
     parser.add_argument('--symbols', help='Comma-separated traded tickers, for example AMD,BENF.')
     parser.add_argument('--limit', type=int, default=3)
@@ -319,6 +322,8 @@ def main():
     parser.add_argument('--execute-download', action='store_true', help='Download only after successful provider cost preflight.')
     parser.add_argument('--apply-ready-sec-news', action='store_true', help='Accept verified EDGAR publication metadata only; does not mark entire windows reviewed.')
     parser.add_argument('--check', action='store_true', help='Run the complete test suite once after the batch.')
+    parser.add_argument('--review-status', choices=('complete', 'reviewed_limited'))
+    parser.add_argument('--note', help='Reviewed coverage or remaining limitations for a ticker.')
     args = parser.parse_args()
     if args.limit < 1 or (args.max_requests is not None and args.max_requests < 0):
         parser.error('Batch limits must be positive; request budget may be zero.')
@@ -344,17 +349,26 @@ def main():
         baseline = digest([{key: value for key, value in trade.items() if key != 'country'} for trade in inputs['dataset']['trades']])
         plan = plan_updates(inputs)
         write_json(folder / 'queue.json', plan)
+        registry_path = folder / 'ticker-reviews.json'
+        registry = read_json(registry_path, {'schemaVersion': 1, 'tickers': {}})
+        if registry.get('schemaVersion') != 1 or not isinstance(registry.get('tickers'), dict):
+            raise ValueError('Invalid ticker review registry.')
+        ticker_statuses = ticker_review_status(inputs['dataset'], registry['tickers'])
+        closed = set()
+        if args.command in ('run', 'packet') and not args.refresh:
+            plan, closed = active_update_plan(inputs, registry['tickers'])
         plan = scope_update_plan(plan, symbols, inputs['dataset'])
         report = {'queued': plan['counts'], 'modelCalls': 0}
         if symbols:
             report['symbols'] = sorted(symbols)
         if args.command == 'run':
-            report.update(collect_batch(ROOT, plan, inputs, domains, args.limit, args.refresh, args.max_requests))
+            report.update(collect_batch(ROOT, plan, inputs, domains, args.limit, args.refresh, args.max_requests, closed))
             if args.apply_ready_sec_news:
                 candidates = read_json(folder / 'candidates.json', {})
                 items = [{'candidateId': candidate['id'], 'evidenceHash': candidate['evidenceHash'], 'action': 'accept'}
                          for candidate in candidates.values() if candidate.get('proposal', {}).get('ready')
                          and (not symbols or symbols.intersection(candidate['symbols']))
+                         and not set(candidate['symbols']) <= closed
                          and candidate.get('decision') not in ('accepted', 'rejected')]
                 report['applied'] = apply_decisions(ROOT, {'schemaVersion': 1, 'reviewer': 'deterministic_sec_metadata', 'reviewedOn': current_day(), 'items': items})
                 report['rebuilt'] = rebuild(profiles_changed=bool(report['applied']['profileRecords']))
@@ -367,7 +381,8 @@ def main():
             report['rebuilt'] = rebuild()
         elif args.command == 'packet':
             candidates = read_json(folder / 'candidates.json', {})
-            candidates = {key: item for key, item in candidates.items() if not symbols or symbols.intersection(item['symbols'])}
+            candidates = {key: item for key, item in candidates.items()
+                          if (not symbols or symbols.intersection(item['symbols'])) and not set(item['symbols']) <= closed}
             report['reviewItems'] = write_review_packet(ROOT, plan, read_json(folder / 'state.json', {'jobs': {}}), candidates, inputs['config']['review'])
         elif args.command == 'prices':
             job = next((item for item in plan['jobs'] if item['id'] == args.job and item['domain'] == 'prices'), None)
@@ -380,6 +395,11 @@ def main():
                 report['rebuilt'] = rebuild()
         elif args.command == 'status':
             report['lastRun'] = read_json(folder / 'last-run.json', {})
+            selected = [item for item in ticker_statuses if not symbols or item['symbol'] in symbols]
+            report['tickerReviewCounts'] = dict(Counter(item['status'] for item in selected))
+            report['tickers'] = selected if symbols else [item for item in selected if item['status'] in ('pending', 'trade_changed')][:10]
+            active_plan, _ = active_update_plan(inputs, registry['tickers'])
+            report['activeQueued'] = scope_update_plan(active_plan, symbols, inputs['dataset'])['counts']
             report['credentials'] = {'secUserAgentConfigured': bool(os.environ.get('SEC_USER_AGENT')),
                                      'secProjectIdentityFallback': not bool(os.environ.get('SEC_USER_AGENT')),
                                      'databentoKeyConfigured': bool(os.environ.get('DATABENTO_API_KEY'))}
@@ -388,6 +408,27 @@ def main():
             if not job:
                 parser.error('Provide --job with a current exact job ID.')
             report['job'] = job
+        elif args.command == 'ticker-review':
+            if len(symbols) != 1 or not args.review_status or not (args.note or '').strip():
+                parser.error('Provide one --symbols ticker, --review-status and a reviewed --note.')
+            symbol = next(iter(symbols))
+            related = [job for job in plan['jobs'] if symbol in job['symbols']]
+            missing_news = [job['id'] for job in related if job['domain'] == 'news']
+            missing_prices = [job['id'] for job in related if job['domain'] == 'prices' and uncovered_price_windows(ROOT, job)]
+            if missing_news or missing_prices:
+                raise ValueError(f'Cannot close {symbol}: {len(missing_news)} news windows and {len(missing_prices)} price sessions still need review or data.')
+            pending_candidates = [candidate['id'] for candidate in read_json(folder / 'candidates.json', {}).values()
+                                  if symbol in candidate.get('symbols', []) and candidate.get('decision') not in ('accepted', 'rejected')]
+            partial_news = any(review.get('symbol') == symbol and review.get('coverage') != 'complete'
+                               for review in inputs['research']['reviews'])
+            if args.review_status == 'complete' and (any(job['domain'] == 'sec' for job in related) or pending_candidates or partial_news):
+                raise ValueError('Unresolved SEC fields or candidates require reviewed_limited, not complete.')
+            record = {'status': args.review_status, 'tradeFingerprint': ticker_trade_fingerprint(inputs['dataset'], symbol),
+                      'reviewedOn': current_day(), 'note': args.note.strip(),
+                      'pendingCandidates': pending_candidates}
+            registry['tickers'][symbol] = record
+            write_json(registry_path, registry)
+            report['tickerReview'] = {'symbol': symbol, **record}
         current_trades = read_json(ROOT / 'data/trades.json')['trades']
         if digest([{key: value for key, value in trade.items() if key != 'country'} for trade in current_trades]) != baseline:
             raise RuntimeError('Update unexpectedly changed canonical trade accounting.')

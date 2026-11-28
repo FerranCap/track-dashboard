@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-39d2f49ba9e83b9fd0e8",
+  "jobFingerprint": "39d2f49ba9e83b9fd0e8af6368d80c2561aa9507f9ff37056a7541c26f41906e",
+  "provider": "databento",
+  "dataset": "XNAS.ITCH",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "AMD"
+  ],
+  "requestedSymbols": [
+    "AMD"
+  ],
+  "start": "2026-11-25T00:00:00-05:00",
+  "end": "2026-11-26T00:00:00-05:00",
+  "downloadedAt": "2026-11-28T10:26:09.587985+00:00",
+  "rowCount": 946,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/AMD/2026-11-25/databento/XNAS.ITCH/ohlcv-1m/prices-39d2f49ba9e83b9fd0e8-444e97c07ecc.dbn.zst",
+  "normalizedFile": "data/prices/tickers/AMD/2026-11-25/databento/XNAS.ITCH/ohlcv-1m/prices-39d2f49ba9e83b9fd0e8-444e97c07ecc.parquet",
+  "checksums": {
+    "raw": "34d73df2d3327ede6714cc00bbf03b189d9ac3257a82bffdeb68fcb2a3948f4a",
+    "normalized": "95f4f92905721ad7fe9baf33b8a33ef18cc4902c928810dc2320afe7948348ef"
+  },
+  "normalizedBytes": 42999,
+  "estimatedCostUsd": 0.000592052937,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

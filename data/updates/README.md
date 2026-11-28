@@ -25,6 +25,30 @@ defers failed sources instead of immediately retrying them. `--domains news`
 or `--domains sec` restricts work. `--refresh` explicitly retries collection and
 refreshes sources, rather than repeating all historical research by default.
 
+## Ticker review registry
+
+`status` reports review counts and the ten most recently traded tickers needing
+work. Use `status --symbols AMD` for an exact ticker. After reviewing all of a
+ticker's trade windows and verifying price coverage, explicitly record the work:
+
+```powershell
+python scripts/update_data.py ticker-review --symbols AMD --review-status reviewed_limited --note "News review is partial; later capital changes are unverified."
+```
+
+Use `complete` only when no SEC gaps, pending candidates or partial news reviews
+remain. `reviewed_limited` records actual research and its remaining limitations;
+it does not claim the missing information is known or that historical coverage is
+exhaustive. Missing trade-window reviews or uncovered traded days prevent either
+status. Never mark a ticker reviewed from collection or failed requests alone.
+
+Each record stores a fingerprint of all canonical trades for that ticker, excluding
+the derived country field. A new, deleted or corrected trade changes its computed
+status to `trade_changed` and returns it to normal collection. The previous record
+remains available for audit. The ordinary `run` and `packet` commands skip unchanged
+reviewed tickers; `--refresh` is an explicit override. Existing evidence and exact
+entry reviews remain in force when a ticker reopens. Explicit price commands still
+perform their own preflight and reuse validated coverage.
+
 The command also loads the existing local Python timezone dependencies. An
 optional Windows launcher is available without requiring PowerShell script signing:
 
@@ -46,6 +70,7 @@ python -m pip install --target .cache/python-deps -r scripts/requirements-update
 | `config.json` | Batch, request, source and review-packet limits. |
 | `queue.json` | Regenerated jobs grouped by issuer and overlapping windows. |
 | `state.json` | Persistent collection progress, receipts and source limitations. |
+| `ticker-reviews.json` | Explicit per-ticker review decisions, limitations and trade fingerprints. |
 | `cache/` | Compressed source responses, SHA-256 checksums and retrieval metadata. |
 | `candidates.json` | Deduplicated discoveries and persistent review decisions. |
 | `review-packet.json` | Bounded evidence and exact historical research tasks. |

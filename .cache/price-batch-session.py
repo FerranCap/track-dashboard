@@ -1,6 +1,6 @@
 ﻿import json, subprocess, sys
-jobs=['prices-cabd247ee7d87bec58a7','prices-ac144aef59ade2294b0c','prices-5d96e08ed02d89815dd4']
-total=0.0018963218
+jobs=['prices-9c5789d3df8ffcd25826','prices-ad51573d2e57e60fb02c','prices-cf47f7b5e8e05a9ab45e']
+total=0.001415669919
 for job in jobs:
     remaining=0.01-total
     quote=subprocess.run([sys.executable,'scripts/update_data.py','prices','--job',job,'--max-cost-usd',str(remaining)],capture_output=True,text=True,encoding='utf8',errors='replace')

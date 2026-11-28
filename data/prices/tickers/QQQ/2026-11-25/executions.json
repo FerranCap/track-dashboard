@@ -1,0 +1,1 @@
+{"schemaVersion":1,"symbol":"QQQ","date":"2026-11-25","trades":{"broker-591d1cba6e9fb4ccdc6b33d4":{"opened":"2026-11-25T09:50:08-05:00","closed":"2026-11-25T09:54:01-05:00","symbol":"QQQ","complete":true,"fills":[{"time":1795618208,"side":"BUY","price":"609.87","quantity":"1","role":"entry"},{"time":1795618441,"side":"SELL","price":"612.66","quantity":"1","role":"exit"}]}}}

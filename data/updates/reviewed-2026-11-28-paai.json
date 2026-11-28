@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "sec-filing-4d5f927940e118965cb2f6c7",
+      "evidenceHash": "fdcf066b65eecb9f0c0aec035e92de8e4484215e4d6fc0ba1929b3c0f83ca2af",
+      "action": "accept",
+      "issuerPatch": {
+        "symbol": "PAAI",
+        "cik": "894871",
+        "securityType": "direct_equity",
+        "marketCapMethod": "unreviewed",
+        "coverage": "partial",
+        "reviewedOn": "2026-11-28",
+        "scope": "Reviewed November 2026 10-Q cover and April 2026 10-K/A cover; later share changes and trading float remain unreviewed.",
+        "limitations": [
+          "The June 2025 non-affiliate figure divided by its stated share price is a historical approximation, not the November 2026 tradable float.",
+          "The November 9 share count is not necessarily the number outstanding on November 23; intervening changes are not reconciled and no entry market cap is estimated.",
+          "The 2025 annual filing uses the former issuer name The Arena Group Holdings, Inc.; CIK 894871 is unchanged."
+        ],
+        "filings": {
+          "paai-2025-10ka": {
+            "accession": "0001628280-26-028883",
+            "form": "10-K/A",
+            "filedOn": "2026-04-30",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/aren-20251231.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/0001628280-26-028883-index.html"
+          },
+          "paai-2026q3-10q": {
+            "accession": "0001628280-26-072147",
+            "form": "10-Q",
+            "filedOn": "2026-11-09",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/0001628280-26-072147-index.html"
+          }
+        },
+        "observations": [
+          {
+            "id": "paai-common-20261109",
+            "metric": "sharesOutstanding",
+            "value": 47610653,
+            "unit": "shares",
+            "asOf": "2026-11-09",
+            "basis": "reported",
+            "filingId": "paai-2026q3-10q",
+            "shareClass": "Common Stock",
+            "precision": "exact",
+            "evidence": "November 9 10-Q cover states 47,610,653 common shares outstanding as of November 9, 2026."
+          },
+          {
+            "id": "paai-public-float-value-20250630",
+            "metric": "publicFloatValue",
+            "value": 81343120,
+            "unit": "USD",
+            "asOf": "2025-06-30",
+            "basis": "reported",
+            "filingId": "paai-2025-10ka",
+            "shareClass": "Common Stock",
+            "precision": "as_reported",
+            "evidence": "2025 Form 10-K/A cover reports $81,343,120 aggregate market value held by non-affiliates on June 30, 2025, using $6.20 per share."
+          },
+          {
+            "id": "paai-nonaffiliate-estimate-20250630",
+            "metric": "floatShares",
+            "value": 13119858.064516129,
+            "unit": "shares",
+            "asOf": "2025-06-30",
+            "basis": "estimated",
+            "filingId": "paai-2025-10ka",
+            "shareClass": "Common Stock",
+            "precision": "approximate",
+            "evidence": "Historical non-affiliate share estimate, calculated from the disclosed market value and closing price; not a verified daily tradable float.",
+            "calculation": {
+              "publicFloatValue": 81343120,
+              "price": 6.2,
+              "priceDate": "2025-06-30"
+            }
+          }
+        ],
+        "events": []
+      }
+    }
+  ],
+  "jobReviews": []
+}

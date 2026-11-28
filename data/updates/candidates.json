@@ -189,7 +189,130 @@
       "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
       "sha256": "9b2d8c1402466c8665be486b76437153c1ea787e3966dbc210bbd99e00a9f3cc",
       "fetchedAt": null
-    }
+    },
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "sec-filing-20e726b243c266d8cdd3d198",
+      "evidenceHash": "b8c8da0095e4422dd73f6eb901b133d927f725f7c906caf942755577ca47e72c",
+      "action": "accept",
+      "issuerPatch": {
+        "symbol": "RETO",
+        "cik": "1687277",
+        "securityType": "direct_equity",
+        "quotedShareClass": "Class A Shares",
+        "marketCapMethod": "unreviewed",
+        "coverage": "partial",
+        "reviewedOn": "2026-11-28",
+        "scope": "Selected 2025 annual report, May 2026 share combination and November 2026 interim report; capital changes remain incompletely reviewed.",
+        "limitations": [
+          "Dual-class issuer: Class A and Class B counts are not interchangeable; no issuer market capitalization estimate is produced.",
+          "April counts predate the May 18 split and subsequent issuances. The June count in the November report is retrospectively restated through the November 2 share combination and must not be treated as a contemporaneous September basis.",
+          "June observations are historical, not the number outstanding at the November 27 trade. Subsequent issuances and warrant exercises are not reconciled. Public float remains unknown."
+        ],
+        "filings": {
+          "reto-2025-20f": {
+            "accession": "0001213900-26-050658",
+            "form": "20-F",
+            "filedOn": "2026-05-01",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/0001213900-26-050658-index.html"
+          },
+          "reto-20260513-6k": {
+            "accession": "0001213900-26-055892",
+            "form": "6-K",
+            "filedOn": "2026-05-13",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/ea0290373-6k_retoeco.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/0001213900-26-055892-index.html"
+          },
+          "reto-20261118-6k": {
+            "accession": "0001213900-26-121874",
+            "form": "6-K",
+            "filedOn": "2026-11-18",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/ea031164201ex99-2.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/0001213900-26-121874-index.html"
+          }
+        },
+        "observations": [
+          {
+            "id": "reto-class-a-20260427",
+            "metric": "sharesOutstanding",
+            "value": 13079201,
+            "unit": "shares",
+            "asOf": "2026-04-27",
+            "shareBasisDate": "2026-04-27",
+            "basis": "reported",
+            "filingId": "reto-2025-20f",
+            "shareClass": "Class A Shares",
+            "precision": "exact",
+            "evidence": "2025 Form 20-F beneficial ownership table reports 13,079,201 Class A shares outstanding as of April 27, 2026, before the May 2026 share combination."
+          },
+          {
+            "id": "reto-class-b-20260427",
+            "metric": "sharesOutstanding",
+            "value": 1000000,
+            "unit": "shares",
+            "asOf": "2026-04-27",
+            "basis": "reported",
+            "filingId": "reto-2025-20f",
+            "shareClass": "Class B Shares",
+            "precision": "exact",
+            "evidence": "2025 Form 20-F beneficial ownership table reports 1,000,000 Class B shares outstanding as of April 27, 2026."
+          },
+          {
+            "id": "reto-class-a-20260630-restated-20261102",
+            "metric": "sharesOutstanding",
+            "value": 224053,
+            "unit": "shares",
+            "asOf": "2026-06-30",
+            "shareBasisDate": "2026-11-02",
+            "basis": "reported",
+            "filingId": "reto-20261118-6k",
+            "shareClass": "Class A Shares",
+            "precision": "exact",
+            "evidence": "November 18, 2026 interim financial statements report 224,053 Class A shares at June 30, retrospectively restated for the October 2 and November 2 share combinations. Published after September entries."
+          },
+          {
+            "id": "reto-class-b-20260630",
+            "metric": "sharesOutstanding",
+            "value": 1000000,
+            "unit": "shares",
+            "asOf": "2026-06-30",
+            "basis": "reported",
+            "filingId": "reto-20261118-6k",
+            "shareClass": "Class B Shares",
+            "precision": "exact",
+            "evidence": "November 18, 2026 interim financial statements report 1,000,000 Class B shares at June 30."
+          }
+        ],
+        "events": [
+          {
+            "asOf": "2026-05-18",
+            "type": "reverse_split",
+            "filingId": "reto-20260513-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on a four-for-one post-combination basis from May 18; fractional shares rounded up."
+          },
+          {
+            "asOf": "2026-10-02",
+            "type": "reverse_split",
+            "filingId": "reto-20261118-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on a twenty-for-one post-combination basis from October 2; reported retrospectively in the November 18 interim statements."
+          },
+          {
+            "asOf": "2026-11-02",
+            "type": "reverse_split",
+            "filingId": "reto-20261118-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on an eight-for-one post-combination basis from November 2; reported retrospectively in the November 18 interim statements."
+          }
+        ]
+      }
+    },
+    "reviewedOn": "2026-11-28"
   },
   "sec-filing-3e3f3d7d936e2e483b215629": {
     "id": "sec-filing-3e3f3d7d936e2e483b215629",
@@ -373,6 +496,653 @@
       "sourceWarnings": [
         "Claims are attributed to the issuer and are not independent verification."
       ]
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-108d525c0bd18421e84e7ebe": {
+    "id": "news-108d525c0bd18421e84e7ebe",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-19eb3dd4086ae4b0d9d3"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmcs05eil3l3nfhbpyx9",
+        "symbol": "BENF",
+        "opened": "2025-10-31T11:48:09-04:00"
+      }
+    ],
+    "headline": "Beneficient Regains Compliance with Nasdaq Periodic Filing Requirement and Market Value of Listed Securities Requirement",
+    "sourceUrl": "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html",
+    "publicationDate": "2025-10-30",
+    "publishedAt": "2025-10-30T17:30:00-04:00",
+    "publisher": "GlobeNewswire",
+    "excerpt": "Beneficient reported that Nasdaq had confirmed compliance with its periodic filing and minimum market value requirements; the separate minimum bid price requirement remained unresolved.",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "cd51ce19a68c1c2e51942e7aa6c42f4fbe11fbd46ccf4de2768e7cc2e84465a8",
+    "receipt": {
+      "url": "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html",
+      "sha256": "cd51ce19a68c1c2e51942e7aa6c42f4fbe11fbd46ccf4de2768e7cc2e84465a8",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "minute",
+      "ready": false
+    },
+    "evidenceMethod": "Original publication reviewed via web; receipt hash identifies recorded excerpt, not the full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-108d525c0bd18421e84e7ebe",
+      "evidenceHash": "cd51ce19a68c1c2e51942e7aa6c42f4fbe11fbd46ccf4de2768e7cc2e84465a8",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Beneficient reported that Nasdaq had confirmed compliance with its periodic filing and minimum market value requirements; the separate minimum bid price requirement remained unresolved.",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-a39cdd08e411f92164c5def5": {
+    "id": "news-a39cdd08e411f92164c5def5",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-19eb3dd4086ae4b0d9d3"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmcs05eil3l3nfhbpyx9",
+        "symbol": "BENF",
+        "opened": "2025-10-31T11:48:09-04:00"
+      }
+    ],
+    "headline": "Why Beneficient (BENF) Shares Soared More Than 46% Overnight?",
+    "sourceUrl": "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight",
+    "publicationDate": "2025-10-31",
+    "publishedAt": null,
+    "publisher": "Benzinga",
+    "excerpt": "Benzinga reported the issuer had regained compliance with two Nasdaq requirements and that the minimum bid price requirement remained outstanding.",
+    "reportedClock": "3:52 AM; timezone not established",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "a63b88fa432043051059aba73ac0f0616ad539292abbefabd6b41764e1f623af",
+    "receipt": {
+      "url": "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight",
+      "sha256": "a63b88fa432043051059aba73ac0f0616ad539292abbefabd6b41764e1f623af",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "evidenceMethod": "Original publication reviewed via web; receipt hash identifies recorded excerpt, not the full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-a39cdd08e411f92164c5def5",
+      "evidenceHash": "a63b88fa432043051059aba73ac0f0616ad539292abbefabd6b41764e1f623af",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Benzinga reported the issuer had regained compliance with two Nasdaq requirements and that the minimum bid price requirement remained outstanding.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-badc138e1ce852f22e605da9": {
+    "id": "news-badc138e1ce852f22e605da9",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-e512b23e8d030a8ec0b2"
+    ],
+    "entries": [
+      {
+        "id": "cmmdufgfd09jgspybpqhllteb",
+        "symbol": "BENF",
+        "opened": "2026-02-18T10:06:27-05:00"
+      }
+    ],
+    "headline": "Beneficient Reports Third Quarter Fiscal 2026 Results",
+    "sourceUrl": "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html",
+    "publicationDate": "2026-02-17",
+    "publishedAt": "2026-02-17T17:00:00-05:00",
+    "publisher": "GlobeNewswire",
+    "excerpt": "Beneficient reported results for its fiscal third quarter ended December 31, 2025, including operating income and developments concerning litigation and debt.",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "46a341c16edf0161f1e305c455a0bbffdd69a6c52cd3033b1a0886e578c28c56",
+    "receipt": {
+      "url": "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html",
+      "sha256": "46a341c16edf0161f1e305c455a0bbffdd69a6c52cd3033b1a0886e578c28c56",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "minute",
+      "ready": false
+    },
+    "evidenceMethod": "Original publication reviewed via web; receipt hash identifies recorded excerpt, not the full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-badc138e1ce852f22e605da9",
+      "evidenceHash": "46a341c16edf0161f1e305c455a0bbffdd69a6c52cd3033b1a0886e578c28c56",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Beneficient reported results for its fiscal third quarter ended December 31, 2025, including operating income and developments concerning litigation and debt.",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-6f3564581a784b2c34544ee2": {
+    "id": "news-6f3564581a784b2c34544ee2",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-e512b23e8d030a8ec0b2"
+    ],
+    "entries": [
+      {
+        "id": "cmmdufgfd09jgspybpqhllteb",
+        "symbol": "BENF",
+        "opened": "2026-02-18T10:06:27-05:00"
+      }
+    ],
+    "headline": "What Sparked Beneficient (BENF) Stock's Over 93% Surge After Hours?",
+    "sourceUrl": "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours",
+    "publicationDate": "2026-02-18",
+    "publishedAt": null,
+    "publisher": "Benzinga",
+    "excerpt": "Benzinga reported Beneficient fiscal third-quarter results and summarized figures and the prior after-hours move.",
+    "reportedClock": "12:24 AM; timezone not established",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "c60890597fe6a11e38f9eb1d6ca57d743e48dda9a7b99c973171befb3162cf53",
+    "receipt": {
+      "url": "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours",
+      "sha256": "c60890597fe6a11e38f9eb1d6ca57d743e48dda9a7b99c973171befb3162cf53",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "evidenceMethod": "Original publication reviewed via web; receipt hash identifies recorded excerpt, not the full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-6f3564581a784b2c34544ee2",
+      "evidenceHash": "c60890597fe6a11e38f9eb1d6ca57d743e48dda9a7b99c973171befb3162cf53",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.",
+      "summary": "Benzinga reported Beneficient fiscal third-quarter results and summarized figures and the prior after-hours move.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-25801357337c50da0781f541": {
+    "id": "news-25801357337c50da0781f541",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-19eb3dd4086ae4b0d9d3"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmcs05eil3l3nfhbpyx9",
+        "symbol": "BENF",
+        "opened": "2025-10-31T11:48:09-04:00"
+      }
+    ],
+    "headline": "SEC 8-K: Nasdaq listing compliance report",
+    "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1775734/000149315225020271/form8-k.htm",
+    "publicationDate": "2025-10-30",
+    "publishedAt": null,
+    "publisher": "SEC EDGAR",
+    "excerpt": "The issuer reported Nasdaq compliance with periodic reporting and market value requirements, while the minimum bid price requirement remained outstanding.",
+    "reportedClock": "2025-10-30 17:25:30 ET acceptance",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "a2fb2ed26803d449262a83dcc831d74f82ade49de008e3f9759747f84ea16bce",
+    "receipt": {
+      "url": "https://www.sec.gov/Archives/edgar/data/1775734/000149315225020271/form8-k.htm",
+      "sha256": "a2fb2ed26803d449262a83dcc831d74f82ade49de008e3f9759747f84ea16bce",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "evidenceMethod": "Original SEC filing and date reviewed; receipt hash identifies the recorded excerpt, not full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-25801357337c50da0781f541",
+      "evidenceHash": "a2fb2ed26803d449262a83dcc831d74f82ade49de008e3f9759747f84ea16bce",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "SEC filing identifies Beneficient and BENF, matching CIK 1775734.",
+      "summary": "The issuer reported Nasdaq compliance with periodic reporting and market value requirements, while the minimum bid price requirement remained outstanding.",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-3f3e723103afad7acb99a650": {
+    "id": "news-3f3e723103afad7acb99a650",
+    "domain": "news",
+    "symbols": [
+      "BENF"
+    ],
+    "cik": "1775734",
+    "jobIds": [
+      "news-e512b23e8d030a8ec0b2"
+    ],
+    "entries": [
+      {
+        "id": "cmmdufgfd09jgspybpqhllteb",
+        "symbol": "BENF",
+        "opened": "2026-02-18T10:06:27-05:00"
+      }
+    ],
+    "headline": "SEC 8-K: fiscal third-quarter results",
+    "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000010/ben-20260217.htm",
+    "publicationDate": "2026-02-17",
+    "publishedAt": null,
+    "publisher": "SEC EDGAR",
+    "excerpt": "The issuer furnished a current report announcing fiscal third-quarter results and included the related press release.",
+    "reportedClock": "2026-02-17 17:08:38 ET acceptance",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "a03890cfd5cb50d85c7f15834fd8e98eeafadaa15fd2642eda778a5f33bbdea8",
+    "receipt": {
+      "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000010/ben-20260217.htm",
+      "sha256": "a03890cfd5cb50d85c7f15834fd8e98eeafadaa15fd2642eda778a5f33bbdea8",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "evidenceMethod": "Original SEC filing and date reviewed; receipt hash identifies the recorded excerpt, not full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-3f3e723103afad7acb99a650",
+      "evidenceHash": "a03890cfd5cb50d85c7f15834fd8e98eeafadaa15fd2642eda778a5f33bbdea8",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "SEC filing identifies Beneficient and BENF, matching CIK 1775734.",
+      "summary": "The issuer furnished a current report announcing fiscal third-quarter results and included the related press release.",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "sec-filing-4d5f927940e118965cb2f6c7": {
+    "id": "sec-filing-4d5f927940e118965cb2f6c7",
+    "domain": "sec",
+    "symbols": [
+      "PAAI"
+    ],
+    "cik": "894871",
+    "jobIds": [
+      "sec-0617040236ad2cf026d9"
+    ],
+    "entries": [
+      {
+        "id": "broker-9c1182ac5cd2e503e85c8ba5",
+        "symbol": "PAAI",
+        "opened": "2026-11-23T12:35:09-05:00"
+      }
+    ],
+    "headline": "Reviewed SEC share count and historical non-affiliate value",
+    "sourceUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+    "publicationDate": "2026-11-09",
+    "publishedAt": null,
+    "excerpt": "10-Q cover: 47,610,653 common shares outstanding on November 9, 2026. 10-K/A: non-affiliate market value $81,343,120 on June 30, 2025, at $6.20 per share.",
+    "reasons": [
+      "reviewed_original_filing_evidence"
+    ],
+    "proposal": {
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+        "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/aren-20251231.htm"
+      ],
+      "reviewed": "Original SEC 2026-11-09 10-Q and 2026-04-30 10-K/A cover pages.",
+      "sharesOutstanding": 47610653,
+      "sharesAsOf": "2026-11-09",
+      "publicFloatValue": 81343120,
+      "publicFloatAsOf": "2025-06-30",
+      "price": 6.2
+    },
+    "evidenceHash": "fdcf066b65eecb9f0c0aec035e92de8e4484215e4d6fc0ba1929b3c0f83ca2af",
+    "receipt": {
+      "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+      "sha256": "fdcf066b65eecb9f0c0aec035e92de8e4484215e4d6fc0ba1929b3c0f83ca2af",
+      "fetchedAt": "2026-11-28",
+      "access": "reviewed_web_excerpt"
+    },
+    "evidenceMethod": "Original SEC pages reviewed via web; hash identifies recorded evidence, not full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "sec-filing-4d5f927940e118965cb2f6c7",
+      "evidenceHash": "fdcf066b65eecb9f0c0aec035e92de8e4484215e4d6fc0ba1929b3c0f83ca2af",
+      "action": "accept",
+      "issuerPatch": {
+        "symbol": "PAAI",
+        "cik": "894871",
+        "securityType": "direct_equity",
+        "marketCapMethod": "unreviewed",
+        "coverage": "partial",
+        "reviewedOn": "2026-11-28",
+        "scope": "Reviewed November 2026 10-Q cover and April 2026 10-K/A cover; later share changes and trading float remain unreviewed.",
+        "limitations": [
+          "The June 2025 non-affiliate figure divided by its stated share price is a historical approximation, not the November 2026 tradable float.",
+          "The November 9 share count is not necessarily the number outstanding on November 23; intervening changes are not reconciled and no entry market cap is estimated.",
+          "The 2025 annual filing uses the former issuer name The Arena Group Holdings, Inc.; CIK 894871 is unchanged."
+        ],
+        "filings": {
+          "paai-2025-10ka": {
+            "accession": "0001628280-26-028883",
+            "form": "10-K/A",
+            "filedOn": "2026-04-30",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/aren-20251231.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026028883/0001628280-26-028883-index.html"
+          },
+          "paai-2026q3-10q": {
+            "accession": "0001628280-26-072147",
+            "form": "10-Q",
+            "filedOn": "2026-11-09",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/0001628280-26-072147-index.html"
+          }
+        },
+        "observations": [
+          {
+            "id": "paai-common-20261109",
+            "metric": "sharesOutstanding",
+            "value": 47610653,
+            "unit": "shares",
+            "asOf": "2026-11-09",
+            "basis": "reported",
+            "filingId": "paai-2026q3-10q",
+            "shareClass": "Common Stock",
+            "precision": "exact",
+            "evidence": "November 9 10-Q cover states 47,610,653 common shares outstanding as of November 9, 2026."
+          },
+          {
+            "id": "paai-public-float-value-20250630",
+            "metric": "publicFloatValue",
+            "value": 81343120,
+            "unit": "USD",
+            "asOf": "2025-06-30",
+            "basis": "reported",
+            "filingId": "paai-2025-10ka",
+            "shareClass": "Common Stock",
+            "precision": "as_reported",
+            "evidence": "2025 Form 10-K/A cover reports $81,343,120 aggregate market value held by non-affiliates on June 30, 2025, using $6.20 per share."
+          },
+          {
+            "id": "paai-nonaffiliate-estimate-20250630",
+            "metric": "floatShares",
+            "value": 13119858.064516129,
+            "unit": "shares",
+            "asOf": "2025-06-30",
+            "basis": "estimated",
+            "filingId": "paai-2025-10ka",
+            "shareClass": "Common Stock",
+            "precision": "approximate",
+            "evidence": "Historical non-affiliate share estimate, calculated from the disclosed market value and closing price; not a verified daily tradable float.",
+            "calculation": {
+              "publicFloatValue": 81343120,
+              "price": 6.2,
+              "priceDate": "2025-06-30"
+            }
+          }
+        ],
+        "events": []
+      }
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-f86b59591b351f473ac06fa0": {
+    "id": "news-f86b59591b351f473ac06fa0",
+    "domain": "news",
+    "symbols": [
+      "BNAI"
+    ],
+    "cik": "1838163",
+    "jobIds": [
+      "news-45040bba28767ff80efd"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmfb07iil3l3xbfgwnum",
+        "symbol": "BNAI",
+        "opened": "2025-12-29T08:04:01-05:00"
+      }
+    ],
+    "headline": "Brand Engagement Network Finalizes Agreement for a Proprietary AI Engagement Solution with a Leading Global Ad Agency for One of the World's Top Pharmaceutical Companies",
+    "sourceUrl": "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html",
+    "publicationDate": "2025-12-29",
+    "publishedAt": "2025-12-29T06:15:00-05:00",
+    "publisher": "PR Newswire",
+    "excerpt": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "5b38284895621860df5e62b44c470c9c99695de7a76437238109c50c0d0dca18",
+    "receipt": {
+      "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html",
+      "sha256": "5b38284895621860df5e62b44c470c9c99695de7a76437238109c50c0d0dca18",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "minute",
+      "ready": false
+    },
+    "evidenceMethod": "Original publisher page reviewed; hash identifies recorded excerpt, not full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-f86b59591b351f473ac06fa0",
+      "evidenceHash": "5b38284895621860df5e62b44c470c9c99695de7a76437238109c50c0d0dca18",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "Original source identifies Brand Engagement Network Inc. and NASDAQ BNAI; CIK 1838163 matches issuer profile.",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "PR Newswire states 06:15 Eastern on December 29, 2025.",
+      "sourceWarnings": [
+        "The publisher reports the agreement and expected revenue; these expectations do not establish completed revenue."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-d0a9bc6a462ae82cbdd318a2": {
+    "id": "news-d0a9bc6a462ae82cbdd318a2",
+    "domain": "news",
+    "symbols": [
+      "BNAI"
+    ],
+    "cik": "1838163",
+    "jobIds": [
+      "news-45040bba28767ff80efd"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmfb07iil3l3xbfgwnum",
+        "symbol": "BNAI",
+        "opened": "2025-12-29T08:04:01-05:00"
+      }
+    ],
+    "headline": "Why Is Brand Engagement Network Stock Gaining Monday?",
+    "sourceUrl": "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday",
+    "publicationDate": "2025-12-29",
+    "publishedAt": null,
+    "publisher": "Benzinga",
+    "excerpt": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+    "reportedClock": "7:48 AM; timezone not established",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "fe879608eb7687d8613659420c7d87a1978b1c37f3d47dd1722312241d709e41",
+    "receipt": {
+      "url": "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday",
+      "sha256": "fe879608eb7687d8613659420c7d87a1978b1c37f3d47dd1722312241d709e41",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "evidenceMethod": "Original publisher page reviewed; hash identifies recorded excerpt, not full response.",
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-d0a9bc6a462ae82cbdd318a2",
+      "evidenceHash": "fe879608eb7687d8613659420c7d87a1978b1c37f3d47dd1722312241d709e41",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "Original source identifies Brand Engagement Network Inc. and NASDAQ BNAI; CIK 1838163 matches issuer profile.",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Publisher clock has no confirmed timezone; publication date only is used.",
+      "sourceWarnings": [
+        "Publisher clock has no confirmed timezone; same-day publication before entry is not established."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
+    },
+    "reviewedOn": "2026-11-28"
+  },
+  "news-eccf79aa2569808194169e82": {
+    "id": "news-eccf79aa2569808194169e82",
+    "domain": "news",
+    "symbols": [
+      "BNAI"
+    ],
+    "cik": "1838163",
+    "jobIds": [
+      "news-45040bba28767ff80efd"
+    ],
+    "entries": [
+      {
+        "id": "cmmdrwmfb07iil3l3xbfgwnum",
+        "symbol": "BNAI",
+        "opened": "2025-12-29T08:04:01-05:00"
+      }
+    ],
+    "headline": "Brand Engagement Network Form 8-K, filed December 29, 2025",
+    "sourceUrl": "https://www.otcmarkets.com/filing/html?guid=uDt-kWbB1mvnJth&id=19020681",
+    "publicationDate": "2025-12-29",
+    "publishedAt": null,
+    "publisher": "SEC EDGAR via OTC Markets",
+    "reportedClock": "06:09:21 received; timezone and publication time not established",
+    "excerpt": "The Form 8-K reports the agreement and includes the issuer press release.",
+    "reasons": [
+      "issuer_identity_and_article_contents_require_review"
+    ],
+    "evidenceHash": "3d6c9a4a9d60d03d40a9cb0240f92e65b3387aa3a8c931e6fe4c0d8a153756e0",
+    "receipt": {
+      "url": "https://www.otcmarkets.com/filing/html?guid=uDt-kWbB1mvnJth&id=19020681",
+      "sha256": "3d6c9a4a9d60d03d40a9cb0240f92e65b3387aa3a8c931e6fe4c0d8a153756e0",
+      "fetchedAt": "2026-11-28"
+    },
+    "proposal": {
+      "kind": "requires_classification",
+      "timePrecision": "day",
+      "ready": false
+    },
+    "decision": "accepted",
+    "resolution": {
+      "candidateId": "news-eccf79aa2569808194169e82",
+      "evidenceHash": "3d6c9a4a9d60d03d40a9cb0240f92e65b3387aa3a8c931e6fe4c0d8a153756e0",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "The filed report identifies Brand Engagement Network Inc., CIK 1838163, and Nasdaq BNAI.",
+      "summary": "Form 8-K reports the vendor services agreement and includes the associated press release.",
+      "publisher": "SEC EDGAR via OTC Markets",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "The issuer release and OTC Markets filing record identify December 29, 2025 as the filing date; the displayed received clock has no confirmed timezone.",
+      "sourceWarnings": [
+        "Same-day publication before entry is not established; the displayed filing receipt time is audit metadata."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
     },
     "reviewedOn": "2026-11-28"
   }

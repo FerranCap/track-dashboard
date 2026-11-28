@@ -19,13 +19,25 @@ class SecCapitalTests(unittest.TestCase):
     def test_reviewed_coverage_preserves_pilot_and_akan(self):
         symbols = list(dict.fromkeys(t['symbol'] for t in sorted(self.dataset['trades'], key=lambda t: t['opened'], reverse=True) if t['date'] <= '2026-11-25' and t['symbol'] != 'QQQ'))
         self.assertTrue(set(symbols[:2]) <= set(self.history['issuers']))
-        self.assertEqual(set(self.history['issuers']), {'AMD', 'BENF', 'AKAN'})
+        self.assertEqual(set(self.history['issuers']), {'AMD', 'BENF', 'AKAN', 'PAAI', 'RETO'})
         akan = self.history['issuers']['AKAN']
         self.assertEqual([(x['shareClass'], x['value']) for x in akan['observations']],
                          [('Common Shares', 540841), ('Class B Special Shares', 244814)])
         self.assertEqual(akan['marketCapMethod'], 'unreviewed')
         generated = build_context(self.history, self.dataset)
         self.assertEqual(generated, json.loads((ROOT / 'data/sec/trade-capital.json').read_text(encoding='utf-8')))
+
+        paai = self.history['issuers']['PAAI']
+        estimated_float = next(x for x in paai['observations'] if x['metric'] == 'floatShares')
+        self.assertAlmostEqual(estimated_float['value'], 81343120 / 6.20)
+        self.assertEqual(estimated_float['asOf'], '2025-06-30')
+        self.assertEqual(paai['marketCapMethod'], 'unreviewed')
+        reto = self.history['issuers']['RETO']
+        restated = next(x for x in reto['observations'] if x['id'] == 'reto-class-a-20260630-restated-20261102')
+        self.assertEqual(restated['shareBasisDate'], '2026-11-02')
+        self.assertEqual(reto['filings'][restated['filingId']]['filedOn'], '2026-11-18')
+        september = [x for x in generated['trades'] if x['symbol'] == 'RETO' and x['entryAt'].startswith('2026-09-15')]
+        self.assertTrue(all(x['sharesObservationId'] != restated['id'] and x['marketCapEstimate'] is None for x in september))
 
     def test_independent_amounts_and_no_trade_mutations(self):
         baseline = copy.deepcopy(self.dataset)

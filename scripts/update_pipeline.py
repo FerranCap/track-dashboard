@@ -62,6 +62,37 @@ def entry_reference(trade):
     return {'id': trade['id'], 'symbol': trade['symbol'], 'opened': trade['opened']}
 
 
+def ticker_trade_fingerprint(dataset, symbol):
+    trades = [{key: value for key, value in trade.items() if key != 'country'}
+              for trade in dataset['trades'] if trade['symbol'] == symbol]
+    if not trades:
+        raise ValueError(f'Unknown traded ticker: {symbol}')
+    return digest(sorted(trades, key=lambda trade: (trade['opened'], trade['id'])))
+
+
+def ticker_review_status(dataset, records):
+    symbols = {trade['symbol'] for trade in dataset['trades']}
+    latest = {symbol: max(trade['opened'] for trade in dataset['trades'] if trade['symbol'] == symbol)
+              for symbol in symbols}
+    result = []
+    for symbol in sorted(symbols, key=lambda item: (latest[item], item), reverse=True):
+        record = records.get(symbol)
+        valid = bool(record and record.get('tradeFingerprint') == ticker_trade_fingerprint(dataset, symbol))
+        status = record['status'] if valid else 'trade_changed' if record else 'pending'
+        result.append({'symbol': symbol, 'status': status, 'lastTrade': latest[symbol],
+                       'reviewedOn': record.get('reviewedOn') if record else None,
+                       'note': record.get('note') if valid else None})
+    return result
+
+
+def active_update_plan(inputs, records):
+    dataset = inputs['dataset']
+    closed = {item['symbol'] for item in ticker_review_status(dataset, records)
+              if item['status'] in ('complete', 'reviewed_limited')}
+    active = {**dataset, 'trades': [trade for trade in dataset['trades'] if trade['symbol'] not in closed]}
+    return plan_updates({**inputs, 'dataset': active}), closed
+
+
 def merge_windows(windows):
     merged = []
     for window in sorted(windows, key=lambda item: (stamp(item['start']), stamp(item['end']))):

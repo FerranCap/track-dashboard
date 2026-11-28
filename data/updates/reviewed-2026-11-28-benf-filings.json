@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "news-25801357337c50da0781f541",
+      "evidenceHash": "a2fb2ed26803d449262a83dcc831d74f82ade49de008e3f9759747f84ea16bce",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "SEC filing identifies Beneficient and BENF, matching CIK 1775734.",
+      "summary": "The issuer reported Nasdaq compliance with periodic reporting and market value requirements, while the minimum bid price requirement remained outstanding.",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ],
+      "eventId": "benf-20251030-nasdaq-compliance"
+    },
+    {
+      "candidateId": "news-3f3e723103afad7acb99a650",
+      "evidenceHash": "a03890cfd5cb50d85c7f15834fd8e98eeafadaa15fd2642eda778a5f33bbdea8",
+      "action": "accept",
+      "issuerCik": "1775734",
+      "identityEvidence": "SEC filing identifies Beneficient and BENF, matching CIK 1775734.",
+      "summary": "The issuer furnished a current report announcing fiscal third-quarter results and included the related press release.",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "timePrecision": "day",
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ],
+      "eventId": "benf-20260217-quarter-results"
+    }
+  ],
+  "jobReviews": []
+}

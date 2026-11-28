@@ -1,0 +1,24 @@
+﻿import sys
+from pathlib import Path
+sys.path.insert(0,'scripts')
+from update_sources import news_candidate
+from update_pipeline import read_json,write_json,digest,merge_candidate
+root=Path('.'); jobs={j['id']:j for j in read_json(root/'data/updates/queue.json')['jobs']}; candidates=read_json(root/'data/updates/candidates.json',{})
+items=[
+('news-19eb3dd4086ae4b0d9d3','https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html','Beneficient Regains Compliance with Nasdaq Periodic Filing Requirement and Market Value of Listed Securities Requirement','2025-10-30','2025-10-30T17:30:00-04:00','GlobeNewswire','issuer_release','Beneficient reported that Nasdaq had confirmed compliance with its periodic filing and minimum market value requirements; the separate minimum bid price requirement remained unresolved.','benf-20251030-nasdaq-compliance',None),
+('news-19eb3dd4086ae4b0d9d3','https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight','Why Beneficient (BENF) Shares Soared More Than 46% Overnight?','2025-10-31',None,'Benzinga','news_article','Benzinga reported the issuer had regained compliance with two Nasdaq requirements and that the minimum bid price requirement remained outstanding.','benf-20251030-nasdaq-compliance','3:52 AM; timezone not established'),
+('news-e512b23e8d030a8ec0b2','https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html','Beneficient Reports Third Quarter Fiscal 2026 Results','2026-02-17','2026-02-17T17:00:00-05:00','GlobeNewswire','issuer_release','Beneficient reported results for its fiscal third quarter ended December 31, 2025, including operating income and developments concerning litigation and debt.','benf-20260217-quarter-results',None),
+('news-e512b23e8d030a8ec0b2','https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours',"What Sparked Beneficient (BENF) Stock's Over 93% Surge After Hours?",'2026-02-18',None,'Benzinga','news_article','Benzinga reported Beneficient fiscal third-quarter results and summarized figures and the prior after-hours move.','benf-20260217-quarter-results','12:24 AM; timezone not established')]
+d={'schemaVersion':1,'reviewer':'Codex','reviewedOn':'2026-11-28','items':[],'jobReviews':[]}
+for jid,url,title,day,stamp,pub,kind,summary,event,clock in items:
+ job=jobs[jid]; item={'headline':title,'sourceUrl':url,'publicationDate':day,'publishedAt':stamp,'publisher':pub,'excerpt':summary}
+ if clock:item['reportedClock']=clock
+ c=news_candidate(item,job,{'url':url,'sha256':digest(item),'fetchedAt':'2026-11-28','access':'reviewed_web_excerpt'}, {'hours':48,'dateFallbackDays':2});assert c and c['entries'];c['proposal']['timePrecision']='minute' if stamp else 'day';c['evidenceMethod']='Original publication reviewed via web; receipt hash identifies recorded excerpt, not the full response.';merge_candidate(candidates,c)
+ evidence='Original publisher displays date and clock; timezone not established, so only the publication date is used.' if clock else 'Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.'
+ warnings=['Publication timezone not verified; same-day publication before entry is not established.'] if clock else ['Content is attributed to the publisher; no causal conclusion is inferred.']
+ d['items'].append({'candidateId':c['id'],'evidenceHash':c['evidenceHash'],'action':'accept','issuerCik':'1775734','identityEvidence':'Publisher identifies Beneficient and NASDAQ ticker BENF; issuer profile CIK 1775734.','summary':summary,'publisher':pub,'kind':kind,'timePrecision':'minute' if stamp else 'day','timestampEvidence':evidence,'sourceWarnings':warnings,'eventId':event})
+ print(jid,c['id'])
+for jid in {i[0] for i in items}:
+ job=jobs[jid]; urls=[x[1] for x in items if x[0]==jid]
+ d['jobReviews'].append({'jobId':jid,'fingerprint':job['fingerprint'],'windowReviewed':True,'scope':'Partial historical search for the exact BENF entry using issuer releases, original reporting and SEC filings.','sources':[{'url':u,'access':'reviewed','note':'Original publisher page and publication metadata reviewed.'} for u in urls]+[{'url':'https://shareholders.trustben.com/','access':'reviewed','note':'Issuer investor relations listing checked.'}],'limitations':['Partial public-source research; other publications may exist.','Benzinga displayed a clock without a confirmed timezone; same-day publication before entry remains unconfirmed.']})
+write_json(root/'data/updates/candidates.json',candidates);write_json(root/'data/updates/reviewed-2026-11-28-benf.json',d)

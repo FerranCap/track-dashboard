@@ -4,8 +4,8 @@
   "tradeFingerprint": "67f8cbbbfa7ad83f29efd0de6bb353f9e29b7e40bbb2a42980a1af014c0ef3a8",
   "jobs": [
     {
-      "id": "sec-b41bc3c354f76123e4c9",
-      "fingerprint": "b41bc3c354f76123e4c91dd742bd9f7925a8fbcc4d4d4a0e903d6719dea79150",
+      "id": "sec-1d58ab973484b24a2d2c",
+      "fingerprint": "1d58ab973484b24a2d2c3b2b42ac44867834033832f645de42ab2ed3fca73de4",
       "domain": "sec",
       "cik": "1687277",
       "issuerNames": [
@@ -53,8 +53,7 @@
       ],
       "missingFields": [
         "floatShares",
-        "publicFloatValue",
-        "sharesOutstanding"
+        "publicFloatValue"
       ],
       "filingEvidence": [
         {
@@ -92,32 +91,6 @@
       "dataset": "XNAS.ITCH",
       "schema": "ohlcv-1m",
       "windowBasis": "calendar_days"
-    },
-    {
-      "id": "news-f01cd11b5d1d8b4a652d",
-      "fingerprint": "f01cd11b5d1d8b4a652d9abb62a145499f632b000b1a9e459d88cfc08247aff8",
-      "domain": "news",
-      "cik": "1687277",
-      "issuerNames": [
-        "ReTo Eco-Solutions, Inc."
-      ],
-      "symbols": [
-        "RETO"
-      ],
-      "entries": [
-        {
-          "id": "broker-22bf436f4f776783a627dd9d",
-          "symbol": "RETO",
-          "opened": "2026-11-27T11:49:18-05:00"
-        },
-        {
-          "id": "broker-ff87c4b52efab78e09402721",
-          "symbol": "RETO",
-          "opened": "2026-11-27T12:17:41-05:00"
-        }
-      ],
-      "start": "2026-11-25T11:49:18-05:00",
-      "end": "2026-11-27T12:17:41-05:00"
     },
     {
       "id": "prices-78d25990bbbe7ced3e6d",
@@ -338,37 +311,6 @@
       "dataset": "XNAS.ITCH",
       "schema": "ohlcv-1m",
       "windowBasis": "calendar_days"
-    },
-    {
-      "id": "sec-0617040236ad2cf026d9",
-      "fingerprint": "0617040236ad2cf026d9d64038779851705e4f1f158abc1ddb50f240abff370e",
-      "domain": "sec",
-      "cik": "894871",
-      "issuerNames": [
-        "Paradium.AI, Inc."
-      ],
-      "symbols": [
-        "PAAI"
-      ],
-      "entries": [
-        {
-          "id": "broker-9c1182ac5cd2e503e85c8ba5",
-          "symbol": "PAAI",
-          "opened": "2026-11-23T12:35:09-05:00"
-        }
-      ],
-      "missingFields": [
-        "floatShares",
-        "publicFloatValue",
-        "sharesOutstanding"
-      ],
-      "filingEvidence": [
-        {
-          "symbol": "PAAI",
-          "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026072147/aren-20260930.htm",
-          "filedOn": "2026-11-09"
-        }
-      ]
     },
     {
       "id": "prices-e1d97a3470326da9031c",
@@ -25042,27 +24984,6 @@
       "windowBasis": "calendar_days"
     },
     {
-      "id": "news-e512b23e8d030a8ec0b2",
-      "fingerprint": "e512b23e8d030a8ec0b24cfb293a1217b3c9871880cea737da02a9240ac66954",
-      "domain": "news",
-      "cik": "1775734",
-      "issuerNames": [
-        "Beneficient"
-      ],
-      "symbols": [
-        "BENF"
-      ],
-      "entries": [
-        {
-          "id": "cmmdufgfd09jgspybpqhllteb",
-          "symbol": "BENF",
-          "opened": "2026-02-18T10:06:27-05:00"
-        }
-      ],
-      "start": "2026-02-16T10:06:27-05:00",
-      "end": "2026-02-18T10:06:27-05:00"
-    },
-    {
       "id": "prices-48b43246200250924787",
       "fingerprint": "48b432462002509247872d0895bc9daf2524e849feaff65fb3d9d8d8c0300c26",
       "domain": "prices",
@@ -31123,27 +31044,6 @@
       "dataset": "XNAS.ITCH",
       "schema": "ohlcv-1m",
       "windowBasis": "calendar_days"
-    },
-    {
-      "id": "news-45040bba28767ff80efd",
-      "fingerprint": "45040bba28767ff80efd69ebf21b89c77389bb9bf3dfe534c5d969c58f08892a",
-      "domain": "news",
-      "cik": "1838163",
-      "issuerNames": [
-        "Brand Engagement Network Inc."
-      ],
-      "symbols": [
-        "BNAI"
-      ],
-      "entries": [
-        {
-          "id": "cmmdrwmfb07iil3l3xbfgwnum",
-          "symbol": "BNAI",
-          "opened": "2025-12-29T08:04:01-05:00"
-        }
-      ],
-      "start": "2025-12-27T08:04:01-05:00",
-      "end": "2025-12-29T08:04:01-05:00"
     },
     {
       "id": "prices-a6366aa3cac460271241",
@@ -38331,27 +38231,6 @@
       "dataset": "XNAS.ITCH",
       "schema": "ohlcv-1m",
       "windowBasis": "calendar_days"
-    },
-    {
-      "id": "news-19eb3dd4086ae4b0d9d3",
-      "fingerprint": "19eb3dd4086ae4b0d9d3fdf9549ad526f9506494e0f835771895c2d51b43ddd2",
-      "domain": "news",
-      "cik": "1775734",
-      "issuerNames": [
-        "Beneficient"
-      ],
-      "symbols": [
-        "BENF"
-      ],
-      "entries": [
-        {
-          "id": "cmmdrwmcs05eil3l3nfhbpyx9",
-          "symbol": "BENF",
-          "opened": "2025-10-31T11:48:09-04:00"
-        }
-      ],
-      "start": "2025-10-29T11:48:09-04:00",
-      "end": "2025-10-31T11:48:09-04:00"
     },
     {
       "id": "sec-0ee32141f480403e3e6e",
@@ -55401,8 +55280,8 @@
     }
   ],
   "counts": {
-    "news": 440,
-    "sec": 498,
+    "news": 436,
+    "sec": 497,
     "prices": 766
   }
 }

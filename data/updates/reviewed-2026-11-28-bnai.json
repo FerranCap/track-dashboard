@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "news-f86b59591b351f473ac06fa0",
+      "evidenceHash": "5b38284895621860df5e62b44c470c9c99695de7a76437238109c50c0d0dca18",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "Original source identifies Brand Engagement Network Inc. and NASDAQ BNAI; CIK 1838163 matches issuer profile.",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "timePrecision": "minute",
+      "timestampEvidence": "PR Newswire states 06:15 Eastern on December 29, 2025.",
+      "sourceWarnings": [
+        "The publisher reports the agreement and expected revenue; these expectations do not establish completed revenue."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
+    },
+    {
+      "candidateId": "news-d0a9bc6a462ae82cbdd318a2",
+      "evidenceHash": "fe879608eb7687d8613659420c7d87a1978b1c37f3d47dd1722312241d709e41",
+      "action": "accept",
+      "issuerCik": "1838163",
+      "identityEvidence": "Original source identifies Brand Engagement Network Inc. and NASDAQ BNAI; CIK 1838163 matches issuer profile.",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "timePrecision": "day",
+      "timestampEvidence": "Publisher clock has no confirmed timezone; publication date only is used.",
+      "sourceWarnings": [
+        "Publisher clock has no confirmed timezone; same-day publication before entry is not established."
+      ],
+      "eventId": "bnai-20251229-ai-services-agreement"
+    }
+  ],
+  "jobReviews": [
+    {
+      "jobId": "news-45040bba28767ff80efd",
+      "fingerprint": "45040bba28767ff80efd69ebf21b89c77389bb9bf3dfe534c5d969c58f08892a",
+      "windowReviewed": true,
+      "scope": "Partial historical review of the exact entry using issuer release, original reporting and filing references.",
+      "sources": [
+        {
+          "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        },
+        {
+          "url": "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday",
+          "access": "reviewed",
+          "note": "Original publisher page and publication metadata reviewed."
+        }
+      ],
+      "limitations": [
+        "Partial source coverage; other reports may exist.",
+        "Benzinga clock timezone was not confirmed, so same-day publication before entry remains unverified."
+      ]
+    }
+  ]
+}

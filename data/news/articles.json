@@ -11445,6 +11445,240 @@
       "sourceWarnings": [
         "Claims are attributed to the issuer and are not independent verification."
       ]
+    },
+    {
+      "id": "news-108d525c0bd18421e84e7ebe",
+      "eventId": "benf-20251030-nasdaq-compliance",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "Beneficient Regains Compliance with Nasdaq Periodic Filing Requirement and Market Value of Listed Securities Requirement",
+      "publishedAt": "2025-10-30T17:30:00-04:00",
+      "publicationDate": "2025-10-30",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Beneficient reported that Nasdaq had confirmed compliance with its periodic filing and minimum market value requirements; the separate minimum bid price requirement remained unresolved.",
+      "url": "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2025/10/30/3178018/0/en/Beneficient-Regains-Compliance-with-Nasdaq-Periodic-Filing-Requirement-and-Market-Value-of-Listed-Securities-Requirement.html"
+      ],
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ]
+    },
+    {
+      "id": "news-a39cdd08e411f92164c5def5",
+      "eventId": "benf-20251030-nasdaq-compliance",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "Why Beneficient (BENF) Shares Soared More Than 46% Overnight?",
+      "publishedAt": null,
+      "publicationDate": "2025-10-31",
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "category": "unclassified",
+      "summary": "Benzinga reported the issuer had regained compliance with two Nasdaq requirements and that the minimum bid price requirement remained outstanding.",
+      "url": "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight",
+      "sourceUrls": [
+        "https://www.benzinga.com/markets/equities/25/10/48551683/why-beneficient-benf-shares-soared-more-than-46-overnight"
+      ],
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ]
+    },
+    {
+      "id": "news-badc138e1ce852f22e605da9",
+      "eventId": "benf-20260217-quarter-results",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "Beneficient Reports Third Quarter Fiscal 2026 Results",
+      "publishedAt": "2026-02-17T17:00:00-05:00",
+      "publicationDate": "2026-02-17",
+      "timePrecision": "minute",
+      "publisher": "GlobeNewswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Beneficient reported results for its fiscal third quarter ended December 31, 2025, including operating income and developments concerning litigation and debt.",
+      "url": "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html",
+      "sourceUrls": [
+        "https://www.globenewswire.com/news-release/2026/02/17/3239835/0/en/Beneficient-Reports-Third-Quarter-Fiscal-2026-Results.html"
+      ],
+      "timestampEvidence": "Original distributor displays publication date and Eastern time; daylight saving applied where appropriate.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Content is attributed to the publisher; no causal conclusion is inferred."
+      ]
+    },
+    {
+      "id": "news-6f3564581a784b2c34544ee2",
+      "eventId": "benf-20260217-quarter-results",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "What Sparked Beneficient (BENF) Stock's Over 93% Surge After Hours?",
+      "publishedAt": null,
+      "publicationDate": "2026-02-18",
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "category": "unclassified",
+      "summary": "Benzinga reported Beneficient fiscal third-quarter results and summarized figures and the prior after-hours move.",
+      "url": "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours",
+      "sourceUrls": [
+        "https://www.benzinga.com/markets/equities/26/02/50677510/what-sparked-beneficient-benf-stocks-over-93-surge-after-hours"
+      ],
+      "timestampEvidence": "Original publisher displays date and clock; timezone not established, so only the publication date is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Publication timezone not verified; same-day publication before entry is not established."
+      ]
+    },
+    {
+      "id": "news-25801357337c50da0781f541",
+      "eventId": "benf-20251030-nasdaq-compliance",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "SEC 8-K: Nasdaq listing compliance report",
+      "publishedAt": null,
+      "publicationDate": "2025-10-30",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "category": "unclassified",
+      "summary": "The issuer reported Nasdaq compliance with periodic reporting and market value requirements, while the minimum bid price requirement remained outstanding.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1775734/000149315225020271/form8-k.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1775734/000149315225020271/form8-k.htm"
+      ],
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ]
+    },
+    {
+      "id": "news-3f3e723103afad7acb99a650",
+      "eventId": "benf-20260217-quarter-results",
+      "symbol": "BENF",
+      "issuerName": "Beneficient",
+      "issuerCik": "1775734",
+      "headline": "SEC 8-K: fiscal third-quarter results",
+      "publishedAt": null,
+      "publicationDate": "2026-02-17",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR",
+      "kind": "issuer_filing",
+      "category": "unclassified",
+      "summary": "The issuer furnished a current report announcing fiscal third-quarter results and included the related press release.",
+      "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000010/ben-20260217.htm",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000010/ben-20260217.htm"
+      ],
+      "timestampEvidence": "SEC filing date independently verified. Acceptance clock is retained as audit metadata and is not treated as verified publication time.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "EDGAR acceptance time is not treated as the confirmed publication time."
+      ]
+    },
+    {
+      "id": "news-f86b59591b351f473ac06fa0",
+      "eventId": "bnai-20251229-ai-services-agreement",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Brand Engagement Network Finalizes Agreement for a Proprietary AI Engagement Solution with a Leading Global Ad Agency for One of the World's Top Pharmaceutical Companies",
+      "publishedAt": "2025-12-29T06:15:00-05:00",
+      "publicationDate": "2025-12-29",
+      "timePrecision": "minute",
+      "publisher": "PR Newswire",
+      "kind": "issuer_release",
+      "category": "unclassified",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "url": "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html",
+      "sourceUrls": [
+        "https://www.prnewswire.com/news-releases/brand-engagement-network-finalizes-agreement-for-a-proprietary-ai-engagement-solution-with-a-leading-global-ad-agency-for-one-of-the-worlds-top-pharmaceutical-companies-302650059.html"
+      ],
+      "timestampEvidence": "PR Newswire states 06:15 Eastern on December 29, 2025.",
+      "verificationStatus": "verified_publication",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "The publisher reports the agreement and expected revenue; these expectations do not establish completed revenue."
+      ]
+    },
+    {
+      "id": "news-d0a9bc6a462ae82cbdd318a2",
+      "eventId": "bnai-20251229-ai-services-agreement",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Why Is Brand Engagement Network Stock Gaining Monday?",
+      "publishedAt": null,
+      "publicationDate": "2025-12-29",
+      "timePrecision": "day",
+      "publisher": "Benzinga",
+      "kind": "news_article",
+      "category": "unclassified",
+      "summary": "Brand Engagement Network announced a vendor services project agreement to develop an AI engagement solution for an advertising agency and pharmaceutical client; the company expected development revenue and future licensing fees.",
+      "url": "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday",
+      "sourceUrls": [
+        "https://www.benzinga.com/trading-ideas/movers/25/12/49606637/why-is-brand-engagement-network-stock-gaining-monday"
+      ],
+      "timestampEvidence": "Publisher clock has no confirmed timezone; publication date only is used.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Publisher clock has no confirmed timezone; same-day publication before entry is not established."
+      ]
+    },
+    {
+      "id": "news-eccf79aa2569808194169e82",
+      "eventId": "bnai-20251229-ai-services-agreement",
+      "symbol": "BNAI",
+      "issuerName": "Brand Engagement Network Inc.",
+      "issuerCik": "1838163",
+      "headline": "Brand Engagement Network Form 8-K, filed December 29, 2025",
+      "publishedAt": null,
+      "publicationDate": "2025-12-29",
+      "timePrecision": "day",
+      "publisher": "SEC EDGAR via OTC Markets",
+      "kind": "issuer_filing",
+      "category": "unclassified",
+      "summary": "Form 8-K reports the vendor services agreement and includes the associated press release.",
+      "url": "https://www.otcmarkets.com/filing/html?guid=uDt-kWbB1mvnJth&id=19020681",
+      "sourceUrls": [
+        "https://www.otcmarkets.com/filing/html?guid=uDt-kWbB1mvnJth&id=19020681"
+      ],
+      "timestampEvidence": "The issuer release and OTC Markets filing record identify December 29, 2025 as the filing date; the displayed received clock has no confirmed timezone.",
+      "verificationStatus": "verified_date",
+      "contentAsOfEntryVerified": false,
+      "checkedOn": "2026-11-28",
+      "sourceWarnings": [
+        "Same-day publication before entry is not established; the displayed filing receipt time is audit metadata."
+      ]
     }
   ]
 }

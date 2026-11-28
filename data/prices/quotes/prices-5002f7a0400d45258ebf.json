@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-5002f7a0400d45258ebf",
+  "estimatedCostUsd": 0.000444352627,
+  "recordCount": 710,
+  "maximumCostUsd": 0.007363925,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.ITCH",
+    "symbols": [
+      "BNAI"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2025-12-29T00:00:00-05:00",
+    "end": "2025-12-30T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

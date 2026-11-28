@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewedOn": "2026-11-28",
+  "items": [
+    {
+      "candidateId": "sec-filing-20e726b243c266d8cdd3d198",
+      "evidenceHash": "b8c8da0095e4422dd73f6eb901b133d927f725f7c906caf942755577ca47e72c",
+      "action": "accept",
+      "issuerPatch": {
+        "symbol": "RETO",
+        "cik": "1687277",
+        "securityType": "direct_equity",
+        "quotedShareClass": "Class A Shares",
+        "marketCapMethod": "unreviewed",
+        "coverage": "partial",
+        "reviewedOn": "2026-11-28",
+        "scope": "Selected 2025 annual report, May 2026 share combination and November 2026 interim report; capital changes remain incompletely reviewed.",
+        "limitations": [
+          "Dual-class issuer: Class A and Class B counts are not interchangeable; no issuer market capitalization estimate is produced.",
+          "April counts predate the May 18 split and subsequent issuances. The June count in the November report is retrospectively restated through the November 2 share combination and must not be treated as a contemporaneous September basis.",
+          "June observations are historical, not the number outstanding at the November 27 trade. Subsequent issuances and warrant exercises are not reconciled. Public float remains unknown."
+        ],
+        "filings": {
+          "reto-2025-20f": {
+            "accession": "0001213900-26-050658",
+            "form": "20-F",
+            "filedOn": "2026-05-01",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/0001213900-26-050658-index.html"
+          },
+          "reto-20260513-6k": {
+            "accession": "0001213900-26-055892",
+            "form": "6-K",
+            "filedOn": "2026-05-13",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/ea0290373-6k_retoeco.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026055892/0001213900-26-055892-index.html"
+          },
+          "reto-20261118-6k": {
+            "accession": "0001213900-26-121874",
+            "form": "6-K",
+            "filedOn": "2026-11-18",
+            "acceptedAt": null,
+            "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/ea031164201ex99-2.htm",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026121874/0001213900-26-121874-index.html"
+          }
+        },
+        "observations": [
+          {
+            "id": "reto-class-a-20260427",
+            "metric": "sharesOutstanding",
+            "value": 13079201,
+            "unit": "shares",
+            "asOf": "2026-04-27",
+            "shareBasisDate": "2026-04-27",
+            "basis": "reported",
+            "filingId": "reto-2025-20f",
+            "shareClass": "Class A Shares",
+            "precision": "exact",
+            "evidence": "2025 Form 20-F beneficial ownership table reports 13,079,201 Class A shares outstanding as of April 27, 2026, before the May 2026 share combination."
+          },
+          {
+            "id": "reto-class-b-20260427",
+            "metric": "sharesOutstanding",
+            "value": 1000000,
+            "unit": "shares",
+            "asOf": "2026-04-27",
+            "basis": "reported",
+            "filingId": "reto-2025-20f",
+            "shareClass": "Class B Shares",
+            "precision": "exact",
+            "evidence": "2025 Form 20-F beneficial ownership table reports 1,000,000 Class B shares outstanding as of April 27, 2026."
+          },
+          {
+            "id": "reto-class-a-20260630-restated-20261102",
+            "metric": "sharesOutstanding",
+            "value": 224053,
+            "unit": "shares",
+            "asOf": "2026-06-30",
+            "shareBasisDate": "2026-11-02",
+            "basis": "reported",
+            "filingId": "reto-20261118-6k",
+            "shareClass": "Class A Shares",
+            "precision": "exact",
+            "evidence": "November 18, 2026 interim financial statements report 224,053 Class A shares at June 30, retrospectively restated for the October 2 and November 2 share combinations. Published after September entries."
+          },
+          {
+            "id": "reto-class-b-20260630",
+            "metric": "sharesOutstanding",
+            "value": 1000000,
+            "unit": "shares",
+            "asOf": "2026-06-30",
+            "basis": "reported",
+            "filingId": "reto-20261118-6k",
+            "shareClass": "Class B Shares",
+            "precision": "exact",
+            "evidence": "November 18, 2026 interim financial statements report 1,000,000 Class B shares at June 30."
+          }
+        ],
+        "events": [
+          {
+            "asOf": "2026-05-18",
+            "type": "reverse_split",
+            "filingId": "reto-20260513-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on a four-for-one post-combination basis from May 18; fractional shares rounded up."
+          },
+          {
+            "asOf": "2026-10-02",
+            "type": "reverse_split",
+            "filingId": "reto-20261118-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on a twenty-for-one post-combination basis from October 2; reported retrospectively in the November 18 interim statements."
+          },
+          {
+            "asOf": "2026-11-02",
+            "type": "reverse_split",
+            "filingId": "reto-20261118-6k",
+            "affectsShareBasis": true,
+            "description": "Class A shares traded on an eight-for-one post-combination basis from November 2; reported retrospectively in the November 18 interim statements."
+          }
+        ]
+      }
+    }
+  ],
+  "jobReviews": [
+    {
+      "jobId": "news-f01cd11b5d1d8b4a652d",
+      "fingerprint": "f01cd11b5d1d8b4a652d9abb62a145499f632b000b1a9e459d88cfc08247aff8",
+      "windowReviewed": true,
+      "scope": "Partial source review for the November 27 entries, including Finviz, SEPT and SEC filing listings.",
+      "sources": [
+        {
+          "url": "https://finviz.com/stock?t=RETO",
+          "access": "reviewed",
+          "note": "News listing checked; latest directly dated issuer news predates the window."
+        },
+        {
+          "url": "https://septinvesting.com/stocks/RETO/news",
+          "access": "search_index",
+          "note": "News index last updated November 26; no publication within the applicable dates found."
+        },
+        {
+          "url": "https://finance.yahoo.com/quote/RETO/sec-filing/",
+          "access": "search_index",
+          "note": "Indexed issuer filing list checked; direct Yahoo request returned HTTP 429."
+        }
+      ],
+      "limitations": [
+        "Partial public-source search; not exhaustive and no inference about causation.",
+        "Yahoo direct access returned HTTP 429. SEPT index was last updated November 26 and may omit November 27 publications.",
+        "No eligible dated publication found in consulted sources; other publications may exist."
+      ]
+    }
+  ]
+}

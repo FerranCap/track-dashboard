@@ -1,0 +1,1 @@
+{"schemaVersion":1,"symbol":"AMD","date":"2026-11-25","trades":{"broker-7257a920f347bc0eb3d34f6a":{"opened":"2026-11-25T09:36:00-05:00","closed":"2026-11-25T09:42:05-05:00","symbol":"AMD","complete":true,"fills":[{"time":1795617360,"side":"BUY","price":"373.35","quantity":"1","role":"entry"},{"time":1795617725,"side":"SELL","price":"373.69","quantity":"1","role":"exit"}]}}}

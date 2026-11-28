@@ -8,8 +8,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from update_pipeline import (ROOT, SourceCache, digest, load_inputs, merge_candidate, plan_updates,
-                             read_json, scope_update_plan, write_json, write_review_packet)
+from update_pipeline import (ROOT, SourceCache, active_update_plan, digest, load_inputs, merge_candidate, plan_updates,
+                             read_json, scope_update_plan, ticker_review_status, ticker_trade_fingerprint, write_json, write_review_packet)
 from update_sources import (canonical_url, matching_entries, news_candidate, parse_finviz, parse_yahoo,
                             sec_filing_item)
 from update_data import apply_decisions, collect_batch, rebuild
@@ -41,6 +41,24 @@ class UpdatePipelineTests(unittest.TestCase):
         job = next(job for job in plan_updates(self.inputs)['jobs'] if job['domain'] == 'prices')
         self.assertEqual(job['start'], '2026-11-24T00:00:00-05:00')
         self.assertEqual(job['end'], '2026-11-25T00:00:00-05:00')
+
+    def test_reviewed_ticker_reopens_for_new_or_corrected_trades(self):
+        record = {'status': 'reviewed_limited', 'tradeFingerprint': ticker_trade_fingerprint(self.dataset, 'TEST'),
+                  'reviewedOn': '2026-11-28', 'note': 'Historical sources are incomplete.'}
+        records = {'TEST': record}
+        self.assertEqual(ticker_review_status(self.dataset, records)[0]['status'], 'reviewed_limited')
+        plan, closed = active_update_plan(self.inputs, records)
+        self.assertEqual(closed, {'TEST'})
+        self.assertEqual(plan['jobs'], [])
+        self.dataset['trades'][0]['pnl'] = 13.5
+        self.assertEqual(ticker_review_status(self.dataset, records)[0]['status'], 'trade_changed')
+        plan, closed = active_update_plan(self.inputs, records)
+        self.assertEqual(closed, set())
+        self.assertTrue(plan['jobs'])
+        self.dataset['trades'][0]['pnl'] = 12.5
+        self.dataset['trades'].append({**self.trade, 'id': 'new', 'opened': '2026-11-25T10:00:00-05:00'})
+        self.assertEqual(ticker_review_status(self.dataset, records)[0]['status'], 'trade_changed')
+        self.assertEqual(records['TEST'], record)
 
     def test_plan_is_deterministic_merges_windows_and_invalidates_corrected_entry(self):
         self.dataset['trades'].append({**self.trade, 'id': 'b', 'opened': '2026-11-24T11:00:00-05:00'})

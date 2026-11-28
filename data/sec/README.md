@@ -6,7 +6,11 @@ The pilot covers AMD and BENF. QQQ is excluded at the user's request. Other
 tickers are unreviewed, not zero-float or zero-capitalization issuers, except for
 explicit extensions recorded in the canonical database. AKAN has a partial
 June 2026 annual-report review: Common Shares and Class B Special Shares are
-recorded separately; later capital changes, float and market cap remain unreviewed.
+recorded separately; later capital changes, float and market cap remain unreviewed. RETO has a
+partial multi-class review with historical share counts and explicitly dated
+split bases; subsequent capital changes remain unreconciled. PAAI has a partial
+review of its November 2026 share count and a June 2025 non-affiliate value
+and share estimate; neither establishes an exact daily float or market cap.
 
 Each issuer has its CIK, security type, review date, explicit coverage,
 limitations, filings, dated observations and capital events. Filings retain SEC

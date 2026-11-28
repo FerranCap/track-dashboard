@@ -3916,15 +3916,19 @@
     "sharesOutstanding": [
       "AKAN",
       "AMD",
-      "BENF"
+      "BENF",
+      "PAAI",
+      "RETO"
     ],
     "floatShares": [
       "AMD",
-      "BENF"
+      "BENF",
+      "PAAI"
     ],
     "publicFloatValue": [
       "AMD",
-      "BENF"
+      "BENF",
+      "PAAI"
     ],
     "marketCap": [
       "AMD"
@@ -3935,7 +3939,8 @@
     "capitalEvents": [
       "AKAN",
       "AMD",
-      "BENF"
+      "BENF",
+      "RETO"
     ],
     "news": [
       "ADVB",
@@ -4194,12 +4199,14 @@
     ],
     "prices1m": [
       "AKAN",
+      "AMD",
       "BENF",
       "BNAI",
       "FRTT",
       "NVDA",
       "OMH",
       "PAAI",
+      "QQQ",
       "RETO",
       "SEAT",
       "WETO"

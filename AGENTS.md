@@ -4,6 +4,22 @@ Codigo siempre en ingles. Comentarios breves y sin emoticonos.
 
 ## Token-efficient incremental updates
 
+When the user requests a database update, including one limited to a specific
+duration, work ticker by ticker. Prioritize the ticker with the most recent
+traded entry that still has pending work. Consult `data/updates/ticker-reviews.json`
+and the computed ticker status first. Skip a ticker whose recorded trade fingerprint
+is unchanged and whose status is complete or reviewed with documented limitations;
+new or corrected trades reactivate it. Do not automatically treat collection or
+an inaccessible source as a complete review. For each ticker, review missing issuer
+profile fields, SEC capital evidence, news for its traded entries and prices for
+traded days, within the authorized scope and cost ceiling. Reuse existing
+evidence and decisions, and keep unavailable or unverified items explicitly
+pending. Once all trade windows have been reviewed and traded-day prices verified,
+record the reviewed ticker using `update_data.py ticker-review`, with explicit
+limitations where applicable. Tell the user which ticker is being worked on; after each ticker, report
+what was completed and what remains pending before moving to the next. Finish
+the current work and required validation within the requested time, then stop.
+
 For data collection/backfill, start with `python scripts/update_data.py status`
 and the bounded `data/updates/review-packet.json`; read
 `data/updates/README.md` for the workflow. Do not dump full source pages, caches,
