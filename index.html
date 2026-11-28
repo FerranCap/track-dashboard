@@ -9,7 +9,7 @@
   <script>if (location.hash === '#nvidia') location.replace('research.html');</script>
   -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link rel="stylesheet" href="styles.css?v=20261127-ticker-prices-3">
+  <link rel="stylesheet" href="styles.css?v=20261128-similarity-settings-17">
   <link rel="stylesheet" href="journal.css?v=20261115-journal-entry-13">
   <link rel="stylesheet" href="hotkeys.css?v=20261123-2">
 </head>
@@ -127,11 +127,11 @@
 </a>
 </div>
 </nav>
-<div class="sidebar-note"><small>Horario de Nueva York · <span data-pnl-unit-label>USD</span></small>
+<div class="sidebar-note"><small>Horario de Nueva York · <span data-pnl-unit-label>R</span></small>
 </div>
 </aside>
 <div class="app-shell">  <header class="topbar">
-<div class="header-brand"><div class="header-title">Estudio de trading</div><button id="pnl-unit-toggle" class="pnl-unit-toggle" type="button" role="switch" aria-checked="true" aria-label="Mostrar P&L en USD" title="USD o R histórica: cada trade usa la R vigente en su fecha de entrada en Nueva York."><span>R</span><span class="pnl-unit-track" aria-hidden="true"></span><strong>$</strong></button></div><div class="header-actions">
+<div class="header-brand"><div class="header-title">Estudio de trading</div><button id="pnl-unit-toggle" class="pnl-unit-toggle" type="button" role="switch" aria-checked="false" aria-label="Mostrar P&L en USD" title="USD o R histórica: cada trade usa la R vigente en su fecha de entrada en Nueva York."><span>R</span><span class="pnl-unit-track" aria-hidden="true"></span><strong>$</strong></button></div><div class="header-actions">
 <span id="source-status" class="status">Cargando…</span>
 <button id="refresh" type="button">Actualizar</button>
 </div>
@@ -143,7 +143,7 @@
 </section>
 <div class="intro">
 <div>
-<h1 id="page-title">General</h1>
+<div class="page-title-row"><h1 id="page-title">General</h1><details class="watchlist-settings"><summary aria-label="Configuración de Watchlist" title="Configuración de Watchlist"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v2m0 15v2M2.5 12h2m15 0h2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4m0-13.4-1.4 1.4M6.7 17.3l-1.4 1.4"/><circle cx="12" cy="12" r="7.5"/></g></svg></summary><div class="watchlist-settings-panel"><h2>Fuente de los gráficos</h2><label class="watchlist-source-setting">Fuente <select id="watchlist-price-source" aria-label="Fuente de precios de Watchlist" disabled><option>Cargando fuentes...</option></select></label><h2>Tickers similares</h2><label><input type="checkbox" data-similar-country> Mismo país de constitución</label><fieldset><legend><label><input type="checkbox" data-similar-enabled="float"> Float</label></legend><label>Por debajo (%) <input type="number" min="0" max="100" step="1" data-similar-below="float"></label><label>Por encima (%) <input type="number" min="0" step="1" data-similar-above="float"></label></fieldset><fieldset><legend><label><input type="checkbox" data-similar-enabled="marketCap"> Capitalización</label></legend><label>Por debajo (%) <input type="number" min="0" max="100" step="1" data-similar-below="marketCap"></label><label>Por encima (%) <input type="number" min="0" step="1" data-similar-above="marketCap"></label></fieldset></div></details></div>
 <p id="page-description">
 </p>
 </div>
@@ -749,8 +749,8 @@
 </main>
 </div>
 <div id="data-tooltip" class="data-tooltip" role="tooltip" hidden></div>
-<script src="trade-price-chart.js?v=20261127-3" defer></script>
-<script src="calendar.js?v=20261127-ticker-prices-2" defer></script>
+<script src="trade-price-chart.js?v=20261128-watchlist-13" defer></script>
+<script src="calendar.js?v=20261128-settings-1" defer></script>
 <script src="consistency.js?v=20261115-pnl-colors-68" defer></script>
 <script src="duration.js?v=20261115-pnl-colors-68" defer></script>
 <script src="studies.js?v=20261115-pnl-colors-68" defer></script>
@@ -764,11 +764,11 @@
 <script src="swing.js?v=20261110-historical-r-66" defer></script>
 <script src="projection.js?v=20261117-average-size-2" defer></script>
 <script src="optimal.js?v=20261110-historical-r-66" defer></script>
-<script src="watchlist-similar.js?v=20261127-1" defer></script>
-<script src="watchlist.js?v=20261127-similar-1" defer></script>
+<script src="watchlist-similar.js?v=20261128-settings-3" defer></script>
+<script src="watchlist.js?v=20261128-settings-9" defer></script>
 <script src="journal.js?v=20261115-european-dates-14" defer></script>
 <script src="hotkeys.js?v=20261123-4" defer></script>
-<script src="workspace.js?v=20261127-ticker-layout-1" defer>
+<script src="workspace.js?v=20261128-units-1" defer>
 </script>
 <script src="dashboard.js?v=20261127-trade-prices-1" defer>
 </script>

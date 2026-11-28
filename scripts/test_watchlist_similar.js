@@ -96,41 +96,18 @@ assert.equal(run('index.filter(r => r.trade.symbol === "BENF").every(r => r.mark
 assert.equal(run('index.some(r => r.trade.symbol === "BENF" && r.partialMarketCap)'), true);
 assert.equal(run('index.some(r => r.trade.symbol === "AMD" && r.marketCap)'), true);
 
-// Search edits stay independent; both slider handles and reset are functional.
-context.entry = { ticker: 'WATCH', country: 'United States', float: '10', marketCap: '20' };
-context.panelOptions = { columnCount: 14, getCountries: () => [['United States', 'United States'], ['China', 'China']],
-  getSource: () => context.source, getRecords: () => run('index'), onLayout() {} };
-const panel = run('createWatchlistSimilarPanel(entry, panelOptions)');
-const walk = node => [node, ...(node.children || []).flatMap(walk)];
-const find = label => walk(panel.row).find(node => node.attributes?.['aria-label'] === label);
-const reset = walk(panel.row).find(node => node.tagName === 'button' && node.textContent === 'Usar valores de la entrada');
-panel.refresh();
-panel.disclosure.open = true;
-panel.disclosure.emit('toggle');
-const lower = find('WATCH: deslizador mínimo Float (M)');
-const upper = find('WATCH: deslizador máximo Float (M)');
-assert.equal(Number(lower.value), 7);
-assert.equal(Number(upper.value), 13);
-assert.equal(Number(lower.max), 30);
-lower.value = '5'; lower.emit('input');
-upper.value = '25'; upper.emit('input');
-assert.equal(Number(find('WATCH: Float (M) mínimo').value), 5);
-assert.equal(Number(find('WATCH: Float (M) máximo').value), 25);
-assert.equal(Number(lower.max), 30);
-assert.equal(context.entry.float, '10');
-const country = find('WATCH: país de búsqueda');
-country.value = 'China'; country.emit('change');
-assert.equal(context.entry.country, 'United States');
-context.entry.float = '30';
-panel.refresh();
-assert.equal(Number(lower.value), 5);
-reset.emit('click');
-assert.equal(Number(lower.value), 21);
-assert.equal(Number(upper.value), 39);
-assert.equal(country.value, 'United States');
-assert.equal(panel.disclosure.open, true);
-context.entry.marketCap = '100'; panel.refresh();
-assert.equal(Number(find('WATCH: Capitalización (M USD) mínimo').value), 70);
+// Shared percentage settings are applied independently to each ticker's values.
+const shared = { country: false, float: { enabled: true, below: 20, above: 50 }, marketCap: { enabled: false, below: 30, above: 30 } };
+context.shared = shared;
+const configured = run('watchlistSearchDefaults({country:"China", float:10, marketCap:20}, shared)');
+assert.equal(configured.country, '');
+assert.equal(configured.float.min, 8);
+assert.equal(configured.float.max, 15);
+assert.equal(configured.marketCap.enabled, false);
+const other = run('watchlistSearchDefaults({float:50}, shared)');
+assert.equal(other.float.min, 40);
+assert.equal(other.float.max, 75);
+assert.equal(run('watchlistSearchDefaults({float:null}, shared).float.enabled'), false);
 
 // Historical R conversion applies to PnL, and missing R is disclosed.
 context.noRiskTrade = {id:'no-risk', symbol:'A', opened:'2024-01-02T10:00:00-05:00', date:'2024-01-02', pnl:100};

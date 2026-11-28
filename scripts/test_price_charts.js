@@ -101,6 +101,13 @@ async function checkTickerPanels() {
   const rMarkup = panels[0].querySelector('.trade-price-chart').innerHTML;
   for (const trade of context.rows) assert(rMarkup.includes(context.signed(trade.pnl)));
   assert(!rMarkup.includes('USD</text>'));
+  const watchlistPanel = makePanel();
+  await run('renderWatchlistPriceChart') (watchlistPanel, context.rows);
+  assert.equal((watchlistPanel.querySelector('.trade-price-chart').innerHTML.match(/class="trade-pnl-label"/g) || []).length, trades.length);
+  assert(watchlistPanel.querySelector('.trade-price-chart').innerHTML.includes(' R'));
+  const missingPanel = makePanel();
+  await run('renderWatchlistPriceChart')(missingPanel, [{ ...trades[0], symbol: 'MISSING' }]);
+  assert(missingPanel.querySelector('.trade-price-status').textContent.includes('No hay velas'));
   await Promise.all([run('renderCalendarTradeChart(rows)'), run('renderCalendarTradeChart([])')]);
   console.log('Ticker panels aggregate all real fills, isolate missing data and handle selection changes.');
 }

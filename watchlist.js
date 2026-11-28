@@ -30,6 +30,61 @@ function initializeWatchlist() {
   const tradeDetails = new Map();
   const countryControls = [];
   const similarityPanels = new Map();
+  const similaritySettingsKey = 'track-watchlist-similarity-v1';
+  const defaultSimilaritySettings = { country: true, float: { enabled: true, below: 30, above: 30 }, marketCap: { enabled: true, below: 30, above: 30 } };
+  let similaritySettings = structuredClone(defaultSimilaritySettings);
+  try {
+    const saved = JSON.parse(localStorage.getItem(similaritySettingsKey));
+    for (const key of ['float', 'marketCap']) {
+      const item = saved?.[key];
+      if (typeof item?.enabled === 'boolean' && Number.isFinite(item.below) && item.below >= 0 && item.below <= 100 && Number.isFinite(item.above) && item.above >= 0) similaritySettings[key] = item;
+    }
+    if (typeof saved?.country === 'boolean') similaritySettings.country = saved.country;
+  } catch {}
+  const settingsPanel = document.querySelector('.watchlist-settings');
+  const countrySetting = settingsPanel.querySelector('[data-similar-country]');
+  const priceSourceSetting = document.getElementById('watchlist-price-source');
+  fetchPriceFile('data/prices/index.json').then(index => {
+    const sources = new Map();
+    for (const sessions of Object.values(index.tickers || {})) for (const session of Object.values(sessions)) for (const source of session.sources || []) sources.set(source.id, source);
+    if (!sources.has(watchlistPriceSource)) sources.set(watchlistPriceSource, { id: watchlistPriceSource, label: watchlistPriceSource, dataset: '' });
+    priceSourceSetting.replaceChildren();
+    for (const source of sources.values()) {
+      const option = document.createElement('option');
+      option.value = source.id;
+      option.textContent = [source.label, source.dataset].filter(Boolean).join(' \u00b7 ');
+      priceSourceSetting.append(option);
+    }
+    priceSourceSetting.value = watchlistPriceSource;
+    priceSourceSetting.disabled = false;
+  }).catch(() => { priceSourceSetting.options[0].textContent = 'Fuentes no disponibles'; });
+  priceSourceSetting.addEventListener('change', () => {
+    watchlistPriceSource = priceSourceSetting.value;
+    try { localStorage.setItem('track-watchlist-price-source', watchlistPriceSource); } catch {}
+    for (const panel of body.querySelectorAll('.calendar-ticker-price')) {
+      panel.priceResizeObserver?.disconnect();
+      panel.priceRequest = null;
+      if (panel.closest('details')?.open && panel.isConnected && panel.refreshWatchlistPrice) panel.refreshWatchlistPrice();
+    }
+  });
+
+  countrySetting.checked = similaritySettings.country;
+  for (const key of ['float', 'marketCap']) {
+    settingsPanel.querySelector(`[data-similar-enabled="${key}"]`).checked = similaritySettings[key].enabled;
+    for (const direction of ['below', 'above']) settingsPanel.querySelector(`[data-similar-${direction}="${key}"]`).value = similaritySettings[key][direction];
+  }
+  settingsPanel.addEventListener('input', event => {
+    const control = event.target;
+    if (!control.validity.valid || (control.type === 'number' && control.value === '')) return;
+    if (control === countrySetting) similaritySettings.country = control.checked;
+    for (const key of ['float', 'marketCap']) {
+      if (control.dataset.similarEnabled === key) similaritySettings[key].enabled = control.checked;
+      for (const direction of ['below', 'above']) if (control.dataset[`similar${direction[0].toUpperCase()}${direction.slice(1)}`] === key) similaritySettings[key][direction] = Number(control.value);
+    }
+    try { localStorage.setItem(similaritySettingsKey, JSON.stringify(similaritySettings)); } catch {}
+    for (const panel of similarityPanels.values()) panel.refresh();
+  });
+
   let similaritySource;
   let similarityRecords = [];
   let webPanel = null;
@@ -222,7 +277,7 @@ function initializeWatchlist() {
     panel.append(toolbar, hint, frame);
     cell.append(panel);
     webPanel.append(cell);
-    (similarityPanels.get(ticker)?.row || linksRow).after(webPanel);
+    linksRow.after(webPanel);
     link.setAttribute('aria-expanded', 'true');
     link.setAttribute('aria-controls', panel.id);
     document.body.classList.add('watchlist-web-open');
@@ -234,14 +289,7 @@ function initializeWatchlist() {
   function fitRows() {
     const view = document.getElementById('view-watchlist');
     if (view.hidden) return;
-    const table = body.closest('table');
-    const toolbar = view.querySelector('.watchlist-toolbar');
-    const expandedHeight = [...tradeDetails.values()].reduce((total, item) => total + (item.row.hidden ? 0 : item.row.offsetHeight), 0);
-    const linksHeight = [...body.querySelectorAll('.watchlist-links-row')].reduce((total, row) => total + row.offsetHeight, 0);
-    const similarityHeight = [...similarityPanels.values()].reduce((total, item) => total + item.row.offsetHeight, 0);
-    const similarityOpen = [...similarityPanels.values()].some(item => item.disclosure.open);
-    const available = window.innerHeight - table.getBoundingClientRect().top - table.tHead.offsetHeight - toolbar.offsetHeight - expandedHeight - linksHeight - similarityHeight - 28;
-    view.style.setProperty('--watchlist-row-height', `${similarityOpen ? 42 : Math.min(42, Math.max(10, Math.floor(available / Math.max(1, entries.length))))}px`);
+    view.style.setProperty('--watchlist-row-height', '42px');
   }
 
   function render() {
@@ -257,14 +305,17 @@ function initializeWatchlist() {
       row.className = 'watchlist-entry';
       const tickerCell = document.createElement('th');
       tickerCell.scope = 'row';
-      const tickerLabel = document.createElement('span');
-      tickerLabel.textContent = entry.ticker;
-      tickerCell.append(tickerLabel);
       tickerCell.title = entry.ticker;
       const expand = document.createElement('button');
       expand.type = 'button';
       expand.className = 'watchlist-trades-toggle';
-      expand.textContent = '\u25be';
+      const tickerLabel = document.createElement('span');
+      tickerLabel.textContent = entry.ticker;
+      const arrow = document.createElement('span');
+      arrow.className = 'watchlist-toggle-arrow';
+      arrow.textContent = '\u25b8';
+      arrow.setAttribute('aria-hidden', 'true');
+      expand.append(tickerLabel, arrow);
       expand.hidden = true;
       expand.setAttribute('aria-expanded', 'false');
       expand.setAttribute('aria-label', `Ver estad\u00edsticas de ${entry.ticker}`);
@@ -368,13 +419,12 @@ function initializeWatchlist() {
       body.append(linksRow);
       const similar = previousSimilarityPanels.get(entry.ticker) || createWatchlistSimilarPanel(entry, {
         columnCount: fields.length + 2,
-        getCountries: countryOptions,
+        getSettings: () => similaritySettings,
         getSource: () => dataset,
         getRecords: getSimilarityRecords,
         onLayout: () => requestAnimationFrame(fitRows)
       });
       similarityPanels.set(entry.ticker, similar);
-      body.append(similar.row);
       const detailRow = document.createElement('tr');
       detailRow.className = 'watchlist-trade-details';
       detailRow.id = `watchlist-trades-${index}`;
@@ -383,6 +433,13 @@ function initializeWatchlist() {
       detailCell.colSpan = fields.length + 2;
       detailRow.append(detailCell);
       body.append(detailRow);
+      const separator = document.createElement('tr');
+      separator.className = 'watchlist-ticker-separator';
+      separator.setAttribute('aria-hidden', 'true');
+      const separatorCell = document.createElement('td');
+      separatorCell.colSpan = fields.length + 2;
+      separator.append(separatorCell);
+      body.append(separator);
       expand.setAttribute('aria-controls', detailRow.id);
       expand.addEventListener('click', () => {
         const opening = detailRow.hidden;
@@ -392,9 +449,10 @@ function initializeWatchlist() {
         }
         detailRow.hidden = !opening;
         expand.setAttribute('aria-expanded', String(opening));
+        if (opening) updateWatchlistTradeStats();
         requestAnimationFrame(fitRows);
       });
-      tradeDetails.set(entry.ticker, { row: detailRow, cell: detailCell, button: expand });
+      tradeDetails.set(entry.ticker, { row: detailRow, cell: detailCell, button: expand, index, signature: '' });
     });
     updateWatchlistTradeStats();
     requestAnimationFrame(fitRows);
@@ -406,10 +464,14 @@ function initializeWatchlist() {
     for (const item of similarityPanels.values()) item.refresh();
     for (const [ticker, item] of tradeDetails) {
       const history = (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
-      item.button.hidden = history.length === 0;
+      item.button.hidden = false;
       if (!history.length) {
-        item.row.hidden = true;
-        item.button.setAttribute('aria-expanded', 'false');
+        const html = '<p class="watchlist-history-label">Sin trades realizados en este ticker.</p><div class="watchlist-similar-host"></div>';
+        if (item.signature !== html) {
+          item.cell.innerHTML = html;
+          item.cell.querySelector('.watchlist-similar-host').append(similarityPanels.get(ticker).disclosure);
+          item.signature = html;
+        }
         continue;
       }
       const rows = displayPnlRows(history);
@@ -424,9 +486,53 @@ function initializeWatchlist() {
         ['Peor trade', rows.length ? signed(Math.min(...stats.values)) : '\u2014']
       ];
       const missing = history.length - rows.length;
-      const label = `${ticker} \u00b7 Historial completo \u00b7 ${pnlDisplayUnit === 'r' ? 'R' : 'USD'}${missing ? ` \u00b7 ${missing} trades sin R excluidos de los resultados` : ''}`;
-      const html = `<div class="watchlist-history-label">${esc(label)}</div><dl class="watchlist-history-stats">${values.map(([name, value]) => `<div><dt>${esc(name)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`;
-      if (item.cell.innerHTML !== html) item.cell.innerHTML = html;
+
+      const latestDate = history.map(trade => tradePriceDate(trade)).sort().at(-1);
+      const latest = history.filter(trade => tradePriceDate(trade) === latestDate).sort((a, b) => Date.parse(a.opened) - Date.parse(b.opened));
+      const latestRows = displayPnlRows(latest);
+      const lastRecord = getSimilarityRecords().find(record => record.trade.id === latest.at(-1).id);
+      const country = incorporationCountry(dataset?.tickerProfiles?.[ticker]) || 'Sin confirmar';
+      const historicalFloat = lastRecord?.float;
+      const marketCap = lastRecord?.marketCap;
+      const formatMillions = value => Number.isFinite(value) ? `${num(value / 1e6, 2)} M` : 'Sin dato revisado';
+      const referenceValues = [['País de incorporación', country], ['Float histórico', formatMillions(historicalFloat?.value)], ['Capitalización estimada', formatMillions(marketCap?.value)]];
+      const dates = [...new Set(history.map(tradePriceDate))].sort().reverse();
+      const sessions = dates.map((date, index) => `<details class="watchlist-last-session"><summary>${esc(date.split('-').reverse().join('/'))}</summary>${calendarPriceMarkup(`watchlist-${item.index}-${index}`)}</details>`).join('');
+      const markupValues = entries => entries.map(([name, value]) => `<div><dt>${esc(name)}</dt><dd>${esc(value)}</dd></div>`).join('');
+      const referenceNote = `Referencias hist\u00f3ricas de la sesi\u00f3n ${latestDate}.${historicalFloat ? ` Float: ${historicalFloat.asOf}.` : ''}${marketCap ? ' Capitalizaci\u00f3n calculada para la entrada.' : ''}`;
+      const html = `<dl class="watchlist-history-stats" title="${esc(referenceNote)}">${markupValues(referenceValues)}</dl><dl class="watchlist-history-stats watchlist-trade-stats">${markupValues(values)}</dl>${missing ? `<p class="watchlist-history-label">${missing} trades sin R excluidos de los resultados.</p>` : ''}<div class="watchlist-similar-host"></div>${sessions}`;
+      if (item.signature !== html) {
+        item.cell.innerHTML = html;
+        item.cell.querySelector('.watchlist-similar-host').append(similarityPanels.get(ticker).disclosure);
+        item.signature = html;
+      }
+      if (!item.row.hidden) item.cell.querySelectorAll('.calendar-ticker-price').forEach((panel, index) => {
+        const session = panel.closest('details');
+        if (session.availabilityRequested) return;
+        session.availabilityRequested = true;
+        const summary = session.querySelector('summary');
+        const sessionTrades = history.filter(trade => tradePriceDate(trade) === dates[index]);
+        const converted = new Map(displayPnlRows(sessionTrades).map(trade => [trade.id, trade]));
+        const chartTrades = sessionTrades.map(trade => converted.get(trade.id) || { ...trade, pnl: NaN });
+        let availability = 'loading';
+        summary.setAttribute('aria-disabled', 'true');
+        summary.addEventListener('click', event => { if (availability !== 'available' && availability !== 'unknown') event.preventDefault(); });
+        session.addEventListener('toggle', () => {
+          if (session.open && !panel.priceRequest) renderWatchlistPriceChart(panel, chartTrades);
+        });
+        fetchPriceFile('data/prices/index.json').then(indexData => {
+          if (!session.isConnected) return;
+          const sources = indexData.tickers?.[ticker]?.[dates[index]]?.sources || [];
+          availability = sources.some(source => source.barCount === undefined || source.barCount > 0) ? 'available' : 'unavailable';
+          summary.setAttribute('aria-disabled', String(availability !== 'available'));
+          if (availability === 'unavailable') summary.title = 'Sin datos de precios para esta sesi\u00f3n';
+        }).catch(() => {
+          if (!session.isConnected) return;
+          availability = 'unknown';
+          summary.removeAttribute('aria-disabled');
+          summary.title = 'No se ha podido comprobar la disponibilidad de precios';
+        });
+      });
     }
     requestAnimationFrame(fitRows);
   };
@@ -458,7 +564,10 @@ function initializeWatchlist() {
     render();
     form.reset();
     form.hidden = true;
-    body.querySelectorAll('.watchlist-entry')[entries.length - 1].querySelector('input').focus();
+    const addedRow = body.querySelectorAll('.watchlist-entry')[entries.length - 1];
+    const historyButton = addedRow.querySelector('.watchlist-trades-toggle');
+    if (!historyButton.hidden) historyButton.click();
+    addedRow.querySelector('input').focus();
   });
   window.addEventListener('resize', fitRows);
   window.addEventListener('hashchange', () => requestAnimationFrame(fitRows));

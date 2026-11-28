@@ -324,6 +324,13 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .watchlist-history-stats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:0}
 .watchlist-history-stats dt{font-size:10px;color:#91a4be;margin-bottom:4px}
 .watchlist-history-stats dd{font-size:12px;color:#dce9fa;margin:0;white-space:nowrap}
+.watchlist-last-session{margin-top:14px;border-top:1px solid #3a5272;padding-top:12px}
+.watchlist-last-session h4{font-size:12px;color:#dce9fa;margin:0 0 10px}
+.watchlist-session-stats{grid-template-columns:repeat(auto-fit,minmax(125px,1fr));margin-bottom:10px}
+.watchlist-session-table{overflow-x:auto}
+.watchlist-session-table table{width:100%;border-collapse:collapse;font-size:11px;text-align:left}
+.watchlist-session-table th,.watchlist-session-table td{padding:6px 8px;border-bottom:1px solid #304058;white-space:nowrap}
+.watchlist-last-session .calendar-ticker-price{max-width:700px;margin:10px 0 0;padding:0;border:0}
 
 .watchlist-table textarea.watchlist-two-lines,.watchlist-table textarea.watchlist-two-lines:focus{height:2.6em;white-space:pre-wrap;line-height:1.2;padding:0 3px}
 
@@ -454,9 +461,72 @@ th.sortable-column{cursor:pointer;user-select:none}th.sortable-column:hover{colo
 .trade-price-heading select{min-height:28px;width:100%;min-width:0;padding:4px 6px;font-size:10px}
 .trade-price-heading button{display:grid;place-items:center;padding:6px}
 .calendar-ticker-price .trade-price-legend{gap:10px;margin:8px 0;font-size:10px}
-.calendar-ticker-price .trade-candle-svg{width:100%;min-width:0;height:300px}
+.calendar-ticker-price .trade-candle-svg{width:100%;min-width:0;height:auto}
 .calendar-ticker-price .trade-price-readout{font-size:10px;margin:6px 0;min-height:16px}
 .calendar-ticker-price .trade-price-status{font-size:10px;line-height:1.5}
-@media(max-width:600px){.calendar-ticker-price .trade-candle-svg{min-width:520px;height:270px}.trade-price-heading label{flex:1}.trade-price-heading select{max-width:100%}}
+@media(max-width:600px){.trade-price-heading label{flex:1}.trade-price-heading select{max-width:100%}}
 
 .calendar-ticker-price .trade-price-status:empty{display:none}
+
+#view-watchlist .calendar-ticker-price{width:100%;max-width:none}#view-watchlist .trade-candle-svg{width:100%}#view-watchlist .trade-candle-svg text{font-size:14px}#view-watchlist .watchlist-last-session{margin-top:20px}#view-watchlist .watchlist-last-session h4{margin:0 0 10px}
+
+/* Keep each ticker readable as its details grow. */
+.watchlist-trades-toggle[aria-expanded=true]{transform:rotate(90deg)}
+.watchlist-table .watchlist-entry>*,.watchlist-table .watchlist-links-row>*,.watchlist-table .watchlist-similar-row>td,.watchlist-table .watchlist-trade-details>td{background-color:#1b293b}
+.watchlist-table .watchlist-entry>*{border-top:1px solid #506783}
+.watchlist-table .watchlist-entry>*:first-child,.watchlist-table .watchlist-links-row>*:first-child,.watchlist-table .watchlist-similar-row>td,.watchlist-table .watchlist-trade-details>td{border-left:1px solid #506783}
+.watchlist-table .watchlist-entry>*:last-child,.watchlist-table .watchlist-links-row>*:last-child,.watchlist-table .watchlist-similar-row>td,.watchlist-table .watchlist-trade-details>td{border-right:1px solid #506783}
+.watchlist-table .watchlist-ticker-separator>td{height:12px;padding:0;border:0;border-top:1px solid #506783;background:transparent}
+.watchlist-trades-toggle[hidden]{display:none}
+.page-title-row{display:flex;align-items:center;gap:12px}
+.watchlist-settings{display:none;position:relative}
+.watchlist-active .watchlist-settings{display:block}
+.watchlist-settings>summary{display:grid;place-items:center;width:32px;height:32px;list-style:none;cursor:pointer;border:1px solid #3a5272;border-radius:7px;background:#1b304c;color:#b8d4fa;font-size:20px}
+.watchlist-settings>summary::-webkit-details-marker{display:none}
+.watchlist-settings-panel{position:absolute;z-index:25;top:38px;left:0;width:340px;max-width:85vw;padding:16px;border:1px solid #506783;border-radius:9px;background:#172538;box-shadow:0 12px 30px #0008}
+.watchlist-settings-panel h2{font-size:14px;margin:0 0 8px}.watchlist-settings-panel p{font-size:11px;line-height:1.5;margin:8px 0}.watchlist-settings-panel label{font-size:12px;color:#c8d8ec}.watchlist-settings-panel input[type=checkbox]{width:auto;min-height:0;vertical-align:middle}.watchlist-settings-panel fieldset{display:flex;gap:10px;border:1px solid #3a5272;border-radius:6px;margin:10px 0;padding:8px}.watchlist-settings-panel fieldset>label{flex:1}.watchlist-settings-panel input[type=number]{min-height:30px;margin-top:4px}
+.watchlist-settings>summary{width:26px;height:26px}.watchlist-settings>summary svg{width:16px;height:16px}
+.watchlist-similar-inline{margin-top:12px;padding:9px 0;border-top:1px solid #3a5272;color:#a7cdff;font-size:11px;line-height:1.5}
+#view-watchlist .trade-candle-svg{height:300px;max-height:300px;object-fit:fill}
+.watchlist-similar-inline[hidden]{display:none}.watchlist-trade-details .watchlist-history-stats + .watchlist-history-label{margin-top:10px}
+#view-watchlist .trade-candle-svg{height:auto;max-height:none;min-width:600px}
+#view-watchlist .trade-price-heading{justify-content:flex-start;align-items:center}
+#view-watchlist .trade-price-heading label{display:inline-flex;flex:0 1 auto;gap:6px;white-space:nowrap;line-height:1.4}
+#view-watchlist .trade-price-heading select{width:auto;min-width:0;max-width:250px;height:28px;min-height:28px;padding:3px 6px}
+#view-watchlist .trade-price-heading button{width:28px;height:28px;padding:5px}
+#view-watchlist .watchlist-last-session>summary{cursor:pointer;font-size:12px;font-weight:700;color:#dce9fa;margin:0 0 10px}
+#view-watchlist .watchlist-last-session:not([open])>summary{margin-bottom:0}
+.watchlist-table .watchlist-trades-toggle{display:inline-flex;align-items:center;justify-content:center;gap:4px;width:100%;height:var(--watchlist-row-height);margin:0;padding:0 2px;line-height:1;white-space:nowrap}
+.watchlist-table .watchlist-trades-toggle[aria-expanded=true]{transform:none}
+.watchlist-toggle-arrow{display:inline-block;flex-shrink:0}
+.watchlist-trades-toggle[aria-expanded=true] .watchlist-toggle-arrow{transform:rotate(90deg)}
+.watchlist-table .watchlist-trades-toggle[hidden]{display:none}
+.watchlist-table .watchlist-trades-toggle{line-height:1}.watchlist-table .watchlist-toggle-arrow{display:inline-flex;align-items:center;justify-content:center;line-height:1;transform-origin:center}.watchlist-table .watchlist-trades-toggle>span:first-child{line-height:1}
+#view-watchlist .trade-candle-svg text{font-size:10px}
+#view-watchlist .trade-price-chart:empty{display:block;width:100%}
+#view-watchlist .watchlist-last-session>summary[aria-disabled=true]{color:#718197;cursor:default}
+.watchlist-trade-details .watchlist-trade-stats{margin-top:12px}
+#view-watchlist .watchlist-chart-range{position:relative;height:16px;margin:4px 20px 8px 60px;background:linear-gradient(#34465f,#34465f) center/100% 3px no-repeat}
+#view-watchlist .watchlist-chart-range-fill{position:absolute;left:0;right:0;top:6px;height:4px;background:#77a9ee;border-radius:4px}
+#view-watchlist .watchlist-chart-range input[type=range]{position:absolute;inset:0;width:100%;height:16px;min-height:0;margin:0;padding:0;appearance:none;-webkit-appearance:none;background:transparent;border:0;pointer-events:none}
+#view-watchlist .watchlist-chart-range input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:10px;height:14px;border:1px solid #bcd7ff;border-radius:3px;background:#668fc6;cursor:ew-resize;pointer-events:auto}
+#view-watchlist .watchlist-chart-range input[type=range]::-moz-range-thumb{width:8px;height:12px;border:1px solid #bcd7ff;border-radius:3px;background:#668fc6;cursor:ew-resize;pointer-events:auto}
+#view-watchlist .watchlist-chart-range-time{position:absolute;z-index:2;bottom:18px;transform:translateX(-50%);padding:3px 6px;border:1px solid #506783;border-radius:4px;background:#101b2b;color:#e5ecf6;font-size:10px;line-height:1.2;white-space:nowrap;pointer-events:none}
+#view-watchlist .watchlist-chart-range-time[hidden]{display:none}
+#view-watchlist .trade-price-heading label{display:none}
+.watchlist-source-setting{display:grid;gap:5px;margin:8px 0 18px}
+.watchlist-source-setting select{width:100%;min-height:32px;font-size:12px}
+.calendar-price-settings{position:relative;display:inline-block;margin-top:8px}
+.calendar-price-settings>summary{display:grid;place-items:center;width:28px;height:28px;list-style:none;cursor:pointer;border:1px solid #365480;border-radius:6px;background:#1b304c;color:#a7cdff}
+.calendar-price-settings>summary::-webkit-details-marker{display:none}
+.calendar-price-settings>summary svg{width:16px;height:16px}
+.calendar-price-settings-panel{position:absolute;z-index:10;bottom:34px;left:0;width:270px;max-width:75vw;padding:10px;border:1px solid #506783;border-radius:8px;background:#172538;box-shadow:0 8px 20px #0008}
+.calendar-price-settings-panel .trade-price-heading{margin:0;align-items:end}
+.calendar-price-settings-panel .trade-price-heading label{display:grid;gap:5px}
+.calendar-price-settings-panel .trade-price-heading select{width:100%;min-height:28px}
+.watchlist-settings>summary svg,.calendar-price-settings>summary svg{display:block;width:17px;height:17px;flex:none}
+.calendar-symbol-card h4{display:flex;align-items:center;gap:6px}
+.calendar-symbol-card h4 small{margin-left:0}
+.calendar-symbol-card h4 .calendar-price-settings{margin:0;flex:none}
+.calendar-symbol-card h4 .calendar-price-settings>summary{width:24px;height:24px}
+.calendar-symbol-card h4 .calendar-price-settings-panel{top:30px;bottom:auto;font-weight:400}

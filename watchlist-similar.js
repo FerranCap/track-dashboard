@@ -13,13 +13,13 @@ function watchlistSearchCountry(value) {
   return ['unknown', 'unverified', 'n/a', 'n/d', 'sin definir', 'sin confirmar', 'sin clasificar', '—', '-'].includes(country.toLowerCase()) ? '' : country;
 }
 
-function watchlistSearchDefaults(entry) {
-  const range = value => {
+function watchlistSearchDefaults(entry, settings = {}) {
+  const range = (value, key) => {
     const number = watchlistSearchNumber(value);
-    return number > 0 ? { enabled: true, min: number * .7, max: number * 1.3, anchor: number }
+    return number > 0 ? { enabled: settings[key]?.enabled !== false, min: number * (1 - (settings[key]?.below ?? 30) / 100), max: number * (1 + (settings[key]?.above ?? 30) / 100), anchor: number }
       : { enabled: false, min: null, max: null, anchor: null };
   };
-  return { country: watchlistSearchCountry(entry.country), float: range(entry.float), marketCap: range(entry.marketCap) };
+  return { country: settings.country === false ? '' : watchlistSearchCountry(entry.country), float: range(entry.float, 'float'), marketCap: range(entry.marketCap, 'marketCap') };
 }
 
 function watchlistSearchDay(opened) {
@@ -164,181 +164,27 @@ function watchlistSimilarMarkup(result, limit = 20) {
 }
 
 function createWatchlistSimilarPanel(entry, options) {
-  const row = document.createElement('tr');
-  row.className = 'watchlist-similar-row';
-  const cell = document.createElement('td');
-  cell.colSpan = options.columnCount;
-  const disclosure = document.createElement('details');
-  disclosure.className = 'watchlist-similar';
-  const summary = document.createElement('summary');
-  const panel = document.createElement('div');
-  panel.className = 'watchlist-similar-panel';
-  const controls = document.createElement('div');
-  controls.className = 'watchlist-similar-controls';
-  const countryLabel = document.createElement('label');
-  countryLabel.textContent = 'País de constitución';
-  const country = document.createElement('select');
-  country.setAttribute('aria-label', `${entry.ticker}: país de búsqueda`);
-  countryLabel.append(country);
-  const reset = document.createElement('button');
-  reset.type = 'button';
-  reset.className = 'secondary';
-  reset.textContent = 'Usar valores de la entrada';
-  reset.title = 'Restablece país y rangos de −30 % a +30 % de la entrada';
-  const note = document.createElement('p');
-  note.className = 'watchlist-similar-note';
-  const results = document.createElement('div');
-  results.className = 'watchlist-similar-results';
-  let search = watchlistSearchDefaults(entry);
-  let dirty = false;
-  let limit = 20;
-  const signature = () => JSON.stringify([entry.country, entry.float, entry.marketCap]);
-  let entrySignature = signature();
-  let countriesSignature = '';
-  const ranges = {};
-
-  function setNumericInput(input, value) {
-    if (document.activeElement === input) return;
-    const text = Number.isFinite(value) ? String(Number(value.toFixed(6))) : '';
-    if (input.value !== text) input.value = text;
-  }
-
-  function syncControls() {
-    const choices = [['', 'Todos los países'], ...options.getCountries()];
-    if (search.country && !choices.some(([value]) => value === search.country)) choices.push([search.country, search.country]);
-    const nextSignature = JSON.stringify(choices);
-    if (countriesSignature !== nextSignature) {
-      country.replaceChildren();
-      for (const [value, label] of choices) {
-        const option = document.createElement('option');
-        option.value = value;
-        option.textContent = label;
-        country.append(option);
-      }
-      countriesSignature = nextSignature;
-    }
-    country.value = search.country;
-    for (const key of ['float', 'marketCap']) {
-      const state = search[key], ui = ranges[key];
-      ui.enabled.checked = state.enabled;
-      setNumericInput(ui.minimum, state.min);
-      setNumericInput(ui.maximum, state.max);
-      ui.minimum.disabled = ui.maximum.disabled = !state.enabled;
-      const valid = Number.isFinite(state.min) && Number.isFinite(state.max) && state.min >= 0 && state.max > 0 && state.min <= state.max;
-      if (!ui.bound || state.max > ui.bound) ui.bound = Math.max((state.anchor || 0) * 3, (state.max || 0) * 1.25, 1);
-      const bound = ui.bound;
-      for (const slider of [ui.lower, ui.upper]) {
-        slider.disabled = !state.enabled || !valid;
-        slider.max = String(bound);
-      }
-      ui.lower.value = String(state.min ?? 0);
-      ui.upper.value = String(state.max ?? 0);
-      ui.lower.setAttribute('aria-valuemax', String(state.max ?? bound));
-      ui.upper.setAttribute('aria-valuemin', String(state.min ?? 0));
-      ui.selection.style.left = `${valid ? state.min / bound * 100 : 0}%`;
-      ui.selection.style.width = `${valid ? (state.max - state.min) / bound * 100 : 0}%`;
-      ui.caption.textContent = state.enabled ? `Rango: ${watchlistRangeLabel(state)}` : 'Sin filtro';
-    }
-    note.textContent = dirty
-      ? signature() !== entrySignature ? 'La entrada ha cambiado. Se mantiene tu búsqueda; usa el botón para recuperar sus valores.' : 'Búsqueda personalizada. Los cambios no modifican la entrada.'
-      : 'Valores de la entrada · rangos iniciales −30 % / +30 %. Puedes cambiar cada extremo de forma independiente.';
-  }
-
+  const disclosure = document.createElement('div');
+  disclosure.className = 'watchlist-similar-inline';
   function refresh() {
-    if (!dirty && signature() !== entrySignature) {
-      search = watchlistSearchDefaults(entry);
-      for (const ui of Object.values(ranges)) ui.bound = null;
-      entrySignature = signature();
-      limit = 20;
-    }
-    syncControls();
+    const search = watchlistSearchDefaults(entry, options.getSettings());
     const source = options.getSource();
     const result = findWatchlistSimilar(entry, search, options.getRecords(), source?.tickerProfiles || {});
-    summary.textContent = watchlistSimilarSummary(result);
-    if (disclosure.open) {
-      const html = source ? watchlistSimilarMarkup(result, limit) : '<p role="status">El historial aún no está disponible. Usa Actualizar para cargarlo.</p>';
-      if (results.innerHTML !== html) results.innerHTML = html;
-    }
-    options.onLayout();
+    const rows = displayPnlRows(result.trades);
+    const stats = rows.length ? statistics(rows) : null;
+    disclosure.hidden = !source || !result.trades.length;
+    if (disclosure.hidden) { disclosure.replaceChildren(); return; }
+    const values = [
+      ['Trades', String(result.trades.length)],
+      ['PnL', stats ? signed(stats.pnl) : '\u2014'],
+      ['Win rate', stats ? pct(stats.wins.length, rows.length) : '\u2014'],
+      ['Profit factor', stats ? stats.pf === Infinity ? '\u221e' : num(stats.pf) : '\u2014'],
+      ['PnL medio', stats ? money(stats.expectancy) : '\u2014'],
+      ['Mejor trade', rows.length ? signed(Math.max(...stats.values)) : '\u2014'],
+      ['Peor trade', rows.length ? signed(Math.min(...stats.values)) : '\u2014']
+    ];
+    const warnings = [result.missingTrades ? `${result.missingTrades} trades sin datos comparables` : '', result.trades.length > rows.length ? `${result.trades.length - rows.length} trades sin R` : ''].filter(Boolean).join(' \u00b7 ');
+    disclosure.innerHTML = `<div class="watchlist-history-label">Trades Similares${warnings ? ` \u00b7 ${esc(warnings)}` : ''}</div><dl class="watchlist-history-stats">${values.map(([name, value]) => `<div><dt>${esc(name)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`;
   }
-
-  function changed() {
-    dirty = true;
-    limit = 20;
-    refresh();
-  }
-
-  for (const [key, label] of [['float', 'Float (M)'], ['marketCap', 'Capitalización (M USD)']]) {
-    const fieldset = document.createElement('fieldset');
-    fieldset.className = 'watchlist-similar-range';
-    const legend = document.createElement('legend');
-    const enabledLabel = document.createElement('label');
-    const enabled = document.createElement('input');
-    enabled.type = 'checkbox';
-    enabled.setAttribute('aria-label', `${entry.ticker}: usar ${label} en la búsqueda`);
-    enabledLabel.append(enabled, document.createTextNode(` ${label}`));
-    legend.append(enabledLabel);
-    const endpoints = document.createElement('div');
-    endpoints.className = 'watchlist-range-endpoints';
-    const minimum = document.createElement('input');
-    const maximum = document.createElement('input');
-    for (const [input, name] of [[minimum, 'Mínimo'], [maximum, 'Máximo']]) {
-      input.type = 'number';
-      input.min = '0';
-      input.step = 'any';
-      input.setAttribute('aria-label', `${entry.ticker}: ${label} ${name.toLowerCase()}`);
-      const inputLabel = document.createElement('label');
-      inputLabel.textContent = name;
-      inputLabel.append(input);
-      endpoints.append(inputLabel);
-    }
-    const track = document.createElement('div');
-    track.className = 'watchlist-range-track';
-    const selection = document.createElement('span');
-    selection.className = 'watchlist-range-selection';
-    const lower = document.createElement('input');
-    const upper = document.createElement('input');
-    for (const [slider, name] of [[lower, 'mínimo'], [upper, 'máximo']]) {
-      slider.type = 'range';
-      slider.min = '0';
-      slider.step = 'any';
-      slider.className = 'watchlist-range-thumb';
-      slider.setAttribute('aria-label', `${entry.ticker}: deslizador ${name} ${label}`);
-    }
-    lower.classList.add('watchlist-range-lower');
-    track.append(selection, lower, upper);
-    const caption = document.createElement('span');
-    caption.className = 'watchlist-range-caption';
-    fieldset.append(legend, endpoints, track, caption);
-    ranges[key] = { enabled, minimum, maximum, lower, upper, selection, caption };
-    enabled.addEventListener('change', () => { search[key].enabled = enabled.checked; changed(); });
-    minimum.addEventListener('input', () => { search[key].min = watchlistSearchNumber(minimum.value); changed(); });
-    maximum.addEventListener('input', () => { search[key].max = watchlistSearchNumber(maximum.value); changed(); });
-    lower.addEventListener('input', () => { search[key].min = Math.min(Number(lower.value), search[key].max); changed(); });
-    upper.addEventListener('input', () => { search[key].max = Math.max(Number(upper.value), search[key].min); changed(); });
-    controls.append(fieldset);
-  }
-  country.addEventListener('change', () => { search.country = country.value; changed(); });
-  reset.addEventListener('click', () => {
-    dirty = false;
-    search = watchlistSearchDefaults(entry);
-    for (const ui of Object.values(ranges)) ui.bound = null;
-    entrySignature = signature();
-    limit = 20;
-    refresh();
-  });
-  disclosure.addEventListener('toggle', refresh);
-  results.addEventListener('click', event => {
-    if (event.target.closest('[data-similar-more]')) {
-      limit += 20;
-      refresh();
-    }
-  });
-  controls.prepend(countryLabel);
-  controls.append(reset);
-  panel.append(controls, note, results);
-  disclosure.append(summary, panel);
-  cell.append(disclosure);
-  row.append(cell);
-  return { row, disclosure, refresh };
+  return { disclosure, refresh };
 }

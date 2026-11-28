@@ -21,7 +21,7 @@ const VIEW_DETAILS = {
 let selectedCalendarDay = '';
 let issuerAudit = null;
 let sessionRiskHistory = [];
-let pnlDisplayUnit = 'usd';
+let pnlDisplayUnit = 'r';
 
 function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistory) {
   if (unit === 'usd') return rows.map(trade => Object.hasOwn(trade, 'pnlUsd') ? { ...trade, pnl: trade.pnlUsd, fees: trade.feesUsd ?? trade.fees } : trade);
@@ -38,7 +38,10 @@ function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistor
 
 function initializePnlUnits() {
   const toggle = $('pnl-unit-toggle');
-  try { if (localStorage.getItem('track-pnl-unit') === 'r') pnlDisplayUnit = 'r'; } catch {}
+  try {
+    const savedUnit = localStorage.getItem('track-pnl-unit');
+    if (savedUnit === 'usd' || savedUnit === 'r') pnlDisplayUnit = savedUnit;
+  } catch {}
   const sync = () => {
     toggle.setAttribute('aria-checked', String(pnlDisplayUnit === 'usd'));
     document.querySelectorAll('[data-pnl-unit-label]').forEach(label => { label.textContent = pnlDisplayUnit === 'r' ? 'R' : 'USD'; });

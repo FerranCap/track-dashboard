@@ -123,7 +123,7 @@ function calendarPnlCurve(rows) {
 
 function renderCalendarPnlChart(id, rows, scope) {
   const points = calendarPnlCurve(rows);
-  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, axisLeft: id.startsWith('calendar-ticker-chart-') ? 56 : 78, timeAxis: true, timeTicks: true, explanation: `${scope}. Suma acumulada del PnL de los trades cerrados. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
+  renderChart(id, [{ values: points, color: '#29d17e' }], { currency: true, axisLeftRatio: id.startsWith('calendar-ticker-chart-') ? 0.107 : undefined, axisLabelStart: id.startsWith('calendar-ticker-chart-'), timeAxis: true, timeTicks: true, explanation: `${scope}. Suma acumulada del PnL de los trades cerrados. No muestra precios intratrade ni ejecuciones parciales. Las comisiones incluidas no se descuentan otra vez.` });
 }
 
 function renderCalendarDay(rows) {
@@ -159,6 +159,10 @@ function renderCalendarDay(rows) {
     }).filter(Boolean);
     return `<article class="calendar-symbol-card"><div><h4>${esc(symbol)} <small>${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}</small></h4><strong class="${cssSign(sum(trades))}" tabindex="0" ${helpAttributes(`${symbol}: suma del PnL de ${trades.length} trades cerrados el ${date}, con los filtros actuales. Las comisiones incluidas no se restan otra vez.`)}>${esc(signed(sum(trades)))}</strong></div><div class="calendar-ticker-side-groups${sides.length === 1 ? ' single-side' : ''}">${sides.join('')}</div><div class="calendar-ticker-equity"><div id="calendar-ticker-chart-${index}" class="chart" role="img" aria-label="Curva de PnL de ${esc(symbol)} el ${date}"></div></div>${typeof calendarPriceMarkup === 'function' ? calendarPriceMarkup(index) : ''}</article>`;
   }).join('');
+  $('calendar-symbol-cards').querySelectorAll('.calendar-symbol-card').forEach(card => {
+    const settings = card.querySelector('.calendar-price-settings');
+    if (settings) card.querySelector('h4').append(settings);
+  });
   tickerGroups.forEach(([symbol, trades], index) => renderCalendarPnlChart(`calendar-ticker-chart-${index}`, trades, `${symbol}, sesión del ${date}; solo sus trades de este día`));
   if (typeof renderCalendarTradeChart === 'function') renderCalendarTradeChart(rows);
   $('calendar-day-metrics').innerHTML = calendarMetricRows(rows, `Sesión del ${date}; todos los tickers seleccionados`, 'PnL del día').map(args => consistencyMetric(...args)).join('');

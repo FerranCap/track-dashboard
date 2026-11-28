@@ -143,7 +143,7 @@ function svgChart(series,opts={}){
   if (opts.scatter) return durationScatterSvg(series, opts);
   series = series.map(s => ({ ...s, values: s.values.filter(p => Number.isFinite(p[1])) }));
   if(!series.length || !series.some(s=>s.values.length))return `<span>${esc(opts.empty || 'Sin operaciones para estos filtros')}</span>`;
-  const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=opts.axisLeft ?? 78,r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
+  const W=Math.max(240,opts.width||800),H=Math.max(160,opts.height||265),l=opts.axisLeftRatio ? W * opts.axisLeftRatio : (opts.axisLeft ?? 78),r=22,t=18,b=40,plotW=W-l-r,plotH=H-t-b;
   const all=series.flatMap(s=>s.values.map(p=>p[1]));
   let low=Math.min(0,...all),high=Math.max(0,...all);
   if(Number.isFinite(opts.max))high=Math.max(high,opts.max);
@@ -162,7 +162,11 @@ function svgChart(series,opts={}){
   let shapes='';
   for(let i=0;i<=4;i++){
     const v=low+(high-low)*i/4,y=Y(v);
-    shapes+=`<line x1="${l}" y1="${y}" x2="${W-r}" y2="${y}" stroke="#304058" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="3 5" opacity=".6"/><text x="${l-8}" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="end">${esc(valueLabel(v))}</text>`;
+    const label = valueLabel(v);
+    const axisText = opts.axisLabelStart
+      ? `<text x="9" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="start">${esc(label.startsWith('-') ? label.slice(1) : label)}</text>${label.startsWith('-') ? `<text x="9" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="end">-</text>` : ''}`
+      : `<text x="${l-8}" y="${y+4}" fill="#9bb3cd" font-size="11" text-anchor="end">${esc(label)}</text>`;
+    shapes+=`<line x1="${l}" y1="${y}" x2="${W-r}" y2="${y}" stroke="#304058" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="3 5" opacity=".6"/>${axisText}`;
   }
   shapes+=`<line x1="${l}" x2="${W-r}" y1="${Y(0)}" y2="${Y(0)}" stroke="#688099" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 4"/>`;
   for(const s of series){
