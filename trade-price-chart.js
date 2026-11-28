@@ -146,6 +146,8 @@ async function renderWatchlistPriceChart(panel, trades) {
   panel.querySelector('.trade-price-retry').onclick = () => { tradePriceCache.clear(); renderWatchlistPriceChart(panel, trades); };
   status.textContent = 'Cargando datos de precios…';
   host.replaceChildren();
+  host.ondblclick = null;
+  host.title = '';
   select.disabled = true;
   try {
     const index = await fetchPriceFile('data/prices/index.json');
@@ -158,10 +160,18 @@ async function renderWatchlistPriceChart(panel, trades) {
       status.textContent = 'No hay velas de un minuto guardadas para esta sesión.';
       return;
     }
-    let sourceId = watchlistPriceSource;
+    const preferredSource = panel.priceSourceOverride || watchlistPriceSource;
+    let sourceId = preferredSource;
     if (!sources.some(source => source.id === sourceId)) sourceId = sources[0].id;
     select.innerHTML = sources.map(source => `<option value="${esc(source.id)}"${source.id === sourceId ? ' selected' : ''}>${esc(source.label)} · ${esc(source.dataset)}</option>`).join('');
     select.disabled = sources.length === 1;
+    select.onchange = () => { panel.priceSourceOverride = select.value; return renderWatchlistPriceChart(panel, trades); };
+    host.ondblclick = () => {
+      if (select.disabled) return;
+      select.value = sources[(sources.findIndex(item => item.id === sourceId) + 1) % sources.length].id;
+      return select.onchange();
+    };
+    host.title = sources.length > 1 ? 'Doble clic para cambiar de fuente' : '';
     const source = sources.find(item => item.id === sourceId);
     const [payload, executionPayload] = await Promise.all([fetchPriceFile(source.file), fetchPriceFile(session.executionsFile).catch(() => null)]);
     if (!current()) return;
@@ -227,7 +237,7 @@ async function renderWatchlistPriceChart(panel, trades) {
     const minutes = new Set();
     for (const interval of window.intervals) for (let time = Math.floor(interval.opened / 60) * 60; time <= Math.floor(interval.closed / 60) * 60; time += 60) minutes.add(time);
     const available = bars.filter(bar => minutes.has(bar.time)).length;
-    const fallback = sourceId !== watchlistPriceSource ? `Fuente elegida no disponible; se usa ${source.label} · ${source.dataset}.` : '';
+    const fallback = sourceId !== preferredSource ? `Fuente elegida no disponible; se usa ${source.label} · ${source.dataset}.` : '';
     const incomplete = available < minutes.size || !executions.every(item => item.complete) ? `Datos incompletos: ${available}/${minutes.size} minutos operados con vela${executions.every(item => item.complete) ? '' : '; faltan ejecuciones'}.` : '';
     status.textContent = [fallback, incomplete].filter(Boolean).join(' ');
   } catch (error) {
@@ -277,10 +287,12 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
     const status = panel.querySelector('.trade-price-status'), host = panel.querySelector('.trade-price-chart');
     const current = () => request === tradePriceRequest && panel.isConnected;
     const retry = settings.querySelector('.trade-price-retry');
-    select.onchange = () => { tradePriceSources.set(symbol, select.value); renderCalendarTradeChart(); };
+    select.onchange = () => { tradePriceSources.set(symbol, select.value); return renderCalendarTradeChart(); };
     retry.onclick = () => { tradePriceCache.clear(); renderCalendarTradeChart(); };
     status.textContent = 'Cargando datos de precios…';
     host.replaceChildren();
+    host.ondblclick = null;
+    host.title = '';
     select.replaceChildren(); select.disabled = true;
     try {
       const priceIndex = await fetchPriceFile('data/prices/index.json');
@@ -299,6 +311,12 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
       tradePriceSources.set(symbol, sourceId);
       select.innerHTML = sources.map(source => `<option value="${esc(source.id)}"${source.id === sourceId ? ' selected' : ''}>${esc(source.label)} · ${esc(source.dataset)}</option>`).join('');
       select.disabled = sources.length === 1;
+      host.ondblclick = () => {
+        if (select.disabled) return;
+        select.value = sources[(sources.findIndex(item => item.id === sourceId) + 1) % sources.length].id;
+        return select.onchange();
+      };
+      host.title = sources.length > 1 ? 'Doble clic para cambiar de fuente' : '';
       const source = sources.find(item => item.id === sourceId);
       const results = await Promise.all(sessions.map(async (session, i) => {
         const dailySource = session.sources.find(item => item.id === sourceId);
@@ -319,7 +337,8 @@ async function renderCalendarTradeChart(rows = tradePriceRows) {
       const minutes = new Set();
       for (const interval of window.intervals) for (let time = Math.floor(interval.opened / 60) * 60; time <= Math.floor(interval.closed / 60) * 60; time += 60) minutes.add(time);
       const available = bars.filter(bar => minutes.has(bar.time)).length;
-      status.textContent = available < minutes.size || !executions.every(item => item.complete) ? `Datos incompletos: ${available}/${minutes.size} minutos operados con vela${executions.every(item => item.complete) ? '' : '; faltan ejecuciones'}.` : '';
+      const incomplete = available < minutes.size || !executions.every(item => item.complete) ? `Datos incompletos: ${available}/${minutes.size} minutos operados con vela${executions.every(item => item.complete) ? '' : '; faltan ejecuciones'}.` : '';
+      status.textContent = incomplete;
       const points = minutePnlCurve(trades, bars, executions);
       if (points) renderChart(`calendar-ticker-chart-${index}`, [{ values: points, color: '#29d17e' }], { currency: true, axisLeftRatio: 0.107, axisLabelStart: true, timeAxis: true, labels: points.map(point => tradePriceClock.format(new Date(point[0]))), explanation: 'Estimación intratrade con ejecuciones y cierres de velas de un minuto; costes y PnL registrados se reflejan al cerrar cada operación. No se rellenan velas ausentes.' });
       return points;

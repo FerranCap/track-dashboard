@@ -100,6 +100,13 @@ async function checkTickerPanels() {
   assert(panels[1].querySelector('.trade-price-status').textContent.includes('MISSING'));
   assert.equal(panels[1].querySelector('.trade-price-chart').innerHTML, '');
   assert.equal(panels[0].querySelector('.trade-price-source').disabled, false);
+  const calendarHost = panels[0].querySelector('.trade-price-chart');
+  const sourceIds = session.sources.map(source => source.id);
+  const initialSource = 'databento:XNAS.BASIC';
+  await calendarHost.ondblclick();
+  assert.equal(run("tradePriceSources.get('BENF')"), sourceIds[(sourceIds.indexOf(initialSource) + 1) % sourceIds.length]);
+  for (let i = 1; i < sourceIds.length; i++) await calendarHost.ondblclick();
+  assert.equal(run("tradePriceSources.get('BENF')"), initialSource);
   context.pnlDisplayUnit = 'r';
   context.sessionRiskAt = () => ({ risk: 100 });
   context.rows = trades.map(trade => ({ ...trade, pnl: trade.pnl / 100 }));
@@ -109,6 +116,11 @@ async function checkTickerPanels() {
   assert(!rMarkup.includes('USD</text>'));
   const watchlistPanel = makePanel();
   await run('renderWatchlistPriceChart') (watchlistPanel, context.rows);
+  const watchlistHost = watchlistPanel.querySelector('.trade-price-chart');
+  await watchlistHost.ondblclick();
+  assert.equal(watchlistPanel.priceSourceOverride, sourceIds[(sourceIds.indexOf(initialSource) + 1) % sourceIds.length]);
+  for (let i = 1; i < sourceIds.length; i++) await watchlistHost.ondblclick();
+  assert.equal(watchlistPanel.priceSourceOverride, initialSource);
   assert.equal((watchlistPanel.querySelector('.trade-price-chart').innerHTML.match(/class="trade-pnl-label"/g) || []).length, trades.length);
   assert(watchlistPanel.querySelector('.trade-price-chart').innerHTML.includes(' R'));
   const missingPanel = makePanel();

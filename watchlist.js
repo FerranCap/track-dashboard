@@ -62,6 +62,7 @@ function initializeWatchlist() {
     watchlistPriceSource = priceSourceSetting.value;
     try { localStorage.setItem('track-watchlist-price-source', watchlistPriceSource); } catch {}
     for (const panel of body.querySelectorAll('.calendar-ticker-price')) {
+      panel.priceSourceOverride = null;
       panel.priceResizeObserver?.disconnect();
       panel.priceRequest = null;
       if (panel.closest('details')?.open && panel.isConnected && panel.refreshWatchlistPrice) panel.refreshWatchlistPrice();
