@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-69db7641b195b4288e48",
+  "estimatedCostUsd": 0.000564515591,
+  "recordCount": 902,
+  "maximumCostUsd": 0.003330329658,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.BASIC",
+    "symbols": [
+      "BENF"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2025-10-31T00:00:00-04:00",
+    "end": "2025-11-01T00:00:00-04:00",
+    "stype_in": "raw_symbol"
+  }
+}

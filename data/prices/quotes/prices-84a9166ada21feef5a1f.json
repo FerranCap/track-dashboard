@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-84a9166ada21feef5a1f",
+  "estimatedCostUsd": 0.000299155712,
+  "recordCount": 478,
+  "maximumCostUsd": 0.000383207799,
+  "status": "quote_only",
+  "query": {
+    "dataset": "EQUS.MINI",
+    "symbols": [
+      "BNAI"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-23T00:00:00-05:00",
+    "end": "2026-11-24T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

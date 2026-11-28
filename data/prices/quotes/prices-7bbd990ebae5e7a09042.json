@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-7bbd990ebae5e7a09042",
+  "estimatedCostUsd": 0.000466883183,
+  "recordCount": 746,
+  "maximumCostUsd": 8.4052087e-05,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.BASIC",
+    "symbols": [
+      "SEAT"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-19T00:00:00-05:00",
+    "end": "2026-11-20T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

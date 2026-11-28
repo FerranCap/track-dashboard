@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-7db975cbf26745ce4ab6",
+  "jobFingerprint": "7db975cbf26745ce4ab6e16b6666d2f559def935f7ea3cfadb61c333d0d8d57e",
+  "provider": "databento",
+  "dataset": "EQUS.MINI",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "PAAI"
+  ],
+  "requestedSymbols": [
+    "PAAI"
+  ],
+  "start": "2026-11-23T00:00:00-05:00",
+  "end": "2026-11-24T00:00:00-05:00",
+  "downloadedAt": "2026-11-28T15:13:27.929395+00:00",
+  "rowCount": 292,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/PAAI/2026-11-23/databento/EQUS.MINI/ohlcv-1m/prices-7db975cbf26745ce4ab6-4c9f745fd736.dbn.zst",
+  "normalizedFile": "data/prices/tickers/PAAI/2026-11-23/databento/EQUS.MINI/ohlcv-1m/prices-7db975cbf26745ce4ab6-4c9f745fd736.parquet",
+  "checksums": {
+    "raw": "97f9023be5df8b94e9bf3093a9689ee807ca52d3ece06a81e2760b02e39244e7",
+    "normalized": "1bfba4d67c88febf8d80efea9d8195a060dadac0bfef6f70706d17e5f731b445"
+  },
+  "normalizedBytes": 17871,
+  "estimatedCostUsd": 0.000182747841,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

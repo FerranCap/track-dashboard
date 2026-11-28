@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-a45dc43168ad3e8ea21e",
+  "jobFingerprint": "a45dc43168ad3e8ea21e62b20bdd29ded4a90bb0feb2374f424c8f1e04b2cd2e",
+  "provider": "databento",
+  "dataset": "EQUS.MINI",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "WETO"
+  ],
+  "requestedSymbols": [
+    "WETO"
+  ],
+  "start": "2026-11-23T00:00:00-05:00",
+  "end": "2026-11-24T00:00:00-05:00",
+  "downloadedAt": "2026-11-28T15:12:37.459397+00:00",
+  "rowCount": 724,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/WETO/2026-11-23/databento/EQUS.MINI/ohlcv-1m/prices-a45dc43168ad3e8ea21e-4c9f745fd736.dbn.zst",
+  "normalizedFile": "data/prices/tickers/WETO/2026-11-23/databento/EQUS.MINI/ohlcv-1m/prices-a45dc43168ad3e8ea21e-4c9f745fd736.parquet",
+  "checksums": {
+    "raw": "98d26376ccc263d00f51ebf61646746ebc25736891425c25d38da5cbaf27cae7",
+    "normalized": "69a36312ac36588addc444599706b32b18b5bdf121180b1572b11c6acfa5b2b0"
+  },
+  "normalizedBytes": 33499,
+  "estimatedCostUsd": 0.00045311451,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

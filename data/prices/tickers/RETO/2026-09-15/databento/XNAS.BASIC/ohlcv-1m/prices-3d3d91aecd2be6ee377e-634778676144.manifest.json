@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-3d3d91aecd2be6ee377e",
+  "jobFingerprint": "3d3d91aecd2be6ee377eef8192ca21cc44ddba6678b752475e1768536141903a",
+  "provider": "databento",
+  "dataset": "XNAS.BASIC",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "RETO"
+  ],
+  "requestedSymbols": [
+    "RETO"
+  ],
+  "start": "2026-09-15T00:00:00-04:00",
+  "end": "2026-09-16T00:00:00-04:00",
+  "downloadedAt": "2026-11-28T15:05:29.838369+00:00",
+  "rowCount": 377,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/RETO/2026-09-15/databento/XNAS.BASIC/ohlcv-1m/prices-3d3d91aecd2be6ee377e-634778676144.dbn.zst",
+  "normalizedFile": "data/prices/tickers/RETO/2026-09-15/databento/XNAS.BASIC/ohlcv-1m/prices-3d3d91aecd2be6ee377e-634778676144.parquet",
+  "checksums": {
+    "raw": "7c85e6e376c15881e95ccbcd48c9eff43d2c7d4fc77b4211d4978b8d493b7027",
+    "normalized": "0ca06b63e636b4671fbc617245c58a39cb62309d04f8d07218d63e19ec3def22"
+  },
+  "normalizedBytes": 20252,
+  "estimatedCostUsd": 0.000235944986,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

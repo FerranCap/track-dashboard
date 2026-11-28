@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-12fe8c64aa8dd1cda2f0",
+  "estimatedCostUsd": 0.000560760498,
+  "recordCount": 896,
+  "maximumCostUsd": 0.007741311789,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.BASIC",
+    "symbols": [
+      "AKAN"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-24T00:00:00-05:00",
+    "end": "2026-11-25T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}

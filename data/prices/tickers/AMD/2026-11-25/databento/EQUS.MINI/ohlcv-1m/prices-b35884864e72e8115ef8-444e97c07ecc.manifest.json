@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "type": "validated_price_download",
+  "jobId": "prices-b35884864e72e8115ef8",
+  "jobFingerprint": "b35884864e72e8115ef8d26d297615b5428dcfc7e8f5f32bce3decf97988b4bc",
+  "provider": "databento",
+  "dataset": "EQUS.MINI",
+  "schema": "ohlcv-1m",
+  "interval": "1m",
+  "symbols": [
+    "AMD"
+  ],
+  "requestedSymbols": [
+    "AMD"
+  ],
+  "start": "2026-11-25T00:00:00-05:00",
+  "end": "2026-11-26T00:00:00-05:00",
+  "downloadedAt": "2026-11-28T15:06:23.961396+00:00",
+  "rowCount": 492,
+  "validatedOHLCV": true,
+  "priceBasis": "provider_fixed_point_unadjusted",
+  "timezone": "UTC",
+  "sessionTimezone": "America/New_York",
+  "rawFile": "data/prices/tickers/AMD/2026-11-25/databento/EQUS.MINI/ohlcv-1m/prices-b35884864e72e8115ef8-444e97c07ecc.dbn.zst",
+  "normalizedFile": "data/prices/tickers/AMD/2026-11-25/databento/EQUS.MINI/ohlcv-1m/prices-b35884864e72e8115ef8-444e97c07ecc.parquet",
+  "checksums": {
+    "raw": "e289c57c6ff90351350b95882dbf9a22c245fbfb0baed930b01da552584ccf1d",
+    "normalized": "28d1bf27a1911f9baf0ce6dce9c459de1b54b5a1c7141af190fe042ebe90853e"
+  },
+  "normalizedBytes": 26033,
+  "estimatedCostUsd": 0.000307917595,
+  "limitations": [
+    "Coverage limited to dataset component venues; not assumed full US market coverage.",
+    "No bars invented for missing intervals; holidays, halts and missing coverage are not inferred from absence."
+  ]
+}

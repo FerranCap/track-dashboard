@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-31f46b26e6c175a621e5",
+  "estimatedCostUsd": 0.000384271145,
+  "recordCount": 614,
+  "maximumCostUsd": 0.005240420105,
+  "status": "quote_only",
+  "query": {
+    "dataset": "EQUS.MINI",
+    "symbols": [
+      "AKAN"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-04-23T00:00:00-04:00",
+    "end": "2026-04-24T00:00:00-04:00",
+    "stype_in": "raw_symbol"
+  }
+}

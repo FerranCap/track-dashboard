@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-3d3d91aecd2be6ee377e",
+  "estimatedCostUsd": 0.000235944986,
+  "recordCount": 377,
+  "maximumCostUsd": 0.01,
+  "status": "quote_only",
+  "query": {
+    "dataset": "XNAS.BASIC",
+    "symbols": [
+      "RETO"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-09-15T00:00:00-04:00",
+    "end": "2026-09-16T00:00:00-04:00",
+    "stype_in": "raw_symbol"
+  }
+}

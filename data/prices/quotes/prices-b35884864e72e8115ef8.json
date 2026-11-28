@@ -1,0 +1,17 @@
+{
+  "jobId": "prices-b35884864e72e8115ef8",
+  "estimatedCostUsd": 0.000307917595,
+  "recordCount": 492,
+  "maximumCostUsd": 0.008989254237,
+  "status": "quote_only",
+  "query": {
+    "dataset": "EQUS.MINI",
+    "symbols": [
+      "AMD"
+    ],
+    "schema": "ohlcv-1m",
+    "start": "2026-11-25T00:00:00-05:00",
+    "end": "2026-11-26T00:00:00-05:00",
+    "stype_in": "raw_symbol"
+  }
+}
