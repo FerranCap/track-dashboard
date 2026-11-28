@@ -23,6 +23,7 @@ from update_pipeline import (ROOT, NY, SourceCache, active_update_plan, digest, 
                              ticker_trade_fingerprint, utcnow, write_json, write_review_packet)
 from update_sources import canonical_url, collect_news, collect_sec, matching_entries
 from update_prices import price_download, uncovered_price_windows
+from query_freshness import write_versioned_json
 
 
 def current_day():
@@ -47,9 +48,12 @@ def rebuild(root=ROOT, profiles_changed=False):
     news_context = build_news_context(dataset, articles['articles'], research['reviews'], symbols, 48)
     capital_context = build_capital_context(capital, dataset)
     completeness = build_inventory(dataset, capital_context, news_context, price_inventory(root))
-    write_json(root / 'data/news/trade-context.json', news_context)
-    write_json(root / 'data/sec/trade-capital.json', capital_context)
+    write_versioned_json(root / 'data/news/trade-context.json', news_context)
+    write_versioned_json(root / 'data/sec/trade-capital.json', capital_context)
     write_json(root / 'data/reference/data-completeness.json', completeness)
+    from build_query_data import INPUTS as query_inputs, build as build_query_data
+    if all((root / path).is_file() for path in query_inputs):
+        build_query_data(root)
     return {'articles': news_context['counts']['articles'], 'tradeArticleLinks': news_context['counts']['tradeArticleLinks']}
 
 

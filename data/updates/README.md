@@ -84,6 +84,28 @@ trigger website deployment. Credentials stay in environment variables, never
 these files. Cached responses from the previous ignored SEC cache can be reused;
 their original retrieval age is explicitly unknown, not relabeled as fresh.
 
+## Prepared website queries
+
+`python scripts/build_query_data.py` builds `data/generated/` from consolidated
+trades, reviewed news and SEC contexts, historical risk and the validated price
+index. The originals remain authoritative. `trade-index.json` indexes trades by
+ticker and session and records historical R values; `news-index.json` provides
+matching metadata, with full details in `news/tickers/`; `similarity-index.json`
+contains entry-time comparable references. `tickers/` and `sessions/` contain
+reusable summaries. The summaries cover their stated full scope, not arbitrary
+filter combinations. Unknown values stay unknown and date-only news remains
+distinct from timestamp matches.
+
+The manifest records input hashes, generated-file hashes and per-artifact
+dependencies. Unchanged ticker and session artifacts are reused; global indexes
+are regenerated as needed. `python scripts/build_query_data.py --check` compares
+against a full reconstruction. Source-version markers are written before news
+and SEC contexts change, so an interrupted standalone rebuild makes the browser
+fall back instead of using the previous prepared index. After direct imports,
+profile, news, SEC, risk or price changes, run the corresponding canonical
+builders first, then the query builder and checks once after the batch. The
+incremental updater and website deployment already perform this final build.
+
 ## News
 
 Planning excludes existing reviews only when trade ID, exact opening timestamp,

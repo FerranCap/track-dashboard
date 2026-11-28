@@ -5,6 +5,7 @@ import json
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from query_freshness import write_versioned_json
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -139,7 +140,7 @@ def main():
                else ({review['symbol'] for review in reviews}
                      | {issuer['symbol'] for article in articles for issuer in article_issuers(article)}))
     result = build_context(dataset, articles, reviews, symbols, args.hours)
-    (folder / 'trade-context.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    write_versioned_json(folder / 'trade-context.json', result)
     print(json.dumps(result['counts'], indent=2))
 
 

@@ -254,8 +254,14 @@ function applyFilters(){
   if(!dataset)return;
   const sourceRows=tradeFilterPanels.get('general').matchingRows();
   filtered=displayPnlRows(sourceRows);
-  page=0;renderMetrics(filtered);renderCharts(filtered);renderTable();renderWorkspace(filtered);
-  if (typeof renderJournal === 'function') renderJournal();
+  page=0;renderActiveView();
+}
+function renderActiveView(){
+  if(!dataset)return;
+  const active = location.hash.slice(1);
+  if (active === 'trades') renderTable();
+  if (active === 'journal' && typeof renderJournal === 'function') renderJournal();
+  renderWorkspace(filtered);
 }
 function setTradeTableSort(state) {
   tradeTableSort = state;
@@ -285,13 +291,16 @@ function renderTable(){
 }
 async function loadData(options = {}){
   if (typeof resetTradePriceData === 'function') resetTradePriceData();
+  if (typeof resetQueryManifest === 'function') resetQueryManifest();
   const previousSearch = options.preserveFilters ? $('search').value : '';
   $('source-status').textContent='Actualizando…';$('refresh').disabled=true;$('error').hidden=true;
   try{
-    const [response, newsPayload, riskHistory, secCapitalPayload, completenessPayload] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews(), fetchSessionRisk(), fetchSecCapital(), fetchDataCompleteness()]);
+    const [response, initialNews, riskHistory, secCapitalPayload, completenessPayload, queryPayload] = await Promise.all([fetch(`data/trades.json?v=${Date.now()}`,{cache:'no-store'}), fetchTradeNews(), fetchSessionRisk(), fetchSecCapital(), fetchDataCompleteness(), typeof fetchQueryIndexes === 'function' ? fetchQueryIndexes() : null]);
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const next=await response.json();
     if(!Array.isArray(next.trades)||next.schemaVersion!==2)throw new Error('The JSON format is outdated. Upload the matching data/trades.json or regenerate it via GitHub Actions.');
+    const newsPayload = initialNews?.sourceGeneratedAt && initialNews.sourceGeneratedAt !== next.generatedAt ? await fetchOriginalTradeNews() : initialNews;
+    if (typeof updateQueryIndexes === 'function') updateQueryIndexes(queryPayload, next, riskHistory);
     updateIssuerNews(newsPayload, next);
     updateSecCapital(secCapitalPayload, next);
     updateDataCompleteness(completenessPayload, next);

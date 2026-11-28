@@ -65,14 +65,20 @@ async function checkTickerPanels() {
   const makeNode = () => ({ textContent: '', innerHTML: '', disabled: false, replaceChildren() { this.innerHTML = ''; }, addEventListener() {} });
   const makePanel = () => {
     const nodes = new Map();
-    const panel = { isConnected: true, querySelector(selector) { if (!nodes.has(selector)) nodes.set(selector, makeNode()); return nodes.get(selector); } };
+    const handles = [{ value: '0', setAttribute() {} }, { value: '1000', setAttribute() {} }];
+    const fill = { style: {} }, label = { style: {}, hidden: true };
+    const range = { querySelectorAll() { return handles; }, querySelector(selector) { return selector.includes('fill') ? fill : label; } };
+    nodes.set('.watchlist-chart-range', range);
+    const panel = { isConnected: true, clientWidth: 900, closest() { return this; }, querySelector(selector) { if (!nodes.has(selector)) nodes.set(selector, makeNode()); return nodes.get(selector); } };
     const host = panel.querySelector('.trade-price-chart');
+    host.clientWidth = 900;
     host.closest = () => panel;
     host.querySelector = () => makeNode();
     return panel;
   };
   const panels = [makePanel(), makePanel()];
   context.document = { getElementById(id) { return panels[Number(id.split('-').at(-1))]; } };
+  context.ResizeObserver = class { observe() {} disconnect() {} };
   context.groupedStatistics = rows => [...new Map([...new Set(rows.map(t => t.symbol))].map(symbol => [symbol, rows.filter(t => t.symbol === symbol)]))];
   context.calendarPnlCurve = rows => [[rows[0].opened, 0], ...rows.map(trade => [trade.closed, trade.pnl])];
   context.signed = value => `${value > 0 ? '+' : ''}${value.toFixed(2)} ${context.pnlDisplayUnit === 'r' ? 'R' : 'USD'}`;

@@ -16,7 +16,7 @@ assert.equal((host.innerHTML.match(/<progress /g) || []).length, 16);
 assert.match(host.innerHTML, /Noticias/);
 assert.match(host.innerHTML, /Con datos/);
 assert.match(host.innerHTML, /Sin datos/);
-assert.match(host.innerHTML, /2 \/ 509 · 0,4 %/);
+assert.match(host.innerHTML, /3 \/ 509 · 0,6 %/);
 assert.match(host.innerHTML, /sin aplicar filtros/);
 assert.match(host.innerHTML, /sin noticias encontradas también cuenta/);
 run('updateDataCompleteness({...payload, sourceGeneratedAt:"stale"}, source); renderDataCompleteness()');

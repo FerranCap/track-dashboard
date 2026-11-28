@@ -463,8 +463,13 @@ function initializeWatchlist() {
     for (const { control, entry } of countryControls) populateOptions(control, options, entry.country);
     for (const item of similarityPanels.values()) item.refresh();
     for (const [ticker, item] of tradeDetails) {
-      const history = (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
+      const history = dataset && typeof indexedTickerTrades === 'function' ? indexedTickerTrades(ticker, dataset) : (dataset?.trades || []).filter(trade => trade.symbol.toUpperCase() === ticker.toUpperCase());
       item.button.hidden = false;
+      if (item.preparedDataset !== dataset) {
+        item.preparedDataset = dataset;
+        item.preparedRequested = false;
+        item.prepared = null;
+      }
       if (!history.length) {
         const html = '<p class="watchlist-history-label">Sin trades realizados en este ticker.</p><div class="watchlist-similar-host"></div>';
         if (item.signature !== html) {
@@ -474,16 +479,28 @@ function initializeWatchlist() {
         }
         continue;
       }
+      if (!item.row.hidden && !item.preparedRequested && typeof fetchGenerated === 'function') {
+        item.preparedRequested = true;
+        const originalDataset = dataset;
+        fetchGenerated(`tickers/${ticker}.json`).then(prepared => {
+          if (dataset !== originalDataset || tradeDetails.get(ticker) !== item) return;
+          if (prepared?.schemaVersion === 1 && prepared.symbol === ticker && typeof queryTradeIndex !== 'undefined' && queryTradeIndex?.tickerSignatures?.[ticker] === prepared.tradeSignature) item.prepared = prepared;
+          if (!item.row.hidden) updateWatchlistTradeStats();
+        });
+      }
       const rows = displayPnlRows(history);
-      const stats = statistics(rows);
+      const preparedStats = typeof queryTradeIndex !== 'undefined' && queryTradeIndex && item.prepared
+        ? (pnlDisplayUnit === 'r' ? item.prepared.statisticsR : item.prepared.statistics) : null;
+      const usePrepared = preparedStats && preparedStats.trades === rows.length && item.prepared.tradeIds.length === history.length;
+      const stats = usePrepared ? null : statistics(rows);
       const values = [
         ['Trades', String(history.length)],
-        ['PnL', signed(stats.pnl)],
-        ['Win rate', pct(stats.wins.length, rows.length)],
-        ['Profit factor', stats.pf === Infinity ? '\u221e' : num(stats.pf)],
-        ['PnL medio', money(stats.expectancy)],
-        ['Mejor trade', rows.length ? signed(Math.max(...stats.values)) : '\u2014'],
-        ['Peor trade', rows.length ? signed(Math.min(...stats.values)) : '\u2014']
+        ['PnL', signed(usePrepared ? preparedStats.pnl : stats.pnl)],
+        ['Win rate', pct(usePrepared ? preparedStats.wins : stats.wins.length, rows.length)],
+        ['Profit factor', usePrepared ? preparedStats.profitFactorUnbounded ? '\u221e' : num(preparedStats.profitFactor) : stats.pf === Infinity ? '\u221e' : num(stats.pf)],
+        ['PnL medio', money(usePrepared ? preparedStats.meanPnl ?? 0 : stats.expectancy)],
+        ['Mejor trade', rows.length ? signed(usePrepared ? preparedStats.bestPnl : Math.max(...stats.values)) : '\u2014'],
+        ['Peor trade', rows.length ? signed(usePrepared ? preparedStats.worstPnl : Math.min(...stats.values)) : '\u2014']
       ];
       const missing = history.length - rows.length;
 

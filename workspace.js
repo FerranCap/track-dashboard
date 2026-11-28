@@ -29,10 +29,12 @@ function displayPnlRows(rows, unit = pnlDisplayUnit, history = sessionRiskHistor
   return rows.flatMap(trade => {
     const opened = new Date(trade.opened);
     const date = Number.isFinite(opened.getTime()) ? formatter.format(opened) : null;
-    const risk = trade.projectedRisk ?? (date ? sessionRiskAt(date, history)?.risk : null);
     const pnlUsd = trade.pnlUsd ?? trade.pnl;
+    const prepared = typeof queryTradeIndex !== 'undefined' && history === sessionRiskHistory && trade.projectedRisk == null ? queryTradeIndex?.trades?.[trade.id] : null;
+    const validPrepared = prepared && prepared.opened === trade.opened && prepared.symbol === trade.symbol && prepared.pnlUsd === pnlUsd;
+    const risk = trade.projectedRisk ?? (validPrepared ? prepared.riskUsd : date ? sessionRiskAt(date, history)?.risk : null);
     return Number.isFinite(risk) && risk > 0 && Number.isFinite(pnlUsd)
-      ? [{ ...trade, pnl: pnlUsd / risk, pnlUsd, pnlRisk: risk, fees: Number.isFinite(trade.feesUsd ?? trade.fees) ? (trade.feesUsd ?? trade.fees) / risk : trade.fees, feesUsd: trade.feesUsd ?? trade.fees }] : [];
+      ? [{ ...trade, pnl: validPrepared ? prepared.pnlR : pnlUsd / risk, pnlUsd, pnlRisk: risk, fees: Number.isFinite(trade.feesUsd ?? trade.fees) ? (trade.feesUsd ?? trade.fees) / risk : trade.fees, feesUsd: trade.feesUsd ?? trade.fees }] : [];
   });
 }
 
@@ -112,6 +114,7 @@ function activateView() {
   document.title = `${VIEW_DETAILS[active][0]} | Track`;
   document.body.classList.toggle('watchlist-active', active === 'watchlist');
   $('data-selection').hidden = ['data', 'compare', 'watchlist', 'hotkeys'].includes(active);
+  if (dataset && typeof renderActiveView === 'function') renderActiveView();
   refreshCharts();
 }
 
@@ -149,7 +152,25 @@ function renderRecentSessions(daily) {
 }
 
 function renderWorkspace(rows) {
-  updateWatchlistTradeStats();
+  const key = location.hash.slice(1);
+  const active = Object.hasOwn(VIEW_DETAILS, key) ? key : 'general';
+  if (active === 'watchlist') { updateWatchlistTradeStats(); return; }
+  if (active === 'calendar') { renderCalendarResults(rows); renderCalendar(rows); return; }
+  if (active === 'price') { renderPrice(rows); return; }
+  if (active === 'duration') { renderDurationStudies(rows); return; }
+  if (active === 'country') { renderCountries(rows); return; }
+  if (active === 'ratios') { renderRatios(rows); return; }
+  if (active === 'compare') { renderComparisons(); return; }
+  if (active === 'risk') {
+    renderMetrics(rows);
+    renderChart('drawdown-chart', [{ values: drawdownStats(rows).points, color: '#f4485b' }], { currency: true });
+    renderConsistencyStudies(rows);
+    return;
+  }
+  if (active === 'growth') { renderGrowth(rows); return; }
+  if (active === 'projection') { renderGrowthProjection(rows); return; }
+  if (active === 'optimal') { renderOptimal(rows); return; }
+  if (active !== 'general') return;
   const s = statistics(rows);
   $('overview-stats').innerHTML = [
     ['PnL total', signed(s.pnl), cssSign(s.pnl)], ['Operaciones', integerFormat.format(rows.length)],
@@ -164,15 +185,7 @@ function renderWorkspace(rows) {
     ['Peor operación', s.losses.length ? money(Math.min(...s.losses.map(t => t.pnl))) : '—', 'negative']
   ].map(item => metric(...item)).join('');
   renderRecentSessions(s.daily);
-  renderDurationStudies(rows);
-  renderCountries(rows);
-  renderRatios(rows);
-  renderCalendar(rows);
-  renderComparisons();
-  renderConsistencyStudies(rows);
-  renderGrowth(rows);
-  renderGrowthProjection(rows);
-  renderOptimal(rows);
+  renderChart('equity-chart', [{ values: equity(rows), color: '#20d075' }], { currency: true });
 }
 
 function growthPeriods(rows, unit = 'month') {

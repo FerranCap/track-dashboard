@@ -14,6 +14,7 @@ on:
       - '.github/workflows/update-dashboard.yml'
       - 'index.html'
       - 'dashboard.js'
+      - 'query-data.js'
       - 'workspace.js'
       - 'watchlist.js'
       - 'watchlist-similar.js'
@@ -70,12 +71,14 @@ jobs:
         run: python scripts/build_sec_capital.py
       - name: Generate data completeness inventory
         run: python scripts/build_data_completeness.py
+      - name: Generate query indexes
+        run: python scripts/build_query_data.py
       - name: Validate generated dataset
         run: python -m unittest discover -s scripts -p 'test_*.py'
       - name: Assemble website
         run: |
           mkdir -p site/data/reference site/data/news site/data/hotkeys site/data/sec
-          cp index.html dashboard.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
+          cp index.html dashboard.js query-data.js workspace.js filters.js news.js help.js table-sort.js consistency.js calendar.js duration.js studies.js styles.css site/
           cp trade-price-chart.js site/
           python scripts/build_price_charts.py --package site
           cp projection.js swing.js optimal.js watchlist.js watchlist-similar.js sec-capital.js data-completeness.js site/
@@ -88,6 +91,8 @@ jobs:
           cp data/session-risk.json site/data/session-risk.json
           cp data/journal.json site/data/journal.json
           cp data/news/trade-context.json site/data/news/trade-context.json
+          cp data/news/context-version.json site/data/news/context-version.json
+          cp -R data/generated site/data/generated
           cp data/sec/*.json site/data/sec/
           cp data/reference/ticker-profiles.csv data/reference/research-summary.json data/reference/data-completeness.json site/data/reference/
           touch site/.nojekyll

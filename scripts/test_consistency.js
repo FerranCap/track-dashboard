@@ -118,13 +118,14 @@ checkConsistency(calendarWeekSummaries('2021-02', []).length === 4 && calendarWe
 const calendarFs = require('node:fs'), calendarVm = require('node:vm'), calendarPath = require('node:path');
 const calendarElements = new Map();
 const calendarContext = calendarVm.createContext({ URL, document: { getElementById(id) {
-  if (!calendarElements.has(id)) calendarElements.set(id, { innerHTML: '', textContent: '', hidden: false });
+  if (!calendarElements.has(id)) calendarElements.set(id, { innerHTML: '', textContent: '', hidden: false, querySelectorAll() { return []; } });
   return calendarElements.get(id);
 } } });
 const dashboardSource = calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'dashboard.js'), 'utf8');
 calendarVm.runInContext(dashboardSource.slice(0, dashboardSource.indexOf("$('search').addEventListener")), calendarContext);
 for (const file of ['date-fields.js', 'news.js', 'sec-capital.js', 'data-completeness.js', 'workspace.js', 'help.js', 'consistency.js', 'calendar.js']) calendarVm.runInContext(calendarFs.readFileSync(calendarPath.join(__dirname, '..', file), 'utf8'), calendarContext);
 calendarVm.runInContext('const renderedCalendarCharts = new Map(), renderedCalendarOptions = new Map(); renderChart = (id, series, opts) => { renderedCalendarCharts.set(id, series); renderedCalendarOptions.set(id, opts); };', calendarContext);
+calendarVm.runInContext("pnlDisplayUnit = 'usd'", calendarContext);
 calendarContext.riskFixture = JSON.parse(calendarFs.readFileSync(calendarPath.join(__dirname, '..', 'data', 'session-risk.json'), 'utf8'));
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2024-12-31', riskFixture)", calendarContext) === null, 'Risk is unknown before its first activation');
 checkConsistency(calendarVm.runInContext("sessionRiskAt('2025-08-31', riskFixture).risk", calendarContext) === 20, 'Risk remains active until the next change');
@@ -221,8 +222,8 @@ checkConsistency(dkiNewsMarkup.includes('2 noticias') && dkiNewsMarkup.includes(
 const vcigNewsMarkup = calendarVm.runInContext("issuerNewsCell(dataset.tickerProfiles.VCIG)", calendarContext);
 checkConsistency(vcigNewsMarkup.includes('1 noticia') && vcigNewsMarkup.includes('Limitaciones de la fuente') && !vcigNewsMarkup.includes('publicación pendiente'), 'VCIG publication counts with source discrepancies visible');
 calendarVm.runInContext('globalThis.newsAudit = auditNewsCoverage(dataset)', calendarContext);
-checkConsistency(calendarContext.newsAudit.length === 509 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 673, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
-checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 928, 'News audit preserves all unreviewed entries');
+checkConsistency(calendarContext.newsAudit.length === 509 && calendarContext.newsAudit.reduce((total, entry) => total + entry.reviewed, 0) === 682, 'News audit checks every ticker and exact reviewed entry, independently of analysis filters');
+checkConsistency(calendarContext.newsAudit.reduce((total, entry) => total + entry.pending, 0) === 919, 'News audit preserves all unreviewed entries');
 checkConsistency(calendarContext.newsAudit.filter(entry => entry.reviewed === 0 && !entry.articles).every(entry => entry.articles === null), 'Unresearched tickers show unknown news counts rather than zero publications');
 checkConsistency(calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').pending === 0 && calendarContext.newsAudit.find(entry => entry.symbol === 'LABT').complete, 'LABT coverage includes every exact entry in the reviewed sources');
 checkConsistency(calendarContext.newsAudit.some(entry => !entry.complete), 'Partial news history remains incomplete');

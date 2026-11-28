@@ -5,6 +5,7 @@ from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
+from query_freshness import write_versioned_json
 
 ROOT = Path(__file__).resolve().parents[1]
 NY = ZoneInfo('America/New_York')
@@ -133,7 +134,7 @@ def build():
     dataset = json.loads((ROOT / 'data/trades.json').read_text(encoding='utf-8'))
     result = build_context(history, dataset)
     target = ROOT / 'data/sec/trade-capital.json'
-    target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    write_versioned_json(target, result)
     print(f'SEC capital: {len(result["issuers"])} issuers, {len(result["trades"])} trade references.')
 
 

@@ -43,6 +43,21 @@ function watchlistFloatAtEntry(issuer, trade) {
 }
 
 function buildWatchlistSimilarityIndex(source, issuers = new Map(), contexts = new Map()) {
+  if (typeof querySimilarityIndex !== 'undefined' && querySimilarityIndex && typeof queryTradesById !== 'undefined') {
+    return querySimilarityIndex.records.map(item => {
+      const trade = queryTradesById.get(item.tradeId);
+      const profile = source.tickerProfiles?.[trade.symbol] || {};
+      const issuer = issuers.get(trade.symbol);
+      const sameIssuer = issuer?.cik && profile.cik && String(issuer.cik).replace(/^0+/, '') === String(profile.cik).replace(/^0+/, '');
+      const context = contexts.get(trade.id);
+      const validEstimate = context?.symbol === trade.symbol && context.entryAt === trade.opened && context.marketCapEstimate?.price === trade.entryPrice;
+      return { trade, profile, country: watchlistSearchCountry(profile.incorporation_country),
+        day: watchlistSearchDay(trade.opened), issuer: sameIssuer ? issuer : null,
+        float: sameIssuer ? item.float : null,
+        marketCap: sameIssuer && validEstimate ? item.marketCap : null,
+        partialMarketCap: sameIssuer && validEstimate ? item.partialMarketCap : null };
+    });
+  }
   const records = [];
   const seen = new Set();
   for (const trade of source?.trades || []) {

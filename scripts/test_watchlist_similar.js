@@ -144,6 +144,6 @@ assert.match(selectedNews, /Source discrepancy retained/);
 assert.doesNotMatch(selectedNews, /Unrelated entry headline/);
 
 const watchlist = fs.readFileSync(path.join(root, 'watchlist.js'), 'utf8');
-assert.ok(watchlist.indexOf('body.append(linksRow)') < watchlist.indexOf('body.append(similar.row)'));
+assert.ok(watchlist.indexOf('body.append(linksRow)') < watchlist.indexOf(".append(similarityPanels.get(ticker).disclosure)"));
 assert.match(watchlist, /similarityPanels\.get\(entry\.ticker\)\?\.refresh/);
 console.log('Watchlist similarity and independent range controls passed.');

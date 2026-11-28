@@ -31,6 +31,7 @@ vm.runInContext(fs.readFileSync(path.join(root, 'journal.js'), 'utf8'), context)
 const evaluate = source => vm.runInContext(source, context);
 
 async function run() {
+  evaluate("pnlDisplayUnit = 'usd'");
   await evaluate('initializeJournal()');
   assert.equal(data.sessions.length, 41);
   assert.equal(data.sessions.filter(row => row.status === 'evaluated').length, 29);

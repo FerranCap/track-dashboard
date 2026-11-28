@@ -2,6 +2,28 @@
 
 Codigo siempre en ingles. Comentarios breves y sin emoticonos.
 
+## Prepared website data
+
+Canonical trade exports, issuer profiles, reviewed SEC evidence, curated news,
+session risk and validated prices remain authoritative. `data/generated/` is a
+rebuildable query layer; never edit its individual files by hand. After changes
+to trades, profiles, SEC capital, news context, session risk or normalized prices,
+run the relevant canonical builders first, then run `python scripts/build_query_data.py`.
+The incremental builder reuses unchanged per-ticker and per-session artifacts;
+global indexes and source-version markers must remain consistent. Validate once
+per batch with `python scripts/build_query_data.py --check` and the applicable
+tests. The update pipeline and deployment run the query builder automatically;
+direct import, journal and standalone builder workflows must run it explicitly.
+Do not make new downloads or publish changes merely to regenerate indexes.
+
+When adding or substantially changing a website section, assess whether it would
+benefit from new indexes, summaries or other preprocessed data. Tell the user
+what structure would help and why, so it can be considered together. Do not
+silently present an estimate or a missing value as a verified value. Preserve
+historical risk dates, news matching precision, evidence, class and split bases,
+and dynamically recalculate results whenever active filters do not match a
+precomputed summary.
+
 ## Token-efficient incremental updates
 
 When the user requests a database update, including one limited to a specific
@@ -113,6 +135,7 @@ The user has authorized ongoing updates of the daily stop (R) from the journal: 
 - The resulting R applies to the next trading session, not retroactively to the session that generated the journal score. Preserve the R actually effective for earlier sessions and their historical USD/R conversions. The initial transition is effective 2026-11-23, using the evaluated journal sizeAfter from 2026-11-20.
 - Keep the existing `effectiveDate` and positive `risk` schema, sorted unique activation dates, and unchanged earlier history. An identical reimport is a no-op. If RiskScale does not change, retain the existing effective R without adding a redundant change. Missing or invalid size calculations must not produce an invented R or erase a valid risk entry. Reconcile historical corrections and any affected later size/risk chain before changing subsequent entries.
 - Verify the journal-to-risk calculation, effective dates and historical USD/R conversion, and run the existing checks when risk data changes. Update dated regression expectations only after independently reconciling the new values. Report the new RiskScale, R/daily stop and activation date. These updates remain local unless publication is authorized and must not change canonical trade PnL or trigger issuer/news research.
+- After the journal and any resulting session-risk changes are final, run `python scripts/build_query_data.py` and `python scripts/build_query_data.py --check` before the applicable tests. This refreshes prepared historical R values without downloading market data.
 
 ## Daily trade imports
 
@@ -170,4 +193,5 @@ Inspect the data and adapt the importer only when grouping, timestamps and accou
 - Update `data/news/articles.json` and `data/news/research.json`. Keep only publications relevant to at least one imported trade window; do not start an unrestricted news archive. Merge duplicate syndications under one publication with alternative source URLs. Related but separately published reports may share an `eventId`, while retaining their own timestamps and summaries.
 - Preserve previous reviewed news and trade links. Record reviewed trade IDs and their exact `opened` values. New or corrected entries require their own review. Inaccessible sources or uncertain publication dates must remain explicit; do not turn an unresearched ticker into zero news, claim exhaustive coverage or infer that an article caused a price move.
 - Run `python scripts/build_news.py --hours 48` after the final trade/issuer rebuild. Its default scope includes all symbols present in the news sources and research log; do not hard-code VIVK in the normal update or deployment. Do not edit `data/news/trade-context.json` manually. The builder links curated evidence; it does not search the internet by itself.
+- After the final trade, issuer, SEC, news and completeness builders for the import, run `python scripts/build_query_data.py` and `python scripts/build_query_data.py --check` once for the batch. This updates the prepared ticker, session, news, similarity and historical R data; preserve canonical sources and do not edit generated files manually.
 - Run the required checks after the news update, including `python -m unittest discover -s scripts -p 'test_*.py'`. Reconcile changed news counts independently, confirm trade accounting remains unchanged by news processing and verify the Tickers news counts and expanded details when browser tooling is available. VIE stays in the issuer database but is not a displayed column.

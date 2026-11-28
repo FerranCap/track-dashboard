@@ -31,6 +31,10 @@ function newsPublicationLabel(article) {
 
 async function fetchTradeNews() {
   try {
+    if (typeof fetchGenerated === 'function') {
+      const generated = await fetchGenerated('news-index.json');
+      if (generated) return generated;
+    }
     const response = await fetch(`data/news/trade-context.json?v=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) return null;
     return await response.json();
@@ -40,6 +44,13 @@ async function fetchTradeNews() {
   }
 }
 
+async function fetchOriginalTradeNews() {
+  try {
+    const response = await fetch(`data/news/trade-context.json?v=${Date.now()}`, { cache: 'no-store' });
+    return response.ok ? await response.json() : null;
+  } catch { return null; }
+}
+
 function updateIssuerNews(payload, source) {
   issuerNewsIndex.clear();
   tradeNewsAgeIndex.clear();
@@ -47,7 +58,7 @@ function updateIssuerNews(payload, source) {
   if (payload?.schemaVersion !== 1 || !Number.isFinite(payload.windowHours) || payload.windowHours <= 0 || !Array.isArray(payload.articles) || !Array.isArray(payload.trades) || !Array.isArray(payload.scopedSymbols)) return;
   const trades = new Map(source.trades.map(trade => [trade.id, trade]));
   const articles = new Map(payload.articles.filter(article => article && typeof article.id === 'string').map(article => [article.id, article]));
-  for (const symbol of payload.scopedSymbols) issuerNewsIndex.set(symbol, { articles: new Map(), reviewedTrades: new Set(), reviewedEntries: new Map(), totalTrades: 0, pending: new Map(), hours: payload.windowHours, fallbackDays: payload.dateFallbackDays || 0 });
+  for (const symbol of payload.scopedSymbols) issuerNewsIndex.set(symbol, { articles: new Map(), reviewedTrades: new Set(), reviewedEntries: new Map(), totalTrades: 0, pending: new Map(), hours: payload.windowHours, fallbackDays: payload.dateFallbackDays || 0, detailsLoaded: !payload.deferredDetails });
   for (const trade of source.trades) {
     const record = issuerNewsIndex.get(trade.symbol);
     if (record) record.totalTrades++;
@@ -158,5 +169,33 @@ function issuerNewsCell(profile) {
   }).join('');
   const pending = [...record.pending.values()];
   const pendingMarkup = pending.length ? `<details class="news-pending"><summary>${pending.length} ${pending.length === 1 ? 'publicación pendiente' : 'publicaciones pendientes'} de verificar</summary><ul>${pending.map(candidate => `<li>${newsSourceLink(candidate.url, candidate.reportedDate || 'Fuente pendiente')}<p>${esc(candidate.reason)}</p></li>`).join('')}</ul></details>` : '';
-  return `<td class="issuer-news" data-sort-value="${count}"><strong>${count} ${count === 1 ? 'noticia' : 'noticias'}</strong><small>${topics} ${topics === 1 ? 'tema' : 'temas'} · ${record.hours} h previas${record.fallbackDays ? ' (por fecha si falta hora)' : ''}</small><details class="issuer-news-details"><summary>Detalle</summary><div class="news-detail-content"><p class="news-coverage">${record.reviewedTrades.size} de ${record.totalTrades} operaciones revisadas. Cobertura parcial: ${count ? 'publicaciones encontradas, no un historial exhaustivo.' : 'sin noticias encontradas en las fuentes consultadas.'}${pendingTrades ? ` ${pendingTrades} operaciones pendientes de revisar.` : ''}</p>${count ? `<ol class="issuer-news-list">${items}</ol>` : ''}${pendingMarkup}<small>Las noticias se cuentan una vez por ticker y pueden estar vinculadas a varios trades. La hora corresponde a la publicación; no se ha verificado una copia del texto tal como existía antes de la entrada.</small></div></details></td>`;
+  return `<td class="issuer-news" data-sort-value="${count}"><strong>${count} ${count === 1 ? 'noticia' : 'noticias'}</strong><small>${topics} ${topics === 1 ? 'tema' : 'temas'} · ${record.hours} h previas${record.fallbackDays ? ' (por fecha si falta hora)' : ''}</small><details class="issuer-news-details" data-news-symbol="${esc(profile.symbol)}"><summary>Detalle</summary><div class="news-detail-content">${!record.detailsLoaded && count ? '<p>Cargando detalle de noticias…</p>' : `<p class="news-coverage">${record.reviewedTrades.size} de ${record.totalTrades} operaciones revisadas. Cobertura parcial: ${count ? 'publicaciones encontradas, no un historial exhaustivo.' : 'sin noticias encontradas en las fuentes consultadas.'}${pendingTrades ? ` ${pendingTrades} operaciones pendientes de revisar.` : ''}</p>${count ? `<ol class="issuer-news-list">${items}</ol>` : ''}${pendingMarkup}<small>Las noticias se cuentan una vez por ticker y pueden estar vinculadas a varios trades. La hora corresponde a la publicación; no se ha verificado una copia del texto tal como existía antes de la entrada.</small>`}</div></details></td>`;
 }
+
+if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') document.addEventListener('toggle', async event => {
+  const details = event.target;
+  if (!details.matches?.('details.issuer-news-details[data-news-symbol]') || !details.open) return;
+  const symbol = details.dataset.newsSymbol, record = issuerNewsIndex.get(symbol);
+  if (!record || record.detailsLoaded || record.detailsLoading || !record.articles.size) return;
+  record.detailsLoading = true;
+  const payload = typeof fetchGenerated === 'function' ? await fetchGenerated(`news/tickers/${symbol}.json`) : null;
+  record.detailsLoading = false;
+  if (issuerNewsIndex.get(symbol) !== record || !details.isConnected) return;
+  if (payload?.schemaVersion !== 1 || payload.symbol !== symbol || !Array.isArray(payload.articles)) {
+    details.querySelector('.news-detail-content').textContent = 'No se pudo cargar el detalle. Cierra y abre para reintentar.';
+    return;
+  }
+  const articles = new Map(payload.articles.map(article => [article.id, article]));
+  if ([...record.articles.keys()].some(id => !articles.has(id))) {
+    details.querySelector('.news-detail-content').textContent = 'Los detalles no coinciden con el índice. Actualiza los datos.';
+    return;
+  }
+  for (const [id, article] of record.articles) record.articles.set(id, { ...articles.get(id), linkedTrades: article.linkedTrades });
+  record.detailsLoaded = true;
+  const cell = details.closest('td'), profile = dataset?.tickerProfiles?.[symbol];
+  if (!cell || !profile) return;
+  const template = document.createElement('template');
+  template.innerHTML = `<table><tbody><tr>${issuerNewsCell(profile)}</tr></tbody></table>`;
+  const replacement = template.content.querySelector('td');
+  if (replacement) { cell.replaceWith(replacement); replacement.querySelector('details.issuer-news-details').open = true; }
+}, true);
